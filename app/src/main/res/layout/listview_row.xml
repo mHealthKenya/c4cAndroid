@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    android:id="@+id/ly_root"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FEFEFE"
+    android:layout_margin="10dp"
+    app:cardElevation="3sp"
+    app:cardBackgroundColor="#e0e0d1"
+    app:cardCornerRadius="8sp"
+    app:cardPreventCornerOverlap="false"
+    android:foreground="?android:attr/selectableItemBackground"
+
+    app:cardUseCompatPadding="true">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/mylayid"
+            android:layout_marginRight="10sp"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:src="@mipmap/unreadicon"
+                android:id="@+id/imgv"
+
+                android:layout_height="wrap_content" />
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+
+                android:orientation="vertical"
+
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:id="@+id/mstitle"
+                    android:text="message title"
+                    android:visibility="gone"
+                    android:textColor="@color/navigationBarColor"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:id="@+id/msvcount"
+                    android:text="viral count"
+                    android:visibility="gone"
+                    android:textColor="@color/navigationBarColor"
+                    android:layout_height="wrap_content" />
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:id="@+id/msgbdy"
+                    android:text="message body"
+                    android:paddingLeft="10sp"
+                    android:paddingTop="10sp"
+                    android:paddingBottom="10sp"
+                    android:paddingRight="3sp"
+                    android:textColor="@color/navigationBarColor"
+                    android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="vertical"
+
+            android:layout_marginRight="5sp"
+            android:layout_toLeftOf="@+id/iv_check_box"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/msgdte"
+                android:padding="1sp"
+                android:text="Message date"
+                android:layout_marginTop="20sp"
+
+                android:textColor="@color/colorPrimary"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:visibility="invisible"
+            android:id="@+id/iv_check_box"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/check"/>
+
+    </RelativeLayout>
+
+
+</android.support.v7.widget.CardView>

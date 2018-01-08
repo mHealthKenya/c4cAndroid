@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Login">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_people" />
+
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBlackTrans"
+        android:orientation="horizontal">
+
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:backgroundTint="@android:color/transparent"
+            android:gravity="center_vertical|center_horizontal|center"
+            xmlns:android="http://schemas.android.com/apk/res/android">
+
+            <LinearLayout
+                android:id="@+id/llSignin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:background="@color/colorPrimaryTrans"
+                android:orientation="horizontal"
+                app:layout_widthPercent="100%">
+
+
+
+                <include
+                    android:id="@+id/llSigninContent"
+                    layout="@layout/layout_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"></include>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </android.support.percent.PercentRelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="70dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/call"
+            android:layout_width="52dp"
+            android:layout_height="30dp"
+            android:src="@drawable/phone_call"
+            android:text="@string/Call"
+            android:clickable="true"
+            android:onClick="call" />
+
+        <ImageView
+            android:id="@+id/tweet"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_twitter"
+            android:clickable="true"
+            android:onClick="tweet"/>
+
+        <ImageView
+            android:id="@+id/whatsapp"
+            android:layout_width="52dp"
+            android:layout_height="30dp"
+            android:src="@drawable/whatsapp"
+            android:text="@string/Whatsapp"
+            android:clickable="true"
+            android:onClick="whatsapp"/>
+    </LinearLayout>
+
+</RelativeLayout>

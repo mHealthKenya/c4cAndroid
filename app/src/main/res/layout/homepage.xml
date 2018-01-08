@@ -1,0 +1,110 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#00CED1">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginTop="40dp"
+        >
+
+        <!--<Button-->
+            <!--android:id="@+id/btnRegister"-->
+            <!--android:onClick="signIn"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:textColor="#fff"-->
+            <!--android:text="@string/register2"-->
+            <!--android:drawableTop="@mipmap/person"-->
+            <!--style="?android:attr/borderlessButtonStyle"-->
+
+            <!--/>-->
+
+
+        <Button
+            android:id="@+id/btnReport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/report"
+            android:layout_weight="1"
+            android:textColor="#fff"
+            android:drawableTop="@mipmap/expo"
+            style="?android:attr/borderlessButtonStyle"
+            />
+
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        >
+
+        <Button
+            android:onClick="faq"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="#fff"
+            android:text="FAQ's"
+            android:drawableTop="@mipmap/faqasset"
+            style="?android:attr/borderlessButtonStyle"
+            />
+
+
+        <Button
+            android:onClick="mfl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mfl"
+            android:textColor="#fff"
+            android:drawableTop="@mipmap/listasset"
+            android:layout_weight="1"
+            style="?android:attr/borderlessButtonStyle"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        >
+
+
+        <Button
+            android:onClick="artguidelines"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Art"
+            android:textColor="#fff"
+            android:drawableTop="@mipmap/artasset"
+            android:layout_weight="1"
+            style="?android:attr/borderlessButtonStyle"
+            />
+
+        <Button
+            android:onClick="nascopwebsite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="#fff"
+            android:text="@string/nascop_website"
+            android:drawableTop="@mipmap/webasset"
+            style="?android:attr/borderlessButtonStyle"
+            />
+
+    </LinearLayout>
+
+
+</LinearLayout>
+

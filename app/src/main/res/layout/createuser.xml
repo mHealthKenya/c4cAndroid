@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:scrollbars="vertical"
+    android:scrollbarStyle="insideInset"
+    android:fillViewport="true"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Affiliation"/>
+            <LinearLayout
+
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_width="match_parent">
+
+
+                <CheckBox
+                    android:layout_width="match_parent"
+                    android:text="MOH"
+                    android:id="@+id/moh"
+                    android:layout_height="wrap_content" />
+
+                <CheckBox
+                    android:layout_width="match_parent"
+                    android:text="EGPAF"
+                    android:id="@+id/egpaf"
+                    android:layout_height="wrap_content" />
+
+
+                <CheckBox
+                    android:layout_width="match_parent"
+                    android:text="CHS"
+                    android:id="@+id/chs"
+                    android:layout_height="wrap_content" />
+                <CheckBox
+                    android:layout_width="match_parent"
+                    android:text="UON"
+                    android:id="@+id/uon"
+                    android:layout_height="wrap_content" />
+
+                <CheckBox
+                    android:layout_width="match_parent"
+                    android:text="KMPDU"
+                    android:id="@+id/kmpdu"
+                    android:layout_height="wrap_content" />
+
+                <CheckBox
+                    android:layout_width="match_parent"
+                    android:text="Not Applicable"
+                    android:id="@+id/notapplicable"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:id="@+id/kmpdull">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+
+                <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:hint="Doctors Union Number"
+                    android:id="@+id/du"
+                    android:visibility="gone"
+                    android:inputType="text" />
+
+            </android.support.design.widget.TextInputLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/specialisationlabel"
+                    android:text="Specialisation:"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content" />
+
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="20sp"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    android:id="@+id/spinnerspecialization"
+                    android:layout_height="wrap_content"/>
+
+
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+
+
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+
+                android:singleLine="true"
+                android:hint="Enter your first name"
+                android:id="@+id/name"
+                android:inputType="text" />
+        </android.support.design.widget.TextInputLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+
+                android:singleLine="true"
+                android:hint="Enter your last name"
+                android:id="@+id/lname"
+                android:inputType="text" />
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_marginTop="20sp"
+            android:layout_marginBottom="20sp"
+            android:layout_height="wrap_content">
+
+            <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Gender: "
+            android:fontFamily="serif"
+            android:id="@+id/genderlabel"
+            android:textColor="#000"
+            />
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:id="@+id/spinner"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+
+            android:layout_marginBottom="20sp"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cadre:  "
+            android:layout_weight="1"
+            android:fontFamily="serif"
+            android:id="@+id/cadrelabel"
+            android:textColor="#000"
+            />
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:id="@+id/spinner2"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:hint="Specify Other"
+                android:id="@+id/myother"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+
+                android:singleLine="true"
+                android:hint="Enter your ID number"
+                android:id="@+id/idno"
+                android:inputType="number" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:layout_width="match_parent"
+                android:id="@+id/age"
+                android:hint="Date Of Birth"
+                android:focusable="false"
+                android:layout_height="wrap_content" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+
+                android:singleLine="true"
+                android:hint="Enter Hospital Code (MFL No.)"
+                android:id="@+id/mfl"
+                android:inputType="number" />
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="20sp"
+            android:layout_marginBottom="20sp"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vaccinated?:"
+            android:fontFamily="serif"
+            android:layout_weight="1"
+            android:id="@+id/vaccinatedlabel"
+            android:textColor="#000"
+            />
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:id="@+id/spinner3"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+
+                android:singleLine="true"
+                android:hint="Username"
+                android:id="@+id/muname"
+                android:inputType="text" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:singleLine="true"
+
+                android:hint="Password"
+                android:id="@+id/mpass"
+                android:inputType="textPassword" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:singleLine="true"
+
+                android:hint="confirm Password"
+                android:id="@+id/mcpass"
+                android:inputType="textPassword" />
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="Security Question"
+                android:id="@+id/securityqnlabel"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/spinner4"
+                android:layout_height="wrap_content"/>
+
+
+        </LinearLayout>
+
+
+
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:singleLine="true"
+                android:hint="Enter Answer"
+                android:id="@+id/hint"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+
+
+
+
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="22dp"
+            android:background="@color/colorPrimary"
+            android:text="Create Account"
+            android:onClick="CreatingUser"
+            android:textAllCaps="false"
+            android:textColor="#fff"
+            android:textSize="18sp" />
+
+
+
+
+    </LinearLayout>
+
+</ScrollView>
+

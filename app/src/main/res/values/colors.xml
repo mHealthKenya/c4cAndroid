@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="mycolor">#f1f5f8</color>
+    <color name="txtcolor">#000000</color>
+
+    <color name="colorPrimaryTrans">#a01E88E5</color>
+    <color name="colorAccentTrans">#a0009688</color>
+    <color name="colorBlackTrans">#a0000000</color>
+    <color name="transparent">#4D1E88E5</color>
+    <color name="textColorPrimary">#FFFFFF</color>
+
+    <color name="viewBg">#f1f5f8</color>
+    <color name="album_title">#61616161</color>
+    <color name="cv">#bdbdbd</color>
+    <color name="buttonstart">#64dd17</color>
+    <color name="textcolor">#ffffff</color>
+    <color name="textcolorblack">#000000</color>
+    <color name="bg">#82d4fa</color>
+    <color name="icons">#d50000</color>
+
+    <color name="iron">#CCCCCC</color>
+    <color name="navigationBarColor">#000000</color>
+
+    <color name="tab_background_selected">#f5f5f5</color>
+    <color name="tab_background_unselected">#c8e8ff</color>
+
+
+</resources>

@@ -1,0 +1,8 @@
+<resources>
+
+<string-array name="Lists">
+        <item> FAQ </item>
+        <item> ART GUIDELINES </item>
+        <item> NASCOP WEBSITE </item>
+</string-array>
+</resources>

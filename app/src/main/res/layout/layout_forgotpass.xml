@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimaryTrans"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="48dp">
+
+    <ImageView
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:scaleType="centerCrop"
+        android:padding="20dp"
+        android:src="@drawable/doctor" />
+
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="#FFF">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/secqn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:hint="Security Question"
+            android:textColor="#FFFFFF" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:textColorHint="#FFF">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/mysecans"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Security Question Answer"
+            android:textColor="#FFFFFF">
+
+        </android.support.design.widget.TextInputEditText>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:textColorHint="#FFF">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/newpass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:hint="New Password"
+            android:textColor="#FFFFFF">
+
+        </android.support.design.widget.TextInputEditText>
+
+    </android.support.design.widget.TextInputLayout>
+
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:textColorHint="#FFF">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/cnewpass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:hint="Confirm New Password"
+            android:textColor="#FFFFFF">
+
+        </android.support.design.widget.TextInputEditText>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/btnRecover"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@null"
+        android:onClick="RecoverPassword"
+        android:text="Recover Password"
+        android:textColor="#FFF"
+        android:textSize="20sp" />
+
+</LinearLayout>
+</ScrollView>

@@ -1,0 +1,102 @@
+<resources>
+    <string name="app_name">C4C</string>
+
+    <!-- Strings related to mpepver -->
+    <string name="prompt_email">Username</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="action_sign_up">Sign up</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."</string>
+    <string name="Share">Share</string>
+    <string name="Print">Print</string>
+    <string name="register">Register</string>
+    <string name="report">Report Exposure</string>
+    <string name="Send_SMS">Send SMS from the app</string>
+    <string name="Send_SMS_desc">C4C is an sms based application that sends and receives data through sms</string>
+    <string name="Landing_page_title">Welcome to C4C</string>
+    <string name="Landing_page_title_with_register">C4C</string>
+    <string name="nascop_website">Nascop Website</string>
+    <string name="Art">ART Guidelines</string>
+    <string name="faq">FAQ\'s</string>
+    <string name="mfl">MFL</string>
+
+    <string-array name="cadre_array">
+        <item>Doctor</item>
+        <item>Clinical Officer</item>
+        <item>Nurses</item>
+        <item>Pharmtech</item>
+        <item>Lab Technician</item>
+        <item>Interns</item>
+        <item>Students</item>
+        <item>Support Staff</item>
+    </string-array>
+
+
+    <string name="title_activity_landing">Timer</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+
+    <string name="title1">TIMER</string>
+    <string name="start">START</string>
+
+    <string name="Full_name">Enter your full name</string>
+    <string name="ID_no">Enter your ID number</string>
+    <string name="DOB">Date of Birth</string>
+    <string name="MFL">Hospital MFL code</string>
+    <string name="Gender">Gender</string>
+    <string name="Male">Male</string>
+    <string name="Female">Female</string>
+    <string name="Transgender">Transgender</string>
+    <string name="Cadre">Please select cadre</string>
+    <string name="HPV">Have you been vaccinated against Hepatitis B</string>
+    <string name="partner">Select a partner</string>
+    <string name="partial">Partial</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="Username">Username</string>
+    <string name="Password">Password</string>
+    <string name="C_Password">Confirm Password</string>
+    <string name="security_question">Choose Security Question</string>
+    <string name="Hint">Hint</string>
+    <string name="Answer">Answer</string>
+    <string name="Register_Btn">Register</string>
+    <string name="share">Choose an action</string>
+
+    <string name="Activity">ACTIVITY</string>
+
+    <string-array name="brew_array">
+        <item>Cappuccino</item>
+        <item>Espresso</item>
+        <item>Mocha</item>
+        <item>Caffè Americano</item>
+        <item>Cafe Zorro</item>
+    </string-array>
+    <string name="title_activity_report">Report</string>
+    <string name="title_activity_info_center">Information Center</string>
+    <string name="title_activity_register">Register</string>
+
+    <string name="Register">Register</string>
+
+    <string name="Exposure">Where did the exposure occur?</string>
+    <string name="Cause">What caused the exposure?</string>
+    <string name="Hours">Number of hours after exposure</string>
+    <string name="Submit">Submit</string>
+    <string name="Signup">Sign up</string>
+
+    <string name="Call">call</string>
+    <string name="Whatsapp">whatsapp</string>
+
+
+
+
+</resources>
