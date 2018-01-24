@@ -50,48 +50,56 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
             "REPORT EXPOSURE",
             "INFORMATION CENTER",
             "CHECK IN",
-            "BROADCAST SMS"};
+            "BROADCAST SMS",
+            "USER PROFILE"};
 
     private String[] titles2 = {
             "REPORT EXPOSURE",
             "INFORMATION CENTER",
             "ANNUAL CHECK UP & VACCINATION CALENDAR",
-            "BROADCAST SMS"};
+            "BROADCAST SMS",
+            "USER PROFILE"};
 
     private int[] images = {
             R.drawable.report,
             R.drawable.faq,
             R.drawable.nascopsite2,
-            R.drawable.broadcast };
+            R.drawable.broadcast,
+    R.drawable.report};
     private int[] images2 = {
             R.drawable.report,
             R.drawable.faq,
             R.drawable.report,
-            R.drawable.broadcast };
+            R.drawable.broadcast,
+            R.drawable.report};
 
     private int[] thumbnail = {
             R.drawable.reporting,
             R.drawable.faqim,
             R.drawable.checked,
-            R.drawable.broadcast1 };
+            R.drawable.broadcast1,
+            R.drawable.report};
 
     private int[] thumbnail2 = {
             R.drawable.reporting,
             R.drawable.faqim,
             R.drawable.reporting,
-            R.drawable.broadcast1 };
+            R.drawable.broadcast1,
+            R.drawable.report};
 
     private String[] tints = {
             "#3F51B5",
             "#303F9F",
             "#FF4081",
-            "#33009688"};
+            "#33009688",
+            "#303F9F"};
 
     private String[] tints2 = {
             "#3F51B5",
             "#303F9F",
             "#3F51B5",
-            "#33009688"};
+            "#33009688",
+            "#303F9F"};
 
     public RvAdapter(Context mContext,boolean kmpduChecked) {
         this.mContext = mContext;
@@ -177,6 +185,21 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
                 });
             }
 
+            else if(i==4) {
+                viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mContext = v.getContext();
+
+                        //Intent intent = new Intent(mContext, Report.class);
+                        //mContext.startActivity(intent);
+                        Intent myint=new Intent(mContext,UserProfile.class);
+                        mContext.startActivity(myint);
+
+                    }
+                });
+            }
+
 
 
 
@@ -253,6 +276,22 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
                         //Intent intent = new Intent(mContext, Report.class);
                         //mContext.startActivity(intent);
                         Intent myint=new Intent(mContext,BroadcastSms.class);
+                        mContext.startActivity(myint);
+
+                    }
+                });
+            }
+
+
+            else if(i==4) {
+                viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mContext = v.getContext();
+
+                        //Intent intent = new Intent(mContext, Report.class);
+                        //mContext.startActivity(intent);
+                        Intent myint=new Intent(mContext,UserProfile.class);
                         mContext.startActivity(myint);
 
                     }

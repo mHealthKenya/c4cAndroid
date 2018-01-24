@@ -19,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,8 +31,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,10 +49,11 @@ import mhealth.c4c.Tables.kmpdu;
 
 public class CreateUser extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    EditText nameE,lnameE,idnoE,ageE,mflE,munameE,mpassE,mcpassE,mhint,motherE,dunumber;
+    EditText nameE,lnameE,idnoE,ageE,mflE,munameE,mpassE,mcpassE,mhint,motherE,dunumber,dose1E,dose2E;
     CheckBox mchkb;
     String otherValue;
-    TextView specialisel;
+    TextView specialisel,cadrel;
+    LinearLayout doselayout;
 
     String passedkmpdu;
 
@@ -87,6 +91,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     StringBuilder partners;
     String selectedQn="";
     boolean kmpduChecked;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -157,12 +162,150 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
         }
     }
 
+
+
+
+    public void Dose1DateListener(){
+
+        try{
+
+            dose1E.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // calender class's instance and get current date , month and year from calender
+                    final Calendar c = Calendar.getInstance();
+                    int mYear = c.get(Calendar.YEAR); // current year
+                    int mMonth = c.get(Calendar.MONTH); // current month
+                    int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
+                    // date picker dialog
+                    datePickerDialog = new DatePickerDialog(CreateUser.this,
+                            new DatePickerDialog.OnDateSetListener() {
+
+                                @Override
+                                public void onDateSet(DatePicker view, int year,
+                                                      int monthOfYear, int dayOfMonth) {
+
+                                    String dom=String.format("%02d", dayOfMonth);
+                                    String moy=String.format("%02d", (monthOfYear + 1));
+
+                                    // set day of month , month and year value in the edit text
+                                    dose1E.setText(dom + "/"
+                                            + moy + "/" + year);
+
+
+                                }
+                            }, mYear, mMonth, mDay);
+                    datePickerDialog.show();
+                }
+            });
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+
+
+    public void Dose2DateListener(){
+
+        try{
+
+            dose2E.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // calender class's instance and get current date , month and year from calender
+                    final Calendar c = Calendar.getInstance();
+                    int mYear = c.get(Calendar.YEAR); // current year
+                    int mMonth = c.get(Calendar.MONTH); // current month
+                    int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
+
+                    // date picker dialog
+                    datePickerDialog = new DatePickerDialog(CreateUser.this,
+                            new DatePickerDialog.OnDateSetListener() {
+
+                                @Override
+                                public void onDateSet(DatePicker view, int year,
+                                                      int monthOfYear, int dayOfMonth) {
+                                    // set day of month , month and year value in the edit text
+
+
+                                    String dom=String.format("%02d", dayOfMonth);
+                                    String moy=String.format("%02d", (monthOfYear + 1));
+                                    dose2E.setText(dom+ "/"
+                                            + moy + "/" + year);
+
+                                    String startDate=dose1E.getText().toString();
+                                    String endDate=dose2E.getText().toString();
+
+                                    long mydiff=calculateDateDifference(startDate,endDate);
+                                    if(mydiff<1){
+                                        dose2E.setText("");
+                                        Toast.makeText(CreateUser.this, "select date greater than today", Toast.LENGTH_SHORT).show();
+
+                                    }
+
+
+
+                                }
+                            }, mYear, mMonth, mDay);
+                    datePickerDialog.show();
+                }
+            });
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+
+
+    public long calculateDateDifference(String date1,String date2){
+
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+        Date d1 = null;
+        Date d2 = null;
+
+        try {
+            d1 = format.parse(date1);
+            d2 = format.parse(date2);
+
+            //in milliseconds
+            long diff = d2.getTime() - d1.getTime();
+
+            long diffSeconds = diff / 1000 % 60;
+            long diffMinutes = diff / (60 * 1000) % 60;
+            long diffHours = diff / (60 * 60 * 1000) % 24;
+            long diffDays = diff / (24 * 60 * 60 * 1000);
+
+            System.out.print(diffDays + " days, ");
+            return diffDays;
+
+
+
+
+        }
+        catch(Exception e){
+            Toast.makeText(this, "error "+e, Toast.LENGTH_SHORT).show();
+            System.out.println("*********errorr***********"+e);
+
+            return -1;
+
+
+        }
+    }
+
+
+
     public void initialise(){
 
         try{
 
             nameE=(EditText) findViewById(R.id.name);
             specialisel=(TextView) findViewById(R.id.specialisationlabel);
+            cadrel=(TextView) findViewById(R.id.cadrelabel);
             kmpduChecked=false;
             dunumber=(EditText) findViewById(R.id.du);
             otherValue="";
@@ -180,6 +323,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             myspinner3=(Spinner) findViewById(R.id.spinner3);
             myspinner4=(Spinner) findViewById(R.id.spinner4);
             specspinner=(Spinner) findViewById(R.id.spinnerspecialization);
+            doselayout=(LinearLayout) findViewById(R.id.doses);
 
 
             correctMfl=false;
@@ -191,6 +335,9 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             egpafC=(CheckBox) findViewById(R.id.egpaf);
             uonC=(CheckBox) findViewById(R.id.uon);
             partners=new StringBuilder();
+
+            dose1E=(EditText) findViewById(R.id.dose1);
+            dose2E=(EditText) findViewById(R.id.dose2);
 
         }
         catch(Exception e){
@@ -221,6 +368,9 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                         specialisel.setVisibility(View.VISIBLE);
                         idnoE.setVisibility(View.GONE);
                         nameE.setVisibility(View.GONE);
+                        mflE.setVisibility(View.GONE);
+                        myspinner2.setVisibility(View.GONE);
+                        cadrel.setVisibility(View.GONE);
 //                        motherE.setVisibility(View.GONE);
                         lnameE.setVisibility(View.GONE);
 
@@ -235,6 +385,9 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                         specialisel.setVisibility(View.GONE);
                         idnoE.setVisibility(View.VISIBLE);
                         nameE.setVisibility(View.VISIBLE);
+                        cadrel.setVisibility(View.VISIBLE);
+                        mflE.setVisibility(View.VISIBLE);
+                        myspinner2.setVisibility(View.VISIBLE);
 
                         lnameE.setVisibility(View.VISIBLE);
 
@@ -434,7 +587,21 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
         else if (spin.getId()==R.id.spinner3){
 
 //            selected_item2=parent.getItemAtPosition(position).toString();
+
             myselected3=Integer.toString(position);
+
+            if(position==2){
+
+                doselayout.setVisibility(View.VISIBLE);
+                Dose1DateListener();
+                Dose2DateListener();
+            }
+
+            else{
+
+                doselayout.setVisibility(View.GONE);
+            }
+
             actOnSelected();
 
         }
@@ -610,10 +777,22 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             String myname=nameE.getText().toString();
             String duns="";
 
+
             String mylname=lnameE.getText().toString();
             String myidno=idnoE.getText().toString();
             String myage=ageE.getText().toString();
-            String mymfl=mflE.getText().toString();
+            String mymfl="";
+            String mdose1="-1";
+            String mdose2="-1";
+
+            if(kmpduC.isChecked()){
+               mymfl="13528";
+            }
+            else{
+
+                mymfl=mflE.getText().toString();
+            }
+
             String myuname=munameE.getText().toString();
             String mympass=mpassE.getText().toString();
             String mymcpass=mcpassE.getText().toString();
@@ -709,7 +888,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             }
 
 
-            else if(myselected2.contentEquals("0")){
+            else if(!kmpduC.isChecked() && myselected2.contentEquals("0")){
                 Toast.makeText(this, "Please select Cadre", Toast.LENGTH_LONG).show();
 
 
@@ -721,6 +900,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
 
             }
+
             else if(myselected4.contentEquals("0")){
                 Toast.makeText(this, "Specify security question", Toast.LENGTH_LONG).show();
 
@@ -867,7 +1047,17 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
 //        Toast.makeText(this, "checking facility", Toast.LENGTH_SHORT).show();
 
-        final String mymflcode=mflE.getText().toString();
+
+
+        final String mymflcode[]={""};
+        if(kmpduC.isChecked()){
+            mymflcode[0]="13528";
+
+        }
+        else{
+            mymflcode[0]=mflE.getText().toString();
+
+        }
 //        pr.progressing(getApplicationContext(),"getting facility","loading....");
 
 
@@ -907,6 +1097,16 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                                 correctMfl=true;
 
                                 String mflName=response;
+                                String mdose1="-1";
+                                String mdose2="-1";
+                                if(!dose1E.getText().toString().trim().isEmpty()){
+                                    mdose1=dose1E.getText().toString().trim();
+
+                                }
+                                if(!dose2E.getText().toString().trim().isEmpty()){
+                                    mdose2=dose2E.getText().toString().trim();
+
+                                }
 
                                 if(correctMfl){
                                     RegistrationTable rt=new RegistrationTable(myname,mylname,myselected,myselected2,myidno,myage,mymfl,myselected3,myuname,mympass,selectedQn,mhnt);
@@ -926,15 +1126,20 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
                                     String mymess="";
 
-                                    if(myoth.isEmpty()){
+                                    if(kmpduC.isChecked()){
 
-                                        mymess="Reg*"+myname+"*"+mylname+"*"+myidno+"*"+myage+"*"+myselected+"*"+myselected2+"*"+mymfl+"*"+myselected3+"*"+myuname+"*"+mympass+"*"+myselected4+"*"+mhnt+"*"+duns+"*"+sspecial+"*"+partner;
+                                        mymess="Reg*"+myname+"*"+mylname+"*"+myidno+"*"+myage+"*"+myselected+"*"+"-1"+"*"+"-1"+"*"+myselected3+"*"+mdose1+"*"+mdose2+"*"+myuname+"*"+mympass+"*"+myselected4+"*"+mhnt+"*"+duns+"*"+sspecial+"*"+partner;
 
 
                                     }
-                                    else{
+                                    else if(!kmpduC.isChecked() && myoth.isEmpty()){
+                                        mymess="Reg*"+myname+"*"+mylname+"*"+myidno+"*"+myage+"*"+myselected+"*"+myselected2+"*"+mymfl+"*"+myselected3+"*"+mdose1+"*"+mdose2+"*"+myuname+"*"+mympass+"*"+myselected4+"*"+mhnt+"*"+duns+"*"+sspecial+"*"+partner;
 
-                                        mymess="Reg*"+myname+"*"+mylname+"*"+myidno+"*"+myage+"*"+myselected+"*"+myoth+"*"+mymfl+"*"+myselected3+"*"+myuname+"*"+mympass+"*"+myselected4+"*"+mhnt+"*"+duns+"*"+sspecial+"*"+partner;
+
+                                    }
+                                    else if(!kmpduC.isChecked() && !myoth.isEmpty()){
+
+                                        mymess="Reg*"+myname+"*"+mylname+"*"+myidno+"*"+myage+"*"+myselected+"*"+myoth+"*"+mymfl+"*"+myselected3+"*"+mdose1+"*"+mdose2+"*"+myuname+"*"+mympass+"*"+myselected4+"*"+mhnt+"*"+duns+"*"+sspecial+"*"+partner;
 
 
 
@@ -975,7 +1180,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                 @Override
                 protected Map<String, String> getParams() {
                     Map<String, String> params = new HashMap<String, String>();
-                    params.put(KEY_MFLCODE, mymflcode);
+                    params.put(KEY_MFLCODE, mymflcode[0]);
 //                    params.put(KEY_EMAIL, email);
                     return params;
                 }

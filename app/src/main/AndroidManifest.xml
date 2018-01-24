@@ -31,7 +31,7 @@
 
 
         <meta-data android:name="DATABASE" android:value="mydb.db" />
-        <meta-data android:name="VERSION" android:value="" />
+        <meta-data android:name="VERSION" android:value="8" />
         <meta-data android:name="QUERY_LOG" android:value="true" />
         <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="mhealth.c4c" />
 
@@ -106,6 +106,15 @@
             </intent-filter>
         </activity>
 
+
+        <activity android:name=".UserProfile" android:parentActivityName=".Recycler" android:configChanges="orientation|screenSize">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+
         <activity android:name=".Login"
             android:windowSoftInputMode="stateVisible|adjustResize">
         </activity>
@@ -163,6 +172,13 @@
                 <action android:name="android.provider.Telephony.SMS_DELIVER" />
 
                 <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+
+
+        <receiver android:name=".AlarmReceiver.AlarmReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
 

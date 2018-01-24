@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--android:scrollbars="vertical"-->
+    <!--android:scrollbarStyle="insideInset"-->
+    <!--android:fillViewport="true"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_width="match_parent">-->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+       <include
+           android:id="@+id/mtoolbar"
+           layout="@layout/mytoolbar"/>
+
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+
+        android:layout_height="match_parent"
+        android:layout_below="@+id/mtoolbar">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:padding="15sp"
+            android:orientation="vertical"
+            android:layout_below="@+id/mtoolbar"
+            android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:id="@+id/influenzalayout"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:text="INFLUENZA"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:textStyle="bold"
+                android:layout_height="wrap_content" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:text="Are You Pregnant?"
+                android:layout_height="wrap_content" />
+
+            <RadioGroup
+                android:id="@+id/radiogrpinfluenza"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <RadioButton
+                    android:id="@+id/radiobtninfluenzayes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Yes"
+                     />
+
+                <RadioButton
+                    android:id="@+id/radiobtninfluenzano"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No" />
+
+            </RadioGroup>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:id="@+id/influenzadoselayout"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:text="DOSE"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:id="@+id/influenzadose"
+                    android:hint="DOSE"
+
+                    android:focusable="false"
+                    android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:id="@+id/varicellalayout"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:text="VARICELLA"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:textStyle="bold"
+                android:layout_height="wrap_content" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:text="Any History of the disease ?"
+                android:layout_height="wrap_content" />
+
+            <RadioGroup
+                android:id="@+id/radiogrpvaricella"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <RadioButton
+                    android:id="@+id/radiobtnvaricellayes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Yes"
+                     />
+
+                <RadioButton
+                    android:id="@+id/radiobtnvaricellano"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No" />
+
+            </RadioGroup>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:id="@+id/varicelladoselayout"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:text="FIRST DOSE"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:id="@+id/variccelladose1"
+                    android:hint="FIRST DOSE"
+                    android:focusable="false"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:text="SECOND DOSE"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:id="@+id/variccelladose2"
+                    android:hint="SECOND DOSE"
+                    android:focusable="false"
+                    android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:id="@+id/tdaplayout"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:text="TDAP"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:textStyle="bold"
+                android:layout_height="wrap_content" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:text="Have you been immunised before ?"
+                android:layout_height="wrap_content" />
+
+            <RadioGroup
+                android:id="@+id/radiogrptdap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <RadioButton
+                    android:id="@+id/radiobtntdapyes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Yes"
+                    />
+
+                <RadioButton
+                    android:id="@+id/radiobtntdapno"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No" />
+
+            </RadioGroup>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:id="@+id/tdapdoselayout"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:text="DOSE"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:id="@+id/tdapdose"
+                    android:hint="DOSE"
+                    android:focusable="false"
+                    android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:id="@+id/measleslayout"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:text="MEASLES"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:textStyle="bold"
+                android:layout_height="wrap_content" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:text="Have you been immunised before ?"
+                android:layout_height="wrap_content" />
+
+            <RadioGroup
+                android:id="@+id/radiogrpmeasles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <RadioButton
+                    android:id="@+id/radiobtnmeaslesone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ONE DOSE"
+                     />
+
+                <RadioButton
+                    android:id="@+id/radiobtnmeaslesboth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="BOTH DOSES" />
+
+                <RadioButton
+                    android:id="@+id/radiobtnmeaslesno"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="NO" />
+
+            </RadioGroup>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:id="@+id/measlesdoselayout"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:text="FIRST DOSE"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:id="@+id/measlesdose1"
+                    android:hint="FIRST DOSE"
+                    android:focusable="false"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:text="SECOND DOSE"
+                    android:id="@+id/measlessecondoselabel"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:id="@+id/measlesdose2"
+                    android:hint="SECOND DOSE"
+                    android:focusable="false"
+                    android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:id="@+id/meningocolayout"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:text="MENINGOCOCCAL"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:textStyle="bold"
+                android:layout_height="wrap_content" />
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:id="@+id/meningocodoselayout"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:text="FULL DOSE"
+
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:id="@+id/meningocofulldose"
+                    android:hint="FULL DOSE"
+                    android:focusable="false"
+                    android:layout_height="wrap_content" />
+
+                <CheckBox
+                    android:id="@+id/chkmeningoco"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="NO DOSE" />
+
+
+            </LinearLayout>
+
+<Button
+    android:layout_width="match_parent"
+    android:text="UPDATE PROFILE"
+    android:background="@color/colorAccent"
+    android:onClick="updateProfile"
+    android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        </LinearLayout>
+
+</ScrollView>
+    </RelativeLayout>
+
+<!--</ScrollView>-->
