@@ -21,7 +21,7 @@
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:text="Affiliation"/>
+                android:text="Partner Organisations"/>
             <LinearLayout
 
                 android:layout_height="wrap_content"
@@ -29,44 +29,19 @@
                 android:layout_width="match_parent">
 
 
-                <CheckBox
-                    android:layout_width="match_parent"
-                    android:text="MOH"
-                    android:id="@+id/moh"
-                    android:layout_height="wrap_content" />
-
-                <CheckBox
-                    android:layout_width="match_parent"
-                    android:text="EGPAF"
-                    android:id="@+id/egpaf"
-                    android:layout_height="wrap_content" />
-
-
-                <CheckBox
-                    android:layout_width="match_parent"
-                    android:text="CHS"
-                    android:id="@+id/chs"
-                    android:layout_height="wrap_content" />
-                <CheckBox
-                    android:layout_width="match_parent"
-                    android:text="UON"
-                    android:id="@+id/uon"
-                    android:layout_height="wrap_content" />
-
-                <CheckBox
-                    android:layout_width="match_parent"
-                    android:text="KMPDU"
-                    android:id="@+id/kmpdu"
-                    android:layout_height="wrap_content" />
-
-                <CheckBox
-                    android:layout_width="match_parent"
-                    android:text="Not Applicable"
-                    android:id="@+id/notapplicable"
-                    android:layout_height="wrap_content" />
-
             </LinearLayout>
+
+
         </LinearLayout>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:id="@+id/partorg"
+            android:hint="select your Partner Organisation"
+            android:focusable="false"
+
+            android:layout_height="wrap_content" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -108,13 +83,16 @@
                     android:visibility="gone"
                     android:layout_height="wrap_content" />
 
-                <Spinner
+
+
+                <EditText
                     android:layout_width="match_parent"
-                    android:layout_marginTop="20sp"
-                    android:layout_weight="1"
+                    android:id="@+id/specialisationselect"
+                    android:hint="select your Specialisation"
+                    android:focusable="false"
                     android:visibility="gone"
-                    android:id="@+id/spinnerspecialization"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
+
 
 
             </LinearLayout>
@@ -314,9 +292,44 @@
                 android:layout_width="match_parent"
                 android:id="@+id/dose1"
                 android:focusable="false"
-                android:hint="first dose"
+                android:hint="When did you have your first dose?"
                 android:layout_height="wrap_content" />
             </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:id="@+id/seconddoselabel"
+                android:text="Did you have second dose ?"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/seconddosecheck"
+                android:weightSum="2"
+                android:layout_width="match_parent">
+
+                <RadioGroup
+                    android:id="@+id/radiogrpseconddose"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <RadioButton
+                        android:id="@+id/radioyes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Yes"
+                        />
+
+                    <RadioButton
+                        android:id="@+id/radiono"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No" />
+
+                </RadioGroup>
+            </LinearLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -325,8 +338,9 @@
             <EditText
                 android:layout_width="match_parent"
                 android:id="@+id/dose2"
+                android:visibility="gone"
                 android:focusable="false"
-                android:hint="second dose"
+                android:hint="when did you have your second dose?"
                 android:layout_height="wrap_content" />
 
             </android.support.design.widget.TextInputLayout>

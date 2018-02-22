@@ -46,11 +46,29 @@
 
         <activity android:name=".CreateUser"
             android:label="Create Account"
+            android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme"
             android:parentActivityName=".Mylogin">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Mylogin" />
+        </activity>
+
+
+
+        <activity android:name=".vaccinationstab.VaccinationTabs"
+            android:label="Vaccination Checkup"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/AppTheme"
+            android:parentActivityName=".ImmunisationProfile">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ImmunisationProfile" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
 
@@ -99,15 +117,15 @@
 
 
         <activity android:name=".Splash_Screen">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
 
 
-        <activity android:name=".UserProfile" android:parentActivityName=".Recycler" android:configChanges="orientation|screenSize">
+        <activity android:name=".ImmunisationProfile" android:parentActivityName=".Recycler" android:configChanges="orientation|screenSize">
             <!--<intent-filter>-->
                 <!--<action android:name="android.intent.action.MAIN" />-->
 

@@ -2,6 +2,7 @@ package mhealth.c4c;
 
 import android.Manifest;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,13 +14,15 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -54,12 +58,29 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     String otherValue;
     TextView specialisel,cadrel;
     LinearLayout doselayout;
+    String selectedspecialisation;
+
+    RadioGroup radio2dosegrp;
+    RadioButton radiobtnseconddose;
+
+
+    EditText partnerorgE,specialisationE;
+    Dialog partnerdialog,specialisationdialog;
+
+    String[] itemsorg={"MOH","EGPAF","CHS","UON",
+            "KMPDU","Not Applicable"};
+    String[] itemsspecialisation={"Anaesthesia","Cardiothoracic surgery","Dermatology","Ear Nose And Throat",
+    "Internal Medicine","Microbiology","Neurosurgery","Obstetrics and Gynaecology","Occupational Medicine",
+    "Ophthalmology","Orthopaedic Surgery","Paediatrics and Child Health","Palliative Medicine",
+    "Pathology","Psychiatry","Plastic and Reconstructive Surgery","Public Health","Radiology",
+    "Surgery","Immunology","Infectious Diseases","Clinical Medical Genetics","Emergency Medicine",
+    "Opthalmology"};
+    final ArrayList itemsSelected = new ArrayList();
+    final ArrayList itemsSelectedSpecialisation = new ArrayList();
 
     String passedkmpdu;
 
     boolean correctMfl;
-
-    CheckBox mohC,egpafC,chsC,notappC,uonC,kmpduC;
 
     public static final String REGISTER_URL = "http://everest.co.ke/mlabphp/checkfacility.php";
 
@@ -70,7 +91,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     String[] cadres={"Please Select Cadre","Student","Doctor","Nurse","Clinical Officer","Laboratory Technologist","Cleaner","Waste Handlers","VCT Counselor","Other"};
     String[] hepa={"Have you been vaccinated against Hepatitis B?","Yes","Partially","No"};
     String[] secqn={"choose a security question","what is your last name ?","what is your favourite pet ?","what is your favourite country ?"};
-    String[] specialisation={"select specialization","Gynaecologist","Surgeon","paediatric"};
+
 
 
     List<UserTable> user_list = new ArrayList<>();
@@ -80,14 +101,13 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     Spinner myspinner2;
     Spinner myspinner3;
     Spinner myspinner4;
-    Spinner specspinner;
+
     String selected_item="";
     String myselected="";
     String selected_item2="";
     String myselected2="";
     String myselected3="";
     String myselected4="";
-    String selectedspecialisation;
     StringBuilder partners;
     String selectedQn="";
     boolean kmpduChecked;
@@ -101,28 +121,70 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
         initialise();
 
-        setOnChsCChecked();
-        setOnEgpafCChecked();
-        setOnNotAppChecked();
-        setOnMohCChecked();
-        setOnKmpduChecked();
-        setOnUonCChecked();
-
         CheckToperiodListener();
 
         populateSpinner();
         populateSpinner2();
         populateSpinner3();
         populateSpinner4();
-        populateSpecialisation();
+
 
         myspinner.setOnItemSelectedListener(this);
         myspinner2.setOnItemSelectedListener(this);
         myspinner3.setOnItemSelectedListener(this);
         myspinner4.setOnItemSelectedListener(this);
-        specspinner.setOnItemSelectedListener(this);
+
+        setPartnerClickListener();
+        setSpecialisationClickListener();
 
 
+    }
+
+
+    public void setPartnerClickListener(){
+
+        try{
+
+            partnerorgE.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    partnerorgE.setText("");
+                    itemsSelected.clear();
+                    displayMultiselectForPartner();
+
+
+                }
+            });
+
+        }
+        catch(Exception e){
+
+
+
+        }
+    }
+
+    public void setSpecialisationClickListener(){
+
+        try{
+
+            specialisationE.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    specialisationE.setText("");
+                    itemsSelectedSpecialisation.clear();
+                    displayMultiselectForSpecialisation();
+
+
+                }
+            });
+
+        }
+        catch(Exception e){
+
+
+
+        }
     }
 
 
@@ -138,7 +200,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                     int mYear = c.get(Calendar.YEAR); // current year
                     int mMonth = c.get(Calendar.MONTH); // current month
                     int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
-                    // date picker dialog
+                    // date picker partnerdialog
                     datePickerDialog = new DatePickerDialog(CreateUser.this,
                             new DatePickerDialog.OnDateSetListener() {
 
@@ -177,7 +239,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                     int mYear = c.get(Calendar.YEAR); // current year
                     int mMonth = c.get(Calendar.MONTH); // current month
                     int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
-                    // date picker dialog
+                    // date picker partnerdialog
                     datePickerDialog = new DatePickerDialog(CreateUser.this,
                             new DatePickerDialog.OnDateSetListener() {
 
@@ -220,7 +282,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                     int mMonth = c.get(Calendar.MONTH); // current month
                     int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
 
-                    // date picker dialog
+                    // date picker partnerdialog
                     datePickerDialog = new DatePickerDialog(CreateUser.this,
                             new DatePickerDialog.OnDateSetListener() {
 
@@ -298,11 +360,268 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     }
 
 
+    public void displayMultiselectForPartner(){
+
+        try{
+
+
+            final boolean selected[] = new boolean[]{false, false, false, false,false,false};
+
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+            builder.setTitle("Select Your Partner Organisation : ");
+            builder.setMultiChoiceItems(itemsorg, selected,
+                    new DialogInterface.OnMultiChoiceClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int selectedItemId,
+                                            boolean isSelected) {
+
+                            if (isSelected) {
+
+
+
+                                //logic
+
+                                for (int i = 0; i < selected.length; i++) {
+                                if (i == selectedItemId) {
+
+                                    selected[i]=true;
+                                    itemsSelected.add(selectedItemId);
+
+
+                                }
+
+                            }
+
+                            if(selected[5]){//check for Not Applicable
+
+                                    for(int x=0;x<selected.length;x++){
+
+                                        itemsSelected.remove(Integer.valueOf(x));
+                                        selected[x]=false;
+                                        ((android.app.AlertDialog)dialog).getListView().setItemChecked(x, false);
+                                        if(x==5){
+                                            selected[5]=true;
+                                            itemsSelected.add(5);
+
+                                            ((android.app.AlertDialog)dialog).getListView().setItemChecked(5, true);
+//                                            continue;
+                                        }
+                                    }
+
+
+                            }
+                            else if(selected[4]){
+
+
+                                kmpduChecked=true;
+                                dunumber.setVisibility(View.VISIBLE);
+                                specialisationE.setVisibility(View.VISIBLE);
+
+                                specialisel.setVisibility(View.VISIBLE);
+                                idnoE.setVisibility(View.GONE);
+                                nameE.setVisibility(View.GONE);
+                                mflE.setVisibility(View.GONE);
+                                myspinner2.setVisibility(View.GONE);
+                                cadrel.setVisibility(View.GONE);
+
+                                lnameE.setVisibility(View.GONE);
+
+
+                            }
+
+                            else if(!selected[4]){//if kmpdu is not checked
+                                kmpduChecked=false;
+                                dunumber.setVisibility(View.GONE);
+
+                                specialisationE.setVisibility(View.GONE);
+                                specialisel.setVisibility(View.GONE);
+
+                                idnoE.setVisibility(View.VISIBLE);
+                                nameE.setVisibility(View.VISIBLE);
+                                mflE.setVisibility(View.VISIBLE);
+                                myspinner2.setVisibility(View.VISIBLE);
+                                cadrel.setVisibility(View.VISIBLE);
+//                        motherE.setVisibility(View.GONE);
+                                lnameE.setVisibility(View.VISIBLE);
+
+                            }
+
+
+                            }
+
+                            else if (itemsSelected.contains(selectedItemId)) {
+                                itemsSelected.remove(Integer.valueOf(selectedItemId));
+                                selected[selectedItemId]=false;
+
+                                if(selectedItemId==4){ //check for kmpdu if unchecked
+
+
+                                    kmpduChecked=false;
+                                    dunumber.setVisibility(View.GONE);
+
+                                    specialisel.setVisibility(View.GONE);
+                                    specialisationE.setVisibility(View.GONE);
+                                    idnoE.setVisibility(View.VISIBLE);
+                                    nameE.setVisibility(View.VISIBLE);
+                                    mflE.setVisibility(View.VISIBLE);
+                                    myspinner2.setVisibility(View.VISIBLE);
+                                    cadrel.setVisibility(View.VISIBLE);
+//                        motherE.setVisibility(View.GONE);
+                                    lnameE.setVisibility(View.VISIBLE);
+
+
+                                }
+                            }
+
+                        }
+                    })
+                    .setPositiveButton("Done!", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            //Your logic when OK button is clicked
+
+                            Iterator<String> it=itemsSelected.iterator();
+
+                            while(it.hasNext()){
+
+                                partnerorgE.append(itemsorg[Integer.parseInt(String.valueOf(it.next()))]);
+
+
+                                if(it.hasNext()){
+                                    partnerorgE.append(",");
+                                }
+
+
+
+
+                            }
+
+
+
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+
+                            dunumber.setVisibility(View.GONE);
+
+                            specialisel.setVisibility(View.GONE);
+                            idnoE.setVisibility(View.VISIBLE);
+                            nameE.setVisibility(View.VISIBLE);
+                            mflE.setVisibility(View.VISIBLE);
+                            myspinner2.setVisibility(View.VISIBLE);
+                            cadrel.setVisibility(View.VISIBLE);
+//                        motherE.setVisibility(View.GONE);
+                            lnameE.setVisibility(View.VISIBLE);
+
+
+                        }
+                    });
+            partnerdialog = builder.create();
+            partnerdialog.show();
+
+
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+
+
+
+
+    public void displayMultiselectForSpecialisation(){
+
+        try{
+
+
+            final boolean selected[] = new boolean[]{false, false, false, false,false,false,false,false,false,false,false,false,
+            false,false,false,false,false,false,false,false,false,false,false,false};
+
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+            builder.setTitle("Select Your Specialisation: ");
+            builder.setMultiChoiceItems(itemsspecialisation, selected,
+                    new DialogInterface.OnMultiChoiceClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int selectedItemId,
+                                            boolean isSelected) {
+
+                            if (isSelected) {
+
+
+
+                                //logic
+
+                                for (int i = 0; i < selected.length; i++) {
+                                    if (i == selectedItemId) {
+
+                                        selected[i]=true;
+
+                                    }
+
+                                }
+
+
+
+                                //logic
+
+                                itemsSelectedSpecialisation.add(selectedItemId);
+                            }
+
+                            else if (itemsSelectedSpecialisation.contains(selectedItemId)) {
+                                itemsSelectedSpecialisation.remove(Integer.valueOf(selectedItemId));
+                                selected[selectedItemId]=false;
+
+                            }
+                        }
+                    })
+                    .setPositiveButton("Done!", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            //Your logic when OK button is clicked
+                            if(itemsSelectedSpecialisation.size()>1){
+                                Toast.makeText(CreateUser.this, "Select only one specialisation", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            }
+                            else if(itemsSelectedSpecialisation.size()==1){
+
+                                specialisationE.append(itemsspecialisation[Integer.parseInt(itemsSelectedSpecialisation.get(0).toString())]);
+
+
+
+                            }
+
+
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+
+
+                        }
+                    });
+            specialisationdialog = builder.create();
+            specialisationdialog.show();
+
+
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
 
     public void initialise(){
 
         try{
 
+            partnerorgE=(EditText) findViewById(R.id.partorg);
+            specialisationE=(EditText) findViewById(R.id.specialisationselect);
             nameE=(EditText) findViewById(R.id.name);
             specialisel=(TextView) findViewById(R.id.specialisationlabel);
             cadrel=(TextView) findViewById(R.id.cadrelabel);
@@ -322,18 +641,13 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             myspinner2=(Spinner) findViewById(R.id.spinner2);
             myspinner3=(Spinner) findViewById(R.id.spinner3);
             myspinner4=(Spinner) findViewById(R.id.spinner4);
-            specspinner=(Spinner) findViewById(R.id.spinnerspecialization);
+            radio2dosegrp=(RadioGroup) findViewById(R.id.radiogrpseconddose);
+
             doselayout=(LinearLayout) findViewById(R.id.doses);
 
 
             correctMfl=false;
 
-            chsC=(CheckBox) findViewById(R.id.chs);
-            kmpduC=(CheckBox) findViewById(R.id.kmpdu);
-            mohC=(CheckBox) findViewById(R.id.moh);
-            notappC=(CheckBox) findViewById(R.id.notapplicable);
-            egpafC=(CheckBox) findViewById(R.id.egpaf);
-            uonC=(CheckBox) findViewById(R.id.uon);
             partners=new StringBuilder();
 
             dose1E=(EditText) findViewById(R.id.dose1);
@@ -345,192 +659,6 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
         }
     }
-
-
-    public void setOnKmpduChecked(){
-
-        try{
-
-            kmpduC.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(((CheckBox)v).isChecked()){
-                        //            idnoE,nameE,motherE,lnameE,
-
-                        kmpduChecked=true;
-                        notappC.setChecked(false);
-                        chsC.setChecked(false);
-                        mohC.setChecked(false);
-                        egpafC.setChecked(false);
-                        uonC.setChecked(false);
-                        dunumber.setVisibility(View.VISIBLE);
-                        specspinner.setVisibility(View.VISIBLE);
-                        specialisel.setVisibility(View.VISIBLE);
-                        idnoE.setVisibility(View.GONE);
-                        nameE.setVisibility(View.GONE);
-                        mflE.setVisibility(View.GONE);
-                        myspinner2.setVisibility(View.GONE);
-                        cadrel.setVisibility(View.GONE);
-//                        motherE.setVisibility(View.GONE);
-                        lnameE.setVisibility(View.GONE);
-
-                        Toast.makeText(CreateUser.this, "kmpdu checked", Toast.LENGTH_SHORT).show();
-
-
-                    }
-                    else{
-                        kmpduChecked=false;
-                        dunumber.setVisibility(View.GONE);
-                        specspinner.setVisibility(View.GONE);
-                        specialisel.setVisibility(View.GONE);
-                        idnoE.setVisibility(View.VISIBLE);
-                        nameE.setVisibility(View.VISIBLE);
-                        cadrel.setVisibility(View.VISIBLE);
-                        mflE.setVisibility(View.VISIBLE);
-                        myspinner2.setVisibility(View.VISIBLE);
-
-                        lnameE.setVisibility(View.VISIBLE);
-
-                    }
-                }
-            });
-        }
-        catch(Exception e){
-
-
-        }
-    }
-
-    public void setOnMohCChecked(){
-
-        try{
-
-            mohC.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(((CheckBox)v).isChecked()){
-
-                        notappC.setChecked(false);
-
-
-                    }
-                }
-            });
-        }
-        catch(Exception e){
-
-
-        }
-    }
-
-    public void setOnUonCChecked(){
-
-        try{
-
-            uonC.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(((CheckBox)v).isChecked()){
-
-                        notappC.setChecked(false);
-
-
-                    }
-                }
-            });
-        }
-        catch(Exception e){
-
-
-        }
-    }
-
-
-    public void setOnChsCChecked(){
-
-        try{
-
-            chsC.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(((CheckBox)v).isChecked()){
-
-                        notappC.setChecked(false);
-
-
-                    }
-                }
-            });
-        }
-        catch(Exception e){
-
-
-        }
-    }
-
-    public void setOnNotAppChecked(){
-
-        try{
-
-            notappC.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(((CheckBox)v).isChecked()){
-
-                        chsC=(CheckBox) findViewById(R.id.chs);
-                        mohC=(CheckBox) findViewById(R.id.moh);
-                        notappC=(CheckBox) findViewById(R.id.notapplicable);
-                        egpafC=(CheckBox) findViewById(R.id.egpaf);
-
-                        chsC.setChecked(false);
-                        mohC.setChecked(false);
-                        egpafC.setChecked(false);
-                        uonC.setChecked(false);
-                        kmpduC.setChecked(false);
-
-                        kmpduChecked=false;
-                        dunumber.setVisibility(View.GONE);
-                        specspinner.setVisibility(View.GONE);
-
-
-
-                    }
-                    else{
-
-
-
-                    }
-                }
-            });
-        }
-        catch(Exception e){
-
-
-        }
-    }
-
-    public void setOnEgpafCChecked(){
-
-        try{
-
-            egpafC.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(((CheckBox)v).isChecked()){
-                        notappC.setChecked(false);
-
-
-//                        Toast.makeText(getApplicationContext(), "egpaf checked", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-        }
-        catch(Exception e){
-
-
-        }
-    }
-
 
 
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -545,14 +673,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             actOnSelected();
 
         }
-        else if(spin.getId()==R.id.spinnerspecialization){
 
-
-//            selected_item=parent.getItemAtPosition(position).toString();
-            selectedspecialisation=Integer.toString(position);
-            actOnSelected();
-
-        }
         else if (spin.getId()==R.id.spinner2){
             try{
 
@@ -594,7 +715,8 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
                 doselayout.setVisibility(View.VISIBLE);
                 Dose1DateListener();
-                Dose2DateListener();
+                secondDoseRadioGroups();
+
             }
 
             else{
@@ -638,6 +760,34 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
 //        Toast.makeText(this, "you selected "+selected_item+"the behind scene value is "+myselected, Toast.LENGTH_SHORT).show();
 //        Toast.makeText(this, "you selected "+selected_item2+"the behind scene value is "+myselected2, Toast.LENGTH_SHORT).show();
+    }
+
+    public void secondDoseRadioGroups(){
+        try{
+
+            radio2dosegrp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                    switch(checkedId){
+                        case R.id.radiono:
+                            dose2E.setVisibility(View.GONE);
+                            dose2E.setText("");
+                            break;
+                        case R.id.radioyes:
+                            dose2E.setVisibility(View.VISIBLE);
+                            Dose2DateListener();
+                            break;
+                        }
+
+                }
+            });
+
+        }
+        catch(Exception e){
+
+
+        }
     }
 
     public void populateSpinner(){
@@ -695,25 +845,6 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
 
 
-    public void populateSpecialisation(){
-
-        try{
-
-            SpinnerAdapter customAdapter=new SpinnerAdapter(getApplicationContext(),specialisation);
-
-            specspinner.setAdapter(customAdapter);
-
-
-        }
-
-        catch(Exception e){
-
-
-        }
-    }
-
-
-
     public void populateSpinner4(){
 
         try{
@@ -732,43 +863,45 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     }
 
 
+    //ill get back here
+
     public void CreatingUser(View v){
 
         try{
 
             partners=new StringBuilder("");
 
+            Iterator<String> it=itemsSelected.iterator();
 
-            if(uonC.isChecked()){
-
-                partners.append("4*");
+//            while(it.hasNext()){
+//
+//                partners.append(it.next());
+//
+////                partners.append("5");
+//
+//                if(it.hasNext()){
+//                    partners.append("*");
+//                }
+//
+//
+//
+//
+//            }
+            if(itemsSelected.size()==1){
+                String val=Integer.toString((Integer.parseInt(itemsSelected.get(0).toString()))+1);
+                partners.append(val);
             }
-            if(chsC.isChecked()){
+            else if(itemsSelected.size()>1) {
 
-                partners.append("3*");
+
+                for (int x = 0; x < itemsSelected.size(); x++) {
+                    String val=Integer.toString((Integer.parseInt(itemsSelected.get(x).toString()))+1);
+
+                    partners.append(val+"*");
+
+                }
             }
-            if(egpafC.isChecked()){
-                partners.append("2*");
-
-            }
-            if(mohC.isChecked()){
-                partners.append("1*");
-
-            }
-            if(notappC.isChecked()){
-
-                partners=new StringBuilder("");
-
-                partners.append("6*");
-
-            }
-            if(kmpduC.isChecked()){
-
-//                partners=new StringBuilder("");
-
-                partners.append("5*");
-
-            }
+//            partners.append("5");
 
 
             Toast.makeText(this, ""+partners, Toast.LENGTH_SHORT).show();
@@ -785,7 +918,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             String mdose1="-1";
             String mdose2="-1";
 
-            if(kmpduC.isChecked()){
+            if(kmpduChecked){
                mymfl="13528";
             }
             else{
@@ -820,6 +953,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             else{
 
                 selectedspecialisation="-1";
+
                 duns="-1";
 
 
@@ -888,7 +1022,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             }
 
 
-            else if(!kmpduC.isChecked() && myselected2.contentEquals("0")){
+            else if(!kmpduChecked && myselected2.contentEquals("0")){
                 Toast.makeText(this, "Please select Cadre", Toast.LENGTH_LONG).show();
 
 
@@ -1050,7 +1184,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
 
         final String mymflcode[]={""};
-        if(kmpduC.isChecked()){
+        if(kmpduChecked){
             mymflcode[0]="13528";
 
         }
@@ -1126,18 +1260,18 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
                                     String mymess="";
 
-                                    if(kmpduC.isChecked()){
+                                    if(kmpduChecked){
 
                                         mymess="Reg*"+myname+"*"+mylname+"*"+myidno+"*"+myage+"*"+myselected+"*"+"-1"+"*"+"-1"+"*"+myselected3+"*"+mdose1+"*"+mdose2+"*"+myuname+"*"+mympass+"*"+myselected4+"*"+mhnt+"*"+duns+"*"+sspecial+"*"+partner;
 
 
                                     }
-                                    else if(!kmpduC.isChecked() && myoth.isEmpty()){
+                                    else if(!kmpduChecked && myoth.isEmpty()){
                                         mymess="Reg*"+myname+"*"+mylname+"*"+myidno+"*"+myage+"*"+myselected+"*"+myselected2+"*"+mymfl+"*"+myselected3+"*"+mdose1+"*"+mdose2+"*"+myuname+"*"+mympass+"*"+myselected4+"*"+mhnt+"*"+duns+"*"+sspecial+"*"+partner;
 
 
                                     }
-                                    else if(!kmpduC.isChecked() && !myoth.isEmpty()){
+                                    else if(!kmpduChecked && !myoth.isEmpty()){
 
                                         mymess="Reg*"+myname+"*"+mylname+"*"+myidno+"*"+myage+"*"+myselected+"*"+myoth+"*"+mymfl+"*"+myselected3+"*"+mdose1+"*"+mdose2+"*"+myuname+"*"+mympass+"*"+myselected4+"*"+mhnt+"*"+duns+"*"+sspecial+"*"+partner;
 

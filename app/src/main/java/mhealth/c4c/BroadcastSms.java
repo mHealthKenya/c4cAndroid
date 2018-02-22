@@ -177,7 +177,7 @@ public class BroadcastSms extends AppCompatActivity implements AdapterView.OnIte
                     int mYear = c.get(Calendar.YEAR); // current year
                     int mMonth = c.get(Calendar.MONTH); // current month
                     int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
-                    // date picker dialog
+                    // date picker partnerdialog
                     datePickerDialog = new DatePickerDialog(BroadcastSms.this,
                             new DatePickerDialog.OnDateSetListener() {
 

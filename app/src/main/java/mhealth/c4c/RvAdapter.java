@@ -193,7 +193,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
 
                         //Intent intent = new Intent(mContext, Report.class);
                         //mContext.startActivity(intent);
-                        Intent myint=new Intent(mContext,UserProfile.class);
+                        Intent myint=new Intent(mContext,ImmunisationProfile.class);
                         mContext.startActivity(myint);
 
                     }
@@ -291,7 +291,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
 
                         //Intent intent = new Intent(mContext, Report.class);
                         //mContext.startActivity(intent);
-                        Intent myint=new Intent(mContext,UserProfile.class);
+                        Intent myint=new Intent(mContext,ImmunisationProfile.class);
                         mContext.startActivity(myint);
 
                     }

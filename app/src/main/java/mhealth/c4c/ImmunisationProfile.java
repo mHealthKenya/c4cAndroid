@@ -8,10 +8,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -35,7 +33,7 @@ import mhealth.c4c.Tables.UserProfileTable;
  * Created by root on 1/22/18.
  */
 
-public class UserProfile extends AppCompatActivity {
+public class ImmunisationProfile extends AppCompatActivity {
     RadioGroup grpinfluenza,grpvaricella,grptdap,grpmeasles;
     RadioButton radiobntinfluenza,radiobtnvaricella,radiobtntdap,radiobtnmeasles;
     LinearLayout llinfluenza,llvaricella,lltdap,llmeasles;
@@ -53,7 +51,7 @@ public class UserProfile extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.user_profile);
+        setContentView(R.layout.immunisation_profile);
         initialise();
         setToolBar();
 
@@ -89,7 +87,7 @@ public class UserProfile extends AppCompatActivity {
                 }
             }
 
-            Intent intent = new Intent(this, UserProfile.class);
+            Intent intent = new Intent(this, ImmunisationProfile.class);
 // use System.currentTimeMillis() to have a unique ID for the pending intent
             PendingIntent pIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, 0);
 
@@ -161,7 +159,7 @@ public class UserProfile extends AppCompatActivity {
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbaruserprof);
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle("User Profile");
+            getSupportActionBar().setTitle("Immunisation Profile");
 
         }
         catch(Exception e){
@@ -323,8 +321,8 @@ public class UserProfile extends AppCompatActivity {
 
         try{
 
-            Intent alarmIntent = new Intent(UserProfile.this, AlarmReceiver.class);
-            pendingIntent = PendingIntent.getBroadcast(UserProfile.this, 0, alarmIntent, 0);
+            Intent alarmIntent = new Intent(ImmunisationProfile.this, AlarmReceiver.class);
+            pendingIntent = PendingIntent.getBroadcast(ImmunisationProfile.this, 0, alarmIntent, 0);
 
             grpinfluenza =(RadioGroup) findViewById(R.id.radiogrpinfluenza);
             llinfluenza=(LinearLayout) findViewById(R.id.influenzadoselayout);
@@ -640,8 +638,8 @@ public class UserProfile extends AppCompatActivity {
                     int mYear = c.get(Calendar.YEAR); // current year
                     int mMonth = c.get(Calendar.MONTH); // current month
                     int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
-                    // date picker dialog
-                    datePickerDialog = new DatePickerDialog(UserProfile.this,
+                    // date picker partnerdialog
+                    datePickerDialog = new DatePickerDialog(ImmunisationProfile.this,
                             new DatePickerDialog.OnDateSetListener() {
 
                                 @Override
