@@ -43,6 +43,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import mhealth.c4c.Registrationtable.Regdetails;
+import mhealth.c4c.Registrationtable.Regpartners;
 import mhealth.c4c.Tables.UserTable;
 import mhealth.c4c.Tables.kmpdu;
 
@@ -941,9 +943,9 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
                     dunumber.setError("Doctors union number is required");
                 }
-                if(selectedspecialisation.contentEquals("0")){
-                    Toast.makeText(this, "select specialisation", Toast.LENGTH_SHORT).show();
-                }
+//                if(selectedspecialisation.contentEquals("0")){
+//                    Toast.makeText(this, "select specialisation", Toast.LENGTH_SHORT).show();
+//                }
 
                 myname="-1";
                 mylname="-1";
@@ -1022,11 +1024,12 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             }
 
 
-            else if(!kmpduChecked && myselected2.contentEquals("0")){
-                Toast.makeText(this, "Please select Cadre", Toast.LENGTH_LONG).show();
+            else if (!kmpduChecked && myselected2.contentEquals("0")) {
+                    Toast.makeText(this, "Please select Cadre", Toast.LENGTH_LONG).show();
 
 
-            }
+                }
+
 
 
             else if(myselected3.contentEquals("0")){
@@ -1280,6 +1283,8 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                                     }
 
 
+                                    getAllUserDetails();
+                                    populatePartners();
 
 
                                     SmsManager smsM=SmsManager.getDefault();
@@ -1373,6 +1378,282 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
         }
         catch(Exception e){
             Toast.makeText(this, "error in granting permissions "+e, Toast.LENGTH_SHORT).show();
+
+
+        }
+    }
+
+
+public void populatePartners(){
+
+        try{
+
+
+                EditText poE=(EditText) findViewById(R.id.partorg);
+                String poS=poE.getText().toString();
+                if(!poS.trim().isEmpty()){
+
+                    String[] posArr=poS.split(",");
+                    for(int x=0;x<posArr.length;x++){
+
+                        Regpartners rp=new Regpartners(posArr[x]);
+                        rp.save();
+                    }
+                }
+
+                List<Regpartners> rpl=Regpartners.findWithQuery(Regpartners.class,"select * from Regpartners");
+            System.out.println("******************partners************************");
+
+                for(int x=0;x<rpl.size();x++){
+
+
+                    System.out.println("partner name: "+rpl.get(x).name);
+
+                }
+
+            System.out.println("******************partners************************");
+
+
+
+        }
+        catch(Exception e){
+
+            Toast.makeText(this, "error populating partners "+e, Toast.LENGTH_SHORT).show();
+
+
+        }
+}
+
+    public void getAllUserDetails(){
+
+        try{
+
+            EditText partorgE,duE,specialisE,nameE,lnameE,myotherE,idnoE,ageE,mflE,dose1E,dose2E,munameE,mpassE,answerE;
+            String partorgS,duS,specialisS,nameS,lnameS,myotherS,idnoS,ageS,mflS,dose1S,dose2S,munameS,mpassS,answerS;
+            String genderS,cadreS,hpbvaccintedS,secqnS;
+            //initialise variables
+
+            partorgE=(EditText) findViewById(R.id.partorg);
+            duE=(EditText) findViewById(R.id.du);
+            specialisE=(EditText) findViewById(R.id.specialisationselect);
+            nameE=(EditText) findViewById(R.id.name);
+            lnameE=(EditText) findViewById(R.id.lname);
+            myotherE=(EditText) findViewById(R.id.myother);
+            idnoE=(EditText) findViewById(R.id.idno);
+            ageE=(EditText) findViewById(R.id.age);
+            mflE=(EditText) findViewById(R.id.mfl);
+            dose1E=(EditText) findViewById(R.id.dose1);
+            dose2E=(EditText) findViewById(R.id.dose2);
+            munameE=(EditText) findViewById(R.id.muname);
+            mpassE=(EditText) findViewById(R.id.mpass);
+            answerE=(EditText) findViewById(R.id.hint);
+
+            //start of check if its visible
+
+
+            if(partorgE.getVisibility()==View.VISIBLE){
+                partorgS=partorgE.getText().toString();
+
+            }
+            else{
+                partorgS="";
+
+            }
+            if(duE.getVisibility()==View.VISIBLE){
+                duS=duE.getText().toString();
+
+            }
+            else{
+                duS="";
+
+            }
+
+            if(specialisE.getVisibility()==View.VISIBLE){
+                specialisS=specialisE.getText().toString();
+
+            }
+            else{
+                specialisS="";
+
+            }
+
+            if(nameE.getVisibility()==View.VISIBLE){
+                nameS=nameE.getText().toString();
+
+            }
+            else{
+                nameS="";
+
+            }
+
+            if(lnameE.getVisibility()==View.VISIBLE){
+                lnameS=lnameE.getText().toString();
+
+            }
+            else{
+                lnameS="";
+
+            }
+
+            if(myotherE.getVisibility()==View.VISIBLE){
+                myotherS=myotherE.getText().toString();
+
+            }
+            else{
+                myotherS="";
+
+            }
+
+            if(idnoE.getVisibility()==View.VISIBLE){
+
+                idnoS=idnoE.getText().toString();
+
+            }
+            else{
+                idnoS="";
+
+            }
+
+            if(ageE.getVisibility()==View.VISIBLE){
+
+                ageS=ageE.getText().toString();
+
+            }
+            else{
+
+                ageS="";
+
+            }
+
+            if(mflE.getVisibility()==View.VISIBLE){
+
+                mflS=mflE.getText().toString();
+
+            }
+            else{
+                mflS="";
+
+            }
+
+            if(dose1E.getVisibility()==View.VISIBLE){
+                dose1S=dose1E.getText().toString();
+
+            }
+            else{
+
+                dose1S="";
+
+            }
+
+            if(dose2E.getVisibility()==View.VISIBLE){
+                dose2S=dose2E.getText().toString();
+
+            }
+            else{
+                dose2S="";
+
+            }
+
+            if(munameE.getVisibility()==View.VISIBLE){
+                munameS=munameE.getText().toString();
+
+            }
+            else{
+
+                munameS="";
+
+            }
+
+            if(mpassE.getVisibility()==View.VISIBLE){
+
+                mpassS=mpassE.getText().toString();
+
+            }
+            else{
+
+                mpassS="";
+
+            }
+
+            if(answerE.getVisibility()==View.VISIBLE){
+                answerS=answerE.getText().toString();
+
+            }
+            else{
+                answerS="";
+
+            }
+
+            if(myspinner.getVisibility()==View.VISIBLE){
+                genderS=genders[Integer.parseInt(myselected)];
+
+
+            }
+            else{
+                genderS="";
+
+            }
+            if(myspinner2.getVisibility()==View.VISIBLE){
+
+                cadreS=cadres[Integer.parseInt(myselected2)];
+
+
+            }
+            else{
+                cadreS="";
+
+            }
+            if(myspinner3.getVisibility()==View.VISIBLE){
+
+                hpbvaccintedS=hepa[Integer.parseInt(myselected3)];
+
+
+            }
+            else{
+                hpbvaccintedS="";
+
+            }
+            if(myspinner4.getVisibility()==View.VISIBLE){
+
+                secqnS=secqn[Integer.parseInt(myselected4)];
+
+
+            }
+            else{
+
+                secqnS="";
+
+            }
+
+
+//            String partorgS,duS,specialisS,nameS,lnameS,myotherS,idnoS,ageS,mflS,dose1S,dose2S,munameS,mpassS,answerS;
+//            String genderS,cadreS,hpbvaccintedS,secqnS;
+
+            Regdetails rd=new Regdetails(duS,specialisS,genderS,cadreS,idnoS,ageS,mflS,hpbvaccintedS,dose1S,dose2S,munameS,mpassS,secqnS,answerS);
+            rd.save();
+
+            List<Regdetails> myl=Regdetails.findWithQuery(Regdetails.class,"select * from Regdetails");
+            System.out.println("************************************************************************");
+            for(int x=0;x<myl.size();x++){
+                System.out.println("union number"+myl.get(x).doctorUnionNumber);
+                System.out.println("specialisation"+myl.get(x).specialisation);
+                System.out.println("gender"+myl.get(x).gender);
+                System.out.println("username"+myl.get(x).username);
+                System.out.println("hpb"+myl.get(x).hpbvaccination);
+                System.out.println("dose1"+myl.get(x).hpbdose1);
+                System.out.println("dose2"+myl.get(x).hpbdose2);
+                System.out.println("cadre"+myl.get(x).cadre);
+                System.out.println("id number"+myl.get(x).idnumber);
+                System.out.println("password"+myl.get(x).password);
+                System.out.println("security question"+myl.get(x).securityqn);
+            }
+            System.out.println("*************************************************************************");
+
+
+
+
+        }
+        catch(Exception e){
 
 
         }
