@@ -42,6 +42,19 @@
             android:layout_height="match_parent"
             >
 
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Broadcast Title"
+                android:textColorHint="#000"
+                android:id="@+id/bname"
+
+                />
+            </android.support.design.widget.TextInputLayout>
+
 
 
             <android.support.design.widget.TextInputLayout
@@ -61,16 +74,7 @@
             </android.support.design.widget.TextInputLayout>
 
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Date"
-                android:layout_marginTop="20sp"
-                android:focusable="false"
-                android:textColorHint="#000"
-                android:id="@+id/bdate"
 
-                />
 
             <Spinner
                 android:id="@+id/cadrespinner"
@@ -81,13 +85,14 @@
                 android:layout_height="wrap_content"
                 />
 
-
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Broadcast Name"
+                android:hint="Date"
+                android:layout_marginTop="20sp"
+                android:focusable="false"
                 android:textColorHint="#000"
-                android:id="@+id/bname"
+                android:id="@+id/bdate"
 
                 />
 

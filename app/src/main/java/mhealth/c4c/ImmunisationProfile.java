@@ -13,7 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -26,6 +25,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import mhealth.c4c.AlarmReceiver.AlarmReceiver;
+import mhealth.c4c.Registrationtable.Regdetails;
 import mhealth.c4c.Tables.ProfileCompletion;
 import mhealth.c4c.Tables.UserProfileTable;
 
@@ -34,13 +34,13 @@ import mhealth.c4c.Tables.UserProfileTable;
  */
 
 public class ImmunisationProfile extends AppCompatActivity {
-    RadioGroup grpinfluenza,grpvaricella,grptdap,grpmeasles;
-    RadioButton radiobntinfluenza,radiobtnvaricella,radiobtntdap,radiobtnmeasles;
-    LinearLayout llinfluenza,llvaricella,lltdap,llmeasles;
-    EditText measlesdose1E,measlesdose2E,influenzadoseE,varicelladose1E,varicelladose2E,tdapdoseE,meningocodoseE;
+    RadioGroup grpinfluenza,grpvaricella,grptdap,grpmeasles,grpvaricellaqn1,grpinfluenzaqn,grpmeningoco;
+    RadioButton radiobntinfluenza,radiobtnvaricella,radiobtntdap,radiobtnmeasles,radiobtnvaricellaqn1,radiobtninfluenzaqn,radiobtnmeningoco;
+    LinearLayout llinfluenza,llvaricella,lltdap,llmeasles,llpreg, llvaricellaqn1L, llvaricellaqn2L,llinfluenzaqnL,llmeningoco;
+    EditText measlesdose1E,measlesdose2E,influenzadoseE,varicelladose1E,varicelladose2E,tdapdoseE,meningocodoseE,meningocodose2E;
     TextView measles2label;
     DatePickerDialog datePickerDialog;
-    CheckBox meningocoChk;
+
 
     private PendingIntent pendingIntent;
 
@@ -59,6 +59,8 @@ public class ImmunisationProfile extends AppCompatActivity {
         getCheckedRadioVaricella();
         getCheckedRadioTdap();
         getCheckedRadioMeasles();
+        getCheckedRadioVaricellaQn1();
+        getCheckedRadioMeningoco();
 
         InfluenzaDateListener();
         measlesDose1DateListener();
@@ -67,9 +69,110 @@ public class ImmunisationProfile extends AppCompatActivity {
         varicellaDose2DateListener();
         tdapDoseDateListener();
         meningocoDoseDateListener();
-        meningocoCheckListener();
+        meningocoSecondDoseDateListener();
+//        meningocoCheckListener();
         startAlert();
+        displayLinearLayoutPregnant();
+        getCheckedRadioInfluenzaQn();
 
+
+    }
+
+    public void getCheckedRadioMeningoco(){
+
+        try{
+
+
+            grpmeningoco.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    radiobtnmeningoco = (RadioButton) group.findViewById(checkedId);
+                    if (null != radiobtnmeningoco && checkedId > -1) {
+
+                        String selectedOption=radiobtnmeningoco.getText().toString();
+                        if(selectedOption.equalsIgnoreCase("Yes")){
+//                            Toast.makeText(ImmunisationProfile.this, "yes", Toast.LENGTH_SHORT).show();
+
+
+                            llmeningoco.setVisibility(View.VISIBLE);
+
+                        }
+                        else{
+
+//                            Toast.makeText(ImmunisationProfile.this, "No", Toast.LENGTH_SHORT).show();
+
+                            llmeningoco.setVisibility(View.GONE);
+                        }
+                    }
+                }
+            });
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+
+    public void getCheckedRadioInfluenzaQn(){
+
+        try{
+
+
+            grpinfluenzaqn.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    radiobtninfluenzaqn = (RadioButton) group.findViewById(checkedId);
+                    if (null != radiobtninfluenzaqn && checkedId > -1) {
+
+                        String selectedOption=radiobtninfluenzaqn.getText().toString();
+                        if(selectedOption.equalsIgnoreCase("Yes")){
+                            Toast.makeText(ImmunisationProfile.this, "yes", Toast.LENGTH_SHORT).show();
+
+
+                            llinfluenza.setVisibility(View.VISIBLE);
+                        }
+                        else{
+
+
+                            llinfluenza.setVisibility(View.GONE);
+                        }
+                    }
+                }
+            });
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+
+    public void displayLinearLayoutPregnant(){
+
+        try{
+
+            if(isGenderFemale()){
+
+                llpreg.setVisibility(View.VISIBLE);
+
+
+            }
+            else{
+
+                llpreg.setVisibility(View.GONE);
+
+                llinfluenzaqnL.setVisibility(View.VISIBLE);
+
+            }
+
+
+        }
+        catch(Exception e){
+
+            Toast.makeText(this, "error displaying linear layout pregnant", Toast.LENGTH_SHORT).show();
+
+        }
     }
 
 
@@ -220,14 +323,14 @@ public class ImmunisationProfile extends AppCompatActivity {
 
             }
 
-            if(meningocoChk.isChecked()){
-
-                meningocodoseS="empty";
-            }
-            else{
-
-                meningocodoseS=meningocodoseE.getText().toString();
-            }
+//            if(meningocoChk.isChecked()){
+//
+//                meningocodoseS="empty";
+//            }
+//            else{
+//
+//                meningocodoseS=meningocodoseE.getText().toString();
+//            }
 
             UserProfileTable.deleteAll(UserProfileTable.class);
 
@@ -325,15 +428,24 @@ public class ImmunisationProfile extends AppCompatActivity {
             pendingIntent = PendingIntent.getBroadcast(ImmunisationProfile.this, 0, alarmIntent, 0);
 
             grpinfluenza =(RadioGroup) findViewById(R.id.radiogrpinfluenza);
-            llinfluenza=(LinearLayout) findViewById(R.id.influenzadoselayout);
+            grpinfluenzaqn =(RadioGroup) findViewById(R.id.radiogrpinfluenzaqn);
+            grpmeningoco =(RadioGroup) findViewById(R.id.radiogrpmeningocoqn);
 
+            llinfluenza=(LinearLayout) findViewById(R.id.influenzadoselayout);
+            llinfluenzaqnL=(LinearLayout) findViewById(R.id.llinfluenzaqn);
+            llmeningoco=(LinearLayout) findViewById(R.id.meningocodoselayout);
+            llpreg=(LinearLayout) findViewById(R.id.llpregnant);
             grpvaricella =(RadioGroup) findViewById(R.id.radiogrpvaricella);
+            grpvaricellaqn1 =(RadioGroup) findViewById(R.id.radiogrpvaricellaqn1);
             llvaricella=(LinearLayout) findViewById(R.id.varicelladoselayout);
+            llvaricellaqn1L =(LinearLayout) findViewById(R.id.llvaricellaqn1);
+            llvaricellaqn2L =(LinearLayout) findViewById(R.id.llvaricellaqn2);
 
             grptdap =(RadioGroup) findViewById(R.id.radiogrptdap);
             lltdap=(LinearLayout) findViewById(R.id.tdapdoselayout);
 
             grpmeasles =(RadioGroup) findViewById(R.id.radiogrpmeasles);
+
             llmeasles=(LinearLayout) findViewById(R.id.measlesdoselayout);
 
             influenzapregnantS="";
@@ -358,11 +470,12 @@ public class ImmunisationProfile extends AppCompatActivity {
             varicelladose1E=(EditText) findViewById(R.id.variccelladose1);
             varicelladose2E=(EditText) findViewById(R.id.variccelladose2);
             tdapdoseE=(EditText) findViewById(R.id.tdapdose);
-            meningocodoseE=(EditText) findViewById(R.id.meningocofulldose);
+            meningocodoseE=(EditText) findViewById(R.id.meningocofirstdose);
+            meningocodose2E=(EditText) findViewById(R.id.meningocoseconddose);
 
 
             measles2label=(TextView) findViewById(R.id.measlessecondoselabel);
-            meningocoChk=(CheckBox) findViewById(R.id.chkmeningoco);
+//            meningocoChk=(CheckBox) findViewById(R.id.chkmeningoco);
 
 
         }
@@ -408,6 +521,43 @@ public class ImmunisationProfile extends AppCompatActivity {
     }
 
 
+    public void getCheckedRadioVaricellaQn1(){
+
+        try{
+
+
+            grpvaricellaqn1.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    radiobtnvaricellaqn1 = (RadioButton) group.findViewById(checkedId);
+                    if (null != radiobtnvaricellaqn1 && checkedId > -1) {
+
+                        String selectedOption=radiobtnvaricellaqn1.getText().toString();
+                        if(selectedOption.equalsIgnoreCase("Yes")){
+                            llvaricellaqn2L.setVisibility(View.GONE);
+                            llvaricella.setVisibility(View.VISIBLE);
+//                            varicelladose1E.setText("");
+//                            varicelladose2E.setText("");
+//                            varicellahistoryS="yes";
+
+                        }
+                        else{
+                            llvaricellaqn2L.setVisibility(View.VISIBLE);
+                            llvaricella.setVisibility(View.GONE);
+
+
+                        }
+                    }
+                }
+            });
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+
 
     public void getCheckedRadioVaricella(){
 
@@ -422,15 +572,15 @@ public class ImmunisationProfile extends AppCompatActivity {
 
                         String selectedOption=radiobtnvaricella.getText().toString();
                         if(selectedOption.equalsIgnoreCase("Yes")){
-                            llvaricella.setVisibility(View.GONE);
-                            varicelladose1E.setText("");
-                            varicelladose2E.setText("");
-                            varicellahistoryS="yes";
+//                            llvaricella.setVisibility(View.GONE);
+//                            varicelladose1E.setText("");
+//                            varicelladose2E.setText("");
+//                            varicellahistoryS="yes";
 
                         }
                         else{
-                            llvaricella.setVisibility(View.VISIBLE);
-                            varicellahistoryS="no";
+//                            llvaricella.setVisibility(View.VISIBLE);
+//                            varicellahistoryS="no";
 
 
                         }
@@ -625,6 +775,19 @@ public class ImmunisationProfile extends AppCompatActivity {
 
     }
 
+    public void meningocoSecondDoseDateListener(){
+        try{
+
+            DateListener(meningocodose2E);
+
+        }
+        catch(Exception e){
+
+            Toast.makeText(this, "error displaying meningoco second dose datepicker", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
 
     public void DateListener(final EditText et){
 
@@ -656,6 +819,7 @@ public class ImmunisationProfile extends AppCompatActivity {
 
                                 }
                             }, mYear, mMonth, mDay);
+
                     datePickerDialog.show();
                 }
             });
@@ -667,29 +831,29 @@ public class ImmunisationProfile extends AppCompatActivity {
     }
 
 
-    public void meningocoCheckListener(){
-
-        try{
-
-            meningocoChk.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    if (((CheckBox) v).isChecked()) {
-                        meningocodoseE.setEnabled(false);
-                        meningocodoseE.setText("");
-                    }
-                    else{
-                        meningocodoseE.setEnabled(true);
-                    }
-
-                }
-            });
-        }
-        catch(Exception e){
-
-        }
-    }
+//    public void meningocoCheckListener(){
+//
+//        try{
+//
+//            meningocoChk.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//
+//                    if (((CheckBox) v).isChecked()) {
+//                        meningocodoseE.setEnabled(false);
+//                        meningocodoseE.setText("");
+//                    }
+//                    else{
+//                        meningocodoseE.setEnabled(true);
+//                    }
+//
+//                }
+//            });
+//        }
+//        catch(Exception e){
+//
+//        }
+//    }
 
 
     //alarm management function start
@@ -745,4 +909,26 @@ public class ImmunisationProfile extends AppCompatActivity {
 
 
     //alarm manegement function end
+
+
+
+    public boolean isGenderFemale(){
+        boolean isFemale=false;
+        try{
+
+            List<Regdetails> myl=Regdetails.findWithQuery(Regdetails.class,"select * from Regdetails");
+            for(int x=0;x<myl.size();x++){
+                if(myl.get(x).gender.equalsIgnoreCase("Female")){
+                    isFemale=true;
+                }
+            }
+            return isFemale;
+        }
+        catch (Exception e){
+            isFemale=false;
+            return isFemale;
+
+
+        }
+    }
 }

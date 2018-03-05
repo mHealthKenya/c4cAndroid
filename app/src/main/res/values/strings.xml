@@ -88,7 +88,7 @@
     <string name="Register">Register</string>
 
     <string name="Exposure">Where did the exposure occur?</string>
-    <string name="Cause">What caused the exposure?</string>
+    <string name="Cause">What was the nature of the exposure?</string>
     <string name="Hours">Number of hours after exposure</string>
     <string name="Submit">Submit</string>
     <string name="Signup">Sign up</string>

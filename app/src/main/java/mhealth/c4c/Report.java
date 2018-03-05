@@ -5,17 +5,14 @@ package mhealth.c4c;
  */
 
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,29 +20,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 
 public class Report extends AppCompatActivity {
-    private Context mContext;
-    private ArrayAdapter<String> arrayAdapter1;
-    private ArrayAdapter<String> arrayAdapter2;
-    private EditText hours;
-    private Button btn_submit;
-    private static final String TAG = "ReportActivity";
-    private static final int REQUEST_SIGNUP = 0;
 
-    String[] SPINNERLIST1 = {"Medical Ward", "Surgical Ward", "Theater", "Maternity", "Dental Clinic", "OP/MCH", "laundry", "Laboratory"};
-    String[] SPINNERLIST2 = {"Needle Stick", "Cuts", "Mucosol", "Non-intact Skin", "Bite", "Other"};
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
+    private ArrayAdapter<String> arrayAdapterWhere;
+    private ArrayAdapter<String> arrayAdapterWhat;
+
+    private EditText hours,otherWhereE,otherWhatE;
+
+    private Button btn_submit;
+    MaterialBetterSpinner SpinnerWhat,SpinnerWhere;
+    String selectedWhere,selectedWhat,otherWhere,otherWhat;
+
+    String[] SPINNERLISTWHERE = {"Medical Ward", "Surgical Ward", "Theater", "Maternity", "Dental Clinic", "OP/MCH", "laundry", "Laboratory","Other"};
+    String[] SPINNERLISTWHAT = {"Needle Stick", "Cuts", "Mucosol", "Non-intact Skin", "Bite", "Other"};
 
 
     @Override
@@ -53,182 +43,258 @@ public class Report extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.report);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setToolbar();
+        initialise();
+        setSpinnerAdapters();
+        setSpinnerWhereListener();
+        setSpinnerWhatListener();
+        submit();
 
 
-        arrayAdapter1 = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, SPINNERLIST1);
-        MaterialBetterSpinner materialDesignSpinner1 = (MaterialBetterSpinner)
-                findViewById(R.id.exposure);
-        materialDesignSpinner1.setAdapter(arrayAdapter1);
 
 
-        materialDesignSpinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedItemText = (String) parent.getItemAtPosition(position);
-                // Notify the selected item text
-                Toast.makeText
-                        (getApplicationContext(), "Selected : " + selectedItemText, Toast.LENGTH_SHORT)
-                        .show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
 
-        arrayAdapter2 = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, SPINNERLIST2);
-        MaterialBetterSpinner materialDesignSpinner2 = (MaterialBetterSpinner)
-                findViewById(R.id.cause);
-        materialDesignSpinner2.setAdapter(arrayAdapter2);
-
-        hours = (EditText) findViewById(R.id.hours);
-        btn_submit = (Button) findViewById(R.id.btn_submit);
-
-
-        btn_submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                report();
-
-            }
-        });
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
 
-    public void report() {
-        Log.d(TAG, "Report");
+    public void submit(){
 
-        if (!validate()) {
-            onSubmitFailed();
-            return;
-        } else if (!validate()) {
-            onSubmitSuccess();
-            return;
-        }
+        try{
 
-        btn_submit.setEnabled(false);
+            btn_submit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
+//                    selectedWhere,selectedWhat,otherWhere,otherWhat
+                    String myhour= hours.getText().toString();
+                    String myotherwhere="";
+                    String myotherwhat="";
 
-        final ProgressDialog progressDialog = new ProgressDialog(Report.this,
-                R.style.AppTheme_Dark_Dialog_white);
-        progressDialog.setIndeterminate(true);
-        //progressDialog.setMessage("");
-        progressDialog.show();
-
-        String time = hours.getText().toString();
-
-        // TODO: Implement your own authentication logic here.
-
-        new Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onLoginSuccess or onLoginFailed
-                        onSubmitSuccess();
-                        // onSubmitFailed();
-                        progressDialog.dismiss();
+//                    Toast.makeText(Report.this, "submitting", Toast.LENGTH_SHORT).show();
+                    if(selectedWhere.contentEquals("")){
+                        Toast.makeText(Report.this, "where the exposure occured is required", Toast.LENGTH_SHORT).show();
                     }
-                }, 2000);
+                    else if(selectedWhat.contentEquals("")){
 
+                        Toast.makeText(Report.this, "the nature of exposure is required", Toast.LENGTH_SHORT).show();
+                    }
+                    else if(selectedWhere.equalsIgnoreCase("Other")&& otherWhereE.getText().toString().isEmpty()){
+
+
+                            Toast.makeText(Report.this, "Other for where exposure occured is required", Toast.LENGTH_SHORT).show();
+
+
+                    }
+                    else if(selectedWhat.equalsIgnoreCase("Other") && otherWhatE.getText().toString().isEmpty()){
+                        Toast.makeText(Report.this, "other for nature of exposure is required", Toast.LENGTH_SHORT).show();
+
+
+                    }
+                    else if(myhour.contentEquals("")){
+                        Toast.makeText(Report.this, "Hours after exposure is required", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        String otherWhereS="";
+                        String otherWhatS="";
+                        if(selectedWhere.equalsIgnoreCase("Other")){
+                            otherWhereS=otherWhereE.getText().toString();
+                        }
+                        if(selectedWhat.equalsIgnoreCase("Other")){
+                            otherWhatS=otherWhatE.getText().toString();
+                        }
+                        System.out.println("***************************************************");
+                        System.out.println("where is:"+selectedWhere+"\n"+"what is: "+selectedWhat+"\n"+"where other: "+otherWhereS+"\n"+"what other: "+otherWhatS);
+                        System.out.println("***************************************************");
+
+                        Toast.makeText(Report.this, "submitting exposure", Toast.LENGTH_SHORT).show();
+                    }
+
+
+                }
+            });
+
+        }
+        catch(Exception e){
+
+
+        }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_SIGNUP) {
-            if (resultCode == RESULT_OK) {
+    public void initialise(){
 
-                // TODO: Implement successful signup logic here
-                // By default we just finish the Activity and log them in automatically
-                this.finish();
+        try{
+
+            hours = (EditText) findViewById(R.id.hours);
+            btn_submit = (Button) findViewById(R.id.btn_submit);
+
+            arrayAdapterWhere = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_dropdown_item_1line, SPINNERLISTWHERE);
+
+            SpinnerWhere = (MaterialBetterSpinner)
+                    findViewById(R.id.exposure);
+
+            arrayAdapterWhat = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_dropdown_item_1line, SPINNERLISTWHAT);
+
+            SpinnerWhat = (MaterialBetterSpinner)
+                    findViewById(R.id.cause);
+            otherWhat="";
+            otherWhere="";
+            selectedWhere="";
+            selectedWhat="";
+
+
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+    public void setSpinnerWhereListener(){
+
+        try{
+
+
+            SpinnerWhere.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                    selectedWhere=SpinnerWhere.getText().toString();
+                    Toast.makeText(Report.this, "selected "+selectedWhere, Toast.LENGTH_SHORT).show();
+                    displayWhereOther();
+
+                }
+            });
+
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+
+
+    public void displayWhereOther(){
+
+        try{
+
+            if(selectedWhere.equalsIgnoreCase("Other")){
+
+                otherWhereE=(EditText) findViewById(R.id.whereother);
+                otherWhereE.setVisibility(View.VISIBLE);
+                otherWhere=otherWhereE.getText().toString();
+            }
+            else{
+                otherWhereE.setVisibility(View.GONE);
+                otherWhere="";
+
             }
         }
-    }
+        catch(Exception e){
 
-    @Override
-    public void onBackPressed() {
-        // disable going back to the MainActivity
-        moveTaskToBack(true);
-    }
 
-    public void onSubmitSuccess() {
-        // Start the Signup activity
-        Intent intent = new Intent(getApplicationContext(), Recycler.class);
-        startActivityForResult(intent, REQUEST_SIGNUP);
-
-        btn_submit.setEnabled(true);
-    }
-
-    public void onSubmitFailed() {
-        //Toast.makeText(getBaseContext(), "", Toast.LENGTH_LONG).show();
-
-        btn_submit.setEnabled(true);
-    }
-
-    public boolean validate() {
-        boolean valid = true;
-
-        String time = hours.getText().toString();
-
-        if (time.isEmpty()) {
-            hours.setError("This field cant be empty");
-            valid = false;
-        } else {
-            hours.setError(null);
         }
-
-       /* if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            input_password.setError("between 4 and 10 alphanumeric characters");
-            valid = false;
-        } else {
-            input_password.setError(null);
-        }*/
-
-        return valid;
     }
 
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    public Action getIndexApiAction() {
-        Thing object = new Thing.Builder()
-                .setName("Report Page") // TODO: Define a title for the content shown.
-                // TODO: Make sure this auto-generated URL is correct.
-                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
-                .build();
-        return new Action.Builder(Action.TYPE_VIEW)
-                .setObject(object)
-                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
-                .build();
+    public void displayWhatOther(){
+
+        try{
+
+            if(selectedWhat.equalsIgnoreCase("Other")){
+
+                otherWhatE=(EditText) findViewById(R.id.whatother);
+                otherWhatE.setVisibility(View.VISIBLE);
+                otherWhat=otherWhatE.getText().toString();
+
+            }
+            else{
+
+                otherWhatE.setVisibility(View.GONE);
+                otherWhat="";
+
+
+            }
+        }
+        catch(Exception e){
+
+
+        }
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
+    public void setSpinnerWhatListener(){
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+        try{
+
+
+            SpinnerWhat.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                    selectedWhat=SpinnerWhat.getText().toString();
+                    Toast.makeText(Report.this, "selected "+selectedWhat, Toast.LENGTH_SHORT).show();
+
+                    displayWhatOther();
+                }
+            });
+
+        }
+        catch(Exception e){
+
+
+        }
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
+    public void setSpinnerAdapters(){
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        AppIndex.AppIndexApi.end(client, getIndexApiAction());
-        client.disconnect();
+        try{
+            SpinnerWhere.setAdapter(arrayAdapterWhere);
+            SpinnerWhat.setAdapter(arrayAdapterWhat);
+
+
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+    public void setToolbar(){
+
+        try{
+
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        }
+        catch(Exception e){
+
+
+        }
     }
 
 

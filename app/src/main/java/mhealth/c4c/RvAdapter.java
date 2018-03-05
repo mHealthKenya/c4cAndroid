@@ -20,6 +20,8 @@ import android.widget.Toast;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+import mhealth.c4c.vaccinationstab.VaccinationTabs;
+
 /**
  * Created by cmukami on 8/1/2017.
  */
@@ -45,20 +47,36 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
         }
     }
 
+//    private String[] titles = {
+//            "REPORT EXPOSURE",
+//            "INFORMATION CENTER",
+//            "CHECK IN",
+//            "BROADCAST SMS",
+//            "USER PROFILE"};
 
     private String[] titles = {
-            "REPORT EXPOSURE",
-            "INFORMATION CENTER",
+            "IMMUNISATION PROFILE",
             "CHECK IN",
             "BROADCAST SMS",
-            "USER PROFILE"};
+            "REPORT EXPOSURE",
+            "INFORMATION CENTER"
+            };
+
+//old design
+//    private String[] titles2 = {
+//            "REPORT EXPOSURE",
+//            "INFORMATION CENTER",
+//            "ANNUAL CHECK UP & VACCINATION CALENDAR",
+//            "BROADCAST SMS",
+//            "USER PROFILE"};
 
     private String[] titles2 = {
-            "REPORT EXPOSURE",
-            "INFORMATION CENTER",
-            "ANNUAL CHECK UP & VACCINATION CALENDAR",
+            "IMMUNISATION PROFILE",
+            "ANNUAL CHECK UP & VACCINATION SCHEDULE",
             "BROADCAST SMS",
-            "USER PROFILE"};
+            "REPORT EXPOSURE",
+            "INFORMATION CENTER"
+            };
 
     private int[] images = {
             R.drawable.report,
@@ -132,7 +150,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
             // viewHolder.itemBg.setCardBackgroundColor(Co2lor.parseColor(tints[i]));
 
 
-            if(i==0) {
+            if(i==3) {
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -144,7 +162,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
                     }
                 });
             }
-            else if(i==1) {
+            else if(i==4) {
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -157,20 +175,23 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
                 });
             }
 
-            else if(i==2) {
+            else if(i==1) {
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         mContext = v.getContext();
 
-                        Toast.makeText(mContext, "ANNUAL CHECKUP AND VACCINATION", Toast.LENGTH_SHORT).show();
+                        mContext = v.getContext();
+
+                        Intent myint=new Intent(mContext, VaccinationTabs.class);
+                        mContext.startActivity(myint);
 
                     }
                 });
             }
 
 
-            else if(i==3) {
+            else if(i==2) {
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -185,7 +206,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
                 });
             }
 
-            else if(i==4) {
+            else if(i==0) {
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -217,7 +238,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
             // viewHolder.itemBg.setCardBackgroundColor(Co2lor.parseColor(tints[i]));
 
 
-            if(i==0) {
+            if(i==3) {
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -229,7 +250,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
                     }
                 });
             }
-            else if(i==1) {
+            else if(i==4) {
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -242,7 +263,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
                 });
             }
 
-            else if(i==2) {
+            else if(i==1) {
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -267,7 +288,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
             }
 
 
-            else if(i==3) {
+            else if(i==2) {
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -283,7 +304,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
             }
 
 
-            else if(i==4) {
+            else if(i==0) {
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

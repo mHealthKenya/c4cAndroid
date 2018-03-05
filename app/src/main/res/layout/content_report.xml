@@ -11,7 +11,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/report2">
+    >
 
 
     <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
@@ -23,6 +23,15 @@
         app:met_floatingLabel="normal" />
 
 
+    <EditText
+        android:layout_width="match_parent"
+        android:id="@+id/whereother"
+        android:hint="Specify Other"
+        android:visibility="gone"
+        android:layout_height="wrap_content" />
+
+
+
     <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
         android:id="@+id/cause"
         android:layout_width="match_parent"
@@ -30,6 +39,14 @@
         android:hint="@string/Cause"
         android:textColorHint="@color/textcolorblack"
         app:met_floatingLabel="normal" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:id="@+id/whatother"
+        android:hint="Specify Other"
+        android:visibility="gone"
+        android:layout_height="wrap_content" />
+
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"

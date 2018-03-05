@@ -22,6 +22,7 @@ import java.util.List;
 
 import mhealth.c4c.R;
 import mhealth.c4c.Tables.Messages;
+import mhealth.c4c.Vaccinationfragments.AnnualCheckup;
 import mhealth.c4c.Vaccinationfragments.Vaccinated;
 
 /**
@@ -150,7 +151,7 @@ public class VaccinationTabs extends AppCompatActivity {
         adapter.addFragment(new Vaccinated(), "Pending Vaccination");
         adapter.addFragment(new Vaccinated(), "Vaccinated");
         adapter.addFragment(new Vaccinated(), "Not Vaccinated");
-        adapter.addFragment(new Vaccinated(), "Annual Checkup Calendar");
+        adapter.addFragment(new AnnualCheckup(), "Annual Checkup Calendar");
 
 
 
