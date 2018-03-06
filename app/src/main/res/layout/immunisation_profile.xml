@@ -369,24 +369,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" >
 
-                <RadioButton
-                    android:id="@+id/radiobtnmeaslesone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="ONE DOSE"
-                     />
+
 
                 <RadioButton
                     android:id="@+id/radiobtnmeaslesboth"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="BOTH DOSES" />
+                    android:text="Yes" />
 
                 <RadioButton
                     android:id="@+id/radiobtnmeaslesno"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="NO" />
+                    android:text="No" />
 
             </RadioGroup>
 
