@@ -35,7 +35,7 @@ public class Report extends AppCompatActivity {
     String selectedWhere,selectedWhat,otherWhere,otherWhat;
 
     String[] SPINNERLISTWHERE = {"Medical Ward", "Surgical Ward", "Theater", "Maternity", "Dental Clinic", "OP/MCH", "laundry", "Laboratory","Other"};
-    String[] SPINNERLISTWHAT = {"Needle Stick", "Cuts", "Mucosol", "Non-intact Skin", "Bite", "Other"};
+    String[] SPINNERLISTWHAT = {"Needle Stick", "Cuts", "Splash on mucosa", "Non-intact Skin", "Bite", "Other"};
 
 
     @Override

@@ -197,6 +197,18 @@ public class Recycler extends AppCompatActivity
             startActivity(i);
             finish();
         }
+        else if (id == R.id.nav_changepassword) {
+
+
+            Intent i = new Intent(getApplicationContext(), ForgotPassword.class);
+            // Closing all the Activities
+//            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            startActivity(i);
+            finish();
+        }
 //        else if (id == R.id.nav_gallery) {
 //
 //        } else if (id == R.id.nav_slideshow) {

@@ -14,7 +14,10 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -30,6 +33,7 @@ import mhealth.c4c.AlarmReceiver.AlarmReceiver;
 import mhealth.c4c.Registrationtable.Regdetails;
 import mhealth.c4c.Tables.ProfileCompletion;
 import mhealth.c4c.Tables.UserProfileTable;
+import mhealth.c4c.getImmunisationsaveddata.getAllImmunisationData;
 import mhealth.c4c.systemstatetables.Influenza;
 import mhealth.c4c.systemstatetables.Measles;
 import mhealth.c4c.systemstatetables.Meningoco;
@@ -43,11 +47,13 @@ import mhealth.c4c.systemstatetables.Varicella;
 public class ImmunisationProfile extends AppCompatActivity {
     RadioGroup grpinfluenza,grpvaricella,grptdap,grpmeasles,grpvaricellaqn1,grpinfluenzaqn,grpmeningoco;
     RadioButton radiobntinfluenza,radiobtnvaricella,radiobtntdap,radiobtnmeasles,radiobtnvaricellaqn1,radiobtninfluenzaqn,radiobtnmeningoco;
-    LinearLayout llinfluenza,llvaricella,lltdap,llmeasles,llpreg, llvaricellaqn1L, llvaricellaqn2L,llinfluenzaqnL,llmeningoco;
+    LinearLayout llinfluenza,llvaricella,lltdap,llmeasles,llpreg, llvaricellaqn1L, llvaricellaqn2L,llinfluenzaqnL,llmeningoco,parentLayout;
     EditText measlesdose1E,measlesdose2E,influenzadoseE,varicelladose1E,varicelladose2E,tdapdoseE,meningocodoseE,meningocodose2E;
     TextView measles2label;
     DatePickerDialog datePickerDialog;
+    getAllImmunisationData getAD;
 
+    boolean childItemsEnabled;
 
     private PendingIntent pendingIntent;
 
@@ -89,9 +95,52 @@ public class ImmunisationProfile extends AppCompatActivity {
         getTdapData();
         getMeaslesData();
         getMeningocoData();
+//        disableAllElements();
+
+
+        checkForSavedProfile();
 
 
     }
+
+    public void checkForSavedProfile(){
+
+        try{
+
+            List<Influenza> mylinf=Influenza.findWithQuery(Influenza.class,"select * from Influenza");
+            List<Measles> mylmeas=Measles.findWithQuery(Measles.class,"select * from Measles");
+            List<Meningoco> mylmen=Meningoco.findWithQuery(Meningoco.class,"select * from Meningoco");
+            List<Tdap> myltda=Tdap.findWithQuery(Tdap.class,"select * from Tdap");
+            List<Varicella> mylvar=Varicella.findWithQuery(Varicella.class,"select * from Varicella");
+
+            if(mylinf.size()>0||mylmeas.size()>0||mylmen.size()>0||myltda.size()>0||mylvar.size()>0){
+
+               enableDisableView(parentLayout,false);
+               childItemsEnabled=false;
+
+
+            }
+        }
+        catch(Exception e){
+
+        }
+    }
+
+
+//function to disable all views inside the parent view(layout)
+
+    private void enableDisableView(View view, boolean enabled) {
+        view.setEnabled(enabled);
+
+        if ( view instanceof ViewGroup ) {
+            ViewGroup group = (ViewGroup)view;
+
+            for ( int idx = 0 ; idx < group.getChildCount() ; idx++ ) {
+                enableDisableView(group.getChildAt(idx), enabled);
+            }
+        }
+    }
+
 
     public void getInfluenzaData(){
         try{
@@ -101,17 +150,27 @@ public class ImmunisationProfile extends AppCompatActivity {
             if(myl.size()>0){
 
                 for(int x=0;x<myl.size();x++){
-                    int mselectedvaccineId=Integer.parseInt(myl.get(x).getInfluenzavaccineid());
-                    int mselectedpregnantId=Integer.parseInt(myl.get(x).getPregnantid());
+                    if(myl.get(x).getInfluenzavaccineid()!=null){
+
+                        int mselectedvaccineId=Integer.parseInt(myl.get(x).getInfluenzavaccineid());
+                        RadioButton rbVaccine = (RadioButton) findViewById(mselectedvaccineId);
+                        rbVaccine.setChecked(true);
+
+                    }
+
+                    if(myl.get(x).getPregnantid()!=null){
+
+                        int mselectedpregnantId=Integer.parseInt(myl.get(x).getPregnantid());
+
+                        RadioButton rbPregnant = (RadioButton) findViewById(mselectedpregnantId);
+                        rbPregnant.setChecked(true);
+
+                    }
+
+
                     String mdoseDate=myl.get(x).dosedate;
 
-                    RadioButton rbVaccine = (RadioButton) findViewById(mselectedvaccineId);
-                    rbVaccine.setChecked(true);
 
-                    RadioButton rbPregnant = (RadioButton) findViewById(mselectedpregnantId);
-                    rbPregnant.setChecked(true);
-
-                    Toast.makeText(this, "dose date is "+mdoseDate, Toast.LENGTH_SHORT).show();
                     influenzadoseE.setText(mdoseDate);
 
 
@@ -120,6 +179,7 @@ public class ImmunisationProfile extends AppCompatActivity {
             }
         }
         catch(Exception e){
+            Toast.makeText(this, "error getting influenza data "+e, Toast.LENGTH_SHORT).show();
 
 
         }
@@ -138,7 +198,7 @@ public class ImmunisationProfile extends AppCompatActivity {
                     String mdose1Date=myl.get(x).dosedate;
 
 
-                    if(myl.get(x).getImmunisedid()!=null){
+                    if(myl.get(x).getImmunisedid()!=null || !myl.get(x).getImmunisedid().contentEquals("")){
 
                         int mselectedimmunisedId=Integer.parseInt(myl.get(x).getImmunisedid());
 
@@ -182,7 +242,7 @@ public class ImmunisationProfile extends AppCompatActivity {
                     String seconddoseDate=myl.get(x).seconddosedate;
 
 
-                    if(myl.get(x).getImmunisedid()!=null){
+                    if(myl.get(x).getImmunisedid()!=null || !myl.get(x).getImmunisedid().contentEquals("")){
 
                         int mselectedimmunisedId=Integer.parseInt(myl.get(x).getImmunisedid());
 
@@ -206,7 +266,7 @@ public class ImmunisationProfile extends AppCompatActivity {
             }
         }
         catch(Exception e){
-            Toast.makeText(this, "error getting "+e, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "error getting measles "+e, Toast.LENGTH_SHORT).show();
 
 
         }
@@ -227,7 +287,7 @@ public class ImmunisationProfile extends AppCompatActivity {
                     String seconddoseDate=myl.get(x).seconddosedate;
 
 
-                    if(myl.get(x).getImmunisedid()!=null){
+                    if(myl.get(x).getImmunisedid()!=null || !myl.get(x).getImmunisedid().contentEquals("")){
 
                         int mselectedimmunisedId=Integer.parseInt(myl.get(x).getImmunisedid());
 
@@ -251,7 +311,7 @@ public class ImmunisationProfile extends AppCompatActivity {
             }
         }
         catch(Exception e){
-            Toast.makeText(this, "error getting "+e, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "error getting meningoco"+e, Toast.LENGTH_SHORT).show();
 
 
         }
@@ -270,11 +330,9 @@ public class ImmunisationProfile extends AppCompatActivity {
 
                     String mdose1Date=myl.get(x).firstdosedate;
                     String mdose2Date=myl.get(x).seconddosedate;
-                    Toast.makeText(this, ""+mdose1Date+" "+mdose2Date, Toast.LENGTH_SHORT).show();
 
 
-
-                    if(myl.get(x).getHistoryid()!=null){
+                    if(!(myl.get(x).getHistoryid().trim().length()==0)){
 
                         int mselectedhistoryId=Integer.parseInt(myl.get(x).getHistoryid());
 
@@ -282,11 +340,12 @@ public class ImmunisationProfile extends AppCompatActivity {
                         rbhistory.setChecked(true);
 
                     }
+
                     else{
                         grpvaricella.clearCheck();
 
                     }
-                    if(myl.get(x).getVaccineid()!=null){
+                    if(!(myl.get(x).getVaccineid().trim().length()==0)){
                         int mselectedvaccineId=Integer.parseInt(myl.get(x).getVaccineid());
 
                         RadioButton rbVaccine = (RadioButton) findViewById(mselectedvaccineId);
@@ -295,6 +354,7 @@ public class ImmunisationProfile extends AppCompatActivity {
                     }
                     else{
                         grpvaricellaqn1.clearCheck();
+
 
                     }
 
@@ -310,7 +370,7 @@ public class ImmunisationProfile extends AppCompatActivity {
             }
         }
         catch(Exception e){
-            Toast.makeText(this, "error getting "+e, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "error getting varicella "+e, Toast.LENGTH_SHORT).show();
 
 
         }
@@ -356,6 +416,8 @@ public class ImmunisationProfile extends AppCompatActivity {
                         }
                         else{
 
+                            meningocodoseE.setText("");
+                            meningocodose2E.setText("");
 //                            Toast.makeText(ImmunisationProfile.this, "No", Toast.LENGTH_SHORT).show();
 
                             llmeningoco.setVisibility(View.GONE);
@@ -533,41 +595,6 @@ public class ImmunisationProfile extends AppCompatActivity {
 
         }
     }
-
-
-    public void populateFields(){
-
-        try{
-
-            List<UserProfileTable> uplist=UserProfileTable.findWithQuery(UserProfileTable.class,"select * from User_profile_table");
-            if(uplist.size()>0){
-
-                for(int x=0;x<uplist.size();x++) {
-
-                    System.out.println("pregnant: " + uplist.get(x).getInfluenzapregnant());
-                    System.out.println("influenza dose: " + uplist.get(x).getInfluenzadose());
-                    System.out.println("varicella history: " + uplist.get(x).getVaricellahistory());
-                    System.out.println("varicella first dose: " + uplist.get(x).getVaricellafirstdose());
-                    System.out.println("varicella second dose: " + uplist.get(x).getVaricellaseconddose());
-                    System.out.println("tdapimmunised: " + uplist.get(x).getTdapimmunised());
-                    System.out.println("tdapdose: " + uplist.get(x).getTdapdose());
-                    System.out.println("measles immunised: " + uplist.get(x).getMeaslesimmunised());
-                    System.out.println("measles first dose: " + uplist.get(x).getMeaslesfirstdose());
-                    System.out.println("measles second dose: " + uplist.get(x).getMeaslesseconddose());
-                    System.out.println("meningoco: " + uplist.get(x).getMeningocodose());
-
-                }
-
-
-            }
-
-        }
-        catch(Exception e){
-
-
-        }
-    }
-
 
 
     public void setToolBar(){
@@ -975,140 +1002,9 @@ public class ImmunisationProfile extends AppCompatActivity {
 
 
 
-//            Toast.makeText(this, "updating profile", Toast.LENGTH_SHORT).show();
+            getAD=new getAllImmunisationData(ImmunisationProfile.this);
+            getAD.displayAllData();
 
-//
-//
-//            if(influenzapregnantS.equalsIgnoreCase("Yes")){
-//
-//                influenzadoseS="empty";
-//            }
-//            else if(influenzapregnantS.equalsIgnoreCase("No")){
-//                influenzadoseS=influenzadoseE.getText().toString();
-//            }
-//            if(varicellahistoryS.equalsIgnoreCase("yes")){
-//                varicellafirstdoseS="empty";
-//                varicellaseconddoseS="empty";
-//
-//            }
-//            else{
-//
-//                varicellafirstdoseS=varicelladose1E.getText().toString();
-//                varicellaseconddoseS=varicelladose2E.getText().toString();
-//            }
-//            if(tdapimmunisedS.equalsIgnoreCase("yes")){
-//
-//                tdapdoseS=tdapdoseE.getText().toString();
-//            }
-//            else if(tdapimmunisedS.equalsIgnoreCase("no")){
-//                tdapdoseS="empty";
-//
-//            }
-//            if(measlesimmunisedS.equalsIgnoreCase("one dose")){
-//
-//                measlesfirstdoseS=measlesdose1E.getText().toString();
-//                measlesseconddoseS="empty";
-//
-//            }
-//            else if(measlesimmunisedS.equalsIgnoreCase("both doses")){
-//
-//                measlesfirstdoseS=measlesdose1E.getText().toString();
-//                measlesseconddoseS=measlesdose2E.getText().toString();
-//            }
-//            else if(measlesimmunisedS.equalsIgnoreCase("no")){
-//
-//                measlesfirstdoseS="empty";
-//                measlesseconddoseS="empty";
-//
-//            }
-//
-////            if(meningocoChk.isChecked()){
-////
-////                meningocodoseS="empty";
-////            }
-////            else{
-////
-////                meningocodoseS=meningocodoseE.getText().toString();
-////            }
-//
-//            UserProfileTable.deleteAll(UserProfileTable.class);
-//
-//            UserProfileTable up=new UserProfileTable(influenzapregnantS,influenzadoseS,varicellahistoryS,varicellafirstdoseS,varicellaseconddoseS,tdapimmunisedS,tdapdoseS,measlesimmunisedS,measlesfirstdoseS,measlesseconddoseS,meningocodoseS);
-//            up.save();
-//            Toast.makeText(this, "Success Updating user Profile", Toast.LENGTH_SHORT).show();
-//
-//            int emptyCounter=0;
-//            List<UserProfileTable> uplist=UserProfileTable.findWithQuery(UserProfileTable.class,"select * from User_profile_table");
-//            for(int x=0;x<uplist.size();x++){
-//                if(uplist.get(x).getInfluenzapregnant().contentEquals("")){
-//                    emptyCounter+=1;
-//                }
-//                if(uplist.get(x).getInfluenzadose().contentEquals("")){
-//                    emptyCounter+=1;
-//                }
-//                if(uplist.get(x).getVaricellahistory().contentEquals("")){
-//                    emptyCounter+=1;
-//                }
-//                if(uplist.get(x).getVaricellafirstdose().contentEquals("")){
-//                    emptyCounter+=1;
-//                }
-//                if(uplist.get(x).getVaricellaseconddose().contentEquals("")){
-//                    emptyCounter+=1;
-//                }
-//                if(uplist.get(x).getTdapimmunised().contentEquals("")){
-//                    emptyCounter+=1;
-//                }
-//                if(uplist.get(x).getTdapdose().contentEquals("")){
-//                    emptyCounter+=1;
-//                }
-//                if(uplist.get(x).getMeaslesimmunised().contentEquals("")){
-//                    emptyCounter+=1;
-//                }
-//                if(uplist.get(x).getMeaslesfirstdose().contentEquals("")){
-//                    emptyCounter+=1;
-//                }
-//                if(uplist.get(x).getMeaslesseconddose().contentEquals("")){
-//                    emptyCounter+=1;
-//                }
-//                if(uplist.get(x).getMeningocodose().contentEquals("")){
-//                    emptyCounter+=1;
-//                }
-//
-//                System.out.println("*******************");
-//                System.out.println("pregnant: "+uplist.get(x).getInfluenzapregnant());
-//                System.out.println("influenza dose: "+uplist.get(x).getInfluenzadose());
-//                System.out.println("varicella history: "+uplist.get(x).getVaricellahistory());
-//                System.out.println("varicella first dose: "+uplist.get(x).getVaricellafirstdose());
-//                System.out.println("varicella second dose: "+uplist.get(x).getVaricellaseconddose());
-//                System.out.println("tdapimmunised: "+uplist.get(x).getTdapimmunised());
-//                System.out.println("tdapdose: "+uplist.get(x).getTdapdose());
-//                System.out.println("measles immunised: "+uplist.get(x).getMeaslesimmunised());
-//                System.out.println("measles first dose: "+uplist.get(x).getMeaslesfirstdose());
-//                System.out.println("measles second dose: "+uplist.get(x).getMeaslesseconddose());
-//                System.out.println("meningoco: "+uplist.get(x).getMeningocodose());
-//                System.out.println("*******************");
-//
-////                Toast.makeText(this, "total empty "+emptyCounter, Toast.LENGTH_SHORT).show();
-//
-//                float res=0;
-//                if((emptyCounter)==11){
-//
-//                    res=0;
-//
-//                }
-//                else{
-//
-//                    res=((((float)(11-emptyCounter))/11)*100);
-//
-//                }
-//
-//                ProfileCompletion.deleteAll(ProfileCompletion.class);
-//
-//                ProfileCompletion pc=new ProfileCompletion(String.format("%1$.0f",res));
-//                pc.save();
-//
-////                Toast.makeText(this, ""+String.format("%1$.0f",res)+"% complete", Toast.LENGTH_SHORT).show();
-//            }
         }
         catch(Exception e){
 
@@ -1123,6 +1019,7 @@ public class ImmunisationProfile extends AppCompatActivity {
 
         try{
 
+            childItemsEnabled=false;
             Intent alarmIntent = new Intent(ImmunisationProfile.this, AlarmReceiver.class);
             pendingIntent = PendingIntent.getBroadcast(ImmunisationProfile.this, 0, alarmIntent, 0);
 
@@ -1139,6 +1036,7 @@ public class ImmunisationProfile extends AppCompatActivity {
             llvaricella=(LinearLayout) findViewById(R.id.varicelladoselayout);
             llvaricellaqn1L =(LinearLayout) findViewById(R.id.llvaricellaqn1);
             llvaricellaqn2L =(LinearLayout) findViewById(R.id.llvaricellaqn2);
+            parentLayout =(LinearLayout) findViewById(R.id.immunisationparentlayout);
 
             grptdap =(RadioGroup) findViewById(R.id.radiogrptdap);
             lltdap=(LinearLayout) findViewById(R.id.tdapdoselayout);
@@ -1282,8 +1180,23 @@ public class ImmunisationProfile extends AppCompatActivity {
 
                         String selectedOption=radiobtnvaricellaqn1.getText().toString();
                         if(selectedOption.equalsIgnoreCase("Yes")){
+                            grpvaricella.clearCheck();
+
+                            List<Varicella> mylvari=Varicella.findWithQuery(Varicella.class,"select * from Varicella");
+                            if(mylvari.size()>0){
+
+                                Varicella inf = Varicella.findById(Varicella.class, 1);
+
+                                inf.setHistoryid("");
+                                inf.setHistoryvalue("");
+                                inf.save();
+
+                            }
+
+
                             llvaricellaqn2L.setVisibility(View.GONE);
                             llvaricella.setVisibility(View.VISIBLE);
+
 //                            varicelladose1E.setText("");
 //                            varicelladose2E.setText("");
 //                            varicellahistoryS="yes";
@@ -1312,6 +1225,9 @@ public class ImmunisationProfile extends AppCompatActivity {
 
                         }
                         else{
+
+                            varicelladose1E.setText("");
+                            varicelladose2E.setText("");
                             llvaricellaqn2L.setVisibility(View.VISIBLE);
                             llvaricella.setVisibility(View.GONE);
 
@@ -1379,6 +1295,7 @@ public class ImmunisationProfile extends AppCompatActivity {
                             }
                             else{
 
+
                                 Varicella inf=new Varicella();
                                 inf.setHistoryvalue("Yes");
                                 inf.setHistoryid(Integer.toString(checkedId));
@@ -1388,6 +1305,7 @@ public class ImmunisationProfile extends AppCompatActivity {
 
                         }
                         else{
+
 
 
                             List<Varicella> myl=Varicella.findWithQuery(Varicella.class,"select * from Varicella");
@@ -1728,31 +1646,6 @@ public class ImmunisationProfile extends AppCompatActivity {
     }
 
 
-//    public void meningocoCheckListener(){
-//
-//        try{
-//
-//            meningocoChk.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//
-//                    if (((CheckBox) v).isChecked()) {
-//                        meningocodoseE.setEnabled(false);
-//                        meningocodoseE.setText("");
-//                    }
-//                    else{
-//                        meningocodoseE.setEnabled(true);
-//                    }
-//
-//                }
-//            });
-//        }
-//        catch(Exception e){
-//
-//        }
-//    }
-
-
     //alarm management function start
 
     public void start() {
@@ -1827,5 +1720,37 @@ public class ImmunisationProfile extends AppCompatActivity {
 
 
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.immunisationmenu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+
+        if (id == R.id.edit) {
+            if(childItemsEnabled){
+                enableDisableView(parentLayout,false);
+                childItemsEnabled=false;
+
+            }
+            else{
+                enableDisableView(parentLayout,true);
+                childItemsEnabled=true;
+
+            }
+
+
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

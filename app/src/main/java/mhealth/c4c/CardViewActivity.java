@@ -53,7 +53,7 @@ public class CardViewActivity extends AppCompatActivity {
 
             Toolbar toolbar = (Toolbar) findViewById(R.id.mytoolbar);
             setSupportActionBar(toolbar);
-            getSupportActionBar().setTitle("FAQ,s");
+            getSupportActionBar().setTitle("FAQ");
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }

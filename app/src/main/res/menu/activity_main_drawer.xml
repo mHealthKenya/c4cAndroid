@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-       <item android:title="Communicate">
+       <item android:title="C4C">
         <menu>
             <item
-                android:id="@+id/nav_manage"
+                android:id="@+id/nav_changepassword"
                 android:icon="@drawable/ic_menu_manage"
                 android:title="Change Password" />
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Edit Profile" />
+
             <item
                 android:id="@+id/nav_logout"
                 android:icon="@drawable/ic_menu_send"
