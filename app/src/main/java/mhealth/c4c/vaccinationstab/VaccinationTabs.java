@@ -20,10 +20,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import mhealth.c4c.ImmunisationProfile;
 import mhealth.c4c.R;
 import mhealth.c4c.Tables.Messages;
 import mhealth.c4c.Vaccinationfragments.AnnualCheckup;
+import mhealth.c4c.Vaccinationfragments.NotVaccinated;
+import mhealth.c4c.Vaccinationfragments.PendingVaccination;
 import mhealth.c4c.Vaccinationfragments.Vaccinated;
+import mhealth.c4c.checkupstatustable.UpdateStatusTable;
 
 /**
  * Created by root on 2/22/18.
@@ -35,6 +39,7 @@ public class VaccinationTabs extends AppCompatActivity {
     private ViewPager viewPager;
     ViewPagerAdapter adapter;
     ProgressDialog progressDialog;
+    UpdateStatusTable ut;
 
     String[] tabTitle = {"Pending Vaccination", "Vaccinated","Not Vaccinated","Annual Checkup Calendar"};
     int[] Counts = {0, 0,0,0};
@@ -43,8 +48,38 @@ public class VaccinationTabs extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vaccination_tabs);
+        initialise();
         setToolBar();
         DisplayContent();
+        saveAllStatusVaccine();
+    }
+
+    public void initialise(){
+
+        try{
+
+            ut=new UpdateStatusTable(VaccinationTabs.this);
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+    public void saveAllStatusVaccine(){
+
+        try{
+
+            ut.updateInfluenza();
+            ut.updateMeasles();
+            ut.updateMeningoco();
+            ut.updateTdap();
+            ut.updateVaricella();
+        }
+        catch(Exception e){
+
+
+        }
     }
 
     public void setToolBar(){
@@ -144,13 +179,12 @@ public class VaccinationTabs extends AppCompatActivity {
 
 
 
-
     private void setupViewPager(ViewPager viewPager) {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
 //        "Pending Vaccination", "Vaccinated","Not Vaccinated","Annual Checkup Calendar"}
-        adapter.addFragment(new Vaccinated(), "Pending Vaccination");
+        adapter.addFragment(new PendingVaccination(), "Pending Vaccination");
         adapter.addFragment(new Vaccinated(), "Vaccinated");
-        adapter.addFragment(new Vaccinated(), "Not Vaccinated");
+        adapter.addFragment(new NotVaccinated(), "Not Vaccinated");
         adapter.addFragment(new AnnualCheckup(), "Annual Checkup Calendar");
 
 

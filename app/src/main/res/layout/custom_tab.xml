@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Calls"
-            android:textColor="@color/navigationBarColor"
+
             android:textSize="15sp" />
 
         <TextView

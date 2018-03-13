@@ -1,6 +1,5 @@
 package mhealth.c4c.Vaccinationfragments;
 
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -28,7 +27,7 @@ import mhealth.c4c.recyclerTouchListener.RecyclerTouchListener;
  * Created by root on 2/22/18.
  */
 
-public class Vaccinated extends Fragment {
+public class NotVaccinated extends Fragment {
     View v;
     private RecyclerView recyclerView;
     private VaccineAdapter adapter;
@@ -38,7 +37,7 @@ public class Vaccinated extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        v=inflater.inflate(R.layout.vaccinated_fragment,container,false);
+        v=inflater.inflate(R.layout.not_vaccinated_fragment,container,false);
         initialise();
         populateList();
         setRecyclerClickListener();
@@ -49,7 +48,7 @@ public class Vaccinated extends Fragment {
 
         try{
 
-            recyclerView = (RecyclerView) v.findViewById(R.id.vaccinated_recycler_view);
+            recyclerView = (RecyclerView) v.findViewById(R.id.notvaccinated_recycler_view);
 
             itemsList = new ArrayList<>();
             adapter = new VaccineAdapter(getActivity(), itemsList);
@@ -70,7 +69,7 @@ public class Vaccinated extends Fragment {
 
         try{
 
-            List<Status> myl=Status.findWithQuery(Status.class,"select * from Status where category=?","vaccinated");
+            List<Status> myl=Status.findWithQuery(Status.class,"select * from Status where category=?","not vaccinated");
             if(myl.size()>0){
 
                 String vname="";

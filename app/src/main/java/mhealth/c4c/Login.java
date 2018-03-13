@@ -103,12 +103,12 @@ public class Login extends AppCompatActivity {
                 if(mykmpdu.contentEquals("true")){
 
                     kmpduChecked=true;
-                    Toast.makeText(this, "kmpdu checked", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this, "kmpdu checked", Toast.LENGTH_SHORT).show();
                 }
                 else{
 
                     kmpduChecked=false;
-                    Toast.makeText(this, "kmpdu not checked", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this, "kmpdu not checked", Toast.LENGTH_SHORT).show();
                 }
             }
 

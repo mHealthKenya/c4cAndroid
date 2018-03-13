@@ -32,7 +32,9 @@ import java.util.List;
 import mhealth.c4c.AlarmReceiver.AlarmReceiver;
 import mhealth.c4c.Registrationtable.Regdetails;
 import mhealth.c4c.Tables.ProfileCompletion;
-import mhealth.c4c.Tables.UserProfileTable;
+import mhealth.c4c.checkupstatustable.Status;
+import mhealth.c4c.checkupstatustable.UpdateStatusTable;
+import mhealth.c4c.completionPercentage.Completion;
 import mhealth.c4c.getImmunisationsaveddata.getAllImmunisationData;
 import mhealth.c4c.systemstatetables.Influenza;
 import mhealth.c4c.systemstatetables.Measles;
@@ -52,6 +54,8 @@ public class ImmunisationProfile extends AppCompatActivity {
     TextView measles2label;
     DatePickerDialog datePickerDialog;
     getAllImmunisationData getAD;
+    Completion comp;
+    UpdateStatusTable ut;
 
     boolean childItemsEnabled;
 
@@ -68,6 +72,8 @@ public class ImmunisationProfile extends AppCompatActivity {
         setContentView(R.layout.immunisation_profile);
         initialise();
         setToolBar();
+
+        setGenderInfluenza();
 
         getCheckedRadioInfluenza();
         getCheckedRadioVaricella();
@@ -100,9 +106,118 @@ public class ImmunisationProfile extends AppCompatActivity {
 
         checkForSavedProfile();
 
+//        comp.getInfluenzaPercentage();
+//        comp.getVaricellaPercentage();
+
+
+//        getStatusTableDataInfluenza();
+//        getStatusTableDataMeasles();
+//        getStatusTableDataMeningoco();
+
 
     }
 
+    public void getStatusTableDataInfluenza(){
+
+        try{
+            List<Status> myl=Status.findWithQuery(Status.class,"select * from Status where name=?","influenza");
+            if(myl.size()>0){
+
+                for(int x=0;x<myl.size();x++){
+
+                    Toast.makeText(this, "status influenza "+myl.get(x).getCategory(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+
+    public void getStatusTableDataMeasles(){
+
+        try{
+            List<Status> myl=Status.findWithQuery(Status.class,"select * from Status where name=?","measles");
+            if(myl.size()>0){
+
+                for(int x=0;x<myl.size();x++){
+
+                    Toast.makeText(this, "status measles "+myl.get(x).getCategory(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+    public void getStatusTableDataMeningoco(){
+
+        try{
+            List<Status> myl=Status.findWithQuery(Status.class,"select * from Status where name=?","meningoco");
+            if(myl.size()>0){
+
+                for(int x=0;x<myl.size();x++){
+
+                    Toast.makeText(this, "status meningoco "+myl.get(x).getCategory(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+
+    public void setGenderInfluenza(){
+
+
+
+
+
+        try{
+
+            String genderS="";
+
+            if(isGenderFemale()){
+
+                genderS="Female";
+
+            }
+            else{
+
+                genderS="Male";
+
+            }
+
+            List<Influenza> myl=Influenza.findWithQuery(Influenza.class,"select * from Influenza");
+            if(myl.size()>0){
+
+                Influenza inf = Influenza.findById(Influenza.class, 1);
+                inf.setGender(genderS);
+                inf.save();
+
+            }
+            else{
+
+                Influenza chi=new Influenza();
+                chi.setGender(genderS);
+                chi.save();
+
+            }
+        }
+        catch(Exception e){
+
+            Toast.makeText(this, "error setting gender "+e, Toast.LENGTH_SHORT).show();
+        }
+    }
     public void checkForSavedProfile(){
 
         try{
@@ -198,7 +313,7 @@ public class ImmunisationProfile extends AppCompatActivity {
                     String mdose1Date=myl.get(x).dosedate;
 
 
-                    if(myl.get(x).getImmunisedid()!=null || !myl.get(x).getImmunisedid().contentEquals("")){
+                    if(myl.get(x).getImmunisedid()!=null){
 
                         int mselectedimmunisedId=Integer.parseInt(myl.get(x).getImmunisedid());
 
@@ -221,7 +336,7 @@ public class ImmunisationProfile extends AppCompatActivity {
             }
         }
         catch(Exception e){
-            Toast.makeText(this, "error getting "+e, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "error getting tdap "+e, Toast.LENGTH_SHORT).show();
 
 
         }
@@ -242,7 +357,7 @@ public class ImmunisationProfile extends AppCompatActivity {
                     String seconddoseDate=myl.get(x).seconddosedate;
 
 
-                    if(myl.get(x).getImmunisedid()!=null || !myl.get(x).getImmunisedid().contentEquals("")){
+                    if(myl.get(x).getImmunisedid()!=null){
 
                         int mselectedimmunisedId=Integer.parseInt(myl.get(x).getImmunisedid());
 
@@ -287,7 +402,7 @@ public class ImmunisationProfile extends AppCompatActivity {
                     String seconddoseDate=myl.get(x).seconddosedate;
 
 
-                    if(myl.get(x).getImmunisedid()!=null || !myl.get(x).getImmunisedid().contentEquals("")){
+                    if(myl.get(x).getImmunisedid()!=null){
 
                         int mselectedimmunisedId=Integer.parseInt(myl.get(x).getImmunisedid());
 
@@ -332,12 +447,17 @@ public class ImmunisationProfile extends AppCompatActivity {
                     String mdose2Date=myl.get(x).seconddosedate;
 
 
-                    if(!(myl.get(x).getHistoryid().trim().length()==0)){
+                    if((myl.get(x).getHistoryid()!=null)){
+                        if(myl.get(x).getHistoryid().length()>2){
 
-                        int mselectedhistoryId=Integer.parseInt(myl.get(x).getHistoryid());
+                            int mselectedhistoryId=Integer.parseInt(myl.get(x).getHistoryid());
 
-                        RadioButton rbhistory = (RadioButton) findViewById(mselectedhistoryId);
-                        rbhistory.setChecked(true);
+                            RadioButton rbhistory = (RadioButton) findViewById(mselectedhistoryId);
+                            rbhistory.setChecked(true);
+
+                        }
+
+
 
                     }
 
@@ -345,11 +465,17 @@ public class ImmunisationProfile extends AppCompatActivity {
                         grpvaricella.clearCheck();
 
                     }
-                    if(!(myl.get(x).getVaccineid().trim().length()==0)){
-                        int mselectedvaccineId=Integer.parseInt(myl.get(x).getVaccineid());
+                    if((myl.get(x).getVaccineid()!=null)){
 
-                        RadioButton rbVaccine = (RadioButton) findViewById(mselectedvaccineId);
-                        rbVaccine.setChecked(true);
+                        if(myl.get(x).getVaccineid().length()>2){
+
+                            int mselectedvaccineId=Integer.parseInt(myl.get(x).getVaccineid());
+
+                            RadioButton rbVaccine = (RadioButton) findViewById(mselectedvaccineId);
+                            rbVaccine.setChecked(true);
+
+                        }
+
 
                     }
                     else{
@@ -370,7 +496,7 @@ public class ImmunisationProfile extends AppCompatActivity {
             }
         }
         catch(Exception e){
-            Toast.makeText(this, "error getting varicella "+e, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "error getting varicella test "+e, Toast.LENGTH_SHORT).show();
 
 
         }
@@ -447,6 +573,7 @@ public class ImmunisationProfile extends AppCompatActivity {
         }
         catch(Exception e){
 
+            Toast.makeText(this, "error getting radio cheked meningoco "+e, Toast.LENGTH_SHORT).show();
 
         }
     }
@@ -520,6 +647,7 @@ public class ImmunisationProfile extends AppCompatActivity {
         }
         catch(Exception e){
 
+            Toast.makeText(this, "error getting radio influenza qn "+e, Toast.LENGTH_SHORT).show();
 
         }
     }
@@ -708,6 +836,22 @@ public class ImmunisationProfile extends AppCompatActivity {
         }
     }
 
+    public void saveAllStatusVaccine(){
+
+        try{
+
+            ut.updateInfluenza();
+            ut.updateMeasles();
+            ut.updateMeningoco();
+            ut.updateTdap();
+            ut.updateVaricella();
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
     public void updateProfile(View v){
 
         try{
@@ -736,6 +880,7 @@ public class ImmunisationProfile extends AppCompatActivity {
                 }
 
                 inf.save();
+                saveAllStatusVaccine();
 
             }
 
@@ -753,6 +898,7 @@ public class ImmunisationProfile extends AppCompatActivity {
                 }
 
                 chi.save();
+                saveAllStatusVaccine();
 
             }
             //end set influenza data
@@ -785,6 +931,8 @@ public class ImmunisationProfile extends AppCompatActivity {
 
                 infv.save();
 
+                saveAllStatusVaccine();
+
             }
 
             else{
@@ -812,6 +960,7 @@ public class ImmunisationProfile extends AppCompatActivity {
                 }
 
                 chi.save();
+                saveAllStatusVaccine();
 
             }
             //end set varicella data
@@ -833,6 +982,7 @@ public class ImmunisationProfile extends AppCompatActivity {
                 }
 
                 inf.save();
+                saveAllStatusVaccine();
 
             }
 
@@ -850,6 +1000,7 @@ public class ImmunisationProfile extends AppCompatActivity {
                 }
 
                 chi.save();
+                saveAllStatusVaccine();
 
             }
             //end set influenza data
@@ -884,6 +1035,8 @@ public class ImmunisationProfile extends AppCompatActivity {
 
                 infv.save();
 
+                saveAllStatusVaccine();
+
             }
 
             else{
@@ -911,6 +1064,8 @@ public class ImmunisationProfile extends AppCompatActivity {
                 }
 
                 chi.save();
+
+                saveAllStatusVaccine();
 
             }
             //end set measles data
@@ -944,6 +1099,8 @@ public class ImmunisationProfile extends AppCompatActivity {
 
                 infv.save();
 
+                saveAllStatusVaccine();
+
             }
 
             else{
@@ -971,6 +1128,7 @@ public class ImmunisationProfile extends AppCompatActivity {
                 }
 
                 chi.save();
+                saveAllStatusVaccine();
 
             }
             //end set measles data
@@ -1005,6 +1163,8 @@ public class ImmunisationProfile extends AppCompatActivity {
             getAD=new getAllImmunisationData(ImmunisationProfile.this);
             getAD.displayAllData();
 
+
+
         }
         catch(Exception e){
 
@@ -1019,6 +1179,8 @@ public class ImmunisationProfile extends AppCompatActivity {
 
         try{
 
+            comp=new Completion(ImmunisationProfile.this);
+            ut=new UpdateStatusTable(ImmunisationProfile.this);
             childItemsEnabled=false;
             Intent alarmIntent = new Intent(ImmunisationProfile.this, AlarmReceiver.class);
             pendingIntent = PendingIntent.getBroadcast(ImmunisationProfile.this, 0, alarmIntent, 0);

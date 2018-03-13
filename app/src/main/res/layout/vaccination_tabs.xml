@@ -23,6 +23,8 @@
             app:tabMode="scrollable"
             app:tabMaxWidth="0dp"
             app:tabBackground="@drawable/tab_colour_selector"
+            app:tabSelectedTextColor="@color/textcolorblack"
+            app:tabTextColor="@color/textColorPrimary"
             app:tabGravity="fill"/>
 
 
