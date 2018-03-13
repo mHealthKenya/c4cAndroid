@@ -52,7 +52,33 @@ public class VaccinationTabs extends AppCompatActivity {
         setToolBar();
         DisplayContent();
         saveAllStatusVaccine();
+        adapter.SetOnSelectView(tabLayout,0);
+        tabLayout.addOnTabSelectedListener(OnTabSelectedListener);
     }
+
+
+
+    private TabLayout.OnTabSelectedListener OnTabSelectedListener = new TabLayout.OnTabSelectedListener(){
+        @Override
+        public void onTabSelected(TabLayout.Tab tab) {
+            int c = tab.getPosition();
+            adapter.SetOnSelectView(tabLayout,c);
+        }
+
+        @Override
+        public void onTabUnselected(TabLayout.Tab tab) {
+            int c = tab.getPosition();
+            adapter.SetUnSelectView(tabLayout,c);
+        }
+
+        @Override
+        public void onTabReselected(TabLayout.Tab tab) {
+
+        }
+    };
+
+
+
 
     public void initialise(){
 
@@ -245,6 +271,25 @@ public class VaccinationTabs extends AppCompatActivity {
             return mFragmentTitleList.get(position);//enables displaying the title
             //return null;//disables the displaying of title on tabs
         }
+
+
+        public void SetOnSelectView(TabLayout tabLayout,int position)
+        {
+            TabLayout.Tab tab = tabLayout.getTabAt(position);
+            View selected = tab.getCustomView();
+            TextView iv_text = (TextView) selected.findViewById(R.id.tv_title);
+            iv_text.setTextColor(getResources().getColor(R.color.textcolorblack));
+        }
+
+
+        public void SetUnSelectView(TabLayout tabLayout,int position)
+        {
+            TabLayout.Tab tab = tabLayout.getTabAt(position);
+            View selected = tab.getCustomView();
+            TextView iv_text = (TextView) selected.findViewById(R.id.tv_title);
+            iv_text.setTextColor(getResources().getColor(R.color.textColorPrimary));
+        }
+
 
     }
 

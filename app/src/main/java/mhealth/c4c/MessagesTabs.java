@@ -177,9 +177,9 @@ public class MessagesTabs extends AppCompatActivity {
 
 
     private View prepareTabView(int pos) {
-        View view = getLayoutInflater().inflate(R.layout.custom_tab, null);
-        TextView tv_title = (TextView) view.findViewById(R.id.tv_title);
-        TextView tv_count = (TextView) view.findViewById(R.id.tv_count);
+        View view = getLayoutInflater().inflate(R.layout.custom_tab_messages, null);
+        TextView tv_title = (TextView) view.findViewById(R.id.tv_title_messages);
+        TextView tv_count = (TextView) view.findViewById(R.id.tv_count_messages);
         tv_title.setText(tabTitle[pos]);
         if (Counts[pos] > 0) {
             tv_count.setVisibility(View.VISIBLE);
