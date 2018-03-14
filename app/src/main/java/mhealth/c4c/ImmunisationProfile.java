@@ -35,6 +35,7 @@ import mhealth.c4c.Tables.ProfileCompletion;
 import mhealth.c4c.checkupstatustable.Status;
 import mhealth.c4c.checkupstatustable.UpdateStatusTable;
 import mhealth.c4c.completionPercentage.Completion;
+import mhealth.c4c.dateCalculator.DateCalculator;
 import mhealth.c4c.getImmunisationsaveddata.getAllImmunisationData;
 import mhealth.c4c.systemstatetables.Influenza;
 import mhealth.c4c.systemstatetables.Measles;
@@ -56,6 +57,8 @@ public class ImmunisationProfile extends AppCompatActivity {
     getAllImmunisationData getAD;
     Completion comp;
     UpdateStatusTable ut;
+
+    DateCalculator dcalc;
 
     boolean childItemsEnabled;
 
@@ -538,6 +541,8 @@ public class ImmunisationProfile extends AppCompatActivity {
                                 inf.save();
 
                             }
+                            meningocoDate1InputListener();
+                            meningocoDate2InputListener();
 
                         }
                         else{
@@ -741,6 +746,175 @@ public class ImmunisationProfile extends AppCompatActivity {
         }
     }
 
+    public void meningocoDate1InputListener(){
+        try{
+
+            meningocodoseE.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                    if(!dcalc.checkDateDifferenceWithCurrentDate(s.toString())){
+                        Measles inf = Measles.findById(Measles.class, 1);
+//                    inf.setDosedate(influenzadoseE.getText().toString());
+                        inf.setFirstdosedate(s.toString());
+                        inf.save();
+
+                    }
+                    else{
+
+                        meningocodoseE.setText("");
+                        Toast.makeText(ImmunisationProfile.this, "specify a date less or equal to today", Toast.LENGTH_SHORT).show();
+                    }
+
+
+
+
+                }
+            });
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+    public void meningocoDate2InputListener(){
+        try{
+
+            meningocodose2E.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                    if(!dcalc.checkDateDifferenceWithCurrentDate(s.toString())){
+                        Measles inf = Measles.findById(Measles.class, 1);
+//                    inf.setDosedate(influenzadoseE.getText().toString());
+                        inf.setFirstdosedate(s.toString());
+                        inf.save();
+
+                    }
+                    else{
+
+                        meningocodose2E.setText("");
+                        Toast.makeText(ImmunisationProfile.this, "specify a date less or equal to today", Toast.LENGTH_SHORT).show();
+                    }
+
+
+
+
+                }
+            });
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+    public void measlesDate2InputListener(){
+        try{
+
+            measlesdose2E.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                    if(!dcalc.checkDateDifferenceWithCurrentDate(s.toString())){
+                        Measles inf = Measles.findById(Measles.class, 1);
+//                    inf.setDosedate(influenzadoseE.getText().toString());
+                        inf.setFirstdosedate(s.toString());
+                        inf.save();
+
+                    }
+                    else{
+
+                        measlesdose2E.setText("");
+                        Toast.makeText(ImmunisationProfile.this, "specify a date less or equal to today", Toast.LENGTH_SHORT).show();
+                    }
+
+
+
+
+                }
+            });
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+
+    public void measlesDate1InputListener(){
+        try{
+
+            measlesdose1E.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                    if(!dcalc.checkDateDifferenceWithCurrentDate(s.toString())){
+                        Measles inf = Measles.findById(Measles.class, 1);
+//                    inf.setDosedate(influenzadoseE.getText().toString());
+                        inf.setFirstdosedate(s.toString());
+                        inf.save();
+
+                    }
+                    else{
+
+                        measlesdose1E.setText("");
+                        Toast.makeText(ImmunisationProfile.this, "specify a date less or equal to today", Toast.LENGTH_SHORT).show();
+                    }
+
+
+
+
+                }
+            });
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
     public void influenzaDateInputListener(){
         try{
 
@@ -758,10 +932,65 @@ public class ImmunisationProfile extends AppCompatActivity {
                 @Override
                 public void afterTextChanged(Editable s) {
 
-                    Influenza inf = Influenza.findById(Influenza.class, 1);
+                    if(!dcalc.checkDateDifferenceWithCurrentDate(s.toString())){
+                        Influenza inf = Influenza.findById(Influenza.class, 1);
 //                    inf.setDosedate(influenzadoseE.getText().toString());
-                    inf.setDosedate(s.toString());
-                    inf.save();
+                        inf.setDosedate(s.toString());
+                        inf.save();
+
+                    }
+                    else{
+
+                        influenzadoseE.setText("");
+                        Toast.makeText(ImmunisationProfile.this, "specify a date less or equal to today", Toast.LENGTH_SHORT).show();
+                    }
+
+
+
+
+                }
+            });
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+
+
+    public void tdapDoseInputListener(){
+        try{
+
+            tdapdoseE.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                    if(!dcalc.checkDateDifferenceWithCurrentDate(s.toString())){
+
+                        Tdap inf = Tdap.findById(Tdap.class, 1);
+//                    inf.setDosedate(influenzadoseE.getText().toString());
+                        inf.setDosedate(s.toString());
+                        inf.save();
+
+                    }
+                    else{
+                        tdapdoseE.setText("");
+
+                        Toast.makeText(ImmunisationProfile.this, "specify a date less than or equal to today", Toast.LENGTH_SHORT).show();
+
+                    }
+
 
                 }
             });
@@ -791,10 +1020,21 @@ public class ImmunisationProfile extends AppCompatActivity {
                 @Override
                 public void afterTextChanged(Editable s) {
 
-                    Varicella inf = Varicella.findById(Varicella.class, 1);
+                    if(!dcalc.checkDateDifferenceWithCurrentDate(s.toString())){
+
+                        Varicella inf = Varicella.findById(Varicella.class, 1);
 //                    inf.setDosedate(influenzadoseE.getText().toString());
-                    inf.setSeconddosedate(s.toString());
-                    inf.save();
+                        inf.setSeconddosedate(s.toString());
+                        inf.save();
+
+                    }
+                    else{
+                        varicelladose2E.setText("");
+
+                        Toast.makeText(ImmunisationProfile.this, "specify a date less than or equal to today", Toast.LENGTH_SHORT).show();
+
+                    }
+
 
                 }
             });
@@ -822,10 +1062,23 @@ public class ImmunisationProfile extends AppCompatActivity {
                 @Override
                 public void afterTextChanged(Editable s) {
 
-                    Varicella inf = Varicella.findById(Varicella.class, 1);
+
+                    if(!dcalc.checkDateDifferenceWithCurrentDate(s.toString())){
+
+                        Varicella inf = Varicella.findById(Varicella.class, 1);
 //                    inf.setDosedate(influenzadoseE.getText().toString());
-                    inf.setFirstdosedate(s.toString());
-                    inf.save();
+                        inf.setFirstdosedate(s.toString());
+                        inf.save();
+
+
+                    }
+                    else{
+
+                        varicelladose1E.setText("");
+                        Toast.makeText(ImmunisationProfile.this, "specify a date less than or equal to today", Toast.LENGTH_SHORT).show();
+
+                    }
+
 
                 }
             });
@@ -1179,6 +1432,7 @@ public class ImmunisationProfile extends AppCompatActivity {
 
         try{
 
+            dcalc=new DateCalculator();
             comp=new Completion(ImmunisationProfile.this);
             ut=new UpdateStatusTable(ImmunisationProfile.this);
             childItemsEnabled=false;
@@ -1538,6 +1792,8 @@ public class ImmunisationProfile extends AppCompatActivity {
 
                             }
 
+                            tdapDoseInputListener();
+
 
                         }
                         else{
@@ -1615,6 +1871,9 @@ public class ImmunisationProfile extends AppCompatActivity {
                                 inf.save();
 
                             }
+
+                            measlesDate1InputListener();
+                            measlesDate2InputListener();
 
                         }
                         else{

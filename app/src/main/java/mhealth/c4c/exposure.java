@@ -113,6 +113,8 @@ public class exposure extends AppCompatActivity implements AdapterView.OnItemSel
 
         try{
 
+            populateSpinner1();
+            populateSpinner2();
             txtEhourE.setText("");
         }
         catch(Exception e){
@@ -136,13 +138,15 @@ public class exposure extends AppCompatActivity implements AdapterView.OnItemSel
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
 
-                    Intent i=new Intent(getApplicationContext(),home.class);
-                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(i);
-                    finish();
+//                    Intent i=new Intent(getApplicationContext(),home.class);
+//                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    startActivity(i);
+//                    finish();
 
+
+                    dialog.dismiss();
 
                 }
             });

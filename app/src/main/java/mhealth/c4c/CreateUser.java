@@ -14,6 +14,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -47,6 +49,8 @@ import mhealth.c4c.Registrationtable.Regdetails;
 import mhealth.c4c.Registrationtable.Regpartners;
 import mhealth.c4c.Tables.UserTable;
 import mhealth.c4c.Tables.kmpdu;
+import mhealth.c4c.dateCalculator.DateCalculator;
+import mhealth.c4c.systemstatetables.Measles;
 
 /**
  * Created by KENWEEZY on 2016-10-31.
@@ -113,6 +117,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     StringBuilder partners;
     String selectedQn="";
     boolean kmpduChecked;
+    DateCalculator dcalc;
 
 
     @Override
@@ -138,10 +143,90 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
         setPartnerClickListener();
         setSpecialisationClickListener();
+        dose1InputListener();
+        dose2InputListener();
 
 
     }
 
+
+    public void dose1InputListener(){
+        try{
+
+            dose1E.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                    if(!dcalc.checkDateDifferenceWithCurrentDate(s.toString())){
+
+
+                    }
+                    else{
+
+                        dose1E.setText("");
+                        Toast.makeText(CreateUser.this, "specify a date less or equal to today", Toast.LENGTH_SHORT).show();
+                    }
+
+
+
+
+                }
+            });
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+    public void dose2InputListener(){
+        try{
+
+            dose2E.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                    if(!dcalc.checkDateDifferenceWithCurrentDate(s.toString())){
+
+
+                    }
+                    else{
+
+                        dose2E.setText("");
+                        Toast.makeText(CreateUser.this, "specify a date less or equal to today", Toast.LENGTH_SHORT).show();
+                    }
+
+
+
+
+                }
+            });
+        }
+        catch(Exception e){
+
+
+        }
+    }
 
     public void setPartnerClickListener(){
 
@@ -210,8 +295,11 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                                 public void onDateSet(DatePicker view, int year,
                                                       int monthOfYear, int dayOfMonth) {
                                     // set day of month , month and year value in the edit text
-                                    ageE.setText(dayOfMonth + "/"
-                                            + (monthOfYear + 1) + "/" + year);
+                                    String dom=String.format("%02d", dayOfMonth);
+                                    String moy=String.format("%02d", (monthOfYear + 1));
+
+                                    ageE.setText(dom + "/"
+                                            + moy + "/" + year);
                                     selectedYear=year;
 
                                 }
@@ -225,8 +313,6 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
         }
     }
-
-
 
 
     public void Dose1DateListener(){
@@ -302,12 +388,12 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                                     String startDate=dose1E.getText().toString();
                                     String endDate=dose2E.getText().toString();
 
-                                    long mydiff=calculateDateDifference(startDate,endDate);
-                                    if(mydiff<1){
-                                        dose2E.setText("");
-                                        Toast.makeText(CreateUser.this, "select date greater than today", Toast.LENGTH_SHORT).show();
-
-                                    }
+//                                    long mydiff=calculateDateDifference(startDate,endDate);
+//                                    if(mydiff<1){
+//                                        dose2E.setText("");
+//                                        Toast.makeText(CreateUser.this, "select date greater than today", Toast.LENGTH_SHORT).show();
+//
+//                                    }
 
 
 
@@ -622,6 +708,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
         try{
 
+            dcalc=new DateCalculator();
             partnerorgE=(EditText) findViewById(R.id.partorg);
             specialisationE=(EditText) findViewById(R.id.specialisationselect);
             nameE=(EditText) findViewById(R.id.name);

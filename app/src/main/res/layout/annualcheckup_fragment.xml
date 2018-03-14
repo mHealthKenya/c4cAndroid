@@ -8,52 +8,73 @@
     android:layout_height="match_parent">
 
 
-   <LinearLayout
-       android:layout_width="match_parent"
-       android:orientation="vertical"
-       android:layout_height="wrap_content">
-
-       <TextView
-           android:layout_width="match_parent"
-           android:text="DATE OF GENERAL CHECKUP"
-           android:layout_height="wrap_content" />
-
-       <EditText
-           android:layout_height="wrap_content"
-           android:layout_width="match_parent"
-           android:focusable="false"
-           android:id="@+id/generalcheckup"
-           android:hint="DATE OF GENERAL CHECKUP"
-           />
-
-
-
-
-   </LinearLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_marginTop="80sp"
         android:orientation="vertical"
+        android:padding="25sp"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:text="DATE OF PHYSICAL CHECKUP"
-            android:layout_height="wrap_content" />
 
-        <EditText
-            android:layout_height="wrap_content"
+
+
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:focusable="false"
-            android:id="@+id/physicalcheckup"
-            android:hint="DATE OF PHYSICAL CHECKUP"
-            />
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:text="DATE OF GENERAL CHECKUP"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:focusable="false"
+                android:id="@+id/generalcheckup"
+                android:hint="DATE OF GENERAL CHECKUP"
+                />
+
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="80sp"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:text="DATE OF PHYSICAL CHECKUP"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:focusable="false"
+                android:id="@+id/physicalcheckup"
+                android:hint="DATE OF PHYSICAL CHECKUP"
+                />
+
+
+
+
+        </LinearLayout>
+
+
+
+
 
 
 
 
     </LinearLayout>
+
+
 
 
 </LinearLayout>

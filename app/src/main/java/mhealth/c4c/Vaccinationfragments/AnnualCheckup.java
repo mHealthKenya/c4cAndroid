@@ -4,6 +4,8 @@ import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +13,16 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import mhealth.c4c.CreateUser;
 import mhealth.c4c.R;
+import mhealth.c4c.checkupstatustable.checkupcalendar;
+import mhealth.c4c.dateCalculator.DateCalculator;
 
 /**
  * Created by root on 2/22/18.
@@ -24,6 +32,7 @@ public class AnnualCheckup extends Fragment {
     View v;
     EditText gcheckup,pcheckup;
     DatePickerDialog datePickerDialog;
+    DateCalculator dcalc;
 
     @Nullable
     @Override
@@ -31,10 +40,104 @@ public class AnnualCheckup extends Fragment {
 
         v=inflater.inflate(R.layout.annualcheckup_fragment,container,false);
         initialise();
+
+        populateDates();
+
         PhysicalCheckupDateListener();
         GeneralCheckupDateListener();
 
+        setGeneralCheckupInputListener();
+        setPhysicalCheckupInputListener();
+
+
+
         return v;
+    }
+
+    public void populateDates(){
+
+        try{
+
+            List<checkupcalendar> myl=checkupcalendar.findWithQuery(checkupcalendar.class,"select * from checkupcalendar");
+            if(myl.size()>0){
+
+                for(int x=0;x<myl.size();x++){
+
+                    String gdate=myl.get(x).getGeneraldate();
+                    String pdate=myl.get(x).getPhysicaldate();
+
+                    gcheckup.setText(gdate);
+                    pcheckup.setText(pdate);
+                }
+            }
+            else{
+
+
+            }
+        }
+        catch(Exception e){
+
+            Toast.makeText(getActivity(), "error setting dates", Toast.LENGTH_SHORT).show();
+
+
+        }
+    }
+
+
+    public void populateGeneralDate(){
+
+        try{
+
+            List<checkupcalendar> myl=checkupcalendar.findWithQuery(checkupcalendar.class,"select * from checkupcalendar");
+            if(myl.size()>0){
+
+                for(int x=0;x<myl.size();x++){
+
+                    String gdate=myl.get(x).getGeneraldate();
+
+                    gcheckup.setText(gdate);
+
+                }
+            }
+            else{
+
+
+            }
+        }
+        catch(Exception e){
+
+            Toast.makeText(getActivity(), "error setting dates", Toast.LENGTH_SHORT).show();
+
+
+        }
+    }
+
+    public void populatePhysicalDate(){
+
+        try{
+
+            List<checkupcalendar> myl=checkupcalendar.findWithQuery(checkupcalendar.class,"select * from checkupcalendar");
+            if(myl.size()>0){
+
+                for(int x=0;x<myl.size();x++){
+
+
+                    String pdate=myl.get(x).getPhysicaldate();
+
+                    pcheckup.setText(pdate);
+                }
+            }
+            else{
+
+
+            }
+        }
+        catch(Exception e){
+
+            Toast.makeText(getActivity(), "error setting dates", Toast.LENGTH_SHORT).show();
+
+
+        }
     }
 
     public void initialise(){
@@ -43,10 +146,114 @@ public class AnnualCheckup extends Fragment {
 
             gcheckup=(EditText) v.findViewById(R.id.generalcheckup);
             pcheckup=(EditText) v.findViewById(R.id.physicalcheckup);
+            dcalc=new DateCalculator();
         }
         catch(Exception e){
 
             Toast.makeText(getActivity(), "error initialising variables", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void setGeneralCheckupInputListener(){
+
+        try{
+            gcheckup.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                    if(dcalc.checkDateDifferenceWithCurrentDate(s.toString())){
+                        List<checkupcalendar> myl=checkupcalendar.findWithQuery(checkupcalendar.class,"select * from checkupcalendar");
+                        if(myl.size()>0){
+
+
+                            checkupcalendar cp = checkupcalendar.findById(checkupcalendar.class, 1);
+                            cp.setGeneraldate(s.toString());
+                            cp.save();
+
+                        }
+                        else{
+                            checkupcalendar cp=new checkupcalendar();
+                            cp.setGeneraldate(s.toString());
+                            cp.save();
+
+
+                        }
+                    }
+                    else{
+                        Toast.makeText(getActivity(), "provide a date greater than today", Toast.LENGTH_SHORT).show();
+                        populateGeneralDate();
+                    }
+
+                }
+            });
+
+
+        }
+        catch(Exception e){
+
+        }
+    }
+
+
+
+
+    public void setPhysicalCheckupInputListener(){
+
+        try{
+            pcheckup.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                    if(dcalc.checkDateDifferenceWithCurrentDate(s.toString())){
+                        List<checkupcalendar> myl=checkupcalendar.findWithQuery(checkupcalendar.class,"select * from checkupcalendar");
+                        if(myl.size()>0){
+
+
+                            checkupcalendar cp = checkupcalendar.findById(checkupcalendar.class, 1);
+                            cp.setPhysicaldate(s.toString());
+                            cp.save();
+
+                        }
+                        else{
+                            checkupcalendar cp=new checkupcalendar();
+                            cp.setPhysicaldate(s.toString());
+                            cp.save();
+
+
+                        }
+                    }
+                    else{
+                        Toast.makeText(getActivity(), "provide a date greater than today", Toast.LENGTH_SHORT).show();
+                        populatePhysicalDate();
+                    }
+
+                }
+            });
+
+
+        }
+        catch(Exception e){
+
         }
     }
 

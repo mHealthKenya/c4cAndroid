@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.telephony.SmsManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -71,6 +72,10 @@ public class Report extends AppCompatActivity {
                     String myotherwhere="";
                     String myotherwhat="";
 
+                    String where="";
+                    String what="";
+                    String hrs="";
+
 //                    Toast.makeText(Report.this, "submitting", Toast.LENGTH_SHORT).show();
                     if(selectedWhere.contentEquals("")){
                         Toast.makeText(Report.this, "where the exposure occured is required", Toast.LENGTH_SHORT).show();
@@ -99,21 +104,52 @@ public class Report extends AppCompatActivity {
                         String otherWhatS="";
                         if(selectedWhere.equalsIgnoreCase("Other")){
                             otherWhereS=otherWhereE.getText().toString();
+                            where=otherWhereS;
+                        }
+                        else{
+                            where=selectedWhere;
                         }
                         if(selectedWhat.equalsIgnoreCase("Other")){
                             otherWhatS=otherWhatE.getText().toString();
+                            what=otherWhatS;
+                        }
+                        else{
+                            what=selectedWhat;
                         }
                         System.out.println("***************************************************");
                         System.out.println("where is:"+selectedWhere+"\n"+"what is: "+selectedWhat+"\n"+"where other: "+otherWhereS+"\n"+"what other: "+otherWhatS);
                         System.out.println("***************************************************");
 
                         Toast.makeText(Report.this, "submitting exposure", Toast.LENGTH_SHORT).show();
+
+                        String Message = "Rep*"+where+"*"+what+"*"+myhour;
+
+                        SmsManager sm = SmsManager.getDefault();
+                        sm.sendTextMessage("40149", null, Message, null, null);
+                        clearFields();
+                        SignupsuccessDialog("");
+
                     }
 
 
                 }
             });
 
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+    public void clearFields(){
+
+        try{
+
+            setSpinnerAdapters();
+            setSpinnerWhereListener();
+            setSpinnerWhatListener();
+            hours.setText("");
         }
         catch(Exception e){
 
@@ -312,12 +348,7 @@ public class Report extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
 
-                    Intent i=new Intent(getApplicationContext(),home.class);
-                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(i);
-                    finish();
+                    dialog.dismiss();
 
 
                 }
