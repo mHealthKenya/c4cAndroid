@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mhealth.c4c.Tables.kmpdu;
+import mhealth.c4c.dialogs.Dialogs;
 
 
 public class Login extends AppCompatActivity {
@@ -34,6 +35,7 @@ public class Login extends AppCompatActivity {
     private Button btnSignin;
     private TextView link_signup;
     private TextView link_forgot_password;
+    Dialogs sweetdialog;
 
     private static final int PERMS_REQUEST_CODE=123;
 
@@ -52,6 +54,7 @@ public class Login extends AppCompatActivity {
 
 
         LoadRegistration();
+        sweetdialog=new Dialogs(Login.this);
 
         input_email = (EditText) findViewById(R.id.input_email);
         input_password = (EditText) findViewById(R.id.input_password);
@@ -68,16 +71,6 @@ public class Login extends AppCompatActivity {
             }
         });
 
-        /**link_signup.setOnClickListener(new View.OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-        // Start the Register activity
-        Intent intent = new Intent(getApplicationContext(), Register.class);
-        startActivityForResult(intent, REQUEST_SIGNUP);
-        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-        }
-        });**/
 
         link_forgot_password.setOnClickListener(new View.OnClickListener() {
 
@@ -120,24 +113,6 @@ public class Login extends AppCompatActivity {
 
         }
     }
-
-
-//    public void LoginUser(View v){
-//
-//        try{
-//
-//
-//
-//
-//            loginCheck();
-//
-//        }
-//        catch(Exception e){
-//
-//            LogindisplayDialog(e.getMessage());
-//
-//        }
-//    }
 
 
     public void populateUsername(){
@@ -204,11 +179,15 @@ public class Login extends AppCompatActivity {
 
             if (myun.isEmpty()) {
                 pr.DissmissProgress();
-                LogindisplayDialog("Empty Username");
+                sweetdialog.showErrorDialogLogin("Empty Username,try again","Login Error");
+//                LogindisplayDialog("Empty Username");
 
             } else if (mypass.isEmpty()) {
                 pr.DissmissProgress();
-                LogindisplayDialog("Empty password");
+
+                sweetdialog.showErrorDialogLogin("Empty password,try again","Login Error");
+
+//                LogindisplayDialog("Empty password");
 
             }
 
@@ -245,7 +224,10 @@ public class Login extends AppCompatActivity {
 
                 } else {
                     pr.DissmissProgress();
-                    LogindisplayDialog("Kindly create an account to access c4c");
+
+                    sweetdialog.showErrorDialogLogin("Provided user does not exist, try again","Login Error");
+
+//                    LogindisplayDialog("Kindly create an account to access c4c");
 
                 }
 
@@ -253,7 +235,10 @@ public class Login extends AppCompatActivity {
         }
         catch(Exception e){
             pr.DissmissProgress();
-            LogindisplayDialog(e.getMessage());
+
+            sweetdialog.showErrorDialogLogin(""+e.getMessage(),"Login Error");
+
+//            LogindisplayDialog(e.getMessage());
 
         }
     }
@@ -427,7 +412,9 @@ public class Login extends AppCompatActivity {
     }
 
     public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+//        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        sweetdialog.showErrorDialogLogin("Login failed,try again","Login Error");
+
 
         btnSignin.setEnabled(true);
     }
@@ -457,18 +444,19 @@ public class Login extends AppCompatActivity {
 
     public void call(View v)
     {
-        Toast.makeText(this, "call us", Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "call us", Toast.LENGTH_LONG).show();
 
     }
 
     public void tweet(View v)
     {
-        Toast.makeText(this, "twitter", Toast.LENGTH_LONG).show();
-    }
+//        Toast.makeText(this, "twitter", Toast.LENGTH_LONG).show();
+  }
 
     public void whatsapp(View v)
     {
-        Toast.makeText(this, "whatsapp", Toast.LENGTH_LONG).show();
+
+//        Toast.makeText(this, "whatsapp", Toast.LENGTH_LONG).show();
     }
 }
 

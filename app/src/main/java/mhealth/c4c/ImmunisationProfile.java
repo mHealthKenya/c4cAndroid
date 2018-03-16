@@ -36,6 +36,7 @@ import mhealth.c4c.checkupstatustable.Status;
 import mhealth.c4c.checkupstatustable.UpdateStatusTable;
 import mhealth.c4c.completionPercentage.Completion;
 import mhealth.c4c.dateCalculator.DateCalculator;
+import mhealth.c4c.dialogs.Dialogs;
 import mhealth.c4c.getImmunisationsaveddata.getAllImmunisationData;
 import mhealth.c4c.systemstatetables.Influenza;
 import mhealth.c4c.systemstatetables.Measles;
@@ -59,6 +60,8 @@ public class ImmunisationProfile extends AppCompatActivity {
     UpdateStatusTable ut;
 
     DateCalculator dcalc;
+    Dialogs sweetdialog;
+
 
     boolean childItemsEnabled;
 
@@ -1416,6 +1419,8 @@ public class ImmunisationProfile extends AppCompatActivity {
             getAD=new getAllImmunisationData(ImmunisationProfile.this);
             getAD.displayAllData();
 
+            sweetdialog.showSuccessDialogImmunisation("SUCCESS UPDATING IMMUNISATION PROFILE","success");
+
 
 
         }
@@ -1423,6 +1428,7 @@ public class ImmunisationProfile extends AppCompatActivity {
 
             Toast.makeText(this, "error updating profile, try again"+e, Toast.LENGTH_SHORT).show();
 
+            sweetdialog.showErrorDialogImmunisation("error updating profile, try again","Error updating");
             System.out.println("**********error*****"+e);
             Log.e("MYERROR",e.getMessage());
         }
@@ -1432,6 +1438,7 @@ public class ImmunisationProfile extends AppCompatActivity {
 
         try{
 
+            sweetdialog=new Dialogs(ImmunisationProfile.this);
             dcalc=new DateCalculator();
             comp=new Completion(ImmunisationProfile.this);
             ut=new UpdateStatusTable(ImmunisationProfile.this);

@@ -20,6 +20,7 @@ import android.widget.Toast;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+import mhealth.c4c.dialogs.Dialogs;
 import mhealth.c4c.vaccinationstab.VaccinationTabs;
 
 /**
@@ -29,6 +30,7 @@ import mhealth.c4c.vaccinationstab.VaccinationTabs;
 public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
     private Context mContext;
     private boolean checkedKmpdu;
+    Dialogs sweetdiaog;
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -270,18 +272,9 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
                         mContext = v.getContext();
 
 
-                        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-//            System.out.println("testing "+timestamp);
-                        String mytime=timestamp.toString();
+                        sweetdiaog=new Dialogs(mContext);
+                        sweetdiaog.showConfirmCheckIn("Are you sure you want to check in ?","Confirm Check in");
 
-                        String sendMessage="CHK*"+mytime;
-                        SmsManager sm = SmsManager.getDefault();
-
-
-                        ArrayList<String> parts = sm.divideMessage(sendMessage);
-                        sm.sendMultipartTextMessage("40149", null, parts, null, null);
-
-                        Toast.makeText(mContext, "YOU HAVE SUCCESSFULLY CHECKED IN", Toast.LENGTH_SHORT).show();
 
                     }
                 });

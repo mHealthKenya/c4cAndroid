@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import mhealth.c4c.dialogs.Dialogs;
+
 /**
  * Created by root on 11/22/17.
  */
@@ -24,6 +26,7 @@ public class ForgotPassword extends AppCompatActivity {
     TextInputEditText secQnT,mysecansT,newpassT,cnewpassT;
 
     Toolbar toolbar;
+    Dialogs sweetdialog;
 
 
     @Override
@@ -38,6 +41,7 @@ public class ForgotPassword extends AppCompatActivity {
     public void initialise(){
 
         try{
+            sweetdialog=new Dialogs(ForgotPassword.this);
             secQnT=(TextInputEditText) findViewById(R.id.secqn);
             mysecansT=(TextInputEditText) findViewById(R.id.mysecans);
             newpassT=(TextInputEditText) findViewById(R.id.newpass);
@@ -78,8 +82,9 @@ public class ForgotPassword extends AppCompatActivity {
 
         }
         catch(Exception e){
+            sweetdialog.showErrorDialogForgotPassword("error getting security question, try again","Password Recovery Error");
 
-            Toast.makeText(this, "error getting security question", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "error getting security question", Toast.LENGTH_SHORT).show();
 
         }
     }
@@ -92,21 +97,33 @@ public class ForgotPassword extends AppCompatActivity {
             String cnewp=cnewpassT.getText().toString();
 
             if(secans.trim().isEmpty()){
-                Toast.makeText(this, "Please Provide a security answer", Toast.LENGTH_SHORT).show();
+
+                sweetdialog.showErrorDialogForgotPassword("please provide a security answer, try again","Password Recovery Error");
+
+//                Toast.makeText(this, "Please Provide a security answer", Toast.LENGTH_SHORT).show();
 
             }
             else if(newp.trim().isEmpty()){
-                Toast.makeText(this, "please provide new password", Toast.LENGTH_SHORT).show();
+
+                sweetdialog.showErrorDialogForgotPassword("please provide new password, try again","Password Recovery Error");
+
+//                Toast.makeText(this, "please provide new password", Toast.LENGTH_SHORT).show();
 
             }
             else if(cnewp.trim().isEmpty()){
 
-                Toast.makeText(this, "please provide Confirm password", Toast.LENGTH_SHORT).show();
+                sweetdialog.showErrorDialogForgotPassword("please provide confirm password, try again","Password Recovery Error");
+
+
+//                Toast.makeText(this, "please provide Confirm password", Toast.LENGTH_SHORT).show();
 
 
             }
             else if(!newp.contentEquals(cnewp)){
-                Toast.makeText(this, "passwords do not match, try again", Toast.LENGTH_SHORT).show();
+
+                sweetdialog.showErrorDialogForgotPassword("passwords do not match, try again","Password Recovery Error");
+
+//                Toast.makeText(this, "passwords do not match, try again", Toast.LENGTH_SHORT).show();
 
             }
             else{
@@ -122,7 +139,8 @@ public class ForgotPassword extends AppCompatActivity {
                         rt.password = newp;
                         rt.save();
 
-                        ForgotPassConf("Choose Your Action ?","PASSWORD UPDATED SUCCESSFULLY");
+                        sweetdialog.showSuccessDialogForgotPassword("PASSWORD UPDATED SUCCESSFULLY","success");
+//                        ForgotPassConf("Choose Your Action ?","PASSWORD UPDATED SUCCESSFULLY");
 
 
 
@@ -131,7 +149,9 @@ public class ForgotPassword extends AppCompatActivity {
 
                     else{
 
-                        Toast.makeText(this, "The security answer is wrong, try again", Toast.LENGTH_LONG).show();
+                        sweetdialog.showErrorDialogForgotPassword("the security answer is wrong, try again","Password Recovery Error");
+
+//                        Toast.makeText(this, "The security answer is wrong, try again", Toast.LENGTH_LONG).show();
                     }
                 }
 

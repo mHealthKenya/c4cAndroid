@@ -50,6 +50,7 @@ import mhealth.c4c.Registrationtable.Regpartners;
 import mhealth.c4c.Tables.UserTable;
 import mhealth.c4c.Tables.kmpdu;
 import mhealth.c4c.dateCalculator.DateCalculator;
+import mhealth.c4c.dialogs.Dialogs;
 import mhealth.c4c.systemstatetables.Measles;
 
 /**
@@ -68,6 +69,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
     RadioGroup radio2dosegrp;
     RadioButton radiobtnseconddose;
+    Dialogs sweetdialog;
 
 
     EditText partnerorgE,specialisationE;
@@ -174,7 +176,8 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                     else{
 
                         dose1E.setText("");
-                        Toast.makeText(CreateUser.this, "specify a date less or equal to today", Toast.LENGTH_SHORT).show();
+                        sweetdialog.showErrorDialogRegistration("specify a date less or equal to today","Registration Error");
+//                        Toast.makeText(CreateUser.this, "specify a date less or equal to today", Toast.LENGTH_SHORT).show();
                     }
 
 
@@ -213,7 +216,8 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                     else{
 
                         dose2E.setText("");
-                        Toast.makeText(CreateUser.this, "specify a date less or equal to today", Toast.LENGTH_SHORT).show();
+                        sweetdialog.showErrorDialogRegistration("specify a date less or equal to today","Registration Error");
+//                        Toast.makeText(CreateUser.this, "specify a date less or equal to today", Toast.LENGTH_SHORT).show();
                     }
 
 
@@ -708,6 +712,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
         try{
 
+            sweetdialog=new Dialogs(CreateUser.this);
             dcalc=new DateCalculator();
             partnerorgE=(EditText) findViewById(R.id.partorg);
             specialisationE=(EditText) findViewById(R.id.specialisationselect);
@@ -993,7 +998,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 //            partners.append("5");
 
 
-            Toast.makeText(this, ""+partners, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, ""+partners, Toast.LENGTH_SHORT).show();
 
 
             String myname=nameE.getText().toString();
@@ -1079,8 +1084,9 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
             }
             else if(partners.toString().isEmpty()){
+                sweetdialog.showErrorDialogRegistration("Select atleast one partner","Registration Error");
 
-                Toast.makeText(this, "select atleast one partner", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "select atleast one partner", Toast.LENGTH_SHORT).show();
             }
 
             else if(mymfl.length()!=5){
@@ -1102,17 +1108,26 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             }
             else if((curyear-selectedYear)<18){
 
-                Toast.makeText(this, "age should be greater than 18, try again", Toast.LENGTH_LONG).show();
+                sweetdialog.showErrorDialogRegistration("age should be greater than 18, try again","Registration Error");
+
+
+//                Toast.makeText(this, "age should be greater than 18, try again", Toast.LENGTH_LONG).show();
             }
             else if(myselected.contentEquals("0")){
-                Toast.makeText(this, "Please Select Gender", Toast.LENGTH_LONG).show();
+
+                sweetdialog.showErrorDialogRegistration("Please Select Gender","Registration Error");
+
+//                Toast.makeText(this, "Please Select Gender", Toast.LENGTH_LONG).show();
 
 
             }
 
 
             else if (!kmpduChecked && myselected2.contentEquals("0")) {
-                    Toast.makeText(this, "Please select Cadre", Toast.LENGTH_LONG).show();
+
+                sweetdialog.showErrorDialogRegistration("Please select Cadre","Registration Error");
+
+//                Toast.makeText(this, "Please select Cadre", Toast.LENGTH_LONG).show();
 
 
                 }
@@ -1120,13 +1135,19 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
 
             else if(myselected3.contentEquals("0")){
-                Toast.makeText(this, "Specify your vaccination", Toast.LENGTH_LONG).show();
+
+                sweetdialog.showErrorDialogRegistration("Specify your vaccination","Registration Error");
+
+//                Toast.makeText(this, "Specify your vaccination", Toast.LENGTH_LONG).show();
 
 
             }
 
             else if(myselected4.contentEquals("0")){
-                Toast.makeText(this, "Specify security question", Toast.LENGTH_LONG).show();
+
+                sweetdialog.showErrorDialogRegistration("Specify security question","Registration Error");
+
+//                Toast.makeText(this, "Specify security question", Toast.LENGTH_LONG).show();
 
 
             }
@@ -1140,46 +1161,13 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
         }
         catch(Exception e){
-            SignupdisplayDialog("Error occured "+e);
+
+            sweetdialog.showErrorDialogRegistration("Error occured "+e,"Registration Error");
+
+//            SignupdisplayDialog("Error occured "+e);
 
 
         }
-    }
-
-
-
-
-    public void SignupdisplayDialog(String message){
-
-        try{
-
-            AlertDialog.Builder adb=new AlertDialog.Builder(this);
-            adb.setTitle("SIGNUP ERROR");
-            adb.setIcon(R.mipmap.error);
-            adb.setMessage(message.toUpperCase());
-            adb.setCancelable(false);
-
-            adb.setPositiveButton("Try Again", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                    // Toast.makeText(Login.this,message,Toast.LENGTH_LONG).show();
-
-                }
-            });
-
-
-
-
-
-            AlertDialog mydialog=adb.create();
-            mydialog.show();
-        }
-        catch(Exception e){
-
-
-        }
-
     }
 
 
@@ -1303,7 +1291,9 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                             else if(response.contentEquals("code does not exist")){
 
                                 pdialog.cancel();
-                                Toast.makeText(getApplicationContext(), ""+response, Toast.LENGTH_SHORT).show();
+
+                                sweetdialog.showErrorDialogRegistration("mfl code does not exist "+response,"Registration Error");
+//                                Toast.makeText(getApplicationContext(), ""+response, Toast.LENGTH_SHORT).show();
                                 correctMfl=false;
 
 
@@ -1311,7 +1301,10 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                             else if(response.contentEquals("error occured")){
 
                                 pdialog.cancel();
-                                Toast.makeText(getApplicationContext(), ""+response, Toast.LENGTH_SHORT).show();
+
+                                sweetdialog.showErrorDialogRegistration(" "+response,"Registration Error");
+
+//                                Toast.makeText(getApplicationContext(), ""+response, Toast.LENGTH_SHORT).show();
                                 correctMfl=false;
 
 
@@ -1398,7 +1391,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                             pdialog.cancel();
                             correctMfl=false;
 
-                            Toast.makeText(getApplicationContext(), "error occured "+error, Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getApplicationContext(), "error occured "+error, Toast.LENGTH_SHORT).show();
 
                         }
 
@@ -1441,7 +1434,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
         }
         catch(Exception e){
-            Toast.makeText(this, "error displaying progress", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "error displaying progress", Toast.LENGTH_SHORT).show();
 
         }
 

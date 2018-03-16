@@ -50,5 +50,7 @@ dependencies {
 
     compile 'joda-time:joda-time:2.9.9'
 
+    implementation 'com.github.f0ris.sweetalert:library:1.5.2'
+
 
 }
