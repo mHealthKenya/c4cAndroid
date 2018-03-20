@@ -225,7 +225,7 @@ public class Login extends AppCompatActivity {
                 } else {
                     pr.DissmissProgress();
 
-                    sweetdialog.showErrorDialogLogin("Provided user does not exist, try again","Login Error");
+                    sweetdialog.showErrorDialogLogin("Incorrect username, password combination","Login Error");
 
 //                    LogindisplayDialog("Kindly create an account to access c4c");
 
@@ -413,7 +413,7 @@ public class Login extends AppCompatActivity {
 
     public void onLoginFailed() {
 //        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
-        sweetdialog.showErrorDialogLogin("Login failed,try again","Login Error");
+        sweetdialog.showErrorDialogLogin("incorrect username, password combination","Login Error");
 
 
         btnSignin.setEnabled(true);

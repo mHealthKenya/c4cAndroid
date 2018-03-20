@@ -97,7 +97,7 @@ public class ImmunisationProfile extends AppCompatActivity {
         meningocoDoseDateListener();
         meningocoSecondDoseDateListener();
 //        meningocoCheckListener();
-        startAlert();
+//        startAlert();
         displayLinearLayoutPregnant();
         getCheckedRadioInfluenzaQn();
 
@@ -233,12 +233,24 @@ public class ImmunisationProfile extends AppCompatActivity {
             List<Meningoco> mylmen=Meningoco.findWithQuery(Meningoco.class,"select * from Meningoco");
             List<Tdap> myltda=Tdap.findWithQuery(Tdap.class,"select * from Tdap");
             List<Varicella> mylvar=Varicella.findWithQuery(Varicella.class,"select * from Varicella");
+            System.out.println("*****************user profile size*****************");
+            System.out.println("influenza "+mylinf.size());
+            System.out.println("measles "+mylmeas.size());
+            System.out.println("meningoco "+mylmen.size());
+            System.out.println("tdap "+myltda.size());
+            System.out.println("varicella "+mylvar.size());
 
-            if(mylinf.size()>0||mylmeas.size()>0||mylmen.size()>0||myltda.size()>0||mylvar.size()>0){
+            if(mylmeas.size()>0||mylmen.size()>0||myltda.size()>0||mylvar.size()>0){
 
                enableDisableView(parentLayout,false);
                childItemsEnabled=false;
 
+
+            }
+            else{
+
+                enableDisableView(parentLayout,true);
+                childItemsEnabled=true;
 
             }
         }
@@ -1390,32 +1402,6 @@ public class ImmunisationProfile extends AppCompatActivity {
             //end set measles data
 
 
-
-            System.out.println("*************************************influenza data*****************");
-            for(int y=0;y<mylinfluenza.size();y++){
-
-                System.out.println("gender :"+mylinfluenza.get(y).getGender());
-                System.out.println("pregnantvalue :"+mylinfluenza.get(y).getPregnantvalue());
-                System.out.println("influenzavaccine value :"+mylinfluenza.get(y).getInfluenzavaccinevalue());
-                System.out.println("dose date :"+mylinfluenza.get(y).getDosedate());
-            }
-
-            System.out.println("*************************************influenza data*****************");
-
-            System.out.println("*************************************varicella data*****************");
-            for(int y=0;y<mylivaricella.size();y++){
-
-
-                System.out.println("vaccinated id :"+mylivaricella.get(y).getVaccineid());
-                System.out.println("history id :"+mylivaricella.get(y).getHistoryid());
-                System.out.println("first dose date :"+mylivaricella.get(y).getFirstdosedate());
-                System.out.println("second dose date :"+mylivaricella.get(y).getSeconddosedate());
-            }
-
-            System.out.println("*************************************varicella data*****************");
-
-
-
             getAD=new getAllImmunisationData(ImmunisationProfile.this);
             getAD.displayAllData();
 
@@ -2085,23 +2071,23 @@ public class ImmunisationProfile extends AppCompatActivity {
     }
 
 
-    public void startAlert() {
-
-//        int i = 60*60*24;
-        int i=60;
-        Intent intent = new Intent(this, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                this.getApplicationContext(), 234324243, intent, 0);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()
-                + (i * 1000), (i * 1000), pendingIntent);
-  /*alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()
-    + (i * 1000), 8000, pendingIntent);*/
-
-
-//        Toast.makeText(this, "Starting alarm in " + i + " seconds",
-//                Toast.LENGTH_LONG).show();
-    }
+//    public void startAlert() {
+//
+////        int i = 60*60*24;
+//        int i=60;
+//        Intent intent = new Intent(this, AlarmReceiver.class);
+//        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+//                this.getApplicationContext(), 234324243, intent, 0);
+//        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+//        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()
+//                + (i * 1000), (i * 1000), pendingIntent);
+//  /*alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()
+//    + (i * 1000), 8000, pendingIntent);*/
+//
+//
+////        Toast.makeText(this, "Starting alarm in " + i + " seconds",
+////                Toast.LENGTH_LONG).show();
+//    }
 
     public void cancel() {
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);

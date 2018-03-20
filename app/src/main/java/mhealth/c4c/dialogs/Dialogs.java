@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import mhealth.c4c.Login;
+import mhealth.c4c.Recycler;
 
 /**
  * Created by root on 3/16/18.
@@ -172,6 +173,32 @@ public class Dialogs {
             mdialog.setTitleText(title);
             mdialog.setContentText(message);
             mdialog.setCancelable(false);
+            mdialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                    Intent myint=new Intent(ctx, Recycler.class);
+                    ctx.startActivity(myint);
+
+                }
+            });
+            mdialog.show();
+
+
+        }
+        catch(Exception e){
+            Toast.makeText(ctx, "error showing dialog"+e, Toast.LENGTH_SHORT).show();
+
+
+        }
+    }
+
+    public void showSuccessDialogReportExposure(String title, String message){
+        try{
+
+            mdialog= new SweetAlertDialog(ctx, SweetAlertDialog.SUCCESS_TYPE);
+            mdialog.setTitleText(title);
+            mdialog.setContentText(message);
+            mdialog.setCancelable(false);
             mdialog.show();
 
         }
@@ -182,6 +209,57 @@ public class Dialogs {
         }
     }
 
+    public void showErrorDialogReportExposure(String title, String message){
+        try{
+
+            mdialog= new SweetAlertDialog(ctx, SweetAlertDialog.ERROR_TYPE);
+            mdialog.setTitleText(title);
+            mdialog.setContentText(message);
+            mdialog.setCancelable(false);
+            mdialog.show();
+
+        }
+        catch(Exception e){
+            Toast.makeText(ctx, "error showing dialog"+e, Toast.LENGTH_SHORT).show();
+
+
+        }
+    }
+
+    public void showCalendarCheckup(String title, String message){
+        try{
+
+            mdialog= new SweetAlertDialog(ctx, SweetAlertDialog.ERROR_TYPE);
+            mdialog.setTitleText(title);
+            mdialog.setContentText(message);
+            mdialog.setCancelable(false);
+            mdialog.show();
+
+        }
+        catch(Exception e){
+            Toast.makeText(ctx, "error showing dialog"+e, Toast.LENGTH_SHORT).show();
+
+
+        }
+    }
+
+
+    public void showSuccessDialogCalendarCheckup(String title, String message){
+        try{
+
+            mdialog= new SweetAlertDialog(ctx, SweetAlertDialog.SUCCESS_TYPE);
+            mdialog.setTitleText(title);
+            mdialog.setContentText(message);
+            mdialog.setCancelable(false);
+            mdialog.show();
+
+        }
+        catch(Exception e){
+            Toast.makeText(ctx, "error showing dialog"+e, Toast.LENGTH_SHORT).show();
+
+
+        }
+    }
 
 
     public void showSuccessDialogForgotPassword(String title, String message){

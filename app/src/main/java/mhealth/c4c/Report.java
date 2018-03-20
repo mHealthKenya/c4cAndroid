@@ -23,6 +23,8 @@ import android.widget.Toast;
 
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
+import mhealth.c4c.dialogs.Dialogs;
+
 
 public class Report extends AppCompatActivity {
 
@@ -30,6 +32,7 @@ public class Report extends AppCompatActivity {
     private ArrayAdapter<String> arrayAdapterWhat;
 
     private EditText hours,otherWhereE,otherWhatE;
+    Dialogs sweetdialog;
 
     private Button btn_submit;
     MaterialBetterSpinner SpinnerWhat,SpinnerWhere;
@@ -78,26 +81,36 @@ public class Report extends AppCompatActivity {
 
 //                    Toast.makeText(Report.this, "submitting", Toast.LENGTH_SHORT).show();
                     if(selectedWhere.contentEquals("")){
-                        Toast.makeText(Report.this, "where the exposure occured is required", Toast.LENGTH_SHORT).show();
+                        sweetdialog.showErrorDialogReportExposure("where the exposure occured is required","Exposure Report Error");
+//                        Toast.makeText(Report.this, "where the exposure occured is required", Toast.LENGTH_SHORT).show();
                     }
                     else if(selectedWhat.contentEquals("")){
 
-                        Toast.makeText(Report.this, "the nature of exposure is required", Toast.LENGTH_SHORT).show();
+                        sweetdialog.showErrorDialogReportExposure("The nature of exposure is required","Exposure Report Error");
+//                        Toast.makeText(Report.this, "the nature of exposure is required", Toast.LENGTH_SHORT).show();
                     }
                     else if(selectedWhere.equalsIgnoreCase("Other")&& otherWhereE.getText().toString().isEmpty()){
 
 
-                            Toast.makeText(Report.this, "Other for where exposure occured is required", Toast.LENGTH_SHORT).show();
+                        sweetdialog.showErrorDialogReportExposure("other of where the exposure occured is required","Exposure Report Error");
+
+//                        Toast.makeText(Report.this, "Other for where exposure occured is required", Toast.LENGTH_SHORT).show();
 
 
                     }
                     else if(selectedWhat.equalsIgnoreCase("Other") && otherWhatE.getText().toString().isEmpty()){
-                        Toast.makeText(Report.this, "other for nature of exposure is required", Toast.LENGTH_SHORT).show();
+
+                        sweetdialog.showErrorDialogReportExposure("other for nature of exposure occured is required","Exposure Report Error");
+
+//                        Toast.makeText(Report.this, "other for nature of exposure is required", Toast.LENGTH_SHORT).show();
 
 
                     }
                     else if(myhour.contentEquals("")){
-                        Toast.makeText(Report.this, "Hours after exposure is required", Toast.LENGTH_SHORT).show();
+
+                        sweetdialog.showErrorDialogReportExposure("Hours after exposure is required","Exposure Report Error");
+
+//                        Toast.makeText(Report.this, "Hours after exposure is required", Toast.LENGTH_SHORT).show();
                     }
                     else{
                         String otherWhereS="";
@@ -120,14 +133,18 @@ public class Report extends AppCompatActivity {
                         System.out.println("where is:"+selectedWhere+"\n"+"what is: "+selectedWhat+"\n"+"where other: "+otherWhereS+"\n"+"what other: "+otherWhatS);
                         System.out.println("***************************************************");
 
-                        Toast.makeText(Report.this, "submitting exposure", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(Report.this, "submitting exposure", Toast.LENGTH_SHORT).show();
 
                         String Message = "Rep*"+where+"*"+what+"*"+myhour;
 
                         SmsManager sm = SmsManager.getDefault();
                         sm.sendTextMessage("40149", null, Message, null, null);
                         clearFields();
-                        SignupsuccessDialog("");
+
+//                        SignupsuccessDialog("");
+
+                        sweetdialog.showSuccessDialogReportExposure("SUCCESS SUBMITTING EXPOSURE REPORT","Success");
+
 
                     }
 
@@ -146,10 +163,10 @@ public class Report extends AppCompatActivity {
 
         try{
 
-            setSpinnerAdapters();
-            setSpinnerWhereListener();
-            setSpinnerWhatListener();
+            SpinnerWhat.setText("");
+            SpinnerWhere.setText("");
             hours.setText("");
+
         }
         catch(Exception e){
 
@@ -160,6 +177,8 @@ public class Report extends AppCompatActivity {
     public void initialise(){
 
         try{
+
+            sweetdialog=new Dialogs(Report.this);
 
             hours = (EditText) findViewById(R.id.hours);
             btn_submit = (Button) findViewById(R.id.btn_submit);
@@ -208,7 +227,7 @@ public class Report extends AppCompatActivity {
                 public void afterTextChanged(Editable s) {
 
                     selectedWhere=SpinnerWhere.getText().toString();
-                    Toast.makeText(Report.this, "selected "+selectedWhere, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(Report.this, "selected "+selectedWhere, Toast.LENGTH_SHORT).show();
                     displayWhereOther();
 
                 }
@@ -290,7 +309,7 @@ public class Report extends AppCompatActivity {
                 public void afterTextChanged(Editable s) {
 
                     selectedWhat=SpinnerWhat.getText().toString();
-                    Toast.makeText(Report.this, "selected "+selectedWhat, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(Report.this, "selected "+selectedWhat, Toast.LENGTH_SHORT).show();
 
                     displayWhatOther();
                 }
@@ -307,6 +326,7 @@ public class Report extends AppCompatActivity {
 
         try{
             SpinnerWhere.setAdapter(arrayAdapterWhere);
+
             SpinnerWhat.setAdapter(arrayAdapterWhat);
 
 

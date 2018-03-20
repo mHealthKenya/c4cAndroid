@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import mhealth.c4c.CardViewActivity;
 import mhealth.c4c.R;
+import mhealth.c4c.faqrecyclerview.FaqMainActivityRecycler;
 
 /**
  * Created by root on 11/22/17.
@@ -68,10 +69,10 @@ public class CustomAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                Toast.makeText(context, "You Clicked "+result[position], Toast.LENGTH_LONG).show();
+//                Toast.makeText(context, "You Clicked "+result[position], Toast.LENGTH_LONG).show();
                 if(position==0){
 
-                    Intent myint=new Intent(context,CardViewActivity.class);
+                    Intent myint=new Intent(context, FaqMainActivityRecycler.class);
                     context.startActivity(myint);
 
                 }
@@ -93,7 +94,7 @@ public class CustomAdapter extends BaseAdapter {
 
                 }
                 else{
-                    Toast.makeText(context, "nothing clicked", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "nothing clicked", Toast.LENGTH_SHORT).show();
 
 
                 }

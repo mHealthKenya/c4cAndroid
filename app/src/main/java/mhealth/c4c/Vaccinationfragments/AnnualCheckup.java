@@ -23,6 +23,7 @@ import mhealth.c4c.CreateUser;
 import mhealth.c4c.R;
 import mhealth.c4c.checkupstatustable.checkupcalendar;
 import mhealth.c4c.dateCalculator.DateCalculator;
+import mhealth.c4c.dialogs.Dialogs;
 
 /**
  * Created by root on 2/22/18.
@@ -33,6 +34,7 @@ public class AnnualCheckup extends Fragment {
     EditText gcheckup,pcheckup;
     DatePickerDialog datePickerDialog;
     DateCalculator dcalc;
+    Dialogs mydialog;
 
     @Nullable
     @Override
@@ -58,17 +60,19 @@ public class AnnualCheckup extends Fragment {
 
         try{
 
-            List<checkupcalendar> myl=checkupcalendar.findWithQuery(checkupcalendar.class,"select * from checkupcalendar");
+            List<checkupcalendar> myl=checkupcalendar.findWithQuery(checkupcalendar.class,"select * from checkupcalendar limit 1");
             if(myl.size()>0){
 
                 for(int x=0;x<myl.size();x++){
 
                     String gdate=myl.get(x).getGeneraldate();
                     String pdate=myl.get(x).getPhysicaldate();
-
                     gcheckup.setText(gdate);
                     pcheckup.setText(pdate);
+
+
                 }
+
             }
             else{
 
@@ -77,8 +81,10 @@ public class AnnualCheckup extends Fragment {
         }
         catch(Exception e){
 
-            Toast.makeText(getActivity(), "error setting dates", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "error setting dates "+e, Toast.LENGTH_SHORT).show();
 
+            System.out.println("***********set date error************************");
+            System.out.println(e);
 
         }
     }
@@ -88,10 +94,10 @@ public class AnnualCheckup extends Fragment {
 
         try{
 
-            List<checkupcalendar> myl=checkupcalendar.findWithQuery(checkupcalendar.class,"select * from checkupcalendar");
-            if(myl.size()>0){
+            List<checkupcalendar> myl=checkupcalendar.findWithQuery(checkupcalendar.class,"select * from checkupcalendar limit 1");
+            if(myl.size()==1){
 
-                for(int x=0;x<myl.size();x++){
+                for(int x=0;x<=1;x++){
 
                     String gdate=myl.get(x).getGeneraldate();
 
@@ -101,6 +107,7 @@ public class AnnualCheckup extends Fragment {
             }
             else{
 
+                gcheckup.setText("");
 
             }
         }
@@ -116,10 +123,10 @@ public class AnnualCheckup extends Fragment {
 
         try{
 
-            List<checkupcalendar> myl=checkupcalendar.findWithQuery(checkupcalendar.class,"select * from checkupcalendar");
-            if(myl.size()>0){
+            List<checkupcalendar> myl=checkupcalendar.findWithQuery(checkupcalendar.class,"select * from checkupcalendar limit 1");
+            if(myl.size()==1){
 
-                for(int x=0;x<myl.size();x++){
+                for(int x=0;x<=1;x++){
 
 
                     String pdate=myl.get(x).getPhysicaldate();
@@ -130,6 +137,7 @@ public class AnnualCheckup extends Fragment {
             else{
 
 
+                pcheckup.setText("");
             }
         }
         catch(Exception e){
@@ -147,6 +155,7 @@ public class AnnualCheckup extends Fragment {
             gcheckup=(EditText) v.findViewById(R.id.generalcheckup);
             pcheckup=(EditText) v.findViewById(R.id.physicalcheckup);
             dcalc=new DateCalculator();
+            mydialog=new Dialogs(getActivity());
         }
         catch(Exception e){
 
@@ -172,26 +181,31 @@ public class AnnualCheckup extends Fragment {
                 public void afterTextChanged(Editable s) {
 
                     if(dcalc.checkDateDifferenceWithCurrentDate(s.toString())){
-                        List<checkupcalendar> myl=checkupcalendar.findWithQuery(checkupcalendar.class,"select * from checkupcalendar");
-                        if(myl.size()>0){
+                        List<checkupcalendar> myl=checkupcalendar.findWithQuery(checkupcalendar.class,"select * from checkupcalendar limit 1");
+                        if(myl.size()==1){
 
 
                             checkupcalendar cp = checkupcalendar.findById(checkupcalendar.class, 1);
                             cp.setGeneraldate(s.toString());
                             cp.save();
+                            mydialog.showSuccessDialogCalendarCheckup("success setting up date","success");
+
 
                         }
                         else{
                             checkupcalendar cp=new checkupcalendar();
                             cp.setGeneraldate(s.toString());
                             cp.save();
+                            mydialog.showSuccessDialogCalendarCheckup("success setting up date","success");
+
 
 
                         }
                     }
                     else{
-                        Toast.makeText(getActivity(), "provide a date greater than today", Toast.LENGTH_SHORT).show();
-                        populateGeneralDate();
+//                        Toast.makeText(getActivity(), "provide a date greater than today", Toast.LENGTH_SHORT).show();
+//                        populateGeneralDate();
+                        mydialog.showCalendarCheckup("provide a date greater than today","Error");
                     }
 
                 }
@@ -225,13 +239,14 @@ public class AnnualCheckup extends Fragment {
                 public void afterTextChanged(Editable s) {
 
                     if(dcalc.checkDateDifferenceWithCurrentDate(s.toString())){
-                        List<checkupcalendar> myl=checkupcalendar.findWithQuery(checkupcalendar.class,"select * from checkupcalendar");
-                        if(myl.size()>0){
+                        List<checkupcalendar> myl=checkupcalendar.findWithQuery(checkupcalendar.class,"select * from checkupcalendar limit 1");
+                        if(myl.size()==1){
 
 
                             checkupcalendar cp = checkupcalendar.findById(checkupcalendar.class, 1);
                             cp.setPhysicaldate(s.toString());
                             cp.save();
+                            mydialog.showSuccessDialogCalendarCheckup("success setting up date","success");
 
                         }
                         else{
@@ -239,12 +254,16 @@ public class AnnualCheckup extends Fragment {
                             cp.setPhysicaldate(s.toString());
                             cp.save();
 
+                            mydialog.showSuccessDialogCalendarCheckup("success setting up date","success");
+
+
 
                         }
                     }
                     else{
-                        Toast.makeText(getActivity(), "provide a date greater than today", Toast.LENGTH_SHORT).show();
-                        populatePhysicalDate();
+
+                        mydialog.showCalendarCheckup("provide a date greater than today","Error");
+//                        populatePhysicalDate();
                     }
 
                 }

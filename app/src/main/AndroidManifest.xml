@@ -126,6 +126,14 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".faqrecyclerview.FaqMainActivityRecycler" android:parentActivityName=".Info_Center">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+
 
         <activity android:name=".ImmunisationProfile" android:parentActivityName=".Recycler" android:configChanges="orientation|screenSize">
             <!--<intent-filter>-->

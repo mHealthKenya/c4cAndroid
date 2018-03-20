@@ -5,12 +5,12 @@
         <menu>
             <item
                 android:id="@+id/nav_changepassword"
-                android:icon="@drawable/ic_menu_manage"
+                android:icon="@drawable/ic_mysettings"
                 android:title="Change Password" />
 
             <item
                 android:id="@+id/nav_logout"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/ic_logout"
                 android:title="Logout" />
         </menu>
     </item>

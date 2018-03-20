@@ -114,7 +114,7 @@ public class NotVaccinated extends Fragment {
                     VaccineModel dev=itemsList.get(position);
 
 
-                    Toast.makeText(getActivity(), "clicked on "+dev.getVaccinename(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getActivity(), "clicked on "+dev.getVaccinename(), Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -123,7 +123,7 @@ public class NotVaccinated extends Fragment {
 
                     VaccineModel dev=itemsList.get(position);
 
-                    Toast.makeText(getActivity(), "long clicked on "+dev.getVaccinename(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getActivity(), "long clicked on "+dev.getVaccinename(), Toast.LENGTH_SHORT).show();
 
 
                 }
