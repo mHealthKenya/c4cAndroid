@@ -90,7 +90,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
     boolean correctMfl;
 
-    public static final String REGISTER_URL = "http://everest.co.ke/mlabphp/checkfacility.php";
+    public static final String REGISTER_URL = "http://197.248.10.20/C4CANDROID/checkfacility.php";
 
 
     public static final String KEY_MFLCODE = "facility_code";
@@ -1292,7 +1292,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
                                 pdialog.cancel();
 
-                                sweetdialog.showErrorDialogRegistration("mfl code does not exist "+response,"Registration Error");
+                                sweetdialog.showErrorDialogRegistration("mfl code does not exist ","Registration Error");
 //                                Toast.makeText(getApplicationContext(), ""+response, Toast.LENGTH_SHORT).show();
                                 correctMfl=false;
 
