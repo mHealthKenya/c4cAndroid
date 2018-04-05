@@ -45,15 +45,25 @@ public class AnnualCheckup extends Fragment {
 
         populateDates();
 
+
+
+
+
+
+        return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+
         PhysicalCheckupDateListener();
         GeneralCheckupDateListener();
 
         setGeneralCheckupInputListener();
         setPhysicalCheckupInputListener();
 
-
-
-        return v;
     }
 
     public void populateDates(){
@@ -188,7 +198,7 @@ public class AnnualCheckup extends Fragment {
                             checkupcalendar cp = checkupcalendar.findById(checkupcalendar.class, 1);
                             cp.setGeneraldate(s.toString());
                             cp.save();
-                            mydialog.showSuccessDialogCalendarCheckup("success setting up date","success");
+                            mydialog.showSuccessDialogCalendarCheckup("success setting general checkup date","success");
 
 
                         }
@@ -196,7 +206,7 @@ public class AnnualCheckup extends Fragment {
                             checkupcalendar cp=new checkupcalendar();
                             cp.setGeneraldate(s.toString());
                             cp.save();
-                            mydialog.showSuccessDialogCalendarCheckup("success setting up date","success");
+                            mydialog.showSuccessDialogCalendarCheckup("success setting general checkup date","success");
 
 
 
@@ -246,7 +256,7 @@ public class AnnualCheckup extends Fragment {
                             checkupcalendar cp = checkupcalendar.findById(checkupcalendar.class, 1);
                             cp.setPhysicaldate(s.toString());
                             cp.save();
-                            mydialog.showSuccessDialogCalendarCheckup("success setting up date","success");
+                            mydialog.showSuccessDialogCalendarCheckup("success setting physical checkup date","success");
 
                         }
                         else{
@@ -254,7 +264,7 @@ public class AnnualCheckup extends Fragment {
                             cp.setPhysicaldate(s.toString());
                             cp.save();
 
-                            mydialog.showSuccessDialogCalendarCheckup("success setting up date","success");
+                            mydialog.showSuccessDialogCalendarCheckup("success setting physical checkup date","success");
 
 
 

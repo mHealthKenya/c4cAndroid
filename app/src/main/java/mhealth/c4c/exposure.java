@@ -93,7 +93,7 @@ public class exposure extends AppCompatActivity implements AdapterView.OnItemSel
                 String Message = "Rep*"+myselected+"*"+myselected2+"*"+hr;
 
                 SmsManager sm = SmsManager.getDefault();
-                sm.sendTextMessage("40149", null, Message, null, null);
+                sm.sendTextMessage("40145", null, Message, null, null);
                 clearFields();
                 SignupsuccessDialog("");
 

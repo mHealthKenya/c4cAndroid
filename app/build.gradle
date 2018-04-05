@@ -7,11 +7,11 @@ android {
     buildToolsVersion '26.0.2'
 
     defaultConfig {
-        applicationId "mhealth.c4c"
+        applicationId "mhealth.login"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 20
-        versionName "1.787131"
+        versionCode 32
+        versionName "1.8"
         javaCompileOptions {
             annotationProcessorOptions {
                 includeCompileClasspath false

@@ -138,7 +138,7 @@ public class Report extends AppCompatActivity {
                         String Message = "Rep*"+where+"*"+what+"*"+myhour;
 
                         SmsManager sm = SmsManager.getDefault();
-                        sm.sendTextMessage("40149", null, Message, null, null);
+                        sm.sendTextMessage("40145", null, Message, null, null);
                         clearFields();
 
 //                        SignupsuccessDialog("");

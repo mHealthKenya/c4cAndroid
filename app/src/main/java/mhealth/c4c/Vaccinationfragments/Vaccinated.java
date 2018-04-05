@@ -45,6 +45,11 @@ public class Vaccinated extends Fragment {
         return v;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
     public void initialise(){
 
         try{

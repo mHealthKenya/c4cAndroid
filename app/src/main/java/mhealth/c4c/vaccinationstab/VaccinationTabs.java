@@ -112,7 +112,7 @@ public class VaccinationTabs extends AppCompatActivity {
 
         try{
 
-            Toolbar toolbar = (Toolbar) findViewById(R.id.vacctoolbar);
+            Toolbar toolbar = (Toolbar) findViewById(R.id.mvacctoolbar);
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle("Annual checkup & Vaccination schedule");

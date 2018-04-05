@@ -68,7 +68,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
 
             }
             try {
-                if(getAdd.contentEquals("40149")){
+                if(getAdd.contentEquals("40145")){
 
 
                     //new code here

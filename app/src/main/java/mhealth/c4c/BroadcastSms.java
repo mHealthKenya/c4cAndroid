@@ -97,7 +97,7 @@ public class BroadcastSms extends AppCompatActivity implements AdapterView.OnIte
 
                 String bmes="BM*"+txt+"*"+mydte+"*"+mycdre+"*"+myname;
                 SmsManager smsM=SmsManager.getDefault();
-                smsM.sendTextMessage("40149",null,bmes,null,null);
+                smsM.sendTextMessage("40145",null,bmes,null,null);
                 SignupsuccessDialog("Success in sending broadcast message");
 
 

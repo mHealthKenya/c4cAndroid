@@ -33,7 +33,7 @@
 
 
         <meta-data android:name="DATABASE" android:value="mydb.db" />
-        <meta-data android:name="VERSION" android:value="17" />
+        <meta-data android:name="VERSION" android:value="18" />
         <meta-data android:name="QUERY_LOG" android:value="true" />
         <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="mhealth.c4c" />
 
@@ -59,7 +59,7 @@
 
 
         <activity android:name=".vaccinationstab.VaccinationTabs"
-            android:label="Vaccination Checkup"
+            android:label="Annual checkup &amp; Vaccination schedule"
             android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme"
             android:parentActivityName=".ImmunisationProfile">
@@ -99,11 +99,11 @@
         </activity>
 
         <activity android:name=".BroadcastSms"
-            android:parentActivityName=".Recycler">
+            android:parentActivityName=".LandingPage">
             <meta-data
                 android:theme="@style/AppTheme"
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Recycler" />
+                android:value=".LandingPage" />
         </activity>
 
         <activity android:name=".exposure"
@@ -135,7 +135,7 @@
         </activity>
 
 
-        <activity android:name=".ImmunisationProfile" android:parentActivityName=".Recycler" android:configChanges="orientation|screenSize">
+        <activity android:name=".ImmunisationProfile" android:parentActivityName=".LandingPage" android:configChanges="orientation|screenSize">
             <!--<intent-filter>-->
                 <!--<action android:name="android.intent.action.MAIN" />-->
 
@@ -148,7 +148,7 @@
         </activity>
 
         <activity
-            android:name=".Recycler"
+            android:name=".LandingPage"
             android:label=" "
             android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".Login">
@@ -165,14 +165,14 @@
             android:name=".Report"
             android:label="@string/title_activity_report"
             android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".Recycler">
+            android:parentActivityName=".LandingPage">
         </activity>
 
         <activity
             android:name=".Info_Center"
             android:label="@string/title_activity_info_center"
             android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".Recycler">
+            android:parentActivityName=".LandingPage">
         </activity>
 
         <activity
@@ -189,7 +189,7 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize"
-            android:parentActivityName=".Recycler">
+            android:parentActivityName=".LandingPage">
         </activity>
 
         <receiver

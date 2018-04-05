@@ -9,8 +9,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import mhealth.c4c.LandingPage;
 import mhealth.c4c.Login;
-import mhealth.c4c.Recycler;
 
 /**
  * Created by root on 3/16/18.
@@ -124,7 +124,7 @@ public class Dialogs {
 
 
                             ArrayList<String> parts = sm.divideMessage(sendMessage);
-                            sm.sendMultipartTextMessage("40149", null, parts, null, null);
+                            sm.sendMultipartTextMessage("40145", null, parts, null, null);
 
                             sDialog.dismissWithAnimation();
 //                            Toast.makeText(mContext, "YOU HAVE SUCCESSFULLY CHECKED IN", Toast.LENGTH_SHORT).show();
@@ -176,7 +176,7 @@ public class Dialogs {
             mdialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                 @Override
                 public void onClick(SweetAlertDialog sweetAlertDialog) {
-                    Intent myint=new Intent(ctx, Recycler.class);
+                    Intent myint=new Intent(ctx, LandingPage.class);
                     ctx.startActivity(myint);
 
                 }

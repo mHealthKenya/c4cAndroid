@@ -287,7 +287,7 @@ public class MessagesTabs extends AppCompatActivity {
     public void refreshSmsInbox() {
         try {
             ContentResolver contentResolver = getContentResolver();
-            Cursor smsInboxCursor = contentResolver.query(Uri.parse("content://sms/inbox"), null, "address=?", new String[]{"40149"}, null);
+            Cursor smsInboxCursor = contentResolver.query(Uri.parse("content://sms/inbox"), null, "address=?", new String[]{"40145"}, null);
             int indexBody = smsInboxCursor.getColumnIndex("body");
             int indexAddress = smsInboxCursor.getColumnIndex("address");
             int indexDate = smsInboxCursor.getColumnIndex("date");

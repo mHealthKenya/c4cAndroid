@@ -47,6 +47,7 @@ import java.util.Map;
 
 import mhealth.c4c.Registrationtable.Regdetails;
 import mhealth.c4c.Registrationtable.Regpartners;
+import mhealth.c4c.Tables.Partners;
 import mhealth.c4c.Tables.UserTable;
 import mhealth.c4c.Tables.kmpdu;
 import mhealth.c4c.dateCalculator.DateCalculator;
@@ -75,8 +76,8 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     EditText partnerorgE,specialisationE;
     Dialog partnerdialog,specialisationdialog;
 
-    String[] itemsorg={"MOH","EGPAF","CHS","UON",
-            "KMPDU","Not Applicable"};
+    String[] itemsorg={"MOH","KMTC","EGPAF","CHS","UNITID",
+            "KMPDU","KMPDB","Not Applicable"};
     String[] itemsspecialisation={"Anaesthesia","Cardiothoracic surgery","Dermatology","Ear Nose And Throat",
     "Internal Medicine","Microbiology","Neurosurgery","Obstetrics and Gynaecology","Occupational Medicine",
     "Ophthalmology","Orthopaedic Surgery","Paediatrics and Child Health","Palliative Medicine",
@@ -457,7 +458,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
         try{
 
 
-            final boolean selected[] = new boolean[]{false, false, false, false,false,false};
+            final boolean selected[] = new boolean[]{false,false, false, false, false,false,false,false};
 
             android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
             builder.setTitle("Select Your Partner Organisation : ");
@@ -484,25 +485,25 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
                             }
 
-                            if(selected[5]){//check for Not Applicable
+                            if(selected[6]){//check for Not Applicable
 
                                     for(int x=0;x<selected.length;x++){
 
                                         itemsSelected.remove(Integer.valueOf(x));
                                         selected[x]=false;
                                         ((android.app.AlertDialog)dialog).getListView().setItemChecked(x, false);
-                                        if(x==5){
-                                            selected[5]=true;
-                                            itemsSelected.add(5);
+                                        if(x==6){
+                                            selected[6]=true;
+                                            itemsSelected.add(6);
 
-                                            ((android.app.AlertDialog)dialog).getListView().setItemChecked(5, true);
+                                            ((android.app.AlertDialog)dialog).getListView().setItemChecked(6, true);
 //                                            continue;
                                         }
                                     }
 
 
                             }
-                            else if(selected[4]){
+                            else if(selected[5]){
 
 
                                 kmpduChecked=true;
@@ -521,7 +522,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
                             }
 
-                            else if(!selected[4]){//if kmpdu is not checked
+                            else if(!selected[5]){//if kmpdu is not checked
                                 kmpduChecked=false;
                                 dunumber.setVisibility(View.GONE);
 
@@ -545,7 +546,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                                 itemsSelected.remove(Integer.valueOf(selectedItemId));
                                 selected[selectedItemId]=false;
 
-                                if(selectedItemId==4){ //check for kmpdu if unchecked
+                                if(selectedItemId==5){ //check for kmpdu if unchecked
 
 
                                     kmpduChecked=false;
@@ -957,11 +958,39 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     }
 
 
+    public void populatePartnerTable(){
+
+        try{
+
+            Partners.deleteAll(Partners.class);
+
+            if(itemsSelected.size()>0){
+
+                for(int x=0;x<itemsSelected.size();x++){
+
+                    Partners pt=new Partners();
+                    pt.setPartnername(itemsorg[Integer.parseInt(itemsSelected.get(x).toString())]);
+                    pt.save();
+                }
+
+            }
+
+        }
+        catch(Exception e){
+            Toast.makeText(this, "error populating partner table "+e, Toast.LENGTH_SHORT).show();
+
+
+        }
+    }
+
     //ill get back here
 
     public void CreatingUser(View v){
 
         try{
+
+
+            populatePartnerTable();
 
             partners=new StringBuilder("");
 
@@ -1368,13 +1397,15 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
 
                                     SmsManager smsM=SmsManager.getDefault();
-                                    smsM.sendTextMessage("40149",null,mymess,null,null);
+                                    smsM.sendTextMessage("40145",null,mymess,null,null);
                                     SignupsuccessDialog("Success in Registration");
 
 
                                 }
                                 else{
 //                    SignupdisplayDialog("WRONG MFLCODE, TRY AGAIN");
+
+                                    sweetdialog.showErrorDialogRegistration("error occured, try again","Registration Error");
 
 
                                 }
@@ -1390,6 +1421,8 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                         public void onErrorResponse(VolleyError error) {
                             pdialog.cancel();
                             correctMfl=false;
+
+                            sweetdialog.showErrorDialogRegistration("Check your internet connection and try again","Registration Error");
 
 //                            Toast.makeText(getApplicationContext(), "error occured "+error, Toast.LENGTH_SHORT).show();
 

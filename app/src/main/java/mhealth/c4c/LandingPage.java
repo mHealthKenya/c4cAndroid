@@ -7,7 +7,6 @@ package mhealth.c4c;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -25,14 +24,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
 import mhealth.c4c.Tables.Messages;
 import mhealth.c4c.Tables.kmpdu;
 
-public class Recycler extends AppCompatActivity
+public class LandingPage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private Context mContext;
 
@@ -57,7 +55,7 @@ public class Recycler extends AppCompatActivity
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new RvAdapter(this,kmpduChecked);
+        adapter = new LandingPageAdapter(this,kmpduChecked);
         recyclerView.setAdapter(adapter);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -219,7 +217,7 @@ public class Recycler extends AppCompatActivity
 //
 //        } else if (id == R.id.nav_logout) {
 //
-////            Intent b = new Intent(Recycler.this, Login.class);
+////            Intent b = new Intent(LandingPage.this, Login.class);
 ////            startActivity(b);
 //
 //        }

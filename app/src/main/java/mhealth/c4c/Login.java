@@ -19,11 +19,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import mhealth.c4c.Tables.Partners;
 import mhealth.c4c.Tables.kmpdu;
 import mhealth.c4c.dialogs.Dialogs;
 
@@ -84,6 +84,7 @@ public class Login extends AppCompatActivity {
         });
         populateUsername();
         getPassedValues();
+        getPartners();
     }
 
     public void getPassedValues(){
@@ -103,6 +104,46 @@ public class Login extends AppCompatActivity {
                     kmpduChecked=false;
 //                    Toast.makeText(this, "kmpdu not checked", Toast.LENGTH_SHORT).show();
                 }
+            }
+
+
+
+
+        }
+        catch(Exception e){
+
+        }
+    }
+
+
+    public boolean isKmtcAvailable(){
+
+        try{
+            List<Partners> myl=Partners.findWithQuery(Partners.class,"select * from Partners where partnername=?","KMTC");
+            if(myl.size()>0){
+                return true;
+            }
+            else{
+                return false;
+            }
+
+        }
+        catch(Exception e){
+
+            return false;
+        }
+    }
+
+    public void getPartners(){
+
+        try{
+            List<Partners> myl=Partners.findWithQuery(Partners.class,"select * from Partners",null);
+            System.out.println("********************partners**********************");
+            for(int x=0;x<myl.size();x++){
+
+                String mykmpdu=myl.get(x).getPartnername();
+                System.out.println(mykmpdu+" "+isKmtcAvailable());
+
             }
 
 
@@ -200,7 +241,7 @@ public class Login extends AppCompatActivity {
 
                         if(kmpduChecked){
 
-                            Intent myint = new Intent(getApplicationContext(), Recycler.class);
+                            Intent myint = new Intent(getApplicationContext(), LandingPage.class);
 //                            myint.putExtra("kmpduChecked","true");
                             startActivity(myint);
 
@@ -208,7 +249,7 @@ public class Login extends AppCompatActivity {
                         }
                         else{
 
-                            Intent myint = new Intent(getApplicationContext(), Recycler.class);
+                            Intent myint = new Intent(getApplicationContext(), LandingPage.class);
                             myint.putExtra("kmpduChecked","false");
                             startActivity(myint);
 
@@ -405,7 +446,7 @@ public class Login extends AppCompatActivity {
 
     public void onLoginSuccess() {
         // Start the Signup activity
-        Intent intent = new Intent(getApplicationContext(), Recycler.class);
+        Intent intent = new Intent(getApplicationContext(), LandingPage.class);
         startActivityForResult(intent, REQUEST_SIGNUP);
 
         btnSignin.setEnabled(true);
