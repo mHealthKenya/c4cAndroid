@@ -173,6 +173,8 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                     if(!dcalc.checkDateDifferenceWithCurrentDate(s.toString())){
 
 
+
+
                     }
                     else{
 
@@ -210,8 +212,22 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                 @Override
                 public void afterTextChanged(Editable s) {
 
+                    long dateDiff=dcalc.calculateDateDifference(dose1E.getText().toString(),s.toString());
                     if(!dcalc.checkDateDifferenceWithCurrentDate(s.toString())){
 
+
+
+                        if(dateDiff<28){
+
+//                            dose2E.setText("");
+                            sweetdialog.showErrorDialogRegistration("second dose should be 28 days after first dose, try again","Vaccination Date Error");
+
+
+                        }
+                        else{
+
+
+                        }
 
                     }
                     else{
@@ -220,9 +236,6 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                         sweetdialog.showErrorDialogRegistration("specify a date less or equal to today","Registration Error");
 //                        Toast.makeText(CreateUser.this, "specify a date less or equal to today", Toast.LENGTH_SHORT).show();
                     }
-
-
-
 
                 }
             });

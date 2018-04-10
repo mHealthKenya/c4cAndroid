@@ -49,9 +49,9 @@ import mhealth.c4c.systemstatetables.Varicella;
  */
 
 public class ImmunisationProfile extends AppCompatActivity {
-    RadioGroup grpinfluenza,grpvaricella,grptdap,grpmeasles,grpvaricellaqn1,grpinfluenzaqn,grpmeningoco;
-    RadioButton radiobntinfluenza,radiobtnvaricella,radiobtntdap,radiobtnmeasles,radiobtnvaricellaqn1,radiobtninfluenzaqn,radiobtnmeningoco;
-    LinearLayout llinfluenza,llvaricella,lltdap,llmeasles,llpreg, llvaricellaqn1L, llvaricellaqn2L,llinfluenzaqnL,llmeningoco,parentLayout;
+    RadioGroup grpinfluenza,grpvaricella,grptdap,grpmeasles,grpvaricellaqn1,grpinfluenzaqn,grpmeningoco,grptrimester;
+    RadioButton radiobntinfluenza,radiobtnvaricella,radiobtntdap,radiobtnmeasles,radiobtnvaricellaqn1,radiobtninfluenzaqn,radiobtnmeningoco,radiobtntrimester;
+    LinearLayout llinfluenza,llvaricella,lltdap,llmeasles,llpreg, llvaricellaqn1L, llvaricellaqn2L,llinfluenzaqnL,llmeningoco,parentLayout,lltrimester;
     EditText measlesdose1E,measlesdose2E,influenzadoseE,varicelladose1E,varicelladose2E,tdapdoseE,meningocodoseE,meningocodose2E;
     TextView measles2label;
     DatePickerDialog datePickerDialog;
@@ -87,6 +87,7 @@ public class ImmunisationProfile extends AppCompatActivity {
         getCheckedRadioMeasles();
         getCheckedRadioVaricellaQn1();
         getCheckedRadioMeningoco();
+        getCheckedRadioTrimester();
 
         InfluenzaDateListener();
         measlesDose1DateListener();
@@ -297,6 +298,15 @@ public class ImmunisationProfile extends AppCompatActivity {
 
                         RadioButton rbPregnant = (RadioButton) findViewById(mselectedpregnantId);
                         rbPregnant.setChecked(true);
+
+                    }
+
+                    if(myl.get(x).getTrimesterid()!=null){
+
+                        int mselectedtrimesterId=Integer.parseInt(myl.get(x).getTrimesterid());
+
+                        RadioButton rbTri = (RadioButton) findViewById(mselectedtrimesterId);
+                        rbTri.setChecked(true);
 
                     }
 
@@ -696,6 +706,28 @@ public class ImmunisationProfile extends AppCompatActivity {
         catch(Exception e){
 
             Toast.makeText(this, "error displaying linear layout pregnant", Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
+    public void displayTrimesterLinearlayout(boolean show){
+
+        try{
+
+            if(show){
+
+                lltrimester.setVisibility(View.VISIBLE);
+
+            }
+            else{
+
+                lltrimester.setVisibility(View.GONE);
+
+
+            }
+        }
+        catch(Exception e){
+
 
         }
     }
@@ -1433,6 +1465,7 @@ public class ImmunisationProfile extends AppCompatActivity {
             pendingIntent = PendingIntent.getBroadcast(ImmunisationProfile.this, 0, alarmIntent, 0);
 
             grpinfluenza =(RadioGroup) findViewById(R.id.radiogrpinfluenza);
+            grptrimester =(RadioGroup) findViewById(R.id.radiogrptrimester);
             grpinfluenzaqn =(RadioGroup) findViewById(R.id.radiogrpinfluenzaqn);
             grpmeningoco =(RadioGroup) findViewById(R.id.radiogrpmeningocoqn);
 
@@ -1440,6 +1473,7 @@ public class ImmunisationProfile extends AppCompatActivity {
             llinfluenzaqnL=(LinearLayout) findViewById(R.id.llinfluenzaqn);
             llmeningoco=(LinearLayout) findViewById(R.id.meningocodoselayout);
             llpreg=(LinearLayout) findViewById(R.id.llpregnant);
+            lltrimester=(LinearLayout) findViewById(R.id.lltrimester);
             grpvaricella =(RadioGroup) findViewById(R.id.radiogrpvaricella);
             grpvaricellaqn1 =(RadioGroup) findViewById(R.id.radiogrpvaricellaqn1);
             llvaricella=(LinearLayout) findViewById(R.id.varicelladoselayout);
@@ -1494,6 +1528,100 @@ public class ImmunisationProfile extends AppCompatActivity {
     }
 
 
+
+
+    public void getCheckedRadioTrimester(){
+
+        try{
+
+
+            grptrimester.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    radiobtntrimester = (RadioButton) group.findViewById(checkedId);
+                    if (null != radiobtntrimester && checkedId > -1) {
+
+                        String selectedOption=radiobtntrimester.getText().toString();
+                        if(selectedOption.equalsIgnoreCase("First")){
+
+
+                            List<Influenza> myl=Influenza.findWithQuery(Influenza.class,"select * from Influenza");
+                            if(myl.size()>0){
+
+                                Influenza inf = Influenza.findById(Influenza.class, 1);
+
+                                inf.setTrimestervalue("First");
+                                inf.setTrimesterid(Integer.toString(checkedId));
+                                inf.save();
+
+                            }
+                            else{
+
+                                Influenza inf=new Influenza();
+                                inf.setTrimestervalue("First");
+                                inf.setTrimesterid(Integer.toString(checkedId));
+                                inf.save();
+
+                            }
+
+                        }
+
+                       else if(selectedOption.equalsIgnoreCase("Second")){
+
+
+                            List<Influenza> myl=Influenza.findWithQuery(Influenza.class,"select * from Influenza");
+                            if(myl.size()>0){
+
+                                Influenza inf = Influenza.findById(Influenza.class, 1);
+
+                                inf.setTrimestervalue("Second");
+                                inf.setTrimesterid(Integer.toString(checkedId));
+                                inf.save();
+
+                            }
+                            else{
+
+                                Influenza inf=new Influenza();
+                                inf.setTrimestervalue("Second");
+                                inf.setTrimesterid(Integer.toString(checkedId));
+                                inf.save();
+
+                            }
+
+                        }
+                        else{
+
+                           List<Influenza> myl=Influenza.findWithQuery(Influenza.class,"select * from Influenza");
+                            if(myl.size()>0){
+
+                                Influenza inf = Influenza.findById(Influenza.class, 1);
+
+                                inf.setTrimestervalue("Third");
+                                inf.setTrimesterid(Integer.toString(checkedId));
+                                inf.save();
+
+                            }
+                            else{
+
+                                Influenza inf=new Influenza();
+                                inf.setTrimestervalue("Third");
+                                inf.setTrimesterid(Integer.toString(checkedId));
+                                inf.save();
+
+                            }
+
+                        }
+                    }
+                }
+            });
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+
     public void getCheckedRadioInfluenza(){
 
         try{
@@ -1510,6 +1638,7 @@ public class ImmunisationProfile extends AppCompatActivity {
 //                            llinfluenza.setVisibility(View.GONE);
 //                            influenzadoseE.setText("");
                             influenzapregnantS="yes";
+                            displayTrimesterLinearlayout(true);
 
 //                            Checkedinfluenza.deleteAll(Checkedinfluenza.class);
 //                            Checkedinfluenza chi=new Checkedinfluenza(Integer.toString(checkedId));
@@ -1536,6 +1665,7 @@ public class ImmunisationProfile extends AppCompatActivity {
 
                         }
                         else{
+                            displayTrimesterLinearlayout(false);
 //                            llinfluenza.setVisibility(View.VISIBLE);
                             influenzapregnantS="no";
 

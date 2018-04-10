@@ -14,17 +14,37 @@ public class Influenza extends SugarRecord {
     public String influenzavaccineid;
     public String influenzavaccinevalue;
     public String dosedate;
+    public String trimestervalue;
+    public String trimesterid;
 
     public Influenza() {
     }
 
-    public Influenza(String gender, String pregnantid, String pregnantvalue, String influenzavaccineid, String influenzavaccinevalue, String dosedate) {
+    public Influenza(String gender, String pregnantid, String pregnantvalue, String influenzavaccineid, String influenzavaccinevalue, String dosedate,String tri,String triid) {
         this.gender = gender;
         this.pregnantid = pregnantid;
         this.pregnantvalue = pregnantvalue;
         this.influenzavaccineid = influenzavaccineid;
         this.influenzavaccinevalue = influenzavaccinevalue;
         this.dosedate = dosedate;
+        this.trimestervalue =tri;
+        this.trimesterid=triid;
+    }
+
+    public String getTrimesterid() {
+        return trimesterid;
+    }
+
+    public void setTrimesterid(String trimesterid) {
+        this.trimesterid = trimesterid;
+    }
+
+    public String getTrimestervalue() {
+        return trimestervalue;
+    }
+
+    public void setTrimestervalue(String trimestervalue) {
+        this.trimestervalue = trimestervalue;
     }
 
     public String getGender() {

@@ -23,6 +23,11 @@ class FaqMainActivityRecycler : AppCompatActivity() {
 
         val cardView = recycler_cardview
         val itemList = mutableListOf<FaqExpandableCardViewAdapter.Item>()
+
+        itemList.add(FaqExpandableCardViewAdapter.Item(FaqExpandableCardViewAdapter.PARENT, Html.fromHtml("Security and Confidentiality?").toString()))
+        itemList.add(FaqExpandableCardViewAdapter.Item(FaqExpandableCardViewAdapter.CHILD, Html.fromHtml("All data shared within this application is safe and secure. ").toString()))
+
+
         itemList.add(FaqExpandableCardViewAdapter.Item(FaqExpandableCardViewAdapter.PARENT, Html.fromHtml("What constitutes an occupational exposure ?").toString()))
         itemList.add(FaqExpandableCardViewAdapter.Item(FaqExpandableCardViewAdapter.CHILD, Html.fromHtml("an exposure can be defined as a percutaneous injury (e.g., needle stick or cut with a sharp object) or contact of mucous membrane or non-intact skin (e.g., exposed skin that is chapped, abraded, or with dermatitis) with blood, saliva, tissue, or other body fluids that are potentially infectious. Exposure incidents might place dental health care personnel at risk for hepatitis B virus (HBV), hepatitis C virus (HCV), or human immunodeficiency virus (HIV) infection, and therefore should be evaluated immediately following treatment of the exposure site by a qualified health care professional ").toString()))
 
