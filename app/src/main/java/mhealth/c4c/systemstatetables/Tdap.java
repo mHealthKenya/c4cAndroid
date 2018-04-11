@@ -11,14 +11,21 @@ public class Tdap extends SugarRecord {
     public String immunisedid;
     public String immunisedvalue;
     public String dosedate;
+    public String immunisedboosterid;
+    public String immunisedboostervalue;
+    public String doseboosterdate;
 
     public Tdap() {
     }
 
-    public Tdap(String immunisedid, String immunisedvalue, String dosedate) {
+
+    public Tdap(String immunisedid, String immunisedvalue, String dosedate, String immunisedboosterid, String immunisedboostervalue, String doseboosterdate) {
         this.immunisedid = immunisedid;
         this.immunisedvalue = immunisedvalue;
         this.dosedate = dosedate;
+        this.immunisedboosterid = immunisedboosterid;
+        this.immunisedboostervalue = immunisedboostervalue;
+        this.doseboosterdate = doseboosterdate;
     }
 
     public String getImmunisedid() {
@@ -43,5 +50,29 @@ public class Tdap extends SugarRecord {
 
     public void setDosedate(String dosedate) {
         this.dosedate = dosedate;
+    }
+
+    public String getImmunisedboosterid() {
+        return immunisedboosterid;
+    }
+
+    public void setImmunisedboosterid(String immunisedboosterid) {
+        this.immunisedboosterid = immunisedboosterid;
+    }
+
+    public String getImmunisedboostervalue() {
+        return immunisedboostervalue;
+    }
+
+    public void setImmunisedboostervalue(String immunisedboostervalue) {
+        this.immunisedboostervalue = immunisedboostervalue;
+    }
+
+    public String getDoseboosterdate() {
+        return doseboosterdate;
+    }
+
+    public void setDoseboosterdate(String doseboosterdate) {
+        this.doseboosterdate = doseboosterdate;
     }
 }

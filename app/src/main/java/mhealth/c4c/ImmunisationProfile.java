@@ -49,10 +49,10 @@ import mhealth.c4c.systemstatetables.Varicella;
  */
 
 public class ImmunisationProfile extends AppCompatActivity {
-    RadioGroup grpinfluenza,grpvaricella,grptdap,grpmeasles,grpvaricellaqn1,grpinfluenzaqn,grpmeningoco,grptrimester;
-    RadioButton radiobntinfluenza,radiobtnvaricella,radiobtntdap,radiobtnmeasles,radiobtnvaricellaqn1,radiobtninfluenzaqn,radiobtnmeningoco,radiobtntrimester;
-    LinearLayout llinfluenza,llvaricella,lltdap,llmeasles,llpreg, llvaricellaqn1L, llvaricellaqn2L,llinfluenzaqnL,llmeningoco,parentLayout,lltrimester;
-    EditText measlesdose1E,measlesdose2E,influenzadoseE,varicelladose1E,varicelladose2E,tdapdoseE,meningocodoseE,meningocodose2E;
+    RadioGroup grpinfluenza,grpvaricella,grptdap,grpmeasles,grpvaricellaqn1,grpinfluenzaqn,grpmeningoco,grptrimester,grptdapbooster;
+    RadioButton radiobntinfluenza,radiobtnvaricella,radiobtntdap,radiobtnmeasles,radiobtnvaricellaqn1,radiobtninfluenzaqn,radiobtnmeningoco,radiobtntrimester,radiobtntdapbooster;
+    LinearLayout llinfluenza,llvaricella,lltdap,llmeasles,llpreg, llvaricellaqn1L, llvaricellaqn2L,llinfluenzaqnL,llmeningoco,parentLayout,lltrimester,lltdapbooster,lltdapboosterdate;
+    EditText measlesdose1E,measlesdose2E,influenzadoseE,varicelladose1E,varicelladose2E,tdapdoseE,meningocodoseE,meningocodose2E,tdapdoseboosterdateE;
     TextView measles2label;
     DatePickerDialog datePickerDialog;
     getAllImmunisationData getAD;
@@ -322,6 +322,7 @@ public class ImmunisationProfile extends AppCompatActivity {
             }
         }
         catch(Exception e){
+
             Toast.makeText(this, "error getting influenza data "+e, Toast.LENGTH_SHORT).show();
 
 
@@ -339,6 +340,7 @@ public class ImmunisationProfile extends AppCompatActivity {
                 for(int x=0;x<myl.size();x++){
 
                     String mdose1Date=myl.get(x).dosedate;
+                    String mdoseboosterDate=myl.get(x).doseboosterdate;
 
 
                     if(myl.get(x).getImmunisedid()!=null){
@@ -354,7 +356,21 @@ public class ImmunisationProfile extends AppCompatActivity {
 
                     }
 
+                    if(myl.get(x).getImmunisedboosterid()!=null){
+
+                        int mselectedboosterid=Integer.parseInt(myl.get(x).getImmunisedboosterid());
+
+                        RadioButton rbimmunisedbooster = (RadioButton) findViewById(mselectedboosterid);
+                        rbimmunisedbooster.setChecked(true);
+
+                    }
+                    else{
+                        grptdapbooster.clearCheck();
+
+                    }
+
                     tdapdoseE.setText(mdose1Date);
+                    tdapdoseboosterdateE.setText(mdoseboosterDate);
 
 
 
@@ -1006,6 +1022,50 @@ public class ImmunisationProfile extends AppCompatActivity {
 
 
 
+    public void tdapDoseBoosterInputListener(){
+        try{
+
+            tdapdoseboosterdateE.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                    if(!dcalc.checkDateDifferenceWithCurrentDate(s.toString())){
+
+                        Tdap inf = Tdap.findById(Tdap.class, 1);
+
+                        inf.setDoseboosterdate(s.toString());
+                        inf.save();
+
+                    }
+                    else{
+                        tdapdoseboosterdateE.setText("");
+
+                        Toast.makeText(ImmunisationProfile.this, "specify a date less than or equal to today", Toast.LENGTH_SHORT).show();
+
+                    }
+
+
+                }
+            });
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+
+
     public void tdapDoseInputListener(){
         try{
 
@@ -1466,6 +1526,7 @@ public class ImmunisationProfile extends AppCompatActivity {
 
             grpinfluenza =(RadioGroup) findViewById(R.id.radiogrpinfluenza);
             grptrimester =(RadioGroup) findViewById(R.id.radiogrptrimester);
+            grptdapbooster =(RadioGroup) findViewById(R.id.radiogrptdapbooster);
             grpinfluenzaqn =(RadioGroup) findViewById(R.id.radiogrpinfluenzaqn);
             grpmeningoco =(RadioGroup) findViewById(R.id.radiogrpmeningocoqn);
 
@@ -1474,6 +1535,8 @@ public class ImmunisationProfile extends AppCompatActivity {
             llmeningoco=(LinearLayout) findViewById(R.id.meningocodoselayout);
             llpreg=(LinearLayout) findViewById(R.id.llpregnant);
             lltrimester=(LinearLayout) findViewById(R.id.lltrimester);
+            lltdapbooster=(LinearLayout) findViewById(R.id.tdapboosterlayout);
+            lltdapboosterdate=(LinearLayout) findViewById(R.id.tdapdoseboosterdatelayout);
             grpvaricella =(RadioGroup) findViewById(R.id.radiogrpvaricella);
             grpvaricellaqn1 =(RadioGroup) findViewById(R.id.radiogrpvaricellaqn1);
             llvaricella=(LinearLayout) findViewById(R.id.varicelladoselayout);
@@ -1514,6 +1577,7 @@ public class ImmunisationProfile extends AppCompatActivity {
             tdapdoseE=(EditText) findViewById(R.id.tdapdose);
             meningocodoseE=(EditText) findViewById(R.id.meningocofirstdose);
             meningocodose2E=(EditText) findViewById(R.id.meningocoseconddose);
+            tdapdoseboosterdateE=(EditText) findViewById(R.id.tdapdoseboosterdate);
 
 
             measles2label=(TextView) findViewById(R.id.measlessecondoselabel);
@@ -1921,6 +1985,9 @@ public class ImmunisationProfile extends AppCompatActivity {
                         }
                         else{
                             lltdap.setVisibility(View.GONE);
+                            lltdapbooster.setVisibility(View.VISIBLE);
+                            getCheckedRadioTdapBooster();
+
                             tdapdoseE.setText("");
                             tdapimmunisedS="no";
 
@@ -1939,6 +2006,88 @@ public class ImmunisationProfile extends AppCompatActivity {
                                 Tdap inf=new Tdap();
                                 inf.setImmunisedvalue("No");
                                 inf.setImmunisedid(Integer.toString(checkedId));
+                                inf.save();
+
+                            }
+
+
+                        }
+                    }
+                }
+            });
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+
+
+    public void getCheckedRadioTdapBooster(){
+
+        try{
+
+
+            grptdapbooster.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                     radiobtntdapbooster= (RadioButton) group.findViewById(checkedId);
+                    if (null != radiobtntdapbooster && checkedId > -1) {
+
+                        String selectedOption=radiobtntdapbooster.getText().toString();
+                        if(selectedOption.equalsIgnoreCase("Yes")){
+                            lltdapboosterdate.setVisibility(View.VISIBLE);
+
+                            tdapBoosterDateListener();
+                            tdapDoseBoosterInputListener();
+//                            Toast.makeText(ImmunisationProfile.this, "yes", Toast.LENGTH_SHORT).show();
+
+                            List<Tdap> myl=Tdap.findWithQuery(Tdap.class,"select * from Tdap");
+                            if(myl.size()>0){
+
+                                Tdap inf = Tdap.findById(Tdap.class, 1);
+
+                                inf.setImmunisedboostervalue("Yes");
+                                inf.setImmunisedboosterid(Integer.toString(checkedId));
+                                inf.save();
+
+                            }
+                            else{
+
+                                Tdap inf=new Tdap();
+                                inf.setImmunisedboostervalue("Yes");
+                                inf.setImmunisedboosterid(Integer.toString(checkedId));
+                                inf.save();
+
+                            }
+
+                            tdapDoseInputListener();
+
+
+                        }
+                        else{
+
+                            lltdapboosterdate.setVisibility(View.GONE);
+
+                            tdapdoseboosterdateE.setText("");
+
+//
+                            List<Tdap> myl=Tdap.findWithQuery(Tdap.class,"select * from Tdap");
+                            if(myl.size()>0){
+
+                                Tdap inf = Tdap.findById(Tdap.class, 1);
+
+                                inf.setImmunisedboostervalue("No");
+                                inf.setImmunisedboosterid(Integer.toString(checkedId));
+                                inf.save();
+
+                            }
+                            else{
+
+                                Tdap inf=new Tdap();
+                                inf.setImmunisedboostervalue("No");
+                                inf.setImmunisedboosterid(Integer.toString(checkedId));
                                 inf.save();
 
                             }
@@ -2104,6 +2253,19 @@ public class ImmunisationProfile extends AppCompatActivity {
         catch(Exception e){
 
             Toast.makeText(this, "error displaying varicella dose 2 datepicker", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    public void tdapBoosterDateListener(){
+        try{
+
+            DateListener(tdapdoseboosterdateE);
+
+        }
+        catch(Exception e){
+
+            Toast.makeText(this, "error displaying tdap dose booster datepicker", Toast.LENGTH_SHORT).show();
         }
 
     }
