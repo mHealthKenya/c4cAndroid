@@ -131,6 +131,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
         initialise();
 
+
         CheckToperiodListener();
 
         populateSpinner();
@@ -1755,7 +1756,7 @@ public void populatePartners(){
 //            String partorgS,duS,specialisS,nameS,lnameS,myotherS,idnoS,ageS,mflS,dose1S,dose2S,munameS,mpassS,answerS;
 //            String genderS,cadreS,hpbvaccintedS,secqnS;
 
-            Regdetails rd=new Regdetails(duS,specialisS,genderS,cadreS,idnoS,ageS,mflS,hpbvaccintedS,dose1S,dose2S,munameS,mpassS,secqnS,answerS);
+            Regdetails rd=new Regdetails(duS,specialisS,genderS,cadreS,idnoS,ageS,mflS,hpbvaccintedS,dose1S,dose2S,munameS,mpassS,secqnS,answerS,nameS,lnameS);
             rd.save();
 
             List<Regdetails> myl=Regdetails.findWithQuery(Regdetails.class,"select * from Regdetails");

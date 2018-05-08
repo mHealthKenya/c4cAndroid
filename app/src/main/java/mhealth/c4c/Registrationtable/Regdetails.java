@@ -22,11 +22,13 @@ public class Regdetails extends SugarRecord {
     public String password;
     public String securityqn;
     public String answer;
+    public String fname;
+    public String lname;
 
     public Regdetails() {
     }
 
-    public Regdetails(String doctorUnionNumber, String specialisation, String gender, String cadre, String idnumber, String dob, String mfl, String hpbvaccination, String hpbdose1, String hpbdose2, String username, String password, String securityqn, String answer) {
+    public Regdetails(String doctorUnionNumber, String specialisation, String gender, String cadre, String idnumber, String dob, String mfl, String hpbvaccination, String hpbdose1, String hpbdose2, String username, String password, String securityqn, String answer,String fname,String lname) {
         this.doctorUnionNumber = doctorUnionNumber;
         this.specialisation = specialisation;
         this.gender = gender;
@@ -41,6 +43,24 @@ public class Regdetails extends SugarRecord {
         this.password = password;
         this.securityqn = securityqn;
         this.answer = answer;
+        this.fname=fname;
+        this.lname=lname;
+    }
+
+    public String getFname() {
+        return fname;
+    }
+
+    public void setFname(String fname) {
+        this.fname = fname;
+    }
+
+    public String getLname() {
+        return lname;
+    }
+
+    public void setLname(String lname) {
+        this.lname = lname;
     }
 
     public String getDoctorUnionNumber() {

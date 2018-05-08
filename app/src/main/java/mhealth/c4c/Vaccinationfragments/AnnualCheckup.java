@@ -31,7 +31,7 @@ import mhealth.c4c.dialogs.Dialogs;
 
 public class AnnualCheckup extends Fragment {
     View v;
-    EditText gcheckup,pcheckup;
+    EditText gcheckup;
     DatePickerDialog datePickerDialog;
     DateCalculator dcalc;
     Dialogs mydialog;
@@ -58,11 +58,11 @@ public class AnnualCheckup extends Fragment {
         super.onResume();
 
 
-        PhysicalCheckupDateListener();
+
         GeneralCheckupDateListener();
 
         setGeneralCheckupInputListener();
-        setPhysicalCheckupInputListener();
+
 
     }
 
@@ -78,7 +78,7 @@ public class AnnualCheckup extends Fragment {
                     String gdate=myl.get(x).getGeneraldate();
                     String pdate=myl.get(x).getPhysicaldate();
                     gcheckup.setText(gdate);
-                    pcheckup.setText(pdate);
+
 
 
                 }
@@ -129,41 +129,12 @@ public class AnnualCheckup extends Fragment {
         }
     }
 
-    public void populatePhysicalDate(){
-
-        try{
-
-            List<checkupcalendar> myl=checkupcalendar.findWithQuery(checkupcalendar.class,"select * from checkupcalendar limit 1");
-            if(myl.size()==1){
-
-                for(int x=0;x<=1;x++){
-
-
-                    String pdate=myl.get(x).getPhysicaldate();
-
-                    pcheckup.setText(pdate);
-                }
-            }
-            else{
-
-
-                pcheckup.setText("");
-            }
-        }
-        catch(Exception e){
-
-            Toast.makeText(getActivity(), "error setting dates", Toast.LENGTH_SHORT).show();
-
-
-        }
-    }
-
     public void initialise(){
 
         try{
 
             gcheckup=(EditText) v.findViewById(R.id.generalcheckup);
-            pcheckup=(EditText) v.findViewById(R.id.physicalcheckup);
+
             dcalc=new DateCalculator();
             mydialog=new Dialogs(getActivity());
         }
@@ -224,105 +195,6 @@ public class AnnualCheckup extends Fragment {
 
         }
         catch(Exception e){
-
-        }
-    }
-
-
-
-
-    public void setPhysicalCheckupInputListener(){
-
-        try{
-            pcheckup.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-
-                    if(dcalc.checkDateDifferenceWithCurrentDate(s.toString())){
-                        List<checkupcalendar> myl=checkupcalendar.findWithQuery(checkupcalendar.class,"select * from checkupcalendar limit 1");
-                        if(myl.size()==1){
-
-
-                            checkupcalendar cp = checkupcalendar.findById(checkupcalendar.class, 1);
-                            cp.setPhysicaldate(s.toString());
-                            cp.save();
-                            mydialog.showSuccessDialogCalendarCheckup("success setting physical checkup date","success");
-
-                        }
-                        else{
-                            checkupcalendar cp=new checkupcalendar();
-                            cp.setPhysicaldate(s.toString());
-                            cp.save();
-
-                            mydialog.showSuccessDialogCalendarCheckup("success setting physical checkup date","success");
-
-
-
-                        }
-                    }
-                    else{
-
-                        mydialog.showCalendarCheckup("provide a date greater than today","Error");
-//                        populatePhysicalDate();
-                    }
-
-                }
-            });
-
-
-        }
-        catch(Exception e){
-
-        }
-    }
-
-    public void PhysicalCheckupDateListener(){
-
-        try{
-
-            pcheckup.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // calender class's instance and get current date , month and year from calender
-                    final Calendar c = Calendar.getInstance();
-                    int mYear = c.get(Calendar.YEAR); // current year
-                    int mMonth = c.get(Calendar.MONTH); // current month
-                    int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
-
-                    // date picker partnerdialog
-                    datePickerDialog = new DatePickerDialog(getActivity(),
-                            new DatePickerDialog.OnDateSetListener() {
-
-                                @Override
-                                public void onDateSet(DatePicker view, int year,
-                                                      int monthOfYear, int dayOfMonth) {
-                                    // set day of month , month and year value in the edit text
-
-
-                                    String dom=String.format("%02d", dayOfMonth);
-                                    String moy=String.format("%02d", (monthOfYear + 1));
-                                    pcheckup.setText(dom+ "/"
-                                            + moy + "/" + year);
-
-
-                                }
-                            }, mYear, mMonth, mDay);
-                    datePickerDialog.show();
-                }
-            });
-        }
-        catch(Exception e){
-
 
         }
     }

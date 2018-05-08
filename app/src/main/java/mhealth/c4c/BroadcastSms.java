@@ -1,6 +1,7 @@
 package mhealth.c4c;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +17,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 
 /**
  * Created by kennedy on 9/13/17.
@@ -24,11 +27,14 @@ import java.util.Calendar;
 
 public class BroadcastSms extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    EditText msg,dte,name;
+    EditText msg,dte,name,cdreselect;
     Spinner cdre;
     int selectedCadre;
+    final ArrayList itemsSelectedSpecialisation = new ArrayList();
+    Dialog specialisationdialog;
 
     String[] cadres={"Please Select Cadre","Student","Doctor","Nurse","Clinical officer","Laboratory technologist","Cleaner","Waste Handlers","Vct Counsellor"};
+    String[] itemsspecialisation={"Student","Doctor","Nurse","Clinical officer","Laboratory technologist","Cleaner","Waste Handlers","Vct Counsellor"};
 
     DatePickerDialog datePickerDialog;
     @Override
@@ -39,6 +45,7 @@ public class BroadcastSms extends AppCompatActivity implements AdapterView.OnIte
         initialise();
         CheckDateListener();
         populateCadres();
+        setSpecialisationClickListener();
         cdre.setOnItemSelectedListener(this);
     }
 
@@ -51,6 +58,116 @@ public class BroadcastSms extends AppCompatActivity implements AdapterView.OnIte
             dte.setText("");
             name.setText("");
             populateCadres();
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+    public void setSpecialisationClickListener(){
+
+        try{
+
+            cdreselect.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    cdreselect.setText("");
+                    itemsSelectedSpecialisation.clear();
+                    displayMultiselectForSpecialisation();
+
+
+                }
+            });
+
+        }
+        catch(Exception e){
+
+
+
+        }
+    }
+
+
+    public void displayMultiselectForSpecialisation(){
+
+        try{
+
+
+            final boolean selected[] = new boolean[]{false, false, false, false,false,false,false,false};
+
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+            builder.setTitle("Select Your Cadre: ");
+            builder.setMultiChoiceItems(itemsspecialisation, selected,
+                    new DialogInterface.OnMultiChoiceClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int selectedItemId,
+                                            boolean isSelected) {
+
+                            if (isSelected) {
+
+
+
+                                //logic
+
+                                for (int i = 0; i < selected.length; i++) {
+                                    if (i == selectedItemId) {
+
+                                        selected[i]=true;
+
+                                    }
+
+                                }
+
+
+
+                                //logic
+
+                                itemsSelectedSpecialisation.add(selectedItemId);
+                            }
+
+                            else if (itemsSelectedSpecialisation.contains(selectedItemId)) {
+                                itemsSelectedSpecialisation.remove(Integer.valueOf(selectedItemId));
+                                selected[selectedItemId]=false;
+
+                            }
+                        }
+                    })
+                    .setPositiveButton("Done!", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            //Your logic when OK button is clicked
+
+                            Iterator<String> it=itemsSelectedSpecialisation.iterator();
+
+                            while(it.hasNext()){
+
+                                cdreselect.append(itemsspecialisation[Integer.parseInt(String.valueOf(it.next()))]);
+
+
+                                if(it.hasNext()){
+                                    cdreselect.append(",");
+                                }
+
+
+
+
+                            }
+
+
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+
+
+                        }
+                    });
+            specialisationdialog = builder.create();
+            specialisationdialog.show();
+
+
         }
         catch(Exception e){
 
@@ -155,6 +272,7 @@ public class BroadcastSms extends AppCompatActivity implements AdapterView.OnIte
             dte=(EditText) findViewById(R.id.bdate);
             name=(EditText) findViewById(R.id.bname);
             cdre=(Spinner) findViewById(R.id.cadrespinner);
+            cdreselect=(EditText) findViewById(R.id.cadreselect);
         }
         catch(Exception e){
 

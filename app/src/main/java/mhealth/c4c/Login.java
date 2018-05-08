@@ -5,20 +5,31 @@ package mhealth.c4c;
  */
 
 
+import android.*;
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.SubscriptionInfo;
+import android.telephony.SubscriptionManager;
+import android.telephony.TelephonyManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,13 +48,13 @@ public class Login extends AppCompatActivity {
     private TextView link_forgot_password;
     Dialogs sweetdialog;
 
-    private static final int PERMS_REQUEST_CODE=123;
+    private static final int PERMS_REQUEST_CODE = 123;
 
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
-    Progress pr=new Progress();
+    Progress pr = new Progress();
     List<RegistrationTable> user_list = new ArrayList<>();
-    boolean kmpduChecked=false;
+    boolean kmpduChecked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +62,8 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.login);
 
 
-
-
         LoadRegistration();
-        sweetdialog=new Dialogs(Login.this);
+        sweetdialog = new Dialogs(Login.this);
 
         input_email = (EditText) findViewById(R.id.input_email);
         input_password = (EditText) findViewById(R.id.input_password);
@@ -77,7 +86,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Start the Register activity
-                Intent intent = new Intent(getApplicationContext(),ForgotPassword.class);
+                Intent intent = new Intent(getApplicationContext(), ForgotPassword.class);
                 startActivityForResult(intent, REQUEST_SIGNUP);
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
@@ -85,7 +94,79 @@ public class Login extends AppCompatActivity {
         populateUsername();
         getPassedValues();
         getPartners();
+
+        //get phone
+
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            List<SubscriptionInfo> subscription = SubscriptionManager.from(getApplicationContext()).getActiveSubscriptionInfoList();
+//            for (int i = 0; i < subscription.size(); i++) {
+//                SubscriptionInfo info = subscription.get(i);
+//
+//                Log.d(TAG, "number " + info.getNumber());
+//                Log.d(TAG, "network name : " + info.getCarrierName());
+//                Log.d(TAG, "country iso " + info.getCountryIso());
+//            }
+//        }
+
+        //get phone
+//        Toast.makeText(this, "phone is " + getPhone(), Toast.LENGTH_SHORT).show();
     }
+
+
+    @SuppressLint("MissingPermission")
+    private String getPhone() {
+        TelephonyManager phoneMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+
+        requestPerms();
+        return phoneMgr.getSubscriberId();
+    }
+
+
+
+
+
+
+
+    private String getMyPhoneNO() {
+        TelephonyManager tMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            requestPerms();
+            return "";
+        }
+        requestPerms();
+        String mPhoneNumber = tMgr.getLine1Number();
+        return mPhoneNumber;
+    }
+
+//    public void requestPerms(){
+//
+//        try{
+//
+//            int permissionCheck = ContextCompat.checkSelfPermission(Login.this, android.Manifest.permission.SEND_SMS);
+//
+//            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+//                ActivityCompat.requestPermissions(
+//                        Login.this,
+//                        new String[]{android.Manifest.permission.SEND_SMS},
+//                        1235);
+//            } else {
+//
+//            }
+//        }
+//        catch(Exception e){
+//            Toast.makeText(this, "error in granting permissions "+e, Toast.LENGTH_SHORT).show();
+//
+//
+//        }
+//    }
+
 
     public void getPassedValues(){
 
@@ -341,7 +422,9 @@ public class Login extends AppCompatActivity {
                     android.Manifest.permission.GET_ACCOUNTS,
                     android.Manifest.permission.RECEIVE_SMS,
                     android.Manifest.permission.READ_CONTACTS,
-                    android.Manifest.permission.INTERNET
+                    android.Manifest.permission.INTERNET,
+                    Manifest.permission.READ_PHONE_STATE
+
             };
 
             for (String perms : permissions) {
@@ -375,7 +458,9 @@ public class Login extends AppCompatActivity {
                 android.Manifest.permission.GET_ACCOUNTS,
                 android.Manifest.permission.RECEIVE_SMS,
                 android.Manifest.permission.READ_CONTACTS,
-                android.Manifest.permission.INTERNET
+                android.Manifest.permission.INTERNET,
+                android.Manifest.permission.READ_PHONE_STATE
+
         };
 
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){

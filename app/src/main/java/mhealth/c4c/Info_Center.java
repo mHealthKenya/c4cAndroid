@@ -35,8 +35,8 @@ public class Info_Center extends AppCompatActivity {
 
         itemImage = (ImageView) findViewById(R.id.arrow);
         listView = (ListView) findViewById(R.id.list);
-        String[] values = new String[]{"FAQ", "ART GUIDELINES", "NASCOP WEBSITE"};
-        int [] prgmImages={R.drawable.arrow,R.drawable.arrow,R.drawable.arrow};
+        String[] values = new String[]{"FAQ", "ART GUIDELINES", "NASCOP WEBSITE","UCSF"};
+        int [] prgmImages={R.drawable.arrow,R.drawable.arrow,R.drawable.arrow,R.drawable.arrow};
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 R.layout.info_center_row, R.id.label, values);
@@ -45,64 +45,7 @@ public class Info_Center extends AppCompatActivity {
 //        listView.setAdapter(adapter);
 
         listView.setAdapter(new CustomAdapter(this, values,prgmImages));
-        
-//        listView.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//
-//                TextView ll = (TextView) v.findViewById(R.id.label);
-//                String itemTag = ll.getTag().toString();
-//                int itemPosition = Integer.parseInt(itemTag);
-//                Toast.makeText(getApplicationContext(), "touched text at "+itemPosition, Toast.LENGTH_SHORT).show();
-//                return true;
-//            }
-//
-//
-//        });
 
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View viewHolder, int i, long id) {
-//
-//                if (i == 0) {
-//                    viewHolder.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            mContext = v.getContext();
-//
-//                            Intent myint=new Intent(getApplicationContext(),CardViewActivity.class);
-//                            startActivity(myint);
-//
-//                        }
-//                    });
-//                } else if (i == 1) {
-//                    viewHolder.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            mContext = v.getContext();
-//
-//                            Uri uri = Uri.parse("https://www.youtube.com/user/nascopkenya1");
-//
-//                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-//                            mContext.startActivity(intent);
-//
-//                        }
-//                    });
-//                } else if (i == 2) {
-//                    viewHolder.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            mContext = v.getContext();
-//
-//                            Uri uri = Uri.parse("http://www.nascop.or.ke"); // missing 'http://' will cause crashed
-//                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-//                            mContext.startActivity(intent);
-//
-//                        }
-//                    });
-//                }
-//            }
-//        });
     }
 
     @Override
