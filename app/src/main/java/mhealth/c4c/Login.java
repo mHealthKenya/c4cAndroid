@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -23,7 +24,12 @@ import android.telephony.SubscriptionInfo;
 import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -44,7 +50,6 @@ public class Login extends AppCompatActivity {
     private EditText input_email;
     private EditText input_password;
     private Button btnSignin;
-    private TextView link_signup;
     private TextView link_forgot_password;
     Dialogs sweetdialog;
 
@@ -70,6 +75,8 @@ public class Login extends AppCompatActivity {
         btnSignin = (Button) findViewById(R.id.btnSignin);
         //link_signup = (TextView) findViewById(R.id.link_signup);
         link_forgot_password = (TextView) findViewById(R.id.forgot_password);
+
+
         btnSignin.setOnClickListener(new View.OnClickListener() {
 
 
@@ -120,6 +127,7 @@ public class Login extends AppCompatActivity {
         requestPerms();
         return phoneMgr.getSubscriberId();
     }
+
 
 
 

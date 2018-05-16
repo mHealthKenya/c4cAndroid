@@ -79,5 +79,6 @@
         android:text="Forgot Password?"
         android:gravity="center"
         android:textSize="16dip"/>
+
 </LinearLayout>
 </ScrollView>

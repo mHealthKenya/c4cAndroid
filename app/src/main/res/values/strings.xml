@@ -26,6 +26,8 @@
     <string name="faq">FAQ\'s</string>
     <string name="mfl">MFL</string>
 
+    <string name="linktest">these is a link test <a href="www.google.com">link here</a></string>
+
     <string-array name="cadre_array">
         <item>Doctor</item>
         <item>Clinical Officer</item>
