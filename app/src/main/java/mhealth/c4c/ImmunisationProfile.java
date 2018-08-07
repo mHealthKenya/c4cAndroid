@@ -1,5 +1,6 @@
 package mhealth.c4c;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.Notification;
@@ -1600,6 +1601,7 @@ public class ImmunisationProfile extends AppCompatActivity {
 
 
             grptrimester.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @SuppressLint("ResourceType")
                 @Override
                 public void onCheckedChanged(RadioGroup group, int checkedId) {
                     radiobtntrimester = (RadioButton) group.findViewById(checkedId);
@@ -2412,9 +2414,9 @@ public class ImmunisationProfile extends AppCompatActivity {
         boolean isFemale=false;
         try{
 
-            List<Regdetails> myl=Regdetails.findWithQuery(Regdetails.class,"select * from Regdetails");
+            List<RegistrationTable> myl=RegistrationTable.findWithQuery(RegistrationTable.class,"select * from Registration_table limit 1");
             for(int x=0;x<myl.size();x++){
-                if(myl.get(x).gender.equalsIgnoreCase("Female")){
+                if(myl.get(x).gender.equalsIgnoreCase("2")){
                     isFemale=true;
                 }
             }

@@ -47,6 +47,212 @@
         android:visibility="gone"
         android:layout_height="wrap_content" />
 
+    <!--new code here-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:id="@+id/llhidden"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
+
+        <!--start here-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                android:id="@+id/device"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Which device caused the injury?"
+                android:textColorHint="@color/textcolorblack"
+                app:met_floatingLabel="normal" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:id="@+id/deviceother"
+                android:hint="Specify Other"
+                android:visibility="gone"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                android:id="@+id/devicesafety"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Was the device safety designed?"
+                android:textColorHint="@color/textcolorblack"
+                app:met_floatingLabel="normal" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:id="@+id/devicesafetyother"
+                android:hint="Specify Other"
+                android:visibility="gone"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                android:id="@+id/deviceautodisable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Was the device an auto-disable syringe?"
+                android:textColorHint="@color/textcolorblack"
+                app:met_floatingLabel="normal" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:id="@+id/deviceautodisableother"
+                android:hint="Specify Other"
+                android:visibility="gone"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+
+            android:layout_height="wrap_content">
+
+            <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                android:id="@+id/exposuredeep"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Was the exposure superficial or deep?"
+                android:textColorHint="@color/textcolorblack"
+                app:met_floatingLabel="normal" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:id="@+id/exposuredeepother"
+                android:hint="Specify Other"
+                android:visibility="gone"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+
+        <!--end here-->
+
+
+
+    </LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/llpurpose"
+        android:layout_height="wrap_content">
+
+        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+            android:id="@+id/purpose"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="For what purpose was the sharp item originally used?"
+            android:textColorHint="@color/textcolorblack"
+            app:met_floatingLabel="normal" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:id="@+id/purposeother"
+            android:hint="Specify Other"
+            android:visibility="gone"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/llwhen"
+        android:layout_height="wrap_content">
+
+        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+            android:id="@+id/when"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="When did the injury occur?"
+            android:textColorHint="@color/textcolorblack"
+            app:met_floatingLabel="normal" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:id="@+id/whenother"
+            android:hint="Specify Other"
+            android:visibility="gone"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/llhivstatus"
+        android:layout_height="wrap_content">
+
+        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+            android:id="@+id/hivstatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="What was the HIV status of the source Patient/Specimen?"
+            android:textColorHint="@color/textcolorblack"
+            app:met_floatingLabel="normal" />
+
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/llhbvstatus"
+        android:layout_height="wrap_content">
+
+        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+            android:id="@+id/hbvstatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="What was the HBV status of the source Patient/Specimen?"
+            android:textColorHint="@color/textcolorblack"
+            app:met_floatingLabel="normal" />
+
+
+    </LinearLayout>
+
+    <!--new code here-->
+
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"

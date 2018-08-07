@@ -13,6 +13,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.telephony.SmsManager;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -35,6 +36,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.facebook.stetho.Stetho;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,6 +46,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import mhealth.c4c.Registrationtable.Regdetails;
 import mhealth.c4c.Registrationtable.Regpartners;
@@ -52,6 +55,7 @@ import mhealth.c4c.Tables.UserTable;
 import mhealth.c4c.Tables.kmpdu;
 import mhealth.c4c.dateCalculator.DateCalculator;
 import mhealth.c4c.dialogs.Dialogs;
+import mhealth.c4c.encryption.Base64Encoder;
 import mhealth.c4c.systemstatetables.Measles;
 
 /**
@@ -61,7 +65,7 @@ import mhealth.c4c.systemstatetables.Measles;
 
 public class CreateUser extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    EditText nameE,lnameE,idnoE,ageE,mflE,munameE,mpassE,mcpassE,mhint,motherE,dunumber,dose1E,dose2E;
+    EditText idnoE,ageE,mflE,motherE,dunumber,dose1E,dose2E;
     CheckBox mchkb;
     String otherValue;
     TextView specialisel,cadrel;
@@ -71,6 +75,9 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     RadioGroup radio2dosegrp;
     RadioButton radiobtnseconddose;
     Dialogs sweetdialog;
+
+
+    public final Pattern textPattern = Pattern.compile("^([a-zA-Z+]+[0-9+]+)$");
 
 
     EditText partnerorgE,specialisationE;
@@ -99,7 +106,6 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     String[] genders={"Please Select Gender","Male","Female"};
     String[] cadres={"Please Select Cadre","Student","Doctor","Nurse","Clinical Officer","Laboratory Technologist","Cleaner","Waste Handlers","VCT Counselor","Other"};
     String[] hepa={"Have you been vaccinated against Hepatitis B?","Yes","Partially","No"};
-    String[] secqn={"choose a security question","what is your last name ?","what is your favourite pet ?","what is your favourite country ?"};
 
 
 
@@ -109,16 +115,16 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     Spinner myspinner;
     Spinner myspinner2;
     Spinner myspinner3;
-    Spinner myspinner4;
+
 
     String selected_item="";
     String myselected="";
     String selected_item2="";
     String myselected2="";
     String myselected3="";
-    String myselected4="";
+
     StringBuilder partners;
-    String selectedQn="";
+
     boolean kmpduChecked;
     DateCalculator dcalc;
 
@@ -131,27 +137,27 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
         initialise();
 
-
         CheckToperiodListener();
 
         populateSpinner();
         populateSpinner2();
         populateSpinner3();
-        populateSpinner4();
-
 
         myspinner.setOnItemSelectedListener(this);
         myspinner2.setOnItemSelectedListener(this);
         myspinner3.setOnItemSelectedListener(this);
-        myspinner4.setOnItemSelectedListener(this);
+
 
         setPartnerClickListener();
         setSpecialisationClickListener();
         dose1InputListener();
         dose2InputListener();
+        Stetho.initializeWithDefaults(this);
 
 
     }
+
+
 
 
     public void dose1InputListener(){
@@ -171,20 +177,32 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                 @Override
                 public void afterTextChanged(Editable s) {
 
-                    if(!dcalc.checkDateDifferenceWithCurrentDate(s.toString())){
+                    try{
+
+
+
+                        if(!dcalc.checkDateDifferenceWithCurrentDate(s.toString())){
 
 
 
 
-                    }
-                    else{
+                        }
+                        else{
 
-                        dose1E.setText("");
-                        sweetdialog.showErrorDialogRegistration("specify a date less or equal to today","Registration Error");
+                            dose1E.setText("");
+                            sweetdialog.showErrorDialogRegistration("specify a date less or equal to today","Registration Error");
 //                        Toast.makeText(CreateUser.this, "specify a date less or equal to today", Toast.LENGTH_SHORT).show();
+                        }
+
+
+
                     }
+                    catch(Exception e){
+
+                        Toast.makeText(CreateUser.this, "crash "+e, Toast.LENGTH_SHORT).show();
 
 
+                    }
 
 
                 }
@@ -213,30 +231,41 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                 @Override
                 public void afterTextChanged(Editable s) {
 
-                    long dateDiff=dcalc.calculateDateDifference(dose1E.getText().toString(),s.toString());
-                    if(!dcalc.checkDateDifferenceWithCurrentDate(s.toString())){
+                    try{
+
+                        long dateDiff=dcalc.calculateDateDifference(dose1E.getText().toString(),s.toString());
+                        if(!dcalc.checkDateDifferenceWithCurrentDate(s.toString())){
 
 
 
-                        if(dateDiff<28){
+                            if(dateDiff<28){
 
 //                            dose2E.setText("");
-                            sweetdialog.showErrorDialogRegistration("second dose should be 28 days after first dose, try again","Vaccination Date Error");
+                                sweetdialog.showErrorDialogRegistration("second dose should be 28 days after first dose, try again","Vaccination Date Error");
 
+
+                            }
+                            else{
+
+
+                            }
 
                         }
                         else{
 
-
+                            dose2E.setText("");
+                            sweetdialog.showErrorDialogRegistration("specify a date less or equal to today","Registration Error");
+//                        Toast.makeText(CreateUser.this, "specify a date less or equal to today", Toast.LENGTH_SHORT).show();
                         }
 
                     }
-                    else{
+                    catch(Exception e){
 
-                        dose2E.setText("");
-                        sweetdialog.showErrorDialogRegistration("specify a date less or equal to today","Registration Error");
-//                        Toast.makeText(CreateUser.this, "specify a date less or equal to today", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CreateUser.this, "crash "+e, Toast.LENGTH_SHORT).show();
+
                     }
+
+
 
                 }
             });
@@ -526,12 +555,11 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
                                 specialisel.setVisibility(View.VISIBLE);
                                 idnoE.setVisibility(View.GONE);
-                                nameE.setVisibility(View.GONE);
+
                                 mflE.setVisibility(View.GONE);
                                 myspinner2.setVisibility(View.GONE);
                                 cadrel.setVisibility(View.GONE);
 
-                                lnameE.setVisibility(View.GONE);
 
 
                             }
@@ -544,12 +572,12 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                                 specialisel.setVisibility(View.GONE);
 
                                 idnoE.setVisibility(View.VISIBLE);
-                                nameE.setVisibility(View.VISIBLE);
+
                                 mflE.setVisibility(View.VISIBLE);
                                 myspinner2.setVisibility(View.VISIBLE);
                                 cadrel.setVisibility(View.VISIBLE);
 //                        motherE.setVisibility(View.GONE);
-                                lnameE.setVisibility(View.VISIBLE);
+
 
                             }
 
@@ -569,12 +597,12 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                                     specialisel.setVisibility(View.GONE);
                                     specialisationE.setVisibility(View.GONE);
                                     idnoE.setVisibility(View.VISIBLE);
-                                    nameE.setVisibility(View.VISIBLE);
+
                                     mflE.setVisibility(View.VISIBLE);
                                     myspinner2.setVisibility(View.VISIBLE);
                                     cadrel.setVisibility(View.VISIBLE);
 //                        motherE.setVisibility(View.GONE);
-                                    lnameE.setVisibility(View.VISIBLE);
+
 
 
                                 }
@@ -615,12 +643,12 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
                             specialisel.setVisibility(View.GONE);
                             idnoE.setVisibility(View.VISIBLE);
-                            nameE.setVisibility(View.VISIBLE);
+
                             mflE.setVisibility(View.VISIBLE);
                             myspinner2.setVisibility(View.VISIBLE);
                             cadrel.setVisibility(View.VISIBLE);
 //                        motherE.setVisibility(View.GONE);
-                            lnameE.setVisibility(View.VISIBLE);
+
 
 
                         }
@@ -731,25 +759,22 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             dcalc=new DateCalculator();
             partnerorgE=(EditText) findViewById(R.id.partorg);
             specialisationE=(EditText) findViewById(R.id.specialisationselect);
-            nameE=(EditText) findViewById(R.id.name);
+
             specialisel=(TextView) findViewById(R.id.specialisationlabel);
             cadrel=(TextView) findViewById(R.id.cadrelabel);
             kmpduChecked=false;
             dunumber=(EditText) findViewById(R.id.du);
             otherValue="";
             motherE=(EditText) findViewById(R.id.myother);
-            mhint=(EditText) findViewById(R.id.hint);
-            lnameE=(EditText) findViewById(R.id.lname);
+
             idnoE=(EditText) findViewById(R.id.idno);
             ageE=(EditText) findViewById(R.id.age);
             mflE=(EditText) findViewById(R.id.mfl);
-            munameE=(EditText) findViewById(R.id.muname);
-            mpassE=(EditText) findViewById(R.id.mpass);
-            mcpassE=(EditText) findViewById(R.id.mcpass);
+
             myspinner=(Spinner) findViewById(R.id.spinner);
             myspinner2=(Spinner) findViewById(R.id.spinner2);
             myspinner3=(Spinner) findViewById(R.id.spinner3);
-            myspinner4=(Spinner) findViewById(R.id.spinner4);
+
             radio2dosegrp=(RadioGroup) findViewById(R.id.radiogrpseconddose);
 
             doselayout=(LinearLayout) findViewById(R.id.doses);
@@ -837,25 +862,6 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
         }
 
-        else if (spin.getId()==R.id.spinner4){
-
-            selectedQn=secqn[position];
-
-
-            myselected4=Integer.toString(position);
-            if(position>0){
-
-                mhint.setEnabled(true);
-            }
-            else{
-                mhint.setEnabled(false);
-                mhint.setText("");
-            }
-            actOnSelected();
-
-        }
-
-
     }
 
     public void onNothingSelected(AdapterView<?> arg0) {
@@ -878,16 +884,26 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                 @Override
                 public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-                    switch(checkedId){
-                        case R.id.radiono:
-                            dose2E.setVisibility(View.GONE);
-                            dose2E.setText("");
-                            break;
-                        case R.id.radioyes:
-                            dose2E.setVisibility(View.VISIBLE);
-                            Dose2DateListener();
-                            break;
+                    try{
+
+
+                        switch(checkedId){
+                            case R.id.radiono:
+                                dose2E.setVisibility(View.GONE);
+                                dose2E.setText("");
+                                break;
+                            case R.id.radioyes:
+                                dose2E.setVisibility(View.VISIBLE);
+                                Dose2DateListener();
+                                break;
                         }
+
+                    }
+                    catch(Exception e){
+
+
+                    }
+
 
                 }
             });
@@ -952,24 +968,6 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
         }
     }
 
-
-
-    public void populateSpinner4(){
-
-        try{
-
-            SpinnerAdapter customAdapter=new SpinnerAdapter(getApplicationContext(),secqn);
-
-            myspinner4.setAdapter(customAdapter);
-
-
-        }
-
-        catch(Exception e){
-
-
-        }
-    }
 
 
     public void populatePartnerTable(){
@@ -1044,11 +1042,11 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 //            Toast.makeText(this, ""+partners, Toast.LENGTH_SHORT).show();
 
 
-            String myname=nameE.getText().toString();
+
             String duns="";
 
 
-            String mylname=lnameE.getText().toString();
+
             String myidno=idnoE.getText().toString();
             String myage=ageE.getText().toString();
             String mymfl="";
@@ -1063,10 +1061,6 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                 mymfl=mflE.getText().toString();
             }
 
-            String myuname=munameE.getText().toString();
-            String mympass=mpassE.getText().toString();
-            String mymcpass=mcpassE.getText().toString();
-            String myhint=mhint.getText().toString();
             int curyear = Calendar.getInstance().get(Calendar.YEAR);
 //            idnoE.setVisibility(View.VISIBLE);
 //            nameE.setVisibility(View.VISIBLE);
@@ -1082,8 +1076,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 //                    Toast.makeText(this, "select specialisation", Toast.LENGTH_SHORT).show();
 //                }
 
-                myname="-1";
-                mylname="-1";
+
                 myidno="-1";
 
             }
@@ -1096,22 +1089,12 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
             }
 
-            if(!kmpduChecked && myname.trim().isEmpty()){
-                nameE.setError("First Name is Required");
 
-            }
-            if(!kmpduChecked && mylname.trim().isEmpty()){
-                lnameE.setError("Last Name is Required");
-
-            }
-            else if(!kmpduChecked && myidno.trim().isEmpty()){
+            if(!kmpduChecked && myidno.trim().isEmpty()){
                 idnoE.setError("ID NUMBER is Required");
 
             }
-            else if(myhint.trim().isEmpty()){
-                mhint.setError("Answer is required");
 
-            }
             else if(!kmpduChecked && myidno.length()<4){
 
                 idnoE.setError("ID NUMBER should contain more than 3 values");
@@ -1137,18 +1120,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                 mflE.setError("MFL Number should have a length of Five");
 
             }
-            else if(mympass.trim().isEmpty()){
-                mpassE.setError("Password is Required");
 
-            }
-            else if(mymcpass.trim().isEmpty()){
-                mcpassE.setError("Confirm Password is Required");
-
-            }
-            else if(!mymcpass.contentEquals(mympass)){
-                mcpassE.setError("Passwords Do not match");
-
-            }
             else if((curyear-selectedYear)<18){
 
                 sweetdialog.showErrorDialogRegistration("age should be greater than 18, try again","Registration Error");
@@ -1186,18 +1158,10 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
             }
 
-            else if(myselected4.contentEquals("0")){
-
-                sweetdialog.showErrorDialogRegistration("Specify security question","Registration Error");
-
-//                Toast.makeText(this, "Specify security question", Toast.LENGTH_LONG).show();
-
-
-            }
 
             else{
 
-                checkFacilityCode(myname,mylname,myidno,myage,mymfl,myuname,mympass,partners,myhint,duns,selectedspecialisation);
+                checkFacilityCode(myidno,myage,mymfl,partners,duns,selectedspecialisation);
 
 
             }
@@ -1219,12 +1183,12 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
         try{
 
             AlertDialog.Builder adb=new AlertDialog.Builder(this);
-            adb.setTitle("SIGNUP SUCCESS");
+            adb.setTitle("PROFILE CREATION SUCCESS");
             adb.setIcon(R.mipmap.success);
             adb.setMessage(message.toUpperCase());
             adb.setCancelable(false);
 
-            adb.setPositiveButton("LOGIN", new DialogInterface.OnClickListener() {
+            adb.setPositiveButton("CONTINUE", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
 
@@ -1233,7 +1197,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                         kmpdu km=new kmpdu("true");
                         km.save();
 
-                        Intent myint=new Intent(getApplicationContext(),Login.class);
+                        Intent myint=new Intent(getApplicationContext(),LandingPage.class);
 
                         startActivity(myint);
 
@@ -1243,7 +1207,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                         kmpdu mykm=new kmpdu("false");
                         mykm.save();
 
-                        Intent myint=new Intent(getApplicationContext(),Login.class);
+                        Intent myint=new Intent(getApplicationContext(),LandingPage.class);
 
                         startActivity(myint);
 
@@ -1295,10 +1259,10 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
 
 
-    public void checkFacilityCode(final String myname, final String mylname, final String myidno, final String myage, final String mymfl, final String myuname, final String mympass,final StringBuilder partner,final String mhnt,final String duns,final String sspecial){
+    public void checkFacilityCode( final String myidno, final String myage, final String mymfl,final StringBuilder partner,final String duns,final String sspecial){
 
 
-        final ProgressDialog pdialog= mydialog("loading...","Signing Up");
+        final ProgressDialog pdialog= mydialog("loading...","Creating Profile");
 
 //        Toast.makeText(this, "checking facility", Toast.LENGTH_SHORT).show();
 
@@ -1352,6 +1316,8 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
 
                             }
+
+
                             else {
                                 pdialog.cancel();
                                 correctMfl=true;
@@ -1369,8 +1335,17 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                                 }
 
                                 if(correctMfl){
-                                    RegistrationTable rt=new RegistrationTable(myname,mylname,myselected,myselected2,myidno,myage,mymfl,myselected3,myuname,mympass,selectedQn,mhnt);
+                                    RegistrationTable rt=RegistrationTable.findById(RegistrationTable.class,1);
+                                    rt.gender=myselected;
+                                    rt.cadre=myselected2;
+                                    rt.idnumber=myidno;
+                                    rt.age=myage;
+                                    rt.mflcode=mymfl;
+                                    rt.myhepa=myselected3;
                                     rt.save();
+//
+//                                    RegistrationTable rt=new RegistrationTable("","",myselected,myselected2,myidno,myage,mymfl,myselected3,"","","","");
+//                                    rt.save();
                                     String myoth="";
 
                                     try{
@@ -1388,31 +1363,34 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
                                     if(kmpduChecked){
 
-                                        mymess="Reg*"+myname+"*"+mylname+"*"+myidno+"*"+myage+"*"+myselected+"*"+"-1"+"*"+"-1"+"*"+myselected3+"*"+mdose1+"*"+mdose2+"*"+myuname+"*"+mympass+"*"+myselected4+"*"+mhnt+"*"+duns+"*"+sspecial+"*"+partner;
+
+
+
+                                        mymess="Reg*"+ Base64Encoder.encryptString(myidno+"*"+myage+"*"+myselected+"*"+"-1"+"*"+"-1"+"*"+myselected3+"*"+mdose1+"*"+mdose2+"*"+duns+"*"+sspecial+"*"+partner);
 
 
                                     }
                                     else if(!kmpduChecked && myoth.isEmpty()){
-                                        mymess="Reg*"+myname+"*"+mylname+"*"+myidno+"*"+myage+"*"+myselected+"*"+myselected2+"*"+mymfl+"*"+myselected3+"*"+mdose1+"*"+mdose2+"*"+myuname+"*"+mympass+"*"+myselected4+"*"+mhnt+"*"+duns+"*"+sspecial+"*"+partner;
+                                        mymess="Reg*"+Base64Encoder.encryptString(myidno+"*"+myage+"*"+myselected+"*"+myselected2+"*"+mymfl+"*"+myselected3+"*"+mdose1+"*"+mdose2+"*"+duns+"*"+sspecial+"*"+partner);
 
 
                                     }
                                     else if(!kmpduChecked && !myoth.isEmpty()){
 
-                                        mymess="Reg*"+myname+"*"+mylname+"*"+myidno+"*"+myage+"*"+myselected+"*"+myoth+"*"+mymfl+"*"+myselected3+"*"+mdose1+"*"+mdose2+"*"+myuname+"*"+mympass+"*"+myselected4+"*"+mhnt+"*"+duns+"*"+sspecial+"*"+partner;
+                                        mymess="Reg*"+Base64Encoder.encryptString(myidno+"*"+myage+"*"+myselected+"*"+myoth+"*"+mymfl+"*"+myselected3+"*"+mdose1+"*"+mdose2+"*"+duns+"*"+sspecial+"*"+partner);
 
 
 
                                     }
 
 
-                                    getAllUserDetails();
+
                                     populatePartners();
 
 
                                     SmsManager smsM=SmsManager.getDefault();
                                     smsM.sendTextMessage("40145",null,mymess,null,null);
-                                    SignupsuccessDialog("Success in Registration");
+                                    SignupsuccessDialog("Success in Creating Profile");
 
 
                                 }
@@ -1551,238 +1529,9 @@ public void populatePartners(){
         }
 }
 
-    public void getAllUserDetails(){
 
-        try{
-
-            EditText partorgE,duE,specialisE,nameE,lnameE,myotherE,idnoE,ageE,mflE,dose1E,dose2E,munameE,mpassE,answerE;
-            String partorgS,duS,specialisS,nameS,lnameS,myotherS,idnoS,ageS,mflS,dose1S,dose2S,munameS,mpassS,answerS;
-            String genderS,cadreS,hpbvaccintedS,secqnS;
-            //initialise variables
-
-            partorgE=(EditText) findViewById(R.id.partorg);
-            duE=(EditText) findViewById(R.id.du);
-            specialisE=(EditText) findViewById(R.id.specialisationselect);
-            nameE=(EditText) findViewById(R.id.name);
-            lnameE=(EditText) findViewById(R.id.lname);
-            myotherE=(EditText) findViewById(R.id.myother);
-            idnoE=(EditText) findViewById(R.id.idno);
-            ageE=(EditText) findViewById(R.id.age);
-            mflE=(EditText) findViewById(R.id.mfl);
-            dose1E=(EditText) findViewById(R.id.dose1);
-            dose2E=(EditText) findViewById(R.id.dose2);
-            munameE=(EditText) findViewById(R.id.muname);
-            mpassE=(EditText) findViewById(R.id.mpass);
-            answerE=(EditText) findViewById(R.id.hint);
-
-            //start of check if its visible
-
-
-            if(partorgE.getVisibility()==View.VISIBLE){
-                partorgS=partorgE.getText().toString();
-
-            }
-            else{
-                partorgS="";
-
-            }
-            if(duE.getVisibility()==View.VISIBLE){
-                duS=duE.getText().toString();
-
-            }
-            else{
-                duS="";
-
-            }
-
-            if(specialisE.getVisibility()==View.VISIBLE){
-                specialisS=specialisE.getText().toString();
-
-            }
-            else{
-                specialisS="";
-
-            }
-
-            if(nameE.getVisibility()==View.VISIBLE){
-                nameS=nameE.getText().toString();
-
-            }
-            else{
-                nameS="";
-
-            }
-
-            if(lnameE.getVisibility()==View.VISIBLE){
-                lnameS=lnameE.getText().toString();
-
-            }
-            else{
-                lnameS="";
-
-            }
-
-            if(myotherE.getVisibility()==View.VISIBLE){
-                myotherS=myotherE.getText().toString();
-
-            }
-            else{
-                myotherS="";
-
-            }
-
-            if(idnoE.getVisibility()==View.VISIBLE){
-
-                idnoS=idnoE.getText().toString();
-
-            }
-            else{
-                idnoS="";
-
-            }
-
-            if(ageE.getVisibility()==View.VISIBLE){
-
-                ageS=ageE.getText().toString();
-
-            }
-            else{
-
-                ageS="";
-
-            }
-
-            if(mflE.getVisibility()==View.VISIBLE){
-
-                mflS=mflE.getText().toString();
-
-            }
-            else{
-                mflS="";
-
-            }
-
-            if(dose1E.getVisibility()==View.VISIBLE){
-                dose1S=dose1E.getText().toString();
-
-            }
-            else{
-
-                dose1S="";
-
-            }
-
-            if(dose2E.getVisibility()==View.VISIBLE){
-                dose2S=dose2E.getText().toString();
-
-            }
-            else{
-                dose2S="";
-
-            }
-
-            if(munameE.getVisibility()==View.VISIBLE){
-                munameS=munameE.getText().toString();
-
-            }
-            else{
-
-                munameS="";
-
-            }
-
-            if(mpassE.getVisibility()==View.VISIBLE){
-
-                mpassS=mpassE.getText().toString();
-
-            }
-            else{
-
-                mpassS="";
-
-            }
-
-            if(answerE.getVisibility()==View.VISIBLE){
-                answerS=answerE.getText().toString();
-
-            }
-            else{
-                answerS="";
-
-            }
-
-            if(myspinner.getVisibility()==View.VISIBLE){
-                genderS=genders[Integer.parseInt(myselected)];
-
-
-            }
-            else{
-                genderS="";
-
-            }
-            if(myspinner2.getVisibility()==View.VISIBLE){
-
-                cadreS=cadres[Integer.parseInt(myselected2)];
-
-
-            }
-            else{
-                cadreS="";
-
-            }
-            if(myspinner3.getVisibility()==View.VISIBLE){
-
-                hpbvaccintedS=hepa[Integer.parseInt(myselected3)];
-
-
-            }
-            else{
-                hpbvaccintedS="";
-
-            }
-            if(myspinner4.getVisibility()==View.VISIBLE){
-
-                secqnS=secqn[Integer.parseInt(myselected4)];
-
-
-            }
-            else{
-
-                secqnS="";
-
-            }
-
-
-//            String partorgS,duS,specialisS,nameS,lnameS,myotherS,idnoS,ageS,mflS,dose1S,dose2S,munameS,mpassS,answerS;
-//            String genderS,cadreS,hpbvaccintedS,secqnS;
-
-            Regdetails rd=new Regdetails(duS,specialisS,genderS,cadreS,idnoS,ageS,mflS,hpbvaccintedS,dose1S,dose2S,munameS,mpassS,secqnS,answerS,nameS,lnameS);
-            rd.save();
-
-            List<Regdetails> myl=Regdetails.findWithQuery(Regdetails.class,"select * from Regdetails");
-            System.out.println("************************************************************************");
-            for(int x=0;x<myl.size();x++){
-                System.out.println("union number"+myl.get(x).doctorUnionNumber);
-                System.out.println("specialisation"+myl.get(x).specialisation);
-                System.out.println("gender"+myl.get(x).gender);
-                System.out.println("username"+myl.get(x).username);
-                System.out.println("hpb"+myl.get(x).hpbvaccination);
-                System.out.println("dose1"+myl.get(x).hpbdose1);
-                System.out.println("dose2"+myl.get(x).hpbdose2);
-                System.out.println("cadre"+myl.get(x).cadre);
-                System.out.println("id number"+myl.get(x).idnumber);
-                System.out.println("password"+myl.get(x).password);
-                System.out.println("security question"+myl.get(x).securityqn);
-            }
-            System.out.println("*************************************************************************");
-
-
-
-
-        }
-        catch(Exception e){
-
-
-        }
+//check if the provided password matches the regular expression
+    public boolean isTextValid(String textToCheck) {
+        return textPattern.matcher(textToCheck).matches();
     }
 }

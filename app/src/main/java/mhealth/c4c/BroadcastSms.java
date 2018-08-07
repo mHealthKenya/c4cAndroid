@@ -28,7 +28,7 @@ import java.util.Iterator;
 public class BroadcastSms extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     EditText msg,dte,name,cdreselect;
-    Spinner cdre;
+//    Spinner cdre;
     int selectedCadre;
     final ArrayList itemsSelectedSpecialisation = new ArrayList();
     Dialog specialisationdialog;
@@ -46,7 +46,7 @@ public class BroadcastSms extends AppCompatActivity implements AdapterView.OnIte
         CheckDateListener();
         populateCadres();
         setSpecialisationClickListener();
-        cdre.setOnItemSelectedListener(this);
+//        cdre.setOnItemSelectedListener(this);
     }
 
 
@@ -196,23 +196,38 @@ public class BroadcastSms extends AppCompatActivity implements AdapterView.OnIte
 
                 Toast.makeText(this, "date is required", Toast.LENGTH_SHORT).show();
             }
-            else if(mycdre.isEmpty()){
-
-                Toast.makeText(this, "cadre is required", Toast.LENGTH_SHORT).show();
-            }
-            else if(mycdre.contentEquals("0")){
+            else if(itemsSelectedSpecialisation.size()==0){
 
                 Toast.makeText(this, "cadre is required", Toast.LENGTH_SHORT).show();
 
-
             }
+
             else if(myname.isEmpty()){
 
                 Toast.makeText(this, "broadcast name is required", Toast.LENGTH_SHORT).show();
             }
             else{
+                StringBuilder theCadres=new StringBuilder("");
+                if(itemsSelectedSpecialisation.size()==1){
+                    String val=Integer.toString((Integer.parseInt(itemsSelectedSpecialisation.get(0).toString()))+1);
+                    theCadres.append(val);
 
-                String bmes="BM*"+txt+"*"+mydte+"*"+mycdre+"*"+myname;
+
+                }
+                else if(itemsSelectedSpecialisation.size()>1){
+
+
+                    for (int x = 0; x < itemsSelectedSpecialisation.size(); x++) {
+                        String val=Integer.toString((Integer.parseInt(itemsSelectedSpecialisation.get(x).toString()))+1);
+
+                        theCadres.append(val+"*");
+
+                    }
+
+
+                }
+
+                String bmes="BM*"+txt+"*"+mydte+"*cdre*"+theCadres+"cdre*"+myname;
                 SmsManager smsM=SmsManager.getDefault();
                 smsM.sendTextMessage("40145",null,bmes,null,null);
                 SignupsuccessDialog("Success in sending broadcast message");
@@ -271,7 +286,7 @@ public class BroadcastSms extends AppCompatActivity implements AdapterView.OnIte
             msg=(EditText) findViewById(R.id.bmessage);
             dte=(EditText) findViewById(R.id.bdate);
             name=(EditText) findViewById(R.id.bname);
-            cdre=(Spinner) findViewById(R.id.cadrespinner);
+//            cdre=(Spinner) findViewById(R.id.cadrespinner);
             cdreselect=(EditText) findViewById(R.id.cadreselect);
         }
         catch(Exception e){
@@ -326,7 +341,7 @@ public class BroadcastSms extends AppCompatActivity implements AdapterView.OnIte
 
             SpinnerAdapter customAdapter=new SpinnerAdapter(getApplicationContext(),cadres);
 
-            cdre.setAdapter(customAdapter);
+//            cdre.setAdapter(customAdapter);
 
 
         }
@@ -361,12 +376,12 @@ public class BroadcastSms extends AppCompatActivity implements AdapterView.OnIte
         // On selecting a spinner item
         Spinner spin=(Spinner) parent;
 
-        if(spin.getId()==R.id.cadrespinner){
-
-            selectedCadre=position;
-            System.out.println("selected cadre is "+selectedCadre);
-
-        }
+//        if(spin.getId()==R.id.cadrespinner){
+//
+//            selectedCadre=position;
+//            System.out.println("selected cadre is "+selectedCadre);
+//
+//        }
 
     }
 

@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+
+    android:layout_alignParentBottom="true"
+    >
+
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:scrollbars="vertical"
     android:scrollbarStyle="insideInset"
     android:fillViewport="true"
+    android:layout_alignParentTop="true"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
@@ -37,7 +48,7 @@
         <EditText
             android:layout_width="match_parent"
             android:id="@+id/partorg"
-            android:hint="select your Partner Organisation"
+            android:hint="Select your partner organisation"
             android:focusable="false"
 
             android:layout_height="wrap_content" />
@@ -88,7 +99,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:id="@+id/specialisationselect"
-                    android:hint="select your Specialisation"
+                    android:hint="Select your specialisation"
                     android:focusable="false"
                     android:visibility="gone"
                     android:layout_height="wrap_content" />
@@ -102,41 +113,6 @@
 
         </LinearLayout>
 
-
-
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-
-
-            <EditText
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-
-                android:singleLine="true"
-                android:hint="Enter your first name"
-                android:id="@+id/name"
-                android:inputType="text" />
-        </android.support.design.widget.TextInputLayout>
-
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-
-
-            <EditText
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-
-                android:singleLine="true"
-                android:hint="Enter your last name"
-                android:id="@+id/lname"
-                android:inputType="text" />
-        </android.support.design.widget.TextInputLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -347,96 +323,6 @@
 
         </LinearLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-
-
-            <EditText
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-
-                android:singleLine="true"
-                android:hint="Username"
-                android:id="@+id/muname"
-                android:inputType="text" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:singleLine="true"
-
-                android:hint="Password"
-                android:id="@+id/mpass"
-                android:inputType="textPassword" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:singleLine="true"
-
-                android:hint="confirm Password"
-                android:id="@+id/mcpass"
-                android:inputType="textPassword" />
-        </android.support.design.widget.TextInputLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:weightSum="2"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:textStyle="bold"
-                android:text="Security Question"
-                android:id="@+id/securityqnlabel"
-                android:layout_weight="1"
-                android:layout_height="wrap_content" />
-
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:id="@+id/spinner4"
-                android:layout_height="wrap_content"/>
-
-
-        </LinearLayout>
-
-
-
-
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:singleLine="true"
-                android:hint="Enter Answer"
-                android:id="@+id/hint"
-                />
-        </android.support.design.widget.TextInputLayout>
-
-
-
-
 
 
         <Button
@@ -444,7 +330,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="22dp"
             android:background="@color/colorPrimary"
-            android:text="Create Account"
+            android:text="Create Profile"
             android:onClick="CreatingUser"
             android:textAllCaps="false"
             android:textColor="#fff"
@@ -456,4 +342,5 @@
     </LinearLayout>
 
 </ScrollView>
+</LinearLayout>
 

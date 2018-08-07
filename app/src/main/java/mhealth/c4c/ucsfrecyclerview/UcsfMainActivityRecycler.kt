@@ -36,7 +36,7 @@ import mhealth.c4c.Tables.kmpdu
  */
 class UcsfMainActivityRecycler : AppCompatActivity() {
     private var chkyes: CheckBox? = null
-    private var pnum: EditText? = null
+
     private var subb: Button? = null
     private var ucsfl: LinearLayout? = null
 
@@ -52,7 +52,7 @@ class UcsfMainActivityRecycler : AppCompatActivity() {
         setToolbar()
         initialise()
         addListenerOnChkYes()
-        addInputListener()
+
         submitClicked()
 
 
@@ -64,7 +64,7 @@ class UcsfMainActivityRecycler : AppCompatActivity() {
                 "\n" +
                 "NASCOP led the development and implementation of a five-day course to update and orient health care providers on the revised national HIV M&E tools. \n" +
                 "\n" +
-                "NASCOP in partnership with the University of California San Francisco (UCSF), with funding from CDC, converted the HIV M&E tools training course into eLearning format to facilitate reach to a wider audience. The online course is hosted at the University of Nairobi UHIV fellowship online learning portal <a href=\\\"eportal.uonbi.ac.ke\\\">link</a>").toString()))
+                "NASCOP in partnership with the University of California San Francisco (UCSF), with funding from CDC, converted the HIV M&E tools training course into eLearning format to facilitate reach to a wider audience. The online course is hosted at the University of Nairobi UHIV fellowship online learning portal in the link below").toString()))
         itemList.add(qn)
 
         val qn1=UcsfExpandableCardViewAdapter.Item(UcsfExpandableCardViewAdapter.PARENT, Html.fromHtml("Purpose of the course").toString())
@@ -72,7 +72,7 @@ class UcsfMainActivityRecycler : AppCompatActivity() {
         itemList.add(qn1)
 
         val qn2=UcsfExpandableCardViewAdapter.Item(UcsfExpandableCardViewAdapter.PARENT, Html.fromHtml("How to register for National HIV Programme M&E Tools training course ").toString())
-        qn2.children=listOf(UcsfExpandableCardViewAdapter.Item(UcsfExpandableCardViewAdapter.CHILD, Html.fromHtml("Fill in the registration form available on this link to enroll for the online National HIV Programmes M&E tools training course.").toString()))
+        qn2.children=listOf(UcsfExpandableCardViewAdapter.Item(UcsfExpandableCardViewAdapter.CHILD, Html.fromHtml("Fill in the registration form available on the link below to enroll for the online National HIV Programmes M&E tools training course.").toString()))
         itemList.add(qn2)
 
 
@@ -91,7 +91,7 @@ class UcsfMainActivityRecycler : AppCompatActivity() {
             val toolbar = findViewById(R.id.toolbaruserprof) as Toolbar
             setSupportActionBar(toolbar)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            supportActionBar?.title = "UCSF"
+            supportActionBar?.title = "NASCOP HIV Services M&E tools training course"
         }
         catch(e:Exception){
 
@@ -100,7 +100,7 @@ class UcsfMainActivityRecycler : AppCompatActivity() {
 
     fun initialise(){
         chkyes=findViewById(R.id.chkyescb) as CheckBox
-        pnum=findViewById(R.id.phnnum) as EditText
+
         subb=findViewById(R.id.btnucsfsub) as Button
         ucsfl=findViewById(R.id.ucsflinear) as LinearLayout
 
@@ -112,7 +112,7 @@ class UcsfMainActivityRecycler : AppCompatActivity() {
 
             reglink = findViewById(R.id.registrationlink) as TextView
 
-            val mytext = "course registration page"
+            val mytext = "HIV services M&E tools training course registration"
             val ss = SpannableString(mytext)
             val cs = object : ClickableSpan() {
                 override fun onClick(widget: View) {
@@ -128,11 +128,11 @@ class UcsfMainActivityRecycler : AppCompatActivity() {
 
                     super.updateDrawState(ds)
                     ds.color = Color.BLUE
-                    ds.isUnderlineText = false
+                    ds.isUnderlineText = true
                 }
             }
 
-            ss.setSpan(cs, 0, 24, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            ss.setSpan(cs, 0, 51, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
             reglink!!.setText(ss)
 
             reglink!!.setMovementMethod(LinkMovementMethod.getInstance())
@@ -165,7 +165,7 @@ class UcsfMainActivityRecycler : AppCompatActivity() {
 
                     super.updateDrawState(ds)
                     ds.color = Color.BLUE
-                    ds.isUnderlineText = false
+                    ds.isUnderlineText = true
                 }
             }
 
@@ -191,14 +191,8 @@ class UcsfMainActivityRecycler : AppCompatActivity() {
 
             subb!!.setOnClickListener(View.OnClickListener {
 
-                var pnums= pnum!!.getText().toString();
-                if (pnums.isEmpty()){
-
-                    Toast.makeText(this@UcsfMainActivityRecycler, "Phone number is required ", Toast.LENGTH_SHORT).show()
 
 
-                }
-                else{
 
                     val myl = Regdetails.findWithQuery(Regdetails::class.java, "select * from Regdetails")
                     println("************************************************************************")
@@ -208,13 +202,13 @@ class UcsfMainActivityRecycler : AppCompatActivity() {
                         var lname=myl[x].lname;
 
 
-                        var mymess="ucsf*"+pnums+"*"+fname+"*"+lname;
+                        var mymess="ucsf*"+fname+"*"+lname;
 
                         val smsM = SmsManager.getDefault()
                         smsM.sendTextMessage("40145", null, mymess, null, null)
                         UcsfDialog("You have successfully subscribed to our services");
 
-                    }
+
 
 
 
@@ -241,7 +235,7 @@ class UcsfMainActivityRecycler : AppCompatActivity() {
 
             adb.setPositiveButton("OK") { dialog, which ->
 
-                pnum!!.setText("")
+
 
             }
 
@@ -258,36 +252,6 @@ class UcsfMainActivityRecycler : AppCompatActivity() {
 
 
 
-
-
-    fun addInputListener() {
-
-        try {
-
-            pnum!!.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-
-                }
-
-                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-
-                }
-
-                override fun afterTextChanged(s: Editable) {
-
-
-//                    Toast.makeText(this@UcsfMainActivityRecycler, "entered "+s.toString(), Toast.LENGTH_SHORT).show()
-
-
-
-                }
-            })
-        } catch (e: Exception) {
-
-
-        }
-
-    }
 
 
     fun addListenerOnChkYes() {

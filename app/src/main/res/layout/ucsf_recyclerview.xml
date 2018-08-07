@@ -51,7 +51,7 @@
             android:layout_height="wrap_content" />
         <TextView
             android:layout_width="match_parent"
-            android:text="course registration page"
+            android:text="HIV services M&amp;E tools training course registration"
             android:textStyle="italic"
             android:textSize="20sp"
             android:id="@+id/registrationlink"
@@ -85,12 +85,6 @@
             android:visibility="gone"
             android:layout_height="wrap_content">
 
-        <EditText
-            android:layout_width="match_parent"
-            android:inputType="phone"
-            android:id="@+id/phnnum"
-            android:hint="Phone number"
-            android:layout_height="wrap_content" />
 
 
         <Button

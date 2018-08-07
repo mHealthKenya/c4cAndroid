@@ -37,12 +37,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.stetho.Stetho;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import mhealth.c4c.Tables.Partners;
 import mhealth.c4c.Tables.kmpdu;
 import mhealth.c4c.dialogs.Dialogs;
+import mhealth.c4c.userlogindata.UserLoginData;
 
 
 public class Login extends AppCompatActivity {
@@ -66,6 +69,7 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
+        Stetho.initializeWithDefaults(this);
 
         LoadRegistration();
         sweetdialog = new Dialogs(Login.this);
@@ -274,7 +278,7 @@ public class Login extends AppCompatActivity {
 
 
 
-                Intent i=new Intent(getApplicationContext(),CreateUser.class);
+                Intent i=new Intent(getApplicationContext(),UserLoginData.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -325,24 +329,46 @@ public class Login extends AppCompatActivity {
 
                 user_list = RegistrationTable.find(RegistrationTable.class,"username=? and password=?",myun,mypass);
                 if (!user_list.isEmpty()) {
+                    String dob="";
+
+                    List<RegistrationTable> chkDOB=RegistrationTable.findWithQuery(RegistrationTable.class,"select * from Registration_table");
+                    for(int myx=0;myx<chkDOB.size();myx++){
+
+                       dob=chkDOB.get(myx).getAge();
+                    }
+
                     pr.DissmissProgress();
                     if(hasPermissions()){
 
-                        if(kmpduChecked){
+                        if(dob.trim().isEmpty()){
 
-                            Intent myint = new Intent(getApplicationContext(), LandingPage.class);
+                            Intent myint = new Intent(getApplicationContext(), CreateUser.class);
 //                            myint.putExtra("kmpduChecked","true");
                             startActivity(myint);
-
 
                         }
                         else{
 
                             Intent myint = new Intent(getApplicationContext(), LandingPage.class);
-                            myint.putExtra("kmpduChecked","false");
+//                            myint.putExtra("kmpduChecked","true");
                             startActivity(myint);
-
                         }
+
+//                        if(kmpduChecked){
+//
+//                            Intent myint = new Intent(getApplicationContext(), CreateUser.class);
+////                            myint.putExtra("kmpduChecked","true");
+//                            startActivity(myint);
+//
+//
+//                        }
+//                        else{
+//
+//                            Intent myint = new Intent(getApplicationContext(), CreateUser.class);
+//                            myint.putExtra("kmpduChecked","false");
+//                            startActivity(myint);
+//
+//                        }
 
 
                     }
