@@ -5,6 +5,7 @@ package mhealth.c4c;
  */
 
 
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -18,10 +19,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
+import java.util.Calendar;
+
+import mhealth.c4c.DateTimePicker.DateTimePicker;
 import mhealth.c4c.config.Config;
 import mhealth.c4c.dialogs.Dialogs;
 import mhealth.c4c.encryption.Base64Encoder;
@@ -29,14 +34,15 @@ import mhealth.c4c.encryption.Base64Encoder;
 
 public class Report extends AppCompatActivity {
 
-    private ArrayAdapter<String> arrayAdapterWhere,arrayAdapterWhat,arrayAdapterDevice,arrayAdapterSafety,arrayAdapterAuto,arrayAdapterDeep,arrayAdapterPurpose,arrayAdapterHiv,arrayAdapterHbv,arrayAdapterWhen;
+    private ArrayAdapter<String> arrayAdapterWhere,arrayAdapterWhat,arrayAdapterDevice,arrayAdapterSafety,arrayAdapterAuto,arrayAdapterDeep,arrayAdapterPurpose,arrayAdapterHiv,arrayAdapterHbv,arrayAdapterWhen,arrayAdapterPepInit;
 
-    private EditText hoursE,otherWhereE,otherWhatE,otherDeviceE,otherSafetyE,otherAutoE,otherPurposeE,otherWhenE;
+    private EditText hoursE,otherWhereE,otherWhatE,otherDeviceE,otherSafetyE,otherAutoE,otherPurposeE,otherWhenE,dateTimeOfPepInitE;
     Dialogs sweetdialog;
+    DateTimePicker dtp;
 
     private Button btn_submit;
-    MaterialBetterSpinner SpinnerWhat,SpinnerWhere,SpinnerDevice,SpinnerSafety,SpinnerAutodisable,SpinnerExposureDeep,SpinnerPurpose,SpinnerWhen,SpinnerHiv,SpinnerHbv;
-    String selectedWhere,selectedWhat,otherWhere,otherWhat,selecteddevice,otherdevice,selectedSafety,othersafety,selectedautodisable,otherautodisable,selectedExposuredeep,selectedPurpose,otherpurpose,selectedWhen,otherwhen,selectedHivstatus,selectedHbvstatus;
+    MaterialBetterSpinner SpinnerWhat,SpinnerWhere,SpinnerDevice,SpinnerSafety,SpinnerExposureDeep,SpinnerPurpose,SpinnerWhen,SpinnerHiv,SpinnerHbv,SpinnerPepInit;
+    String selectedWhere,selectedWhat,otherWhere,otherWhat,selecteddevice,otherdevice,selectedSafety,othersafety,selectedautodisable,otherautodisable,selectedExposuredeep,selectedPurpose,otherpurpose,selectedWhen,otherwhen,selectedHivstatus,selectedHbvstatus,selectedPepinitS;
 
     LinearLayout llHidden;
     @Override
@@ -46,8 +52,11 @@ public class Report extends AppCompatActivity {
 
         setToolbar();
         initialise();
+        setHoursListener();
+
         setSpinnerAdapters();
         setSpinnerWhereListener();
+        setSpinnerPepInitListener();
         setSpinnerWhatListener();
 
         setSpinnerPurposeListener();
@@ -62,6 +71,44 @@ public class Report extends AppCompatActivity {
 
 
 
+    }
+
+
+
+    public void setHoursListener(){
+
+        try{
+
+            hoursE.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dtp.setDateTimePicker(hoursE);
+
+                }
+            });
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+    public void setDateTimeOfPepInitListener(){
+
+        try{
+
+            dateTimeOfPepInitE.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dtp.setDateTimePicker(dateTimeOfPepInitE);
+
+                }
+            });
+        }
+        catch(Exception e){
+
+
+        }
     }
 
 
@@ -341,7 +388,7 @@ public class Report extends AppCompatActivity {
             SpinnerHiv.setText("");
             SpinnerPurpose.setText("");
             SpinnerExposureDeep.setText("");
-            SpinnerAutodisable.setText("");
+
             SpinnerSafety.setText("");
             SpinnerDevice.setText("");
             otherWhenE.setText("");
@@ -362,7 +409,8 @@ public class Report extends AppCompatActivity {
     public void initialise(){
 
         try{
-
+            dateTimeOfPepInitE=(EditText) findViewById(R.id.datetimeofpepinitiation);
+            dtp=new DateTimePicker(Report.this);
             sweetdialog=new Dialogs(Report.this);
             llHidden=(LinearLayout) findViewById(R.id.llhidden);
 
@@ -372,11 +420,10 @@ public class Report extends AppCompatActivity {
             arrayAdapterWhere = new ArrayAdapter<String>(this,
                     android.R.layout.simple_dropdown_item_1line, Config.SPINNERLISTWHERE);
 
-            arrayAdapterAuto= new ArrayAdapter<String>(this,
-                    android.R.layout.simple_dropdown_item_1line, Config.SPINNERLISTAUTODISABLE);
+
 
             arrayAdapterDeep = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_dropdown_item_1line, Config.SPINNERLISTDEEP);
+                    android.R.layout.simple_dropdown_item_1line, Config.SPINNERLISTDEEPALGORITHM);
 
             arrayAdapterDevice = new ArrayAdapter<String>(this,
                     android.R.layout.simple_dropdown_item_1line, Config.SPINNERLISTDEVICE);
@@ -394,7 +441,10 @@ public class Report extends AppCompatActivity {
                     android.R.layout.simple_dropdown_item_1line, Config.SPINNERLISTSAFETY);
 
             arrayAdapterWhen = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_dropdown_item_1line, Config.SPINNERLISTWHEN);
+                    android.R.layout.simple_dropdown_item_1line, Config.SPINNERLISTWHENALGORITHM);
+
+            arrayAdapterPepInit = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_dropdown_item_1line, Config.SPINNERLISTPEPINIT);
 
             arrayAdapterWhat = new ArrayAdapter<String>(this,
                     android.R.layout.simple_dropdown_item_1line, Config.SPINNERLISTWHAT);
@@ -402,6 +452,9 @@ public class Report extends AppCompatActivity {
 
             SpinnerWhere = (MaterialBetterSpinner)
                     findViewById(R.id.exposure);
+
+            SpinnerPepInit = (MaterialBetterSpinner)
+                    findViewById(R.id.waspepinitiated);
 
             SpinnerWhat = (MaterialBetterSpinner)
                     findViewById(R.id.cause);
@@ -412,11 +465,9 @@ public class Report extends AppCompatActivity {
             SpinnerSafety = (MaterialBetterSpinner)
                     findViewById(R.id.devicesafety);
 
-            SpinnerAutodisable = (MaterialBetterSpinner)
-                    findViewById(R.id.deviceautodisable);
 
-            SpinnerExposureDeep = (MaterialBetterSpinner)
-                    findViewById(R.id.exposuredeep);
+
+            SpinnerExposureDeep = (MaterialBetterSpinner)findViewById(R.id.exposuredeep);
 
             SpinnerPurpose = (MaterialBetterSpinner)
                     findViewById(R.id.purpose);
@@ -449,7 +500,55 @@ public class Report extends AppCompatActivity {
             selectedWhen="";
             selectedHivstatus="";
             selectedHbvstatus="";
+            selectedPepinitS="";
 
+
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+
+    public void setSpinnerPepInitListener(){
+
+        try{
+
+
+            SpinnerPepInit.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                    selectedPepinitS=SpinnerPepInit.getText().toString();
+                    if(selectedPepinitS.equalsIgnoreCase("yes")){
+
+                        dateTimeOfPepInitE.setVisibility(View.VISIBLE);
+                        setDateTimeOfPepInitListener();
+
+
+                    }
+                    else{
+                        dateTimeOfPepInitE.setVisibility(View.GONE);
+                        dateTimeOfPepInitE.setHint("");
+                        dateTimeOfPepInitE.setText("");
+
+
+                    }
+
+
+                }
+            });
 
         }
         catch(Exception e){
@@ -605,59 +704,6 @@ public class Report extends AppCompatActivity {
 
 
 
-    public void setSpinnerAutoListener(){
-
-        try{
-
-
-            SpinnerAutodisable.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-
-                    selectedautodisable=SpinnerAutodisable.getText().toString();
-                    displayAutoOther();
-
-                }
-            });
-
-        }
-        catch(Exception e){
-
-
-        }
-    }
-
-    public void displayAutoOther(){
-
-        try{
-
-            if(selectedautodisable.equalsIgnoreCase("Other")){
-
-                otherAutoE=(EditText) findViewById(R.id.deviceautodisableother);
-                otherAutoE.setVisibility(View.VISIBLE);
-                otherautodisable=otherAutoE.getText().toString();
-            }
-            else{
-                otherAutoE.setVisibility(View.GONE);
-                otherautodisable="";
-
-            }
-        }
-        catch(Exception e){
-
-
-        }
-    }
 
 
 
@@ -679,8 +725,17 @@ public class Report extends AppCompatActivity {
 
                 @Override
                 public void afterTextChanged(Editable s) {
+                    try{
 
-                    selectedExposuredeep=SpinnerExposureDeep.getText().toString();
+                        selectedExposuredeep=SpinnerExposureDeep.getText().toString();
+
+                    }
+                    catch(Exception e){
+                        Toast.makeText(Report.this, "exception here "+e, Toast.LENGTH_SHORT).show();
+
+                    }
+
+
 
 
                 }
@@ -949,7 +1004,6 @@ public class Report extends AppCompatActivity {
                         setHiddenSpinnerAdapters();
                         setSpinnerDeviceListener();
                         setSpinnerSafetyListener();
-                        setSpinnerAutoListener();
                         setSpinnerDeepListener();
                     }
                     else{
@@ -972,6 +1026,7 @@ public class Report extends AppCompatActivity {
 
         try{
             SpinnerWhere.setAdapter(arrayAdapterWhere);
+            SpinnerPepInit.setAdapter(arrayAdapterPepInit);
             SpinnerWhat.setAdapter(arrayAdapterWhat);
             SpinnerPurpose.setAdapter(arrayAdapterPurpose);
             SpinnerWhen.setAdapter(arrayAdapterWhen);
@@ -996,7 +1051,7 @@ public class Report extends AppCompatActivity {
             SpinnerDevice.setAdapter(arrayAdapterDevice);
 
             SpinnerSafety.setAdapter(arrayAdapterSafety);
-            SpinnerAutodisable.setAdapter(arrayAdapterAuto);
+
             SpinnerExposureDeep.setAdapter(arrayAdapterDeep);
 //            SpinnerDevice,SpinnerSafety,SpinnerAutodisable,SpinnerExposureDeep,SpinnerPurpose,SpinnerWhen,SpinnerHiv,SpinnerHbv;
 

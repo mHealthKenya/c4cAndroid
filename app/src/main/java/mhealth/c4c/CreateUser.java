@@ -13,13 +13,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.telephony.SmsManager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -37,6 +36,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.facebook.stetho.Stetho;
+import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -48,15 +48,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import mhealth.c4c.Registrationtable.Regdetails;
+import mhealth.c4c.GetRemoteData.GetRemoteData;
 import mhealth.c4c.Registrationtable.Regpartners;
+import mhealth.c4c.Tables.Facilitydata;
 import mhealth.c4c.Tables.Partners;
 import mhealth.c4c.Tables.UserTable;
 import mhealth.c4c.Tables.kmpdu;
+import mhealth.c4c.config.Config;
 import mhealth.c4c.dateCalculator.DateCalculator;
 import mhealth.c4c.dialogs.Dialogs;
 import mhealth.c4c.encryption.Base64Encoder;
-import mhealth.c4c.systemstatetables.Measles;
 
 /**
  * Created by KENWEEZY on 2016-10-31.
@@ -65,7 +66,7 @@ import mhealth.c4c.systemstatetables.Measles;
 
 public class CreateUser extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    EditText idnoE,ageE,mflE,motherE,dunumber,dose1E,dose2E;
+    EditText idnoE,ageE,motherE,dunumber,dose1E,dose2E;
     CheckBox mchkb;
     String otherValue;
     TextView specialisel,cadrel;
@@ -75,6 +76,12 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     RadioGroup radio2dosegrp;
     RadioButton radiobtnseconddose;
     Dialogs sweetdialog;
+    GetRemoteData grd;
+
+    MaterialBetterSpinner ctyM,sbctyM,facilityM;
+    String selectedCty,selectedSbcty,selectedFacility;
+
+    private ArrayAdapter<String> arrayAdapterCounty,arrayAdapterSubCounty,arrayAdapterFacility;
 
 
     public final Pattern textPattern = Pattern.compile("^([a-zA-Z+]+[0-9+]+)$");
@@ -98,7 +105,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
     boolean correctMfl;
 
-    public static final String REGISTER_URL = "http://197.248.10.20/C4CANDROID/checkfacility.php";
+
 
 
     public static final String KEY_MFLCODE = "facility_code";
@@ -137,6 +144,9 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
         initialise();
 
+        setFacilitySpinnerData();
+
+
         CheckToperiodListener();
 
         populateSpinner();
@@ -157,7 +167,250 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
 
+
+    }
+
+    public void setFacilitySpinnerData(){
+
+        try{
+
+            getRemoteData();
+
+            setCountyAdapter();
+            setSpinnerCountyListener();
+
+            setSpinnerAdapters();
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+    public void setSpinnerAdapters(){
+
+        try{
+            ctyM.setAdapter(arrayAdapterCounty);
+
+
+
+
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+    public void setSpinnerCountyListener(){
+
+        try{
+
+
+            ctyM.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                    selectedCty=ctyM.getText().toString();
+                    sbctyM.setVisibility(View.VISIBLE);
+                    List<Facilitydata> myl=Facilitydata.findWithQuery(Facilitydata.class,"select * from Facilitydata where countyname=? group by subcountyname",selectedCty);
+                    setSubCountyAdapter(myl);
+//                    for(int x=0;x<myl.size();x++){
+//                        String countyId=myl.get(x).getCountyid();
+//                        setSubCountyAdapter(countyId);
+//                    }
+
+                    sbctyM.setAdapter(arrayAdapterSubCounty);
+                    setSpinnerSubCountyListener();
+
+                }
+            });
+
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+
+
+
+
+    public void setSpinnerSubCountyListener(){
+
+        try{
+
+            sbctyM.setText("");
+            sbctyM.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                    selectedSbcty=sbctyM.getText().toString();
+
+                    facilityM.setVisibility(View.VISIBLE);
+                    List<Facilitydata> myl=Facilitydata.findWithQuery(Facilitydata.class,"select * from Facilitydata where subcountyname=? group by facilityname",selectedSbcty);
+                    setFacilityAdapter(myl);
+//                    for(int x=0;x<myl.size();x++){
+//                        String countyId=myl.get(x).getCountyid();
+//                        setSubCountyAdapter(countyId);
+//                    }
+
+                    facilityM.setAdapter(arrayAdapterFacility);
+                    setFacilityListener();
+
+
+                }
+            });
+
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+
+    public void setSubCountyAdapter(List<Facilitydata> myl){
+
+        try{
+
+            ArrayList<String> y=new ArrayList<>();
+
+            for(int x=0;x<myl.size();x++){
+                String sbctyname=myl.get(x).getSubcountyname();
+                y.add(sbctyname);
+
+            }
+
+
+            arrayAdapterSubCounty = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_list_item_checked, y);
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+
+
+
+    public void setFacilityListener(){
+
+        try{
+
+            facilityM.setText("");
+            facilityM.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                    selectedFacility=facilityM.getText().toString();
+
+
+                }
+            });
+
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+
+    public void setFacilityAdapter(List<Facilitydata> myl){
+
+        try{
+
+            ArrayList<String> y=new ArrayList<>();
+
+            for(int x=0;x<myl.size();x++){
+                String faciityname=myl.get(x).getFacilityname();
+                y.add(faciityname);
+
+            }
+
+
+            arrayAdapterFacility = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_list_item_checked, y);
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+
+    //set subcounty spiner logic here
+
+    //set county spinner logic here
+
+
+    public void setCountyAdapter(){
+
+        try{
+            ArrayList<String> x=new ArrayList<>();
+
+            List<Facilitydata> myl=Facilitydata.findWithQuery(Facilitydata.class,"select * from Facilitydata group by countyname");
+            System.out.println("************getting countyies**************");
+            if(myl.size()>0){
+
+                for(int y=0;y<myl.size();y++){
+                    x.add(myl.get(y).getCountyname());
+                    System.out.println(myl.get(y).getCountyname());
+
+                }
+
+
+
+            }
+
+
+
+
+            arrayAdapterCounty = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_list_item_checked, x);
+        }
+        catch(Exception e){
+
+
+        }
+    }
 
 
     public void dose1InputListener(){
@@ -556,7 +809,11 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                                 specialisel.setVisibility(View.VISIBLE);
                                 idnoE.setVisibility(View.GONE);
 
-                                mflE.setVisibility(View.GONE);
+
+                                ctyM.setVisibility(View.GONE);
+                                sbctyM.setVisibility(View.GONE);
+                                facilityM.setVisibility(View.GONE);
+
                                 myspinner2.setVisibility(View.GONE);
                                 cadrel.setVisibility(View.GONE);
 
@@ -573,7 +830,11 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
                                 idnoE.setVisibility(View.VISIBLE);
 
-                                mflE.setVisibility(View.VISIBLE);
+
+                                ctyM.setVisibility(View.VISIBLE);
+                                sbctyM.setVisibility(View.VISIBLE);
+                                facilityM.setVisibility(View.VISIBLE);
+
                                 myspinner2.setVisibility(View.VISIBLE);
                                 cadrel.setVisibility(View.VISIBLE);
 //                        motherE.setVisibility(View.GONE);
@@ -598,7 +859,11 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                                     specialisationE.setVisibility(View.GONE);
                                     idnoE.setVisibility(View.VISIBLE);
 
-                                    mflE.setVisibility(View.VISIBLE);
+
+                                    ctyM.setVisibility(View.VISIBLE);
+                                    sbctyM.setVisibility(View.VISIBLE);
+                                    facilityM.setVisibility(View.VISIBLE);
+
                                     myspinner2.setVisibility(View.VISIBLE);
                                     cadrel.setVisibility(View.VISIBLE);
 //                        motherE.setVisibility(View.GONE);
@@ -644,7 +909,11 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                             specialisel.setVisibility(View.GONE);
                             idnoE.setVisibility(View.VISIBLE);
 
-                            mflE.setVisibility(View.VISIBLE);
+
+                            ctyM.setVisibility(View.VISIBLE);
+                            sbctyM.setVisibility(View.VISIBLE);
+                            facilityM.setVisibility(View.VISIBLE);
+
                             myspinner2.setVisibility(View.VISIBLE);
                             cadrel.setVisibility(View.VISIBLE);
 //                        motherE.setVisibility(View.GONE);
@@ -755,6 +1024,15 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
         try{
 
+            selectedCty="";
+            selectedSbcty="";
+            selectedFacility="";
+
+            ctyM=(MaterialBetterSpinner) findViewById(R.id.county_txt);
+            sbctyM=(MaterialBetterSpinner) findViewById(R.id.subcounty_txt);
+            facilityM=(MaterialBetterSpinner) findViewById(R.id.facility_txt);
+
+            grd=new GetRemoteData(CreateUser.this);
             sweetdialog=new Dialogs(CreateUser.this);
             dcalc=new DateCalculator();
             partnerorgE=(EditText) findViewById(R.id.partorg);
@@ -769,7 +1047,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
             idnoE=(EditText) findViewById(R.id.idno);
             ageE=(EditText) findViewById(R.id.age);
-            mflE=(EditText) findViewById(R.id.mfl);
+
 
             myspinner=(Spinner) findViewById(R.id.spinner);
             myspinner2=(Spinner) findViewById(R.id.spinner2);
@@ -1058,7 +1336,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             }
             else{
 
-                mymfl=mflE.getText().toString();
+                mymfl=selectedFacility;
             }
 
             int curyear = Calendar.getInstance().get(Calendar.YEAR);
@@ -1106,20 +1384,16 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             }
 
             else if(mymfl.trim().isEmpty()){
-                mflE.setError("MFL Number is Required");
+                Toast.makeText(this, "MFL Number is Required", Toast.LENGTH_SHORT).show();
 
             }
+
             else if(partners.toString().isEmpty()){
                 sweetdialog.showErrorDialogRegistration("Select atleast one partner","Registration Error");
 
 //                Toast.makeText(this, "select atleast one partner", Toast.LENGTH_SHORT).show();
             }
 
-            else if(mymfl.length()!=5){
-
-                mflE.setError("MFL Number should have a length of Five");
-
-            }
 
             else if((curyear-selectedYear)<18){
 
@@ -1160,8 +1434,14 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
 
             else{
+                List<Facilitydata> myl=Facilitydata.findWithQuery(Facilitydata.class,"select * from Facilitydata where facilityname=? limit 1",mymfl);
+                for(int d=0;d<myl.size();d++){
 
-                checkFacilityCode(myidno,myage,mymfl,partners,duns,selectedspecialisation);
+                    String newmflcode=myl.get(d).getMflcode();
+                    checkFacilityCode(myidno,myage,newmflcode,partners,duns,selectedspecialisation);
+
+                }
+
 
 
             }
@@ -1267,180 +1547,102 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 //        Toast.makeText(this, "checking facility", Toast.LENGTH_SHORT).show();
 
 
-
         final String mymflcode[]={""};
         if(kmpduChecked){
             mymflcode[0]="13528";
 
         }
         else{
-            mymflcode[0]=mflE.getText().toString();
+            mymflcode[0]=mymfl;
+
+        }
+
+        pdialog.cancel();
+        correctMfl=true;
+
+
+        String mdose1="-1";
+        String mdose2="-1";
+        if(!dose1E.getText().toString().trim().isEmpty()){
+            mdose1=dose1E.getText().toString().trim();
+
+        }
+        if(!dose2E.getText().toString().trim().isEmpty()){
+            mdose2=dose2E.getText().toString().trim();
+
+        }
+
+        if(correctMfl){
+
+            RegistrationTable rt=RegistrationTable.findById(RegistrationTable.class,1);
+            rt.gender=myselected;
+            rt.cadre=myselected2;
+            rt.idnumber=myidno;
+            rt.age=myage;
+            rt.mflcode=mymfl;
+            rt.myhepa=myselected3;
+            rt.save();
+//
+//                                    RegistrationTable rt=new RegistrationTable("","",myselected,myselected2,myidno,myage,mymfl,myselected3,"","","","");
+//                                    rt.save();
+            String myoth="";
+
+            try{
+
+                myoth=motherE.getText().toString();
+
+
+            }
+            catch(Exception e){
+
+
+            }
+
+            String mymess="";
+
+            if(kmpduChecked){
+
+
+
+
+                mymess="Reg*"+ Base64Encoder.encryptString(myidno+"*"+myage+"*"+myselected+"*"+"-1"+"*"+"-1"+"*"+myselected3+"*"+mdose1+"*"+mdose2+"*"+duns+"*"+sspecial+"*"+partner);
+
+
+            }
+            else if(!kmpduChecked && myoth.isEmpty()){
+                mymess="Reg*"+Base64Encoder.encryptString(myidno+"*"+myage+"*"+myselected+"*"+myselected2+"*"+mymfl+"*"+myselected3+"*"+mdose1+"*"+mdose2+"*"+duns+"*"+sspecial+"*"+partner);
+
+
+            }
+            else if(!kmpduChecked && !myoth.isEmpty()){
+
+                mymess="Reg*"+Base64Encoder.encryptString(myidno+"*"+myage+"*"+myselected+"*"+myoth+"*"+mymfl+"*"+myselected3+"*"+mdose1+"*"+mdose2+"*"+duns+"*"+sspecial+"*"+partner);
+
+
+
+            }
+
+
+
+            populatePartners();
+
+
+            SmsManager smsM=SmsManager.getDefault();
+            smsM.sendTextMessage("40145",null,mymess,null,null);
+            SignupsuccessDialog("Success in Creating Profile");
+
+
+        }
+        else{
+//                    SignupdisplayDialog("WRONG MFLCODE, TRY AGAIN");
+
+            sweetdialog.showErrorDialogRegistration("error occured, try again","Registration Error");
+
 
         }
 //        pr.progressing(getApplicationContext(),"getting facility","loading....");
 
 
-        try{
-
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, REGISTER_URL,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-
-                            if (response.contentEquals("empty code")) {
-
-                                pdialog.cancel();
-                                Toast.makeText(getApplicationContext(), ""+response, Toast.LENGTH_SHORT).show();
-                                correctMfl=false;
-
-                            }
-
-                            else if(response.contentEquals("code does not exist")){
-
-                                pdialog.cancel();
-
-                                sweetdialog.showErrorDialogRegistration("mfl code does not exist ","Registration Error");
-//                                Toast.makeText(getApplicationContext(), ""+response, Toast.LENGTH_SHORT).show();
-                                correctMfl=false;
-
-
-                            }
-                            else if(response.contentEquals("error occured")){
-
-                                pdialog.cancel();
-
-                                sweetdialog.showErrorDialogRegistration(" "+response,"Registration Error");
-
-//                                Toast.makeText(getApplicationContext(), ""+response, Toast.LENGTH_SHORT).show();
-                                correctMfl=false;
-
-
-                            }
-
-
-                            else {
-                                pdialog.cancel();
-                                correctMfl=true;
-
-                                String mflName=response;
-                                String mdose1="-1";
-                                String mdose2="-1";
-                                if(!dose1E.getText().toString().trim().isEmpty()){
-                                    mdose1=dose1E.getText().toString().trim();
-
-                                }
-                                if(!dose2E.getText().toString().trim().isEmpty()){
-                                    mdose2=dose2E.getText().toString().trim();
-
-                                }
-
-                                if(correctMfl){
-                                    RegistrationTable rt=RegistrationTable.findById(RegistrationTable.class,1);
-                                    rt.gender=myselected;
-                                    rt.cadre=myselected2;
-                                    rt.idnumber=myidno;
-                                    rt.age=myage;
-                                    rt.mflcode=mymfl;
-                                    rt.myhepa=myselected3;
-                                    rt.save();
-//
-//                                    RegistrationTable rt=new RegistrationTable("","",myselected,myselected2,myidno,myage,mymfl,myselected3,"","","","");
-//                                    rt.save();
-                                    String myoth="";
-
-                                    try{
-
-                                        myoth=motherE.getText().toString();
-
-
-                                    }
-                                    catch(Exception e){
-
-
-                                    }
-
-                                    String mymess="";
-
-                                    if(kmpduChecked){
-
-
-
-
-                                        mymess="Reg*"+ Base64Encoder.encryptString(myidno+"*"+myage+"*"+myselected+"*"+"-1"+"*"+"-1"+"*"+myselected3+"*"+mdose1+"*"+mdose2+"*"+duns+"*"+sspecial+"*"+partner);
-
-
-                                    }
-                                    else if(!kmpduChecked && myoth.isEmpty()){
-                                        mymess="Reg*"+Base64Encoder.encryptString(myidno+"*"+myage+"*"+myselected+"*"+myselected2+"*"+mymfl+"*"+myselected3+"*"+mdose1+"*"+mdose2+"*"+duns+"*"+sspecial+"*"+partner);
-
-
-                                    }
-                                    else if(!kmpduChecked && !myoth.isEmpty()){
-
-                                        mymess="Reg*"+Base64Encoder.encryptString(myidno+"*"+myage+"*"+myselected+"*"+myoth+"*"+mymfl+"*"+myselected3+"*"+mdose1+"*"+mdose2+"*"+duns+"*"+sspecial+"*"+partner);
-
-
-
-                                    }
-
-
-
-                                    populatePartners();
-
-
-                                    SmsManager smsM=SmsManager.getDefault();
-                                    smsM.sendTextMessage("40145",null,mymess,null,null);
-                                    SignupsuccessDialog("Success in Creating Profile");
-
-
-                                }
-                                else{
-//                    SignupdisplayDialog("WRONG MFLCODE, TRY AGAIN");
-
-                                    sweetdialog.showErrorDialogRegistration("error occured, try again","Registration Error");
-
-
-                                }
-
-
-
-
-                            }
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            pdialog.cancel();
-                            correctMfl=false;
-
-                            sweetdialog.showErrorDialogRegistration("Check your internet connection and try again","Registration Error");
-
-//                            Toast.makeText(getApplicationContext(), "error occured "+error, Toast.LENGTH_SHORT).show();
-
-                        }
-
-                    }) {
-                @Override
-                protected Map<String, String> getParams() {
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put(KEY_MFLCODE, mymflcode[0]);
-//                    params.put(KEY_EMAIL, email);
-                    return params;
-                }
-
-            };
-
-            RequestQueue requestQueue = Volley.newRequestQueue(this);
-            requestQueue.add(stringRequest);
-
-
-        }
-
-        catch(Exception e){
-
-
-        }
 
 
     }
@@ -1464,6 +1666,28 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
         }
 
         return progress;
+    }
+
+    public void getRemoteData(){
+
+        try{
+            Toast.makeText(this, "getting data", Toast.LENGTH_SHORT).show();
+
+            List<Facilitydata> myl=Facilitydata.findWithQuery(Facilitydata.class,"select * from Facilitydata limit 1");
+            if(myl.size()>0){
+
+
+            }
+            else{
+                grd.getFacilityData();
+
+            }
+
+        }
+        catch(Exception e){
+
+
+        }
     }
 
     public void requestPerms(){

@@ -34,7 +34,7 @@
 
 
         <meta-data android:name="DATABASE" android:value="mydb.db" />
-        <meta-data android:name="VERSION" android:value="" />
+        <meta-data android:name="VERSION" android:value="2" />
         <meta-data android:name="QUERY_LOG" android:value="true" />
         <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="mhealth.c4c" />
 
@@ -118,11 +118,11 @@
 
 
         <activity android:name=".Splash_Screen">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
 
@@ -162,11 +162,11 @@
         <activity android:name=".Login"
             android:windowSoftInputMode="stateVisible|adjustResize">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
 
         </activity>
 
@@ -189,6 +189,13 @@
             android:label="@string/title_activity_report"
             android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".LandingPage">
+
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+
         </activity>
 
         <activity

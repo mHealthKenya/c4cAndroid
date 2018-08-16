@@ -106,31 +106,6 @@
 
         </LinearLayout>
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
-
-            <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
-                android:id="@+id/deviceautodisable"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Was the device an auto-disable syringe?"
-                android:textColorHint="@color/textcolorblack"
-                app:met_floatingLabel="normal" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:id="@+id/deviceautodisableother"
-                android:hint="Specify Other"
-                android:visibility="gone"
-                android:layout_height="wrap_content" />
-
-
-        </LinearLayout>
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="vertical"
@@ -253,6 +228,53 @@
 
     <!--new code here-->
 
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="#61616161">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/numberOfExposures"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:hint="How many exposures has the HCW had for the last one year"
+            android:textColor="@color/textcolorblack" />
+    </android.support.design.widget.TextInputLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/llwaspepinitiated"
+        android:layout_height="wrap_content">
+
+        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+            android:id="@+id/waspepinitiated"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="was PEP initiated for the last exposure?"
+            android:textColorHint="@color/textcolorblack"
+            app:met_floatingLabel="normal" />
+
+
+    </LinearLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="#61616161">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/datetimeofpepinitiation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:visibility="gone"
+            android:focusable="false"
+            android:hint="Date and time of initiation of the current PEP"
+            android:textColor="@color/textcolorblack" />
+    </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -264,7 +286,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
-            android:hint="@string/Hours"
+            android:focusable="false"
+            android:hint="Date and time of exposure"
             android:textColor="@color/textcolorblack" />
     </android.support.design.widget.TextInputLayout>
 

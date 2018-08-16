@@ -14,7 +14,7 @@ import android.os.Message;
  * Created by KENWEEZY on 2016-10-23.
  */
 
-public class Progress{
+public class ProgressOld {
     public ProgressDialog pd;
 
 
