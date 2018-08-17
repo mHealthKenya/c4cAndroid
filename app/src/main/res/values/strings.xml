@@ -90,7 +90,7 @@
     <string name="Register">Register</string>
 
     <string name="Exposure">Where did the exposure occur?</string>
-    <string name="Cause">What was the type exposure?</string>
+    <string name="Cause">What was the type of exposure?</string>
     <string name="Hours">exposure</string>
     <string name="Submit">Submit</string>
     <string name="Signup">Sign up</string>

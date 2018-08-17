@@ -2,6 +2,8 @@ package mhealth.c4c.config;
 
 public class Config {
 
+    public static final String shortcode="40145";
+
     public static final String CHECKFACILITY_URL = "http://197.248.10.20/C4CANDROID/checkfacility.php";
     public static final String GETCOUNTIES_URL = "http://197.248.10.20/C4CANDROID/get_counties.php";
     public static final String GETSUBCOUNTY_URL = "http://197.248.10.20/C4CANDROID/get_sub_counties.php";
@@ -78,6 +80,10 @@ public class Config {
     public static final String[] SPINNERLISTHIVSTATUS = {"HIV+", "HIV-", "Unknown"};
 
     public static final String[] SPINNERLISTPEPINIT = {"Yes", "No"};
+
+//
+    public static final String[] SPINNERLISTEXPOSURERESULT = {
+            "patient contact","leaking specimen container","faulty apparatus","contaminated surfaces","Other"};
 
     public static final String[] SPINNERLISTHBVSTATUS = {"HBV+", "HBV-", "Unknown"};
 

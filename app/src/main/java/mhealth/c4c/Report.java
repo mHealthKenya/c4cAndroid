@@ -5,7 +5,6 @@ package mhealth.c4c;
  */
 
 
-import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -19,12 +18,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
-import java.util.Calendar;
+import java.util.ArrayList;
 
 import mhealth.c4c.DateTimePicker.DateTimePicker;
 import mhealth.c4c.config.Config;
@@ -34,17 +32,17 @@ import mhealth.c4c.encryption.Base64Encoder;
 
 public class Report extends AppCompatActivity {
 
-    private ArrayAdapter<String> arrayAdapterWhere,arrayAdapterWhat,arrayAdapterDevice,arrayAdapterSafety,arrayAdapterAuto,arrayAdapterDeep,arrayAdapterPurpose,arrayAdapterHiv,arrayAdapterHbv,arrayAdapterWhen,arrayAdapterPepInit;
+    private ArrayAdapter<String> arrayAdapterWhere,arrayAdapterWhat,arrayAdapterDevice,arrayAdapterSafety,arrayAdapterAuto,arrayAdapterDeep,arrayAdapterPurpose,arrayAdapterHiv,arrayAdapterHbv,arrayAdapterWhen,arrayAdapterPepInit,arrayAdapterExposureResult;
 
-    private EditText hoursE,otherWhereE,otherWhatE,otherDeviceE,otherSafetyE,otherAutoE,otherPurposeE,otherWhenE,dateTimeOfPepInitE;
+    private EditText datetimeofexposureE,otherWhereE,otherWhatE,otherDeviceE,otherSafetyE,otherAutoE,otherPurposeE,otherWhenE,dateTimeOfPepInitE,otherExposureResult,numberofexposuresE;
     Dialogs sweetdialog;
     DateTimePicker dtp;
 
     private Button btn_submit;
-    MaterialBetterSpinner SpinnerWhat,SpinnerWhere,SpinnerDevice,SpinnerSafety,SpinnerExposureDeep,SpinnerPurpose,SpinnerWhen,SpinnerHiv,SpinnerHbv,SpinnerPepInit;
-    String selectedWhere,selectedWhat,otherWhere,otherWhat,selecteddevice,otherdevice,selectedSafety,othersafety,selectedautodisable,otherautodisable,selectedExposuredeep,selectedPurpose,otherpurpose,selectedWhen,otherwhen,selectedHivstatus,selectedHbvstatus,selectedPepinitS;
+    MaterialBetterSpinner SpinnerWhat,SpinnerWhere,SpinnerDevice,SpinnerSafety,SpinnerExposureDeep,SpinnerPurpose,SpinnerWhen,SpinnerHiv,SpinnerHbv,SpinnerPepInit,SpinnerExposureResult;
+    String selectedWhere,selectedWhat,otherWhere,otherWhat,selecteddevice,otherdevice,selectedSafety,othersafety,selectedautodisable,otherautodisable,selectedExposuredeep,selectedPurpose,otherpurpose,selectedWhen,otherwhen,selectedHivstatus,selectedHbvstatus,selectedPepinitS,selectedExposureResult,otherExposureResultS,datetimeofexposureS,datetimeofpepinitS,numberOfExposuresS;
 
-    LinearLayout llHidden;
+    LinearLayout llHidden,llhiddensafetydesign;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,10 +77,10 @@ public class Report extends AppCompatActivity {
 
         try{
 
-            hoursE.setOnClickListener(new View.OnClickListener() {
+            datetimeofexposureE.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    dtp.setDateTimePicker(hoursE);
+                    dtp.setDateTimePicker(datetimeofexposureE);
 
                 }
             });
@@ -121,19 +119,36 @@ public class Report extends AppCompatActivity {
                 public void onClick(View v) {
 
 
-                    String myhour= hoursE.getText().toString();
+                    datetimeofexposureS= datetimeofexposureE.getText().toString();
+                    numberOfExposuresS=numberofexposuresE.getText().toString();
+
+
 
                     String where="";
-                    String nature="";
+                    String what="";
+                    String purpose="";
+                    String when="";
+                    String HivStatus="";
+                    String HbvStatus="";
+                    String numberofexposures=numberOfExposuresS;
+                    String pepinit="";
+                    String dateofexposure=datetimeofexposureS;
+
+                    String otherWhereS="";
+                    String otherWhatS="";
+                    String otherDeviceS="";
+                    String otherPurposeS="";
+                    String otherWhenS="";
+
 
                     String device="-1";
                     String deviceSafety="-1";
                     String deviceAuto="-1";
                     String deep="-1";
-                    String purpose="";
-                    String when="";
-                    String HivStatus="";
-                    String HbvStatus="";
+                    String dateofpepinit="-1";
+                    String exposureresult="-1";
+
+
 
 
 
@@ -182,7 +197,7 @@ public class Report extends AppCompatActivity {
                     }
 
 
-                    else if((selectedWhat.equalsIgnoreCase("Cuts")||selectedWhat.equalsIgnoreCase("Needle Stick")) && selectedSafety.isEmpty()){
+                    else if((selectedWhat.equalsIgnoreCase("Needle Stick")) && selectedSafety.isEmpty()){
 
                         sweetdialog.showErrorDialogReportExposure("Specify the safety","Exposure Report Error");
 
@@ -190,7 +205,7 @@ public class Report extends AppCompatActivity {
 
 
                     }
-                    else if((selectedWhat.equalsIgnoreCase("Cuts")||selectedWhat.equalsIgnoreCase("Needle Stick")) && selectedSafety.contentEquals("Other") && otherSafetyE.getText().toString().trim().isEmpty()){
+                    else if((selectedWhat.equalsIgnoreCase("Needle Stick")) && selectedSafety.contentEquals("Other") && otherSafetyE.getText().toString().trim().isEmpty()){
 
                         sweetdialog.showErrorDialogReportExposure("Specify other for safety","Exposure Report Error");
 
@@ -201,22 +216,22 @@ public class Report extends AppCompatActivity {
 
 
 
-                    else if((selectedWhat.equalsIgnoreCase("Cuts")||selectedWhat.equalsIgnoreCase("Needle Stick")) && selectedautodisable.isEmpty()){
-
-                        sweetdialog.showErrorDialogReportExposure("Specify the device auto disable","Exposure Report Error");
-
-//                        Toast.makeText(Report.this, "other for nature of exposure is required", Toast.LENGTH_SHORT).show();
-
-
-                    }
-                    else if((selectedWhat.equalsIgnoreCase("Cuts")||selectedWhat.equalsIgnoreCase("Needle Stick")) && selectedautodisable.contentEquals("Other") && otherAutoE.getText().toString().trim().isEmpty()){
-
-                        sweetdialog.showErrorDialogReportExposure("Specify other for auto disable","Exposure Report Error");
-
-//                        Toast.makeText(Report.this, "other for nature of exposure is required", Toast.LENGTH_SHORT).show();
-
-
-                    }
+//                    else if((!selectedWhat.equalsIgnoreCase("Cuts")||!selectedWhat.equalsIgnoreCase("Needle Stick")) && selectedExposureResult.isEmpty()){
+//
+//                        sweetdialog.showErrorDialogReportExposure("Specify the result of exposure","Exposure Report Error");
+//
+////                        Toast.makeText(Report.this, "other for nature of exposure is required", Toast.LENGTH_SHORT).show();
+//
+//
+//                    }
+//                    else if((!selectedWhat.equalsIgnoreCase("Cuts")||!selectedWhat.equalsIgnoreCase("Needle Stick")) && selectedExposureResult.contentEquals("Other") && otherExposureResult.getText().toString().trim().isEmpty()){
+//
+//                        sweetdialog.showErrorDialogReportExposure("Specify other for result of exposure","Exposure Report Error");
+//
+////                        Toast.makeText(Report.this, "other for nature of exposure is required", Toast.LENGTH_SHORT).show();
+//
+//
+//                    }
 
 
 
@@ -278,25 +293,48 @@ public class Report extends AppCompatActivity {
 //                        Toast.makeText(Report.this, "the nature of exposure is required", Toast.LENGTH_SHORT).show();
                     }
 
+                    else if(numberofexposuresE.getText().toString().trim().isEmpty()){
 
-                    else if(myhour.contentEquals("")){
+                        sweetdialog.showErrorDialogReportExposure("Number of exposures is required","Exposure Report Error");
+//                        Toast.makeText(Report.this, "the nature of exposure is required", Toast.LENGTH_SHORT).show();
+                    }
+
+                    else if(selectedPepinitS.trim().isEmpty()){
+
+                        sweetdialog.showErrorDialogReportExposure("Was pep initiated is required","Exposure Report Error");
+//                        Toast.makeText(Report.this, "the nature of exposure is required", Toast.LENGTH_SHORT).show();
+                    }
+
+                    else if(selectedPepinitS.equalsIgnoreCase("Yes")&& dateTimeOfPepInitE.getText().toString().trim().isEmpty()){
+
+                        sweetdialog.showErrorDialogReportExposure("date of pep initiation is required","Exposure Report Error");
+//                        Toast.makeText(Report.this, "the nature of exposure is required", Toast.LENGTH_SHORT).show();
+                    }
+
+
+                    else if(datetimeofexposureS.contentEquals("")){
 
                         sweetdialog.showErrorDialogReportExposure("Hours after exposure is required","Exposure Report Error");
 
 //                        Toast.makeText(Report.this, "Hours after exposure is required", Toast.LENGTH_SHORT).show();
                     }
                     else{
-                        String otherWhereS="";
-                        String otherWhatS="";
-                        String otherDeviceS="";
 
-                        String otherPurposeS="";
-                        String otherWhenS="";
+
+
                         HbvStatus=selectedHbvstatus;
                         HivStatus=selectedHivstatus;
                         deviceSafety=selectedSafety;
                         deviceAuto=selectedautodisable;
                         deep=selectedExposuredeep;
+                        pepinit=selectedPepinitS;
+
+
+                        if(pepinit.trim().equalsIgnoreCase("Yes")){
+
+                            dateofpepinit=dateTimeOfPepInitE.getText().toString();
+                        }
+
 
                         if(selectedWhere.equalsIgnoreCase("Other")){
                             otherWhereS=otherWhereE.getText().toString();
@@ -314,12 +352,37 @@ public class Report extends AppCompatActivity {
                             device=selecteddevice;
                         }
 
+                        if(selectedPepinitS.equalsIgnoreCase("Yes")){
+                            dateofpepinit=dateTimeOfPepInitE.getText().toString();
+                        }
+                        else{
+                            dateofpepinit="-1";
+                        }
+
+                        if((!selectedWhat.equalsIgnoreCase("Cuts")||!selectedWhat.equalsIgnoreCase("Needle Stick")||!selectedWhat.equalsIgnoreCase("Other"))&&selectedExposureResult.equalsIgnoreCase("Other")){
+
+                           exposureresult=otherExposureResult.getText().toString();
+
+                        }
+                        else{
+
+                            exposureresult=selectedExposureResult;
+                        }
+
                         if(selectedPurpose.equalsIgnoreCase("Other")){
                             otherPurposeS=otherPurposeE.getText().toString();
                             purpose=otherPurposeS;
                         }
                         else{
                             purpose=selectedPurpose;
+                        }
+
+                        if(selectedSafety.equalsIgnoreCase("Other")){
+                            othersafety=otherSafetyE.getText().toString();
+                            selectedSafety=othersafety;
+                        }
+                        else{
+
                         }
 
                         if(selectedWhen.equalsIgnoreCase("Other")){
@@ -332,10 +395,10 @@ public class Report extends AppCompatActivity {
 
                         if(selectedWhat.equalsIgnoreCase("Other")){
                             otherWhatS=otherWhatE.getText().toString();
-                            nature=otherWhatS;
+                            what=otherWhatS;
                         }
                         else{
-                            nature=selectedWhat;
+                            what=selectedWhat;
                         }
                         System.out.println("***************************************************");
                         System.out.println("where is:"+selectedWhere+"\n"+"what is: "+selectedWhat+"\n"+"where other: "+otherWhereS+"\n"+"what other: "+otherWhatS);
@@ -344,6 +407,7 @@ public class Report extends AppCompatActivity {
 
 
                         }
+
                         else{
 
                             device="-1";
@@ -351,12 +415,19 @@ public class Report extends AppCompatActivity {
                             deviceAuto="-1";
                             deep="-1";
 
+
                         }
-                        String Message="Rep*"+ Base64Encoder.encryptString(where+"*"+nature+"*"+device+"*"+deviceSafety+"*"+deviceAuto+"*"+deep+"*"+purpose+"*"+when+"*"+HivStatus+"*"+HbvStatus+"*"+myhour);
+                        String Message="Rep*"+ Base64Encoder.encryptString(where+"*"+what+"*"+purpose+"*"+when+"*"+HivStatus+"*"+HbvStatus+"*"+numberofexposures+"*"+pepinit+"*"+dateofexposure+"*"+device+"*"+deviceSafety+"*"+deep+"*"+dateofpepinit+"*"+exposureresult);
 //                        String Message = "Rep*"+where+"*"+nature+"*"+myhour;
 
                         SmsManager sm = SmsManager.getDefault();
-                        sm.sendTextMessage("40145", null, Message, null, null);
+                        ArrayList<String> parts = sm.divideMessage(Message);
+
+                        sm.sendMultipartTextMessage(Config.shortcode, null, parts, null, null);
+
+
+//                        SmsManager sm = SmsManager.getDefault();
+//                        sm.sendTextMessage("40145", null, "new test", null, null);
                         clearFields();
 
 //                        SignupsuccessDialog("");
@@ -380,7 +451,7 @@ public class Report extends AppCompatActivity {
     public void clearFields(){
 
         try{
-            hoursE.setText("");
+            datetimeofexposureE.setText("");
             SpinnerWhat.setText("");
             SpinnerWhere.setText("");
             SpinnerWhen.setText("");
@@ -410,11 +481,13 @@ public class Report extends AppCompatActivity {
 
         try{
             dateTimeOfPepInitE=(EditText) findViewById(R.id.datetimeofpepinitiation);
+            numberofexposuresE=(EditText) findViewById(R.id.numberOfExposures);
             dtp=new DateTimePicker(Report.this);
             sweetdialog=new Dialogs(Report.this);
             llHidden=(LinearLayout) findViewById(R.id.llhidden);
+            llhiddensafetydesign=(LinearLayout) findViewById(R.id.llsafetydesigned);
 
-            hoursE = (EditText) findViewById(R.id.hours);
+            datetimeofexposureE = (EditText) findViewById(R.id.hours);
             btn_submit = (Button) findViewById(R.id.btn_submit);
 
             arrayAdapterWhere = new ArrayAdapter<String>(this,
@@ -441,10 +514,14 @@ public class Report extends AppCompatActivity {
                     android.R.layout.simple_dropdown_item_1line, Config.SPINNERLISTSAFETY);
 
             arrayAdapterWhen = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_dropdown_item_1line, Config.SPINNERLISTWHENALGORITHM);
+                    android.R.layout.simple_dropdown_item_1line, Config.SPINNERLISTWHEN);
 
             arrayAdapterPepInit = new ArrayAdapter<String>(this,
                     android.R.layout.simple_dropdown_item_1line, Config.SPINNERLISTPEPINIT);
+
+            arrayAdapterExposureResult = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_dropdown_item_1line, Config.SPINNERLISTEXPOSURERESULT);
+
 
             arrayAdapterWhat = new ArrayAdapter<String>(this,
                     android.R.layout.simple_dropdown_item_1line, Config.SPINNERLISTWHAT);
@@ -481,14 +558,21 @@ public class Report extends AppCompatActivity {
             SpinnerHbv = (MaterialBetterSpinner)
                     findViewById(R.id.hbvstatus);
 
+            SpinnerExposureResult = (MaterialBetterSpinner)
+                    findViewById(R.id.exposureresult);
+
             otherWhat="";
             otherWhere="";
             otherdevice="";
             othersafety="";
             otherautodisable="";
+            datetimeofexposureS="";
+            datetimeofpepinitS="";
+            numberOfExposuresS="";
 
             otherpurpose="";
             otherwhen="";
+            otherExposureResultS="";
 
             selectedWhere="";
             selectedWhat="";
@@ -501,6 +585,7 @@ public class Report extends AppCompatActivity {
             selectedHivstatus="";
             selectedHbvstatus="";
             selectedPepinitS="";
+            selectedExposureResult="";
 
 
         }
@@ -510,6 +595,37 @@ public class Report extends AppCompatActivity {
         }
     }
 
+    public void setSpinnerExposureResult(){
+
+        try{
+
+
+            SpinnerExposureResult.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                    selectedExposureResult=SpinnerExposureResult.getText().toString();
+                    displayExposureResultOther();
+
+                }
+            });
+
+        }
+        catch(Exception e){
+
+
+        }
+    }
 
     public void setSpinnerPepInitListener(){
 
@@ -637,6 +753,32 @@ public class Report extends AppCompatActivity {
             else{
                 otherDeviceE.setVisibility(View.GONE);
                 otherdevice="";
+
+            }
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+
+    public void displayExposureResultOther(){
+
+        try{
+            otherExposureResult=(EditText) findViewById(R.id.exposureresultother);
+
+            if(selectedExposureResult.equalsIgnoreCase("Other")){
+
+                Toast.makeText(this, "other selected ", Toast.LENGTH_SHORT).show();
+                otherExposureResult.setVisibility(View.VISIBLE);
+                otherExposureResultS=otherExposureResult.getText().toString();
+            }
+            else{
+                otherExposureResult.setText("");
+                otherExposureResult.setVisibility(View.GONE);
+                otherExposureResultS="";
+
 
             }
         }
@@ -999,14 +1141,32 @@ public class Report extends AppCompatActivity {
 //                    Toast.makeText(Report.this, "selected "+selectedWhat, Toast.LENGTH_SHORT).show();
 
                     if(selectedWhat.contentEquals("Cuts")|| selectedWhat.contentEquals("Needle Stick")){
+                        boolean isNeedleStick;
+                        if(selectedWhat.contentEquals("Cuts")){
+                            isNeedleStick=false;
+                        }
+                        else if (selectedWhat.contentEquals("Needle Stick")){
 
+                            isNeedleStick=true;
+                        }
+                        else{
+                            isNeedleStick=false;
+                        }
                         llHidden.setVisibility(View.VISIBLE);
-                        setHiddenSpinnerAdapters();
+                        setHiddenSpinnerAdapters(isNeedleStick);
                         setSpinnerDeviceListener();
                         setSpinnerSafetyListener();
                         setSpinnerDeepListener();
+                        SpinnerExposureResult.setVisibility(View.GONE);
+//                        otherExposureResult.setText("");
+                        SpinnerExposureResult.setText("");
+
                     }
                     else{
+                        SpinnerExposureResult.setVisibility(View.VISIBLE);
+                        setSpinnerExposureResultAdapter();
+                        setSpinnerExposureResult();
+
 
                         llHidden.setVisibility(View.GONE);
 
@@ -1045,12 +1205,38 @@ public class Report extends AppCompatActivity {
     }
 
 
-    public void setHiddenSpinnerAdapters(){
+
+    public void setSpinnerExposureResultAdapter(){
 
         try{
+
+            SpinnerExposureResult.setAdapter(arrayAdapterExposureResult);
+
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+
+    public void setHiddenSpinnerAdapters(Boolean isNeedleStick){
+
+        try{
+            if(isNeedleStick){
+
+                llhiddensafetydesign.setVisibility(View.VISIBLE);
+                SpinnerSafety.setAdapter(arrayAdapterSafety);
+            }
+            else{
+                llhiddensafetydesign.setVisibility(View.GONE);
+                SpinnerSafety.setText("");
+                selectedSafety="";
+            }
+
             SpinnerDevice.setAdapter(arrayAdapterDevice);
 
-            SpinnerSafety.setAdapter(arrayAdapterSafety);
+
 
             SpinnerExposureDeep.setAdapter(arrayAdapterDeep);
 //            SpinnerDevice,SpinnerSafety,SpinnerAutodisable,SpinnerExposureDeep,SpinnerPurpose,SpinnerWhen,SpinnerHiv,SpinnerHbv;
