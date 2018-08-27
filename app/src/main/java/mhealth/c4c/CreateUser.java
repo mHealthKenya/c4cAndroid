@@ -29,12 +29,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.facebook.stetho.Stetho;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
@@ -42,12 +36,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Pattern;
 
+import in.galaxyofandroid.spinerdialog.OnSpinerItemClick;
+import in.galaxyofandroid.spinerdialog.SpinnerDialog;
 import mhealth.c4c.GetRemoteData.GetRemoteData;
 import mhealth.c4c.Registrationtable.Regpartners;
 import mhealth.c4c.Tables.Facilitydata;
@@ -66,10 +60,11 @@ import mhealth.c4c.encryption.Base64Encoder;
 
 public class CreateUser extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    EditText idnoE,ageE,motherE,dunumber,dose1E,dose2E;
+    EditText idnoE, ageE, motherE, dunumber, dose1E, dose2E, facilitySpinnerEdt;
+    SpinnerDialog spinnerDialog;
     CheckBox mchkb;
     String otherValue;
-    TextView specialisel,cadrel;
+    TextView specialisel, cadrel;
     LinearLayout doselayout;
     String selectedspecialisation;
 
@@ -78,26 +73,20 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     Dialogs sweetdialog;
     GetRemoteData grd;
 
-    MaterialBetterSpinner ctyM,sbctyM,facilityM;
-    String selectedCty,selectedSbcty,selectedFacility;
+    MaterialBetterSpinner ctyM, sbctyM;
 
-    private ArrayAdapter<String> arrayAdapterCounty,arrayAdapterSubCounty,arrayAdapterFacility;
+    String selectedCty, selectedSbcty, selectedFacility;
+
+    private ArrayAdapter<String> arrayAdapterCounty, arrayAdapterSubCounty, arrayAdapterFacility;
 
 
     public final Pattern textPattern = Pattern.compile("^([a-zA-Z+]+[0-9+]+)$");
 
 
-    EditText partnerorgE,specialisationE;
-    Dialog partnerdialog,specialisationdialog;
+    EditText partnerorgE, specialisationE;
+    Dialog partnerdialog, specialisationdialog;
 
-    String[] itemsorg={"MOH","KMTC","EGPAF","CHS","UNITID",
-            "KMPDU","KMPDB","Not Applicable"};
-    String[] itemsspecialisation={"Anaesthesia","Cardiothoracic surgery","Dermatology","Ear Nose And Throat",
-    "Internal Medicine","Microbiology","Neurosurgery","Obstetrics and Gynaecology","Occupational Medicine",
-    "Ophthalmology","Orthopaedic Surgery","Paediatrics and Child Health","Palliative Medicine",
-    "Pathology","Psychiatry","Plastic and Reconstructive Surgery","Public Health","Radiology",
-    "Surgery","Immunology","Infectious Diseases","Clinical Medical Genetics","Emergency Medicine",
-    "Opthalmology"};
+
     final ArrayList itemsSelected = new ArrayList();
     final ArrayList itemsSelectedSpecialisation = new ArrayList();
 
@@ -106,14 +95,11 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     boolean correctMfl;
 
 
-
-
     public static final String KEY_MFLCODE = "facility_code";
 
-    String[] genders={"Please Select Gender","Male","Female"};
-    String[] cadres={"Please Select Cadre","Student","Doctor","Nurse","Clinical Officer","Laboratory Technologist","Cleaner","Waste Handlers","VCT Counselor","Other"};
-    String[] hepa={"Have you been vaccinated against Hepatitis B?","Yes","Partially","No"};
-
+    String[] genders = {"Please Select Gender", "Male", "Female"};
+    String[] cadres = {"Please Select Cadre", "Student", "Doctor", "Nurse", "Clinical Officer", "Laboratory Technologist", "Cleaner", "Waste Handlers", "VCT Counselor", "Other"};
+    String[] hepa = {"Have you been vaccinated against Hepatitis B?", "Yes", "Partially", "No"};
 
 
     List<UserTable> user_list = new ArrayList<>();
@@ -124,11 +110,11 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     Spinner myspinner3;
 
 
-    String selected_item="";
-    String myselected="";
-    String selected_item2="";
-    String myselected2="";
-    String myselected3="";
+    String selected_item = "";
+    String myselected = "";
+    String selected_item2 = "";
+    String myselected2 = "";
+    String myselected3 = "";
 
     StringBuilder partners;
 
@@ -167,6 +153,47 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
     }
 
+    public void addListenerToFacilitySpinnerEdt(List<Facilitydata> myl){
+
+        try{
+
+
+           final ArrayList<String> y = new ArrayList<>();
+
+            for (int x = 0; x < myl.size(); x++) {
+                String faciityname = myl.get(x).getFacilityname();
+                y.add(faciityname);
+
+            }
+
+            facilitySpinnerEdt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+//                    spinnerDialog=new SpinnerDialog(CreateUser.this,items,"Select or Search City","Close Button Text");// With No Animation
+                    spinnerDialog=new SpinnerDialog(CreateUser.this,y,"Select Facility",R.style.DialogAnimations_SmileWindow,"Close");// With 	Animation
+
+
+                    spinnerDialog.bindOnSpinerListener(new OnSpinerItemClick() {
+                        @Override
+                        public void onClick(String item, int position) {
+//                            Toast.makeText(CreateUser.this, item + "  " + position+"", Toast.LENGTH_SHORT).show();
+                            selectedFacility = item;
+                            facilitySpinnerEdt.setText(item);
+                        }
+                    });
+
+                    spinnerDialog.showSpinerDialog();
+
+                }
+            });
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -174,9 +201,9 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
     }
 
-    public void setFacilitySpinnerData(){
+    public void setFacilitySpinnerData() {
 
-        try{
+        try {
 
             getRemoteData();
 
@@ -184,31 +211,27 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             setSpinnerCountyListener();
 
             setSpinnerAdapters();
-        }
-        catch(Exception e){
+        } catch (Exception e) {
 
 
         }
     }
 
-    public void setSpinnerAdapters(){
+    public void setSpinnerAdapters() {
 
-        try{
+        try {
             ctyM.setAdapter(arrayAdapterCounty);
 
 
-
-
-        }
-        catch(Exception e){
+        } catch (Exception e) {
 
 
         }
     }
 
-    public void setSpinnerCountyListener(){
+    public void setSpinnerCountyListener() {
 
-        try{
+        try {
 
 
             ctyM.addTextChangedListener(new TextWatcher() {
@@ -225,9 +248,9 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                 @Override
                 public void afterTextChanged(Editable s) {
 
-                    selectedCty=ctyM.getText().toString();
+                    selectedCty = ctyM.getText().toString();
                     sbctyM.setVisibility(View.VISIBLE);
-                    List<Facilitydata> myl=Facilitydata.findWithQuery(Facilitydata.class,"select * from Facilitydata where countyname=? group by subcountyname",selectedCty);
+                    List<Facilitydata> myl = Facilitydata.findWithQuery(Facilitydata.class, "select * from Facilitydata where countyname=? group by subcountyname", selectedCty);
                     setSubCountyAdapter(myl);
 //                    for(int x=0;x<myl.size();x++){
 //                        String countyId=myl.get(x).getCountyid();
@@ -240,20 +263,16 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                 }
             });
 
-        }
-        catch(Exception e){
+        } catch (Exception e) {
 
 
         }
     }
 
 
+    public void setSpinnerSubCountyListener() {
 
-
-
-    public void setSpinnerSubCountyListener(){
-
-        try{
+        try {
 
             sbctyM.setText("");
             sbctyM.addTextChangedListener(new TextWatcher() {
@@ -270,39 +289,43 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                 @Override
                 public void afterTextChanged(Editable s) {
 
-                    selectedSbcty=sbctyM.getText().toString();
+                    selectedSbcty = sbctyM.getText().toString();
 
-                    facilityM.setVisibility(View.VISIBLE);
-                    List<Facilitydata> myl=Facilitydata.findWithQuery(Facilitydata.class,"select * from Facilitydata where subcountyname=? group by facilityname",selectedSbcty);
+
+
+                    List<Facilitydata> myl = Facilitydata.findWithQuery(Facilitydata.class, "select * from Facilitydata where subcountyname=? group by facilityname", selectedSbcty);
                     setFacilityAdapter(myl);
 //                    for(int x=0;x<myl.size();x++){
 //                        String countyId=myl.get(x).getCountyid();
 //                        setSubCountyAdapter(countyId);
 //                    }
 
-                    facilityM.setAdapter(arrayAdapterFacility);
-                    setFacilityListener();
+
+
+
+                    facilitySpinnerEdt.setVisibility(View.VISIBLE);
+
+                    addListenerToFacilitySpinnerEdt(myl);
 
 
                 }
             });
 
-        }
-        catch(Exception e){
+        } catch (Exception e) {
 
 
         }
     }
 
 
-    public void setSubCountyAdapter(List<Facilitydata> myl){
+    public void setSubCountyAdapter(List<Facilitydata> myl) {
 
-        try{
+        try {
 
-            ArrayList<String> y=new ArrayList<>();
+            ArrayList<String> y = new ArrayList<>();
 
-            for(int x=0;x<myl.size();x++){
-                String sbctyname=myl.get(x).getSubcountyname();
+            for (int x = 0; x < myl.size(); x++) {
+                String sbctyname = myl.get(x).getSubcountyname();
                 y.add(sbctyname);
 
             }
@@ -310,9 +333,24 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
             arrayAdapterSubCounty = new ArrayAdapter<String>(this,
                     android.R.layout.simple_list_item_checked, y);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
 
+
+        }
+    }
+
+
+    public void setSearchSpinnerAdapter(ArrayList<String> y) {
+
+        try {
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_spinner_item, y);
+//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+//        R.array.symptoms, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        } catch (Exception e) {
 
         }
     }
@@ -320,47 +358,14 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
 
 
-    public void setFacilityListener(){
+    public void setFacilityAdapter(List<Facilitydata> myl) {
 
-        try{
+        try {
 
-            facilityM.setText("");
-            facilityM.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            ArrayList<String> y = new ArrayList<>();
 
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-
-                    selectedFacility=facilityM.getText().toString();
-
-
-                }
-            });
-
-        }
-        catch(Exception e){
-
-
-        }
-    }
-
-
-    public void setFacilityAdapter(List<Facilitydata> myl){
-
-        try{
-
-            ArrayList<String> y=new ArrayList<>();
-
-            for(int x=0;x<myl.size();x++){
-                String faciityname=myl.get(x).getFacilityname();
+            for (int x = 0; x < myl.size(); x++) {
+                String faciityname = myl.get(x).getFacilityname();
                 y.add(faciityname);
 
             }
@@ -368,8 +373,9 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
             arrayAdapterFacility = new ArrayAdapter<String>(this,
                     android.R.layout.simple_list_item_checked, y);
-        }
-        catch(Exception e){
+            arrayAdapterFacility.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        } catch (Exception e) {
 
 
         }
@@ -381,40 +387,36 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     //set county spinner logic here
 
 
-    public void setCountyAdapter(){
+    public void setCountyAdapter() {
 
-        try{
-            ArrayList<String> x=new ArrayList<>();
+        try {
+            ArrayList<String> x = new ArrayList<>();
 
-            List<Facilitydata> myl=Facilitydata.findWithQuery(Facilitydata.class,"select * from Facilitydata group by countyname");
+            List<Facilitydata> myl = Facilitydata.findWithQuery(Facilitydata.class, "select * from Facilitydata group by countyname");
             System.out.println("************getting countyies**************");
-            if(myl.size()>0){
+            if (myl.size() > 0) {
 
-                for(int y=0;y<myl.size();y++){
+                for (int y = 0; y < myl.size(); y++) {
                     x.add(myl.get(y).getCountyname());
                     System.out.println(myl.get(y).getCountyname());
 
                 }
 
 
-
             }
-
-
 
 
             arrayAdapterCounty = new ArrayAdapter<String>(this,
                     android.R.layout.simple_list_item_checked, x);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
 
 
         }
     }
 
 
-    public void dose1InputListener(){
-        try{
+    public void dose1InputListener() {
+        try {
 
             dose1E.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -430,29 +432,23 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                 @Override
                 public void afterTextChanged(Editable s) {
 
-                    try{
+                    try {
 
 
-
-                        if(!dcalc.checkDateDifferenceWithCurrentDate(s.toString())){
-
+                        if (!dcalc.checkDateDifferenceWithCurrentDate(s.toString())) {
 
 
-
-                        }
-                        else{
+                        } else {
 
                             dose1E.setText("");
-                            sweetdialog.showErrorDialogRegistration("specify a date less or equal to today","Registration Error");
+                            sweetdialog.showErrorDialogRegistration("specify a date less or equal to today", "Registration Error");
 //                        Toast.makeText(CreateUser.this, "specify a date less or equal to today", Toast.LENGTH_SHORT).show();
                         }
 
 
+                    } catch (Exception e) {
 
-                    }
-                    catch(Exception e){
-
-                        Toast.makeText(CreateUser.this, "crash "+e, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CreateUser.this, "crash " + e, Toast.LENGTH_SHORT).show();
 
 
                     }
@@ -460,15 +456,14 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
                 }
             });
-        }
-        catch(Exception e){
+        } catch (Exception e) {
 
 
         }
     }
 
-    public void dose2InputListener(){
-        try{
+    public void dose2InputListener() {
+        try {
 
             dose2E.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -484,54 +479,48 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                 @Override
                 public void afterTextChanged(Editable s) {
 
-                    try{
+                    try {
 
-                        long dateDiff=dcalc.calculateDateDifference(dose1E.getText().toString(),s.toString());
-                        if(!dcalc.checkDateDifferenceWithCurrentDate(s.toString())){
+                        long dateDiff = dcalc.calculateDateDifference(dose1E.getText().toString(), s.toString());
+                        if (!dcalc.checkDateDifferenceWithCurrentDate(s.toString())) {
 
 
-
-                            if(dateDiff<28){
+                            if (dateDiff < 28) {
 
 //                            dose2E.setText("");
-                                sweetdialog.showErrorDialogRegistration("second dose should be 28 days after first dose, try again","Vaccination Date Error");
+                                sweetdialog.showErrorDialogRegistration("second dose should be 28 days after first dose, try again", "Vaccination Date Error");
+
+
+                            } else {
 
 
                             }
-                            else{
 
-
-                            }
-
-                        }
-                        else{
+                        } else {
 
                             dose2E.setText("");
-                            sweetdialog.showErrorDialogRegistration("specify a date less or equal to today","Registration Error");
+                            sweetdialog.showErrorDialogRegistration("specify a date less or equal to today", "Registration Error");
 //                        Toast.makeText(CreateUser.this, "specify a date less or equal to today", Toast.LENGTH_SHORT).show();
                         }
 
+                    } catch (Exception e) {
+
+                        Toast.makeText(CreateUser.this, "crash " + e, Toast.LENGTH_SHORT).show();
+
                     }
-                    catch(Exception e){
-
-                        Toast.makeText(CreateUser.this, "crash "+e, Toast.LENGTH_SHORT).show();
-
-                    }
-
 
 
                 }
             });
-        }
-        catch(Exception e){
+        } catch (Exception e) {
 
 
         }
     }
 
-    public void setPartnerClickListener(){
+    public void setPartnerClickListener() {
 
-        try{
+        try {
 
             partnerorgE.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -544,17 +533,15 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                 }
             });
 
-        }
-        catch(Exception e){
-
+        } catch (Exception e) {
 
 
         }
     }
 
-    public void setSpecialisationClickListener(){
+    public void setSpecialisationClickListener() {
 
-        try{
+        try {
 
             specialisationE.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -567,18 +554,16 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                 }
             });
 
-        }
-        catch(Exception e){
-
+        } catch (Exception e) {
 
 
         }
     }
 
 
-    public void CheckToperiodListener(){
+    public void CheckToperiodListener() {
 
-        try{
+        try {
 
             ageE.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -596,29 +581,28 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                                 public void onDateSet(DatePicker view, int year,
                                                       int monthOfYear, int dayOfMonth) {
                                     // set day of month , month and year value in the edit text
-                                    String dom=String.format("%02d", dayOfMonth);
-                                    String moy=String.format("%02d", (monthOfYear + 1));
+                                    String dom = String.format("%02d", dayOfMonth);
+                                    String moy = String.format("%02d", (monthOfYear + 1));
 
                                     ageE.setText(dom + "/"
                                             + moy + "/" + year);
-                                    selectedYear=year;
+                                    selectedYear = year;
 
                                 }
                             }, mYear, mMonth, mDay);
                     datePickerDialog.show();
                 }
             });
-        }
-        catch(Exception e){
+        } catch (Exception e) {
 
 
         }
     }
 
 
-    public void Dose1DateListener(){
+    public void Dose1DateListener() {
 
-        try{
+        try {
 
             dose1E.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -636,8 +620,8 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                                 public void onDateSet(DatePicker view, int year,
                                                       int monthOfYear, int dayOfMonth) {
 
-                                    String dom=String.format("%02d", dayOfMonth);
-                                    String moy=String.format("%02d", (monthOfYear + 1));
+                                    String dom = String.format("%02d", dayOfMonth);
+                                    String moy = String.format("%02d", (monthOfYear + 1));
 
                                     // set day of month , month and year value in the edit text
                                     dose1E.setText(dom + "/"
@@ -649,18 +633,16 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                     datePickerDialog.show();
                 }
             });
-        }
-        catch(Exception e){
+        } catch (Exception e) {
 
 
         }
     }
 
 
+    public void Dose2DateListener() {
 
-    public void Dose2DateListener(){
-
-        try{
+        try {
 
             dose2E.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -681,13 +663,13 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                                     // set day of month , month and year value in the edit text
 
 
-                                    String dom=String.format("%02d", dayOfMonth);
-                                    String moy=String.format("%02d", (monthOfYear + 1));
-                                    dose2E.setText(dom+ "/"
+                                    String dom = String.format("%02d", dayOfMonth);
+                                    String moy = String.format("%02d", (monthOfYear + 1));
+                                    dose2E.setText(dom + "/"
                                             + moy + "/" + year);
 
-                                    String startDate=dose1E.getText().toString();
-                                    String endDate=dose2E.getText().toString();
+                                    String startDate = dose1E.getText().toString();
+                                    String endDate = dose2E.getText().toString();
 
 //                                    long mydiff=calculateDateDifference(startDate,endDate);
 //                                    if(mydiff<1){
@@ -697,22 +679,19 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 //                                    }
 
 
-
                                 }
                             }, mYear, mMonth, mDay);
                     datePickerDialog.show();
                 }
             });
-        }
-        catch(Exception e){
+        } catch (Exception e) {
 
 
         }
     }
 
 
-
-    public long calculateDateDifference(String date1,String date2){
+    public long calculateDateDifference(String date1, String date2) {
 
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -735,12 +714,9 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             return diffDays;
 
 
-
-
-        }
-        catch(Exception e){
-            Toast.makeText(this, "error "+e, Toast.LENGTH_SHORT).show();
-            System.out.println("*********errorr***********"+e);
+        } catch (Exception e) {
+            Toast.makeText(this, "error " + e, Toast.LENGTH_SHORT).show();
+            System.out.println("*********errorr***********" + e);
 
             return -1;
 
@@ -749,16 +725,16 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     }
 
 
-    public void displayMultiselectForPartner(){
+    public void displayMultiselectForPartner() {
 
-        try{
+        try {
 
 
-            final boolean selected[] = new boolean[]{false,false, false, false, false,false,false,false};
+            final boolean selected[] = new boolean[]{false, false, false, false, false, false, false, false};
 
             android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
             builder.setTitle("Select Your Partner Organisation : ");
-            builder.setMultiChoiceItems(itemsorg, selected,
+            builder.setMultiChoiceItems(Config.itemsorg, selected,
                     new DialogInterface.OnMultiChoiceClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int selectedItemId,
@@ -767,92 +743,84 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                             if (isSelected) {
 
 
-
                                 //logic
 
                                 for (int i = 0; i < selected.length; i++) {
-                                if (i == selectedItemId) {
+                                    if (i == selectedItemId) {
 
-                                    selected[i]=true;
-                                    itemsSelected.add(selectedItemId);
+                                        selected[i] = true;
+                                        itemsSelected.add(selectedItemId);
 
+
+                                    }
 
                                 }
 
-                            }
+                                if (selected[6]) {//check for Not Applicable
 
-                            if(selected[6]){//check for Not Applicable
-
-                                    for(int x=0;x<selected.length;x++){
+                                    for (int x = 0; x < selected.length; x++) {
 
                                         itemsSelected.remove(Integer.valueOf(x));
-                                        selected[x]=false;
-                                        ((android.app.AlertDialog)dialog).getListView().setItemChecked(x, false);
-                                        if(x==6){
-                                            selected[6]=true;
+                                        selected[x] = false;
+                                        ((android.app.AlertDialog) dialog).getListView().setItemChecked(x, false);
+                                        if (x == 6) {
+                                            selected[6] = true;
                                             itemsSelected.add(6);
 
-                                            ((android.app.AlertDialog)dialog).getListView().setItemChecked(6, true);
+                                            ((android.app.AlertDialog) dialog).getListView().setItemChecked(6, true);
 //                                            continue;
                                         }
                                     }
 
 
-                            }
-                            else if(selected[5]){
+                                } else if (selected[5]) {
 
 
-                                kmpduChecked=true;
-                                dunumber.setVisibility(View.VISIBLE);
-                                specialisationE.setVisibility(View.VISIBLE);
+                                    kmpduChecked = true;
+                                    dunumber.setVisibility(View.VISIBLE);
+                                    specialisationE.setVisibility(View.VISIBLE);
 
-                                specialisel.setVisibility(View.VISIBLE);
-                                idnoE.setVisibility(View.GONE);
-
-
-                                ctyM.setVisibility(View.GONE);
-                                sbctyM.setVisibility(View.GONE);
-                                facilityM.setVisibility(View.GONE);
-
-                                myspinner2.setVisibility(View.GONE);
-                                cadrel.setVisibility(View.GONE);
+                                    specialisel.setVisibility(View.VISIBLE);
+                                    idnoE.setVisibility(View.GONE);
 
 
-
-                            }
-
-                            else if(!selected[5]){//if kmpdu is not checked
-                                kmpduChecked=false;
-                                dunumber.setVisibility(View.GONE);
-
-                                specialisationE.setVisibility(View.GONE);
-                                specialisel.setVisibility(View.GONE);
-
-                                idnoE.setVisibility(View.VISIBLE);
+                                    ctyM.setVisibility(View.GONE);
+                                    sbctyM.setVisibility(View.GONE);
 
 
-                                ctyM.setVisibility(View.VISIBLE);
-                                sbctyM.setVisibility(View.VISIBLE);
-                                facilityM.setVisibility(View.VISIBLE);
+                                    myspinner2.setVisibility(View.GONE);
+                                    cadrel.setVisibility(View.GONE);
 
-                                myspinner2.setVisibility(View.VISIBLE);
-                                cadrel.setVisibility(View.VISIBLE);
+
+                                } else if (!selected[5]) {//if kmpdu is not checked
+                                    kmpduChecked = false;
+                                    dunumber.setVisibility(View.GONE);
+
+                                    specialisationE.setVisibility(View.GONE);
+                                    specialisel.setVisibility(View.GONE);
+
+                                    idnoE.setVisibility(View.VISIBLE);
+
+
+                                    ctyM.setVisibility(View.VISIBLE);
+                                    sbctyM.setVisibility(View.VISIBLE);
+
+                                    myspinner2.setVisibility(View.VISIBLE);
+                                    cadrel.setVisibility(View.VISIBLE);
 //                        motherE.setVisibility(View.GONE);
 
 
-                            }
+                                }
 
 
-                            }
-
-                            else if (itemsSelected.contains(selectedItemId)) {
+                            } else if (itemsSelected.contains(selectedItemId)) {
                                 itemsSelected.remove(Integer.valueOf(selectedItemId));
-                                selected[selectedItemId]=false;
+                                selected[selectedItemId] = false;
 
-                                if(selectedItemId==5){ //check for kmpdu if unchecked
+                                if (selectedItemId == 5) { //check for kmpdu if unchecked
 
 
-                                    kmpduChecked=false;
+                                    kmpduChecked = false;
                                     dunumber.setVisibility(View.GONE);
 
                                     specialisel.setVisibility(View.GONE);
@@ -862,12 +830,11 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
                                     ctyM.setVisibility(View.VISIBLE);
                                     sbctyM.setVisibility(View.VISIBLE);
-                                    facilityM.setVisibility(View.VISIBLE);
+
 
                                     myspinner2.setVisibility(View.VISIBLE);
                                     cadrel.setVisibility(View.VISIBLE);
 //                        motherE.setVisibility(View.GONE);
-
 
 
                                 }
@@ -880,22 +847,19 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                         public void onClick(DialogInterface dialog, int id) {
                             //Your logic when OK button is clicked
 
-                            Iterator<String> it=itemsSelected.iterator();
+                            Iterator<String> it = itemsSelected.iterator();
 
-                            while(it.hasNext()){
+                            while (it.hasNext()) {
 
-                                partnerorgE.append(itemsorg[Integer.parseInt(String.valueOf(it.next()))]);
+                                partnerorgE.append(Config.itemsorg[Integer.parseInt(String.valueOf(it.next()))]);
 
 
-                                if(it.hasNext()){
+                                if (it.hasNext()) {
                                     partnerorgE.append(",");
                                 }
 
 
-
-
                             }
-
 
 
                         }
@@ -912,12 +876,11 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
                             ctyM.setVisibility(View.VISIBLE);
                             sbctyM.setVisibility(View.VISIBLE);
-                            facilityM.setVisibility(View.VISIBLE);
+
 
                             myspinner2.setVisibility(View.VISIBLE);
                             cadrel.setVisibility(View.VISIBLE);
 //                        motherE.setVisibility(View.GONE);
-
 
 
                         }
@@ -926,28 +889,24 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             partnerdialog.show();
 
 
-        }
-        catch(Exception e){
+        } catch (Exception e) {
 
 
         }
     }
 
 
+    public void displayMultiselectForSpecialisation() {
+
+        try {
 
 
-
-    public void displayMultiselectForSpecialisation(){
-
-        try{
-
-
-            final boolean selected[] = new boolean[]{false, false, false, false,false,false,false,false,false,false,false,false,
-            false,false,false,false,false,false,false,false,false,false,false,false};
+            final boolean selected[] = new boolean[]{false, false, false, false, false, false, false, false, false, false, false, false,
+                    false, false, false, false, false, false, false, false, false, false, false, false};
 
             android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
             builder.setTitle("Select Your Specialisation: ");
-            builder.setMultiChoiceItems(itemsspecialisation, selected,
+            builder.setMultiChoiceItems(Config.itemsspecialisation, selected,
                     new DialogInterface.OnMultiChoiceClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int selectedItemId,
@@ -956,28 +915,24 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                             if (isSelected) {
 
 
-
                                 //logic
 
                                 for (int i = 0; i < selected.length; i++) {
                                     if (i == selectedItemId) {
 
-                                        selected[i]=true;
+                                        selected[i] = true;
 
                                     }
 
                                 }
 
 
-
                                 //logic
 
                                 itemsSelectedSpecialisation.add(selectedItemId);
-                            }
-
-                            else if (itemsSelectedSpecialisation.contains(selectedItemId)) {
+                            } else if (itemsSelectedSpecialisation.contains(selectedItemId)) {
                                 itemsSelectedSpecialisation.remove(Integer.valueOf(selectedItemId));
-                                selected[selectedItemId]=false;
+                                selected[selectedItemId] = false;
 
                             }
                         }
@@ -986,14 +941,12 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
                             //Your logic when OK button is clicked
-                            if(itemsSelectedSpecialisation.size()>1){
+                            if (itemsSelectedSpecialisation.size() > 1) {
                                 Toast.makeText(CreateUser.this, "Select only one specialisation", Toast.LENGTH_SHORT).show();
                                 dialog.dismiss();
-                            }
-                            else if(itemsSelectedSpecialisation.size()==1){
+                            } else if (itemsSelectedSpecialisation.size() == 1) {
 
-                                specialisationE.append(itemsspecialisation[Integer.parseInt(itemsSelectedSpecialisation.get(0).toString())]);
-
+                                specialisationE.append(Config.itemsspecialisation[Integer.parseInt(itemsSelectedSpecialisation.get(0).toString())]);
 
 
                             }
@@ -1012,61 +965,60 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             specialisationdialog.show();
 
 
-        }
-        catch(Exception e){
+        } catch (Exception e) {
 
 
         }
     }
 
 
-    public void initialise(){
+    public void initialise() {
 
-        try{
+        try {
 
-            selectedCty="";
-            selectedSbcty="";
-            selectedFacility="";
+            selectedCty = "";
+            selectedSbcty = "";
+            selectedFacility = "";
+            facilitySpinnerEdt =(EditText) findViewById(R.id.facilityspinner);
+            ctyM = (MaterialBetterSpinner) findViewById(R.id.county_txt);
 
-            ctyM=(MaterialBetterSpinner) findViewById(R.id.county_txt);
-            sbctyM=(MaterialBetterSpinner) findViewById(R.id.subcounty_txt);
-            facilityM=(MaterialBetterSpinner) findViewById(R.id.facility_txt);
-
-            grd=new GetRemoteData(CreateUser.this);
-            sweetdialog=new Dialogs(CreateUser.this);
-            dcalc=new DateCalculator();
-            partnerorgE=(EditText) findViewById(R.id.partorg);
-            specialisationE=(EditText) findViewById(R.id.specialisationselect);
-
-            specialisel=(TextView) findViewById(R.id.specialisationlabel);
-            cadrel=(TextView) findViewById(R.id.cadrelabel);
-            kmpduChecked=false;
-            dunumber=(EditText) findViewById(R.id.du);
-            otherValue="";
-            motherE=(EditText) findViewById(R.id.myother);
-
-            idnoE=(EditText) findViewById(R.id.idno);
-            ageE=(EditText) findViewById(R.id.age);
+            sbctyM = (MaterialBetterSpinner) findViewById(R.id.subcounty_txt);
 
 
-            myspinner=(Spinner) findViewById(R.id.spinner);
-            myspinner2=(Spinner) findViewById(R.id.spinner2);
-            myspinner3=(Spinner) findViewById(R.id.spinner3);
+            grd = new GetRemoteData(CreateUser.this);
+            sweetdialog = new Dialogs(CreateUser.this);
+            dcalc = new DateCalculator();
+            partnerorgE = (EditText) findViewById(R.id.partorg);
+            specialisationE = (EditText) findViewById(R.id.specialisationselect);
 
-            radio2dosegrp=(RadioGroup) findViewById(R.id.radiogrpseconddose);
+            specialisel = (TextView) findViewById(R.id.specialisationlabel);
+            cadrel = (TextView) findViewById(R.id.cadrelabel);
+            kmpduChecked = false;
+            dunumber = (EditText) findViewById(R.id.du);
+            otherValue = "";
+            motherE = (EditText) findViewById(R.id.myother);
 
-            doselayout=(LinearLayout) findViewById(R.id.doses);
+            idnoE = (EditText) findViewById(R.id.idno);
+            ageE = (EditText) findViewById(R.id.age);
 
 
-            correctMfl=false;
+            myspinner = (Spinner) findViewById(R.id.spinner);
+            myspinner2 = (Spinner) findViewById(R.id.spinner2);
+            myspinner3 = (Spinner) findViewById(R.id.spinner3);
 
-            partners=new StringBuilder();
+            radio2dosegrp = (RadioGroup) findViewById(R.id.radiogrpseconddose);
 
-            dose1E=(EditText) findViewById(R.id.dose1);
-            dose2E=(EditText) findViewById(R.id.dose2);
+            doselayout = (LinearLayout) findViewById(R.id.doses);
 
-        }
-        catch(Exception e){
+
+            correctMfl = false;
+
+            partners = new StringBuilder();
+
+            dose1E = (EditText) findViewById(R.id.dose1);
+            dose2E = (EditText) findViewById(R.id.dose2);
+
+        } catch (Exception e) {
 
 
         }
@@ -1075,63 +1027,56 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         // On selecting a spinner item
-        Spinner spin=(Spinner) parent;
+        Spinner spin = (Spinner) parent;
 
-        if(spin.getId()==R.id.spinner){
+        if (spin.getId() == R.id.spinner) {
 
 
 //            selected_item=parent.getItemAtPosition(position).toString();
-            myselected=Integer.toString(position);
+            myselected = Integer.toString(position);
             actOnSelected();
 
         }
-
-        else if (spin.getId()==R.id.spinner2){
-            try{
+        else if (spin.getId() == R.id.spinner2) {
+            try {
 
 //                selected_item2=parent.getItemAtPosition(position).toString();
 
-                if(position==9){
+                if (position == 9) {
 
 
                     motherE.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     motherE.setText("");
                     motherE.setVisibility(View.GONE);
 
                 }
 
-                myselected2=Integer.toString(position);
+                myselected2 = Integer.toString(position);
 
                 actOnSelected();
 
 
-            }
-            catch(Exception e){
+            } catch (Exception e) {
 
 
             }
 
 
-
-        }
-        else if (spin.getId()==R.id.spinner3){
+        } else if (spin.getId() == R.id.spinner3) {
 
 //            selected_item2=parent.getItemAtPosition(position).toString();
 
-            myselected3=Integer.toString(position);
+            myselected3 = Integer.toString(position);
 
-            if(position==2){
+            if (position == 2) {
 
                 doselayout.setVisibility(View.VISIBLE);
                 Dose1DateListener();
                 secondDoseRadioGroups();
 
-            }
-
-            else{
+            } else {
 
                 doselayout.setVisibility(View.GONE);
             }
@@ -1147,25 +1092,23 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     }
 
 
-
-
-    public void actOnSelected(){
+    public void actOnSelected() {
 
 //        Toast.makeText(this, "you selected "+selected_item+"the behind scene value is "+myselected, Toast.LENGTH_SHORT).show();
 //        Toast.makeText(this, "you selected "+selected_item2+"the behind scene value is "+myselected2, Toast.LENGTH_SHORT).show();
     }
 
-    public void secondDoseRadioGroups(){
-        try{
+    public void secondDoseRadioGroups() {
+        try {
 
             radio2dosegrp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-                    try{
+                    try {
 
 
-                        switch(checkedId){
+                        switch (checkedId) {
                             case R.id.radiono:
                                 dose2E.setVisibility(View.GONE);
                                 dose2E.setText("");
@@ -1176,8 +1119,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                                 break;
                         }
 
-                    }
-                    catch(Exception e){
+                    } catch (Exception e) {
 
 
                     }
@@ -1186,88 +1128,78 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                 }
             });
 
-        }
-        catch(Exception e){
+        } catch (Exception e) {
 
 
         }
     }
 
-    public void populateSpinner(){
+    public void populateSpinner() {
 
-        try{
+        try {
 
-            SpinnerAdapter customAdapter=new SpinnerAdapter(getApplicationContext(),genders);
-
+            SpinnerAdapter customAdapter = new SpinnerAdapter(getApplicationContext(), genders);
 
 
             myspinner.setAdapter(customAdapter);
 
 
-        }
-
-        catch(Exception e){
+        } catch (Exception e) {
 
 
         }
     }
 
-    public void populateSpinner2(){
+    public void populateSpinner2() {
 
-        try{
+        try {
 
-            SpinnerAdapter customAdapter=new SpinnerAdapter(getApplicationContext(),cadres);
+            SpinnerAdapter customAdapter = new SpinnerAdapter(getApplicationContext(), cadres);
 
             myspinner2.setAdapter(customAdapter);
 
 
-        }
-
-        catch(Exception e){
+        } catch (Exception e) {
 
 
         }
     }
 
-    public void populateSpinner3(){
+    public void populateSpinner3() {
 
-        try{
+        try {
 
-            SpinnerAdapter customAdapter=new SpinnerAdapter(getApplicationContext(),hepa);
+            SpinnerAdapter customAdapter = new SpinnerAdapter(getApplicationContext(), hepa);
 
             myspinner3.setAdapter(customAdapter);
 
 
-        }
-
-        catch(Exception e){
+        } catch (Exception e) {
 
 
         }
     }
 
 
+    public void populatePartnerTable() {
 
-    public void populatePartnerTable(){
-
-        try{
+        try {
 
             Partners.deleteAll(Partners.class);
 
-            if(itemsSelected.size()>0){
+            if (itemsSelected.size() > 0) {
 
-                for(int x=0;x<itemsSelected.size();x++){
+                for (int x = 0; x < itemsSelected.size(); x++) {
 
-                    Partners pt=new Partners();
-                    pt.setPartnername(itemsorg[Integer.parseInt(itemsSelected.get(x).toString())]);
+                    Partners pt = new Partners();
+                    pt.setPartnername(Config.itemsorg[Integer.parseInt(itemsSelected.get(x).toString())]);
                     pt.save();
                 }
 
             }
 
-        }
-        catch(Exception e){
-            Toast.makeText(this, "error populating partner table "+e, Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(this, "error populating partner table " + e, Toast.LENGTH_SHORT).show();
 
 
         }
@@ -1275,16 +1207,16 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
     //ill get back here
 
-    public void CreatingUser(View v){
+    public void CreatingUser(View v) {
 
-        try{
+        try {
 
 
             populatePartnerTable();
 
-            partners=new StringBuilder("");
+            partners = new StringBuilder("");
 
-            Iterator<String> it=itemsSelected.iterator();
+            Iterator<String> it = itemsSelected.iterator();
 
 //            while(it.hasNext()){
 //
@@ -1300,17 +1232,16 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 //
 //
 //            }
-            if(itemsSelected.size()==1){
-                String val=Integer.toString((Integer.parseInt(itemsSelected.get(0).toString()))+1);
+            if (itemsSelected.size() == 1) {
+                String val = Integer.toString((Integer.parseInt(itemsSelected.get(0).toString())) + 1);
                 partners.append(val);
-            }
-            else if(itemsSelected.size()>1) {
+            } else if (itemsSelected.size() > 1) {
 
 
                 for (int x = 0; x < itemsSelected.size(); x++) {
-                    String val=Integer.toString((Integer.parseInt(itemsSelected.get(x).toString()))+1);
+                    String val = Integer.toString((Integer.parseInt(itemsSelected.get(x).toString())) + 1);
 
-                    partners.append(val+"*");
+                    partners.append(val + "*");
 
                 }
             }
@@ -1320,23 +1251,20 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 //            Toast.makeText(this, ""+partners, Toast.LENGTH_SHORT).show();
 
 
-
-            String duns="";
-
+            String duns = "";
 
 
-            String myidno=idnoE.getText().toString();
-            String myage=ageE.getText().toString();
-            String mymfl="";
-            String mdose1="-1";
-            String mdose2="-1";
+            String myidno = idnoE.getText().toString();
+            String myage = ageE.getText().toString();
+            String mymfl = "";
+            String mdose1 = "-1";
+            String mdose2 = "-1";
 
-            if(kmpduChecked){
-               mymfl="13528";
-            }
-            else{
+            if (kmpduChecked) {
+                mymfl = "13528";
+            } else {
 
-                mymfl=selectedFacility;
+                mymfl = selectedFacility;
             }
 
             int curyear = Calendar.getInstance().get(Calendar.YEAR);
@@ -1344,9 +1272,9 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 //            nameE.setVisibility(View.VISIBLE);
 //            motherE.setVisibility(View.VISIBLE);
 //            lnameE.setVisibility(View.VISIBLE);
-            if(kmpduChecked){
-                duns=dunumber.getText().toString();
-                if(duns.isEmpty()){
+            if (kmpduChecked) {
+                duns = dunumber.getText().toString();
+                if (duns.isEmpty()) {
 
                     dunumber.setError("Doctors union number is required");
                 }
@@ -1355,101 +1283,77 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 //                }
 
 
-                myidno="-1";
+                myidno = "-1";
+
+            } else {
+
+                selectedspecialisation = "-1";
+
+                duns = "-1";
+
 
             }
-            else{
-
-                selectedspecialisation="-1";
-
-                duns="-1";
 
 
-            }
-
-
-            if(!kmpduChecked && myidno.trim().isEmpty()){
+            if (!kmpduChecked && myidno.trim().isEmpty()) {
                 idnoE.setError("ID NUMBER is Required");
 
-            }
-
-            else if(!kmpduChecked && myidno.length()<4){
+            } else if (!kmpduChecked && myidno.length() < 4) {
 
                 idnoE.setError("ID NUMBER should contain more than 3 values");
 
-            }
-            else if(myage.isEmpty()){
+            } else if (myage.isEmpty()) {
                 ageE.setError("Age is Required");
 
-            }
-
-            else if(mymfl.trim().isEmpty()){
+            } else if (mymfl.trim().isEmpty()) {
                 Toast.makeText(this, "MFL Number is Required", Toast.LENGTH_SHORT).show();
 
-            }
-
-            else if(partners.toString().isEmpty()){
-                sweetdialog.showErrorDialogRegistration("Select atleast one partner","Registration Error");
+            } else if (partners.toString().isEmpty()) {
+                sweetdialog.showErrorDialogRegistration("Select atleast one partner", "Registration Error");
 
 //                Toast.makeText(this, "select atleast one partner", Toast.LENGTH_SHORT).show();
-            }
+            } else if ((curyear - selectedYear) < 18) {
 
-
-            else if((curyear-selectedYear)<18){
-
-                sweetdialog.showErrorDialogRegistration("age should be greater than 18, try again","Registration Error");
+                sweetdialog.showErrorDialogRegistration("age should be greater than 18, try again", "Registration Error");
 
 
 //                Toast.makeText(this, "age should be greater than 18, try again", Toast.LENGTH_LONG).show();
-            }
-            else if(myselected.contentEquals("0")){
+            } else if (myselected.contentEquals("0")) {
 
-                sweetdialog.showErrorDialogRegistration("Please Select Gender","Registration Error");
+                sweetdialog.showErrorDialogRegistration("Please Select Gender", "Registration Error");
 
 //                Toast.makeText(this, "Please Select Gender", Toast.LENGTH_LONG).show();
 
 
-            }
+            } else if (!kmpduChecked && myselected2.contentEquals("0")) {
 
-
-            else if (!kmpduChecked && myselected2.contentEquals("0")) {
-
-                sweetdialog.showErrorDialogRegistration("Please select Cadre","Registration Error");
+                sweetdialog.showErrorDialogRegistration("Please select Cadre", "Registration Error");
 
 //                Toast.makeText(this, "Please select Cadre", Toast.LENGTH_LONG).show();
 
 
-                }
+            } else if (myselected3.contentEquals("0")) {
 
-
-
-            else if(myselected3.contentEquals("0")){
-
-                sweetdialog.showErrorDialogRegistration("Specify your vaccination","Registration Error");
+                sweetdialog.showErrorDialogRegistration("Specify your vaccination", "Registration Error");
 
 //                Toast.makeText(this, "Specify your vaccination", Toast.LENGTH_LONG).show();
 
 
-            }
+            } else {
+                List<Facilitydata> myl = Facilitydata.findWithQuery(Facilitydata.class, "select * from Facilitydata where facilityname=? limit 1", mymfl);
+                for (int d = 0; d < myl.size(); d++) {
 
-
-            else{
-                List<Facilitydata> myl=Facilitydata.findWithQuery(Facilitydata.class,"select * from Facilitydata where facilityname=? limit 1",mymfl);
-                for(int d=0;d<myl.size();d++){
-
-                    String newmflcode=myl.get(d).getMflcode();
-                    checkFacilityCode(myidno,myage,newmflcode,partners,duns,selectedspecialisation);
+                    String newmflcode = myl.get(d).getMflcode();
+                    checkFacilityCode(myidno, myage, newmflcode, partners, duns, selectedspecialisation);
 
                 }
 
 
-
             }
 
-        }
-        catch(Exception e){
+        } catch (Exception e) {
 
-            sweetdialog.showErrorDialogRegistration("Error occured "+e,"Registration Error");
+            sweetdialog.showErrorDialogRegistration("Error occured " + e, "Registration Error");
 
 //            SignupdisplayDialog("Error occured "+e);
 
@@ -1458,11 +1362,11 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     }
 
 
-    public void SignupsuccessDialog(String message){
+    public void SignupsuccessDialog(String message) {
 
-        try{
+        try {
 
-            AlertDialog.Builder adb=new AlertDialog.Builder(this);
+            AlertDialog.Builder adb = new AlertDialog.Builder(this);
             adb.setTitle("PROFILE CREATION SUCCESS");
             adb.setIcon(R.mipmap.success);
             adb.setMessage(message.toUpperCase());
@@ -1473,21 +1377,20 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                 public void onClick(DialogInterface dialog, int which) {
 
 
-                    if(kmpduChecked){
-                        kmpdu km=new kmpdu("true");
+                    if (kmpduChecked) {
+                        kmpdu km = new kmpdu("true");
                         km.save();
 
-                        Intent myint=new Intent(getApplicationContext(),LandingPage.class);
+                        Intent myint = new Intent(getApplicationContext(), LandingPage.class);
 
                         startActivity(myint);
 
-                    }
-                    else{
+                    } else {
 
-                        kmpdu mykm=new kmpdu("false");
+                        kmpdu mykm = new kmpdu("false");
                         mykm.save();
 
-                        Intent myint=new Intent(getApplicationContext(),LandingPage.class);
+                        Intent myint = new Intent(getApplicationContext(), LandingPage.class);
 
                         startActivity(myint);
 
@@ -1506,13 +1409,9 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             });
 
 
-
-
-
-            AlertDialog mydialog=adb.create();
+            AlertDialog mydialog = adb.create();
             mydialog.show();
-        }
-        catch(Exception e){
+        } catch (Exception e) {
 
 
         }
@@ -1520,137 +1419,123 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     }
 
 
-    public void clearFields(){
+    public void clearFields() {
 
-        try{
+        try {
 
 //            mpassf.setText("");
 //            mcpassf.setText("");
 //            munamef.setText("");
 
 
-        }
-        catch(Exception e){
-
+        } catch (Exception e) {
 
 
         }
     }
 
 
+    public void checkFacilityCode(final String myidno, final String myage, final String mymfl, final StringBuilder partner, final String duns, final String sspecial) {
 
-    public void checkFacilityCode( final String myidno, final String myage, final String mymfl,final StringBuilder partner,final String duns,final String sspecial){
 
-
-        final ProgressDialog pdialog= mydialog("loading...","Creating Profile");
+        final ProgressDialog pdialog = mydialog("loading...", "Creating Profile");
 
 //        Toast.makeText(this, "checking facility", Toast.LENGTH_SHORT).show();
 
 
-        final String mymflcode[]={""};
-        if(kmpduChecked){
-            mymflcode[0]="13528";
+        final String mymflcode[] = {""};
+        if (kmpduChecked) {
+            mymflcode[0] = "13528";
 
-        }
-        else{
-            mymflcode[0]=mymfl;
+        } else {
+            mymflcode[0] = mymfl;
 
         }
 
         pdialog.cancel();
-        correctMfl=true;
+        correctMfl = true;
 
 
-        String mdose1="-1";
-        String mdose2="-1";
-        if(!dose1E.getText().toString().trim().isEmpty()){
-            mdose1=dose1E.getText().toString().trim();
-
-        }
-        if(!dose2E.getText().toString().trim().isEmpty()){
-            mdose2=dose2E.getText().toString().trim();
+        String mdose1 = "-1";
+        String mdose2 = "-1";
+        if (!dose1E.getText().toString().trim().isEmpty()) {
+            mdose1 = dose1E.getText().toString().trim();
 
         }
+        if (!dose2E.getText().toString().trim().isEmpty()) {
+            mdose2 = dose2E.getText().toString().trim();
 
-        if(correctMfl){
+        }
 
-            RegistrationTable rt=RegistrationTable.findById(RegistrationTable.class,1);
-            rt.gender=myselected;
-            rt.cadre=myselected2;
-            rt.idnumber=myidno;
-            rt.age=myage;
-            rt.mflcode=mymfl;
-            rt.myhepa=myselected3;
+        if (correctMfl) {
+
+            RegistrationTable rt = RegistrationTable.findById(RegistrationTable.class, 1);
+            rt.gender = myselected;
+            rt.cadre = myselected2;
+            rt.idnumber = myidno;
+            rt.age = myage;
+            rt.mflcode = mymfl;
+            rt.myhepa = myselected3;
             rt.save();
 //
 //                                    RegistrationTable rt=new RegistrationTable("","",myselected,myselected2,myidno,myage,mymfl,myselected3,"","","","");
 //                                    rt.save();
-            String myoth="";
+            String myoth = "";
 
-            try{
+            try {
 
-                myoth=motherE.getText().toString();
-
-
-            }
-            catch(Exception e){
+                myoth = motherE.getText().toString();
 
 
-            }
-
-            String mymess="";
-
-            if(kmpduChecked){
-
-
-
-
-                mymess="Reg*"+ Base64Encoder.encryptString(myidno+"*"+myage+"*"+myselected+"*"+"-1"+"*"+"-1"+"*"+myselected3+"*"+mdose1+"*"+mdose2+"*"+duns+"*"+sspecial+"*"+partner);
-
-
-            }
-            else if(!kmpduChecked && myoth.isEmpty()){
-                mymess="Reg*"+Base64Encoder.encryptString(myidno+"*"+myage+"*"+myselected+"*"+myselected2+"*"+mymfl+"*"+myselected3+"*"+mdose1+"*"+mdose2+"*"+duns+"*"+sspecial+"*"+partner);
-
-
-            }
-            else if(!kmpduChecked && !myoth.isEmpty()){
-
-                mymess="Reg*"+Base64Encoder.encryptString(myidno+"*"+myage+"*"+myselected+"*"+myoth+"*"+mymfl+"*"+myselected3+"*"+mdose1+"*"+mdose2+"*"+duns+"*"+sspecial+"*"+partner);
-
+            } catch (Exception e) {
 
 
             }
 
+            String mymess = "";
+
+            if (kmpduChecked) {
+
+
+                mymess = "Reg*" + Base64Encoder.encryptString(myidno + "*" + myage + "*" + myselected + "*" + "-1" + "*" + "-1" + "*" + myselected3 + "*" + mdose1 + "*" + mdose2 + "*" + duns + "*" + sspecial + "*" + partner);
+
+
+            } else if (!kmpduChecked && myoth.isEmpty()) {
+                mymess = "Reg*" + Base64Encoder.encryptString(myidno + "*" + myage + "*" + myselected + "*" + myselected2 + "*" + mymfl + "*" + myselected3 + "*" + mdose1 + "*" + mdose2 + "*" + duns + "*" + sspecial + "*" + partner);
+
+
+            } else if (!kmpduChecked && !myoth.isEmpty()) {
+
+                mymess = "Reg*" + Base64Encoder.encryptString(myidno + "*" + myage + "*" + myselected + "*" + myoth + "*" + mymfl + "*" + myselected3 + "*" + mdose1 + "*" + mdose2 + "*" + duns + "*" + sspecial + "*" + partner);
+
+
+            }
 
 
             populatePartners();
 
 
-            SmsManager smsM=SmsManager.getDefault();
-            smsM.sendTextMessage("40145",null,mymess,null,null);
+            SmsManager smsM = SmsManager.getDefault();
+            smsM.sendTextMessage("40145", null, mymess, null, null);
             SignupsuccessDialog("Success in Creating Profile");
 
 
-        }
-        else{
+        } else {
 //                    SignupdisplayDialog("WRONG MFLCODE, TRY AGAIN");
 
-            sweetdialog.showErrorDialogRegistration("error occured, try again","Registration Error");
+            sweetdialog.showErrorDialogRegistration("error occured, try again", "Registration Error");
 
 
         }
 //        pr.progressing(getApplicationContext(),"getting facility","loading....");
 
 
-
-
     }
 
-    public ProgressDialog mydialog(String message,String title){
+    public ProgressDialog mydialog(String message, String title) {
         ProgressDialog progress = new ProgressDialog(this);
 
-        try{
+        try {
 
 
             progress.setMessage(message);
@@ -1659,8 +1544,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             progress.setIndeterminate(true);
             progress.show();
 
-        }
-        catch(Exception e){
+        } catch (Exception e) {
 //            Toast.makeText(this, "error displaying progress", Toast.LENGTH_SHORT).show();
 
         }
@@ -1668,31 +1552,29 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
         return progress;
     }
 
-    public void getRemoteData(){
+    public void getRemoteData() {
 
-        try{
+        try {
             Toast.makeText(this, "getting data", Toast.LENGTH_SHORT).show();
 
-            List<Facilitydata> myl=Facilitydata.findWithQuery(Facilitydata.class,"select * from Facilitydata limit 1");
-            if(myl.size()>0){
+            List<Facilitydata> myl = Facilitydata.findWithQuery(Facilitydata.class, "select * from Facilitydata limit 1");
+            if (myl.size() > 0) {
 
 
-            }
-            else{
+            } else {
                 grd.getFacilityData();
 
             }
 
-        }
-        catch(Exception e){
+        } catch (Exception e) {
 
 
         }
     }
 
-    public void requestPerms(){
+    public void requestPerms() {
 
-        try{
+        try {
 
             int permissionCheck = ContextCompat.checkSelfPermission(CreateUser.this, Manifest.permission.SEND_SMS);
 
@@ -1704,57 +1586,54 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             } else {
 
             }
-        }
-        catch(Exception e){
-            Toast.makeText(this, "error in granting permissions "+e, Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(this, "error in granting permissions " + e, Toast.LENGTH_SHORT).show();
 
 
         }
     }
 
 
-public void populatePartners(){
+    public void populatePartners() {
 
-        try{
+        try {
 
 
-                EditText poE=(EditText) findViewById(R.id.partorg);
-                String poS=poE.getText().toString();
-                if(!poS.trim().isEmpty()){
+            EditText poE = (EditText) findViewById(R.id.partorg);
+            String poS = poE.getText().toString();
+            if (!poS.trim().isEmpty()) {
 
-                    String[] posArr=poS.split(",");
-                    for(int x=0;x<posArr.length;x++){
+                String[] posArr = poS.split(",");
+                for (int x = 0; x < posArr.length; x++) {
 
-                        Regpartners rp=new Regpartners(posArr[x]);
-                        rp.save();
-                    }
+                    Regpartners rp = new Regpartners(posArr[x]);
+                    rp.save();
                 }
+            }
 
-                List<Regpartners> rpl=Regpartners.findWithQuery(Regpartners.class,"select * from Regpartners");
+            List<Regpartners> rpl = Regpartners.findWithQuery(Regpartners.class, "select * from Regpartners");
             System.out.println("******************partners************************");
 
-                for(int x=0;x<rpl.size();x++){
+            for (int x = 0; x < rpl.size(); x++) {
 
 
-                    System.out.println("partner name: "+rpl.get(x).name);
+                System.out.println("partner name: " + rpl.get(x).name);
 
-                }
+            }
 
             System.out.println("******************partners************************");
 
+
+        } catch (Exception e) {
+
+            Toast.makeText(this, "error populating partners " + e, Toast.LENGTH_SHORT).show();
 
 
         }
-        catch(Exception e){
-
-            Toast.makeText(this, "error populating partners "+e, Toast.LENGTH_SHORT).show();
+    }
 
 
-        }
-}
-
-
-//check if the provided password matches the regular expression
+    //check if the provided password matches the regular expression
     public boolean isTextValid(String textToCheck) {
         return textPattern.matcher(textToCheck).matches();
     }

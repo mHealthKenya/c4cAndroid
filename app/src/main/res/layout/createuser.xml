@@ -246,6 +246,15 @@
 
             />
 
+        <EditText
+            android:layout_width="match_parent"
+            android:focusable="false"
+            android:id="@+id/facilityspinner"
+            android:visibility="gone"
+            android:hint="Select Facility"
+            android:drawableRight="@drawable/down_arrow"
+            android:layout_height="wrap_content" />
+
 
         <!--mflcode here-->
 

@@ -40,8 +40,8 @@ public class GetRemoteData {
 
     public void getFacilityData(){
 //        Toast.makeText(ctx, "i am called", Toast.LENGTH_SHORT).show();
-        pr.showProgress("loading..");
 
+        pr.showProgress("loading..");
 
         try{
 
@@ -51,8 +51,8 @@ public class GetRemoteData {
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            pr.dissmissProgress();
 
+                            pr.dissmissProgress();
 
 
                             JSONObject j = null;
@@ -101,17 +101,16 @@ public class GetRemoteData {
         }
     }
 
-
-
-
     private void getMyFacilityData(JSONArray j){
         System.out.println("******db data****************");
         Facilitydata.deleteAll(Facilitydata.class);
+        int i=0;
 
-        for(int i=0;i<j.length();i++){
+        do{
+
             try {
-                JSONObject json = j.getJSONObject(i);
 
+                JSONObject json = j.getJSONObject(i);
 
                 String facility_name=json.getString(Config.KEY_FACILITY_NAME);
                 String mfl_code=json.getString(Config.KEY_CODE);
@@ -129,15 +128,16 @@ public class GetRemoteData {
                 fd.setSubcountyname(subcounty_name);
                 fd.save();
 
-
-
-
+                i++;
 
             } catch (JSONException e) {
                 e.printStackTrace();
                 Toast.makeText(ctx, "Internet connection required", Toast.LENGTH_SHORT).show();
             }
+
+
         }
+        while(i<j.length());
 
 
     }

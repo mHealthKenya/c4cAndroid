@@ -87,7 +87,14 @@ public class Config {
 
     public static final String[] SPINNERLISTHBVSTATUS = {"HBV+", "HBV-", "Unknown"};
 
-
+    public static final String[] itemsorg = {"MOH", "KMTC", "EGPAF", "CHS", "UNITID",
+            "KMPDU", "KMPDB", "Not Applicable"};
+    public static final String[] itemsspecialisation = {"Anaesthesia", "Cardiothoracic surgery", "Dermatology", "Ear Nose And Throat",
+            "Internal Medicine", "Microbiology", "Neurosurgery", "Obstetrics and Gynaecology", "Occupational Medicine",
+            "Ophthalmology", "Orthopaedic Surgery", "Paediatrics and Child Health", "Palliative Medicine",
+            "Pathology", "Psychiatry", "Plastic and Reconstructive Surgery", "Public Health", "Radiology",
+            "Surgery", "Immunology", "Infectious Diseases", "Clinical Medical Genetics", "Emergency Medicine",
+            "Opthalmology"};
 
 
 

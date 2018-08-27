@@ -87,6 +87,15 @@
     <string name="title_activity_info_center">Information Center</string>
     <string name="title_activity_register">Register</string>
 
+    <string-array name="symptoms">
+        <item>Choose your Problems</item>
+        <item>Common Fever</item>
+        <item>Dark Circles</item>
+        <item>Obesity</item>
+        <item>Stress</item>
+        <item>Wrinkles</item>
+    </string-array>
+
     <string name="Register">Register</string>
 
     <string name="Exposure">Where did the exposure occur?</string>
