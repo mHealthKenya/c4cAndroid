@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import mhealth.c4c.LandingPage;
 import mhealth.c4c.Login;
+import mhealth.c4c.config.Config;
 
 /**
  * Created by root on 3/16/18.
@@ -124,7 +125,7 @@ public class Dialogs {
 
 
                             ArrayList<String> parts = sm.divideMessage(sendMessage);
-                            sm.sendMultipartTextMessage("40145", null, parts, null, null);
+                            sm.sendMultipartTextMessage(Config.shortcode, null, parts, null, null);
 
                             sDialog.dismissWithAnimation();
 //                            Toast.makeText(mContext, "YOU HAVE SUCCESSFULLY CHECKED IN", Toast.LENGTH_SHORT).show();

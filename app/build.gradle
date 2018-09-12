@@ -58,6 +58,7 @@ dependencies {
     implementation 'com.facebook.stetho:stetho:1.5.0'
 
     implementation 'com.github.MdFarhanRaja:SearchableSpinner:1.9'
+    implementation 'com.github.d-max:spots-dialog:0.7@aar'
 
 }
 repositories {

@@ -1,8 +1,11 @@
 package mhealth.c4c.config;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class Config {
 
-    public static final String shortcode="40145";
+    public static final String shortcode="40149";
 
     public static final String CHECKFACILITY_URL = "http://197.248.10.20/C4CANDROID/checkfacility.php";
     public static final String GETCOUNTIES_URL = "http://197.248.10.20/C4CANDROID/get_counties.php";
@@ -46,12 +49,15 @@ public class Config {
 
     public static final String[] SPINNERLISTPURPOSE = {
             "Injections",
-            "IV fluid",
-            "Suturing",
             "Blood Collection",
-            "Surgery",
+            "Cannulation/Strat IV",
+            "Connect IV Line",
+            "Place Arterial/Central Line",
+            "Fingerstick/Heel stick",
             "Other"
     };
+
+
 
     public static final String[] SPINNERLISTWHEN = {
             "During procedure",
@@ -80,6 +86,8 @@ public class Config {
     public static final String[] SPINNERLISTHIVSTATUS = {"HIV+", "HIV-", "Unknown"};
 
     public static final String[] SPINNERLISTPEPINIT = {"Yes", "No"};
+
+    public static final ArrayList<String> YESNOARRAY = new ArrayList<>(Arrays.asList("Yes", "No"));
 
 //
     public static final String[] SPINNERLISTEXPOSURERESULT = {

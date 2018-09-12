@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 
+import mhealth.c4c.config.Config;
+
 /**
  * Created by kennedy on 9/13/17.
  */
@@ -229,7 +231,7 @@ public class BroadcastSms extends AppCompatActivity implements AdapterView.OnIte
 
                 String bmes="BM*"+txt+"*"+mydte+"*cdre*"+theCadres+"cdre*"+myname;
                 SmsManager smsM=SmsManager.getDefault();
-                smsM.sendTextMessage("40145",null,bmes,null,null);
+                smsM.sendTextMessage(Config.shortcode,null,bmes,null,null);
                 SignupsuccessDialog("Success in sending broadcast message");
 
 

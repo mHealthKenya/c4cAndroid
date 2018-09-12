@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import mhealth.c4c.Tables.Messages;
+import mhealth.c4c.config.Config;
 
 /**
  * Created by root on 11/5/17.
@@ -287,7 +288,7 @@ public class MessagesTabs extends AppCompatActivity {
     public void refreshSmsInbox() {
         try {
             ContentResolver contentResolver = getContentResolver();
-            Cursor smsInboxCursor = contentResolver.query(Uri.parse("content://sms/inbox"), null, "address=?", new String[]{"40145"}, null);
+            Cursor smsInboxCursor = contentResolver.query(Uri.parse("content://sms/inbox"), null, "address=?", new String[]{Config.shortcode}, null);
             int indexBody = smsInboxCursor.getColumnIndex("body");
             int indexAddress = smsInboxCursor.getColumnIndex("address");
             int indexDate = smsInboxCursor.getColumnIndex("date");

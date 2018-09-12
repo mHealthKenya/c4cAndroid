@@ -17,6 +17,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import mhealth.c4c.config.Config;
+
 /**
  * Created by DELL on 12/11/2015.
  */
@@ -93,7 +95,7 @@ public class exposure extends AppCompatActivity implements AdapterView.OnItemSel
                 String Message = "Rep*"+myselected+"*"+myselected2+"*"+hr;
 
                 SmsManager sm = SmsManager.getDefault();
-                sm.sendTextMessage("40145", null, Message, null, null);
+                sm.sendTextMessage(Config.shortcode, null, Message, null, null);
                 clearFields();
                 SignupsuccessDialog("");
 
@@ -197,7 +199,7 @@ public class exposure extends AppCompatActivity implements AdapterView.OnItemSel
 
     public void actOnSelected(){
 
-//        Toast.makeText(this, "you selected "+selected_item+"the behind scene value is "+myselected, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "you selected "+selected_item+"the behind scene value is "+myselectedgender, Toast.LENGTH_SHORT).show();
 //        Toast.makeText(this, "you selected "+selected_item2+"the behind scene value is "+myselected2, Toast.LENGTH_SHORT).show();
     }
 

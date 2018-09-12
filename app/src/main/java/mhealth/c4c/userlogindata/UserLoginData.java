@@ -29,6 +29,7 @@ import mhealth.c4c.R;
 import mhealth.c4c.RegistrationTable;
 import mhealth.c4c.SpinnerAdapter;
 import mhealth.c4c.Tables.kmpdu;
+import mhealth.c4c.config.Config;
 import mhealth.c4c.dialogs.Dialogs;
 import mhealth.c4c.encryption.Base64Encoder;
 
@@ -39,19 +40,19 @@ import mhealth.c4c.encryption.Base64Encoder;
 
 public class UserLoginData extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    EditText nameE,lnameE,munameE,mpassE,mcpassE,mhint;
+    EditText nameE, lnameE, munameE, mpassE, mcpassE, mhint;
 
     Dialogs sweetdialog;
 
 
     public final Pattern textPattern = Pattern.compile("^([a-zA-Z+]+[0-9+]+)$");
 
-    String[] secqn={"choose a security question","what is your favourite pet ?","what is your favourite country ?"};
+    String[] secqn = {"choose a security question", "what is your favourite pet ?", "what is your favourite country ?"};
 
     Spinner myspinner4;
 
-    String myselected4="";
-    String selectedQn="";
+    String myselected4 = "";
+    String selectedQn = "";
 
 
     @Override
@@ -71,46 +72,39 @@ public class UserLoginData extends AppCompatActivity implements AdapterView.OnIt
     }
 
 
+    public void setToolBar() {
 
-
-    public void setToolBar(){
-
-        try{
+        try {
 
             Toolbar toolbar = (Toolbar) findViewById(R.id.signuptoolbar);
             setSupportActionBar(toolbar);
             getSupportActionBar().setTitle("Signup");
 
-        }
-        catch(Exception e){
+        } catch (Exception e) {
 
 
         }
     }
 
 
+    public void initialise() {
 
+        try {
 
+            sweetdialog = new Dialogs(UserLoginData.this);
 
-    public void initialise(){
+            nameE = (EditText) findViewById(R.id.suname);
 
-        try{
+            mhint = (EditText) findViewById(R.id.suhint);
+            lnameE = (EditText) findViewById(R.id.sulname);
 
-            sweetdialog=new Dialogs(UserLoginData.this);
+            munameE = (EditText) findViewById(R.id.sumuname);
+            mpassE = (EditText) findViewById(R.id.sumpass);
+            mcpassE = (EditText) findViewById(R.id.sumcpass);
 
-            nameE=(EditText) findViewById(R.id.suname);
+            myspinner4 = (Spinner) findViewById(R.id.suspinner4);
 
-            mhint=(EditText) findViewById(R.id.suhint);
-            lnameE=(EditText) findViewById(R.id.sulname);
-
-            munameE=(EditText) findViewById(R.id.sumuname);
-            mpassE=(EditText) findViewById(R.id.sumpass);
-            mcpassE=(EditText) findViewById(R.id.sumcpass);
-
-            myspinner4=(Spinner) findViewById(R.id.suspinner4);
-
-        }
-        catch(Exception e){
+        } catch (Exception e) {
 
 
         }
@@ -119,21 +113,19 @@ public class UserLoginData extends AppCompatActivity implements AdapterView.OnIt
 
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         // On selecting a spinner item
-        Spinner spin=(Spinner) parent;
+        Spinner spin = (Spinner) parent;
 
 
+        if (spin.getId() == R.id.suspinner4) {
 
-        if (spin.getId()==R.id.suspinner4){
-
-            selectedQn=secqn[position];
+            selectedQn = secqn[position];
 
 
-            myselected4=Integer.toString(position);
-            if(position>0){
+            myselected4 = Integer.toString(position);
+            if (position > 0) {
 
                 mhint.setEnabled(true);
-            }
-            else{
+            } else {
                 mhint.setEnabled(false);
                 mhint.setText("");
             }
@@ -149,117 +141,93 @@ public class UserLoginData extends AppCompatActivity implements AdapterView.OnIt
     }
 
 
-
-
-    public void actOnSelected(){
+    public void actOnSelected() {
 
 //        Toast.makeText(this, "you selected "+selected_item+"the behind scene value is "+myselected, Toast.LENGTH_SHORT).show();
 //        Toast.makeText(this, "you selected "+selected_item2+"the behind scene value is "+myselected2, Toast.LENGTH_SHORT).show();
     }
 
 
+    public void populateSpinner4() {
 
-    public void populateSpinner4(){
+        try {
 
-        try{
-
-            SpinnerAdapter customAdapter=new SpinnerAdapter(getApplicationContext(),secqn);
+            SpinnerAdapter customAdapter = new SpinnerAdapter(getApplicationContext(), secqn);
 
             myspinner4.setAdapter(customAdapter);
 
 
-        }
-
-        catch(Exception e){
+        } catch (Exception e) {
 
 
         }
     }
 
 
-
-
     //ill get back here
 
-    public void Signup(View v){
+    public void Signup(View v) {
 
-        try{
+        try {
 
-            String myname=nameE.getText().toString();
-            String mylname=lnameE.getText().toString();
-            String myuname=munameE.getText().toString();
-            String mympass=mpassE.getText().toString();
-            String mymcpass=mcpassE.getText().toString();
-            String myhint=mhint.getText().toString();
+            String myname = nameE.getText().toString();
+            String mylname = lnameE.getText().toString();
+            String myuname = munameE.getText().toString();
+            String mympass = mpassE.getText().toString();
+            String mymcpass = mcpassE.getText().toString();
+            String myhint = mhint.getText().toString();
 
 
-
-            if(myname.trim().isEmpty()){
+            if (myname.trim().isEmpty()) {
                 nameE.setError("First Name is Required");
                 Toast.makeText(this, "First Name is Required", Toast.LENGTH_SHORT).show();
 
-            }
-            else if(mylname.trim().isEmpty()){
+            } else if (mylname.trim().isEmpty()) {
                 lnameE.setError("Last Name is Required");
                 Toast.makeText(this, "Last Name is Required", Toast.LENGTH_SHORT).show();
 
-            }
-
-            else if(myuname.trim().isEmpty()){
+            } else if (myuname.trim().isEmpty()) {
                 lnameE.setError("User Name is Required");
                 Toast.makeText(this, "User Name is Required", Toast.LENGTH_SHORT).show();
 
-            }
-
-            else if(mympass.trim().isEmpty()){
+            } else if (mympass.trim().isEmpty()) {
                 mpassE.setError("Password is Required");
                 Toast.makeText(this, "Password is Required", Toast.LENGTH_SHORT).show();
 
-            }
-            else if(!(isTextValid(mympass)&&mympass.length()>5)){
+            } else if (!(isTextValid(mympass))) {
 
                 mpassE.setError("Password should have numbers and letters and atleast a minimum of 6 characters");
                 Toast.makeText(this, "Password should have numbers and letters and atleast a minimum of 6 characters", Toast.LENGTH_SHORT).show();
-            }
-
-            else if(mymcpass.trim().isEmpty()){
+            } else if (mymcpass.trim().isEmpty()) {
                 mcpassE.setError("Confirm Password is Required");
                 Toast.makeText(this, "Confirm Password is Required", Toast.LENGTH_SHORT).show();
 
-            }
-            else if(!mymcpass.contentEquals(mympass)){
+            } else if (!mymcpass.contentEquals(mympass)) {
                 mcpassE.setError("Passwords Do not match");
                 Toast.makeText(this, "Passwords Do not match", Toast.LENGTH_SHORT).show();
 
-            }
+            } else if (myselected4.contentEquals("0")) {
 
-
-            else if(myselected4.contentEquals("0")){
-
-                sweetdialog.showErrorDialogRegistration("Specify security question","Registration Error");
+                sweetdialog.showErrorDialogRegistration("Specify security question", "Registration Error");
 
 
 //                Toast.makeText(this, "Specify security question", Toast.LENGTH_LONG).show();
 
 
-            }
-            else if(myhint.trim().isEmpty()){
+            } else if (myhint.trim().isEmpty()) {
                 mhint.setError("Answer is required");
                 Toast.makeText(this, "Answer is required", Toast.LENGTH_SHORT).show();
 
-            }
+            } else {
 
-            else{
-
-                SignupUser(myname,mylname,myuname,mympass,myhint);
+                SignupUser(myname, mylname, myuname, mympass, myhint);
 
 
             }
 
-        }
-        catch(Exception e){
+        } catch (Exception e) {
 
-            sweetdialog.showErrorDialogRegistration("Error occured "+e,"Registration Error");
+            sweetdialog.showErrorDialogRegistration("Error occured " + e, "Registration Error");
 
 //            SignupdisplayDialog("Error occured "+e);
 
@@ -268,11 +236,11 @@ public class UserLoginData extends AppCompatActivity implements AdapterView.OnIt
     }
 
 
-    public void SignupsuccessDialog(String message){
+    public void SignupsuccessDialog(String message) {
 
-        try{
+        try {
 
-            AlertDialog.Builder adb=new AlertDialog.Builder(this);
+            AlertDialog.Builder adb = new AlertDialog.Builder(this);
             adb.setTitle("SIGNUP SUCCESS");
             adb.setIcon(R.mipmap.success);
             adb.setMessage(message.toUpperCase());
@@ -282,9 +250,9 @@ public class UserLoginData extends AppCompatActivity implements AdapterView.OnIt
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
 
-                        Intent myint=new Intent(getApplicationContext(),Login.class);
+                    Intent myint = new Intent(getApplicationContext(), Login.class);
 
-                        startActivity(myint);
+                    startActivity(myint);
 
 
                 }
@@ -298,10 +266,9 @@ public class UserLoginData extends AppCompatActivity implements AdapterView.OnIt
             });
 
 
-            AlertDialog mydialog=adb.create();
+            AlertDialog mydialog = adb.create();
             mydialog.show();
-        }
-        catch(Exception e){
+        } catch (Exception e) {
 
 
         }
@@ -309,40 +276,37 @@ public class UserLoginData extends AppCompatActivity implements AdapterView.OnIt
     }
 
 
-
-    public void SignupUser(final String myname, final String mylname, final String myuname, final String mympass, final String mhnt){
-
-
-        final ProgressDialog pdialog= mydialog("loading...","Signing Up");
+    public void SignupUser(final String myname, final String mylname, final String myuname, final String mympass, final String mhnt) {
 
 
-            pdialog.cancel();
+        final ProgressDialog pdialog = mydialog("loading...", "Signing Up");
 
 
-                RegistrationTable.deleteAll(RegistrationTable.class);
-                RegistrationTable rt=new RegistrationTable(myname,mylname,"","","","","","",myuname,mympass,selectedQn,mhnt);
-                rt.save();
+        pdialog.cancel();
 
 
+        RegistrationTable.deleteAll(RegistrationTable.class);
+        RegistrationTable rt = new RegistrationTable(myname, mylname, "", "", "", "", "", "", myuname, mympass, selectedQn, mhnt);
+        rt.save();
 
 
-                String mymess="";
+        String mymess = "";
 
-                mymess=myname+"*"+mylname+"*"+myuname+"*"+mympass+"*"+myselected4+"*"+mhnt;
-                String encrypted = Base64Encoder.encryptString(mymess);
+        mymess = myname + "*" + mylname + "*" + myuname + "*" + mympass + "*" + myselected4 + "*" + mhnt;
+        String encrypted = Base64Encoder.encryptString(mymess);
 
 
-                SmsManager smsM=SmsManager.getDefault();
-                smsM.sendTextMessage("40145",null,"SU*"+encrypted,null,null);
-                SignupsuccessDialog("Success in Registration");
+        SmsManager smsM = SmsManager.getDefault();
+        smsM.sendTextMessage(Config.shortcode, null, "SU*" + encrypted, null, null);
+        SignupsuccessDialog("Success in Registration");
 
 
     }
 
-    public ProgressDialog mydialog(String message,String title){
+    public ProgressDialog mydialog(String message, String title) {
         ProgressDialog progress = new ProgressDialog(this);
 
-        try{
+        try {
 
 
             progress.setMessage(message);
@@ -351,8 +315,7 @@ public class UserLoginData extends AppCompatActivity implements AdapterView.OnIt
             progress.setIndeterminate(true);
             progress.show();
 
-        }
-        catch(Exception e){
+        } catch (Exception e) {
 //            Toast.makeText(this, "error displaying progress", Toast.LENGTH_SHORT).show();
 
         }
@@ -360,9 +323,9 @@ public class UserLoginData extends AppCompatActivity implements AdapterView.OnIt
         return progress;
     }
 
-    public void requestPerms(){
+    public void requestPerms() {
 
-        try{
+        try {
 
             int permissionCheck = ContextCompat.checkSelfPermission(UserLoginData.this, Manifest.permission.SEND_SMS);
 
@@ -374,9 +337,8 @@ public class UserLoginData extends AppCompatActivity implements AdapterView.OnIt
             } else {
 
             }
-        }
-        catch(Exception e){
-            Toast.makeText(this, "error in granting permissions "+e, Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(this, "error in granting permissions " + e, Toast.LENGTH_SHORT).show();
 
 
         }
@@ -384,7 +346,32 @@ public class UserLoginData extends AppCompatActivity implements AdapterView.OnIt
 
 
 //check if the provided password matches the regular expression
-    public boolean isTextValid(String textToCheck) {
-        return textPattern.matcher(textToCheck).matches();
+//    public boolean isTextValid(String textToCheck) {
+//        return textPattern.matcher(textToCheck).matches();
+//    }
+
+
+
+/*    ****** password regular expression explanation*******
+
+            (?=.*[0-9]) a digit must occur at least once
+            (?=.*[a-z]) a lower case letter must occur at least once
+            (?=.*[A-Z]) an upper case letter must occur at least once
+            (?=.*[@#$%^&+=]) a special character must occur at least once
+            (?=\\S+$) no whitespace allowed in the entire string
+            .{6,} at least 6 characters
+
+*/
+
+    public boolean isTextValid(String mytext) {
+        boolean isCorrect = false;
+        String pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{6,}";
+        if (mytext.matches(pattern)) {
+            isCorrect = true;
+        } else {
+            isCorrect = false;
+        }
+
+        return isCorrect;
     }
 }

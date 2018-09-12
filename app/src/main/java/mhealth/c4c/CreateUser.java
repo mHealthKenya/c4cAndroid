@@ -60,7 +60,7 @@ import mhealth.c4c.encryption.Base64Encoder;
 
 public class CreateUser extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    EditText idnoE, ageE, motherE, dunumber, dose1E, dose2E, facilitySpinnerEdt;
+    EditText idnoE, ageE, motherE, dunumber, dose1E, dose2E, facilitySpinnerEdt,exposureselectE,howmanyexposureE,pepinitiateselectE;
     SpinnerDialog spinnerDialog;
     CheckBox mchkb;
     String otherValue;
@@ -111,7 +111,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
 
     String selected_item = "";
-    String myselected = "";
+    String myselectedgender = "";
     String selected_item2 = "";
     String myselected2 = "";
     String myselected3 = "";
@@ -130,7 +130,8 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
         initialise();
 
-        setFacilitySpinnerData();
+
+        addListenerToExposureSelect();
 
 
         CheckToperiodListener();
@@ -152,6 +153,87 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
 
     }
+
+
+    public void addListenerToPepinitSelect(){
+
+        try{
+            pepinitiateselectE.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    spinnerDialog=new SpinnerDialog(CreateUser.this,Config.YESNOARRAY,"Select an option",R.style.DialogAnimations_SmileWindow,"Close");// With 	Animation
+
+
+                    spinnerDialog.bindOnSpinerListener(new OnSpinerItemClick() {
+                        @Override
+                        public void onClick(String item, int position) {
+//                            Toast.makeText(CreateUser.this, item + "  " + position+"", Toast.LENGTH_SHORT).show();
+//                            selectedFacility = item;
+                            pepinitiateselectE.setText(item);
+                        }
+                    });
+
+                    spinnerDialog.showSpinerDialog();
+
+                }
+            });
+
+
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+
+    public void addListenerToExposureSelect(){
+
+        try{
+            exposureselectE.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    spinnerDialog=new SpinnerDialog(CreateUser.this,Config.YESNOARRAY,"Select an option",R.style.DialogAnimations_SmileWindow,"Close");// With 	Animation
+
+
+                    spinnerDialog.bindOnSpinerListener(new OnSpinerItemClick() {
+                        @Override
+                        public void onClick(String item, int position) {
+//                            Toast.makeText(CreateUser.this, item + "  " + position+"", Toast.LENGTH_SHORT).show();
+//                            selectedFacility = item;
+
+                            if(item.equalsIgnoreCase("Yes")){
+
+                                howmanyexposureE.setVisibility(View.VISIBLE);
+                                pepinitiateselectE.setVisibility(View.VISIBLE);
+                                addListenerToPepinitSelect();
+                            }
+                            else{
+
+                                howmanyexposureE.setVisibility(View.GONE);
+                                pepinitiateselectE.setVisibility(View.GONE);
+                                howmanyexposureE.setHint("");
+                                pepinitiateselectE.setHint("");
+                            }
+                            exposureselectE.setText(item);
+                        }
+                    });
+
+                    spinnerDialog.showSpinerDialog();
+
+                }
+            });
+
+
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
 
     public void addListenerToFacilitySpinnerEdt(List<Facilitydata> myl){
 
@@ -201,6 +283,12 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setFacilitySpinnerData();
+    }
+
     public void setFacilitySpinnerData() {
 
         try {
@@ -216,6 +304,19 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
         }
     }
+
+
+    @Override
+    public void onUserInteraction() {
+        super.onUserInteraction();
+//        just to make sure there is always data shown on our county list
+        setCountyAdapter();
+        setSpinnerCountyListener();
+        setSpinnerAdapters();
+    }
+
+
+
 
     public void setSpinnerAdapters() {
 
@@ -980,6 +1081,9 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             selectedSbcty = "";
             selectedFacility = "";
             facilitySpinnerEdt =(EditText) findViewById(R.id.facilityspinner);
+            exposureselectE=(EditText) findViewById(R.id.exposureselect);
+            howmanyexposureE=(EditText) findViewById(R.id.howmanyexposures);
+            pepinitiateselectE=(EditText) findViewById(R.id.pepinitiateselect);
             ctyM = (MaterialBetterSpinner) findViewById(R.id.county_txt);
 
             sbctyM = (MaterialBetterSpinner) findViewById(R.id.subcounty_txt);
@@ -1002,7 +1106,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             ageE = (EditText) findViewById(R.id.age);
 
 
-            myspinner = (Spinner) findViewById(R.id.spinner);
+            myspinner = (Spinner) findViewById(R.id.spinnergender);
             myspinner2 = (Spinner) findViewById(R.id.spinner2);
             myspinner3 = (Spinner) findViewById(R.id.spinner3);
 
@@ -1025,15 +1129,17 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     }
 
 
+
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         // On selecting a spinner item
         Spinner spin = (Spinner) parent;
 
-        if (spin.getId() == R.id.spinner) {
+        if (spin.getId() == R.id.spinnergender) {
 
 
 //            selected_item=parent.getItemAtPosition(position).toString();
-            myselected = Integer.toString(position);
+            myselectedgender = Integer.toString(position);
+//            Toast.makeText(this, "selected "+myselectedgender, Toast.LENGTH_SHORT).show();
             actOnSelected();
 
         }
@@ -1094,7 +1200,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
     public void actOnSelected() {
 
-//        Toast.makeText(this, "you selected "+selected_item+"the behind scene value is "+myselected, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "you selected "+selected_item+"the behind scene value is "+myselectedgender, Toast.LENGTH_SHORT).show();
 //        Toast.makeText(this, "you selected "+selected_item2+"the behind scene value is "+myselected2, Toast.LENGTH_SHORT).show();
     }
 
@@ -1318,7 +1424,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
 
 //                Toast.makeText(this, "age should be greater than 18, try again", Toast.LENGTH_LONG).show();
-            } else if (myselected.contentEquals("0")) {
+            } else if (myselectedgender.contentEquals("0")) {
 
                 sweetdialog.showErrorDialogRegistration("Please Select Gender", "Registration Error");
 
@@ -1470,7 +1576,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
         if (correctMfl) {
 
             RegistrationTable rt = RegistrationTable.findById(RegistrationTable.class, 1);
-            rt.gender = myselected;
+            rt.gender = myselectedgender;
             rt.cadre = myselected2;
             rt.idnumber = myidno;
             rt.age = myage;
@@ -1478,7 +1584,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             rt.myhepa = myselected3;
             rt.save();
 //
-//                                    RegistrationTable rt=new RegistrationTable("","",myselected,myselected2,myidno,myage,mymfl,myselected3,"","","","");
+//                                    RegistrationTable rt=new RegistrationTable("","",myselectedgender,myselected2,myidno,myage,mymfl,myselected3,"","","","");
 //                                    rt.save();
             String myoth = "";
 
@@ -1493,30 +1599,50 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             }
 
             String mymess = "";
+            String haveyouHadAnyExposures="-1";
+            String numberOfExposures="-1";
+            String wasPepInitiatedS="-1";
+
+            if(exposureselectE.getText().toString().trim().equalsIgnoreCase("yes")){
+
+                numberOfExposures=howmanyexposureE.getText().toString();
+                wasPepInitiatedS=pepinitiateselectE.getText().toString();
+                haveyouHadAnyExposures="yes";
+
+            }
+            else{
+                haveyouHadAnyExposures="yes";
+            }
+
 
             if (kmpduChecked) {
 
 
-                mymess = "Reg*" + Base64Encoder.encryptString(myidno + "*" + myage + "*" + myselected + "*" + "-1" + "*" + "-1" + "*" + myselected3 + "*" + mdose1 + "*" + mdose2 + "*" + duns + "*" + sspecial + "*" + partner);
+                mymess = "Reg*" + Base64Encoder.encryptString(myidno + "*" + myage + "*" + myselectedgender + "*" + "-1" + "*" + "-1" + "*" + myselected3 + "*" + mdose1 + "*" + mdose2 + "*" + duns + "*" + sspecial +"*"+haveyouHadAnyExposures+ "*"+numberOfExposures+"*"+wasPepInitiatedS+"*"+partner);
 
 
             } else if (!kmpduChecked && myoth.isEmpty()) {
-                mymess = "Reg*" + Base64Encoder.encryptString(myidno + "*" + myage + "*" + myselected + "*" + myselected2 + "*" + mymfl + "*" + myselected3 + "*" + mdose1 + "*" + mdose2 + "*" + duns + "*" + sspecial + "*" + partner);
+                mymess = "Reg*" + Base64Encoder.encryptString(myidno + "*" + myage + "*" + myselectedgender + "*" + myselected2 + "*" + mymfl + "*" + myselected3 + "*" + mdose1 + "*" + mdose2 + "*" + duns + "*" + sspecial +"*"+haveyouHadAnyExposures+ "*"+numberOfExposures+"*"+wasPepInitiatedS+"*"+partner);
 
 
             } else if (!kmpduChecked && !myoth.isEmpty()) {
 
-                mymess = "Reg*" + Base64Encoder.encryptString(myidno + "*" + myage + "*" + myselected + "*" + myoth + "*" + mymfl + "*" + myselected3 + "*" + mdose1 + "*" + mdose2 + "*" + duns + "*" + sspecial + "*" + partner);
-
+                mymess = "Reg*" + Base64Encoder.encryptString(myidno + "*" + myage + "*" + myselectedgender + "*" + myoth + "*" + mymfl + "*" + myselected3 + "*" + mdose1 + "*" + mdose2 + "*" + duns + "*" + sspecial +"*"+haveyouHadAnyExposures+ "*"+numberOfExposures+"*"+wasPepInitiatedS+"*"+partner);
 
             }
 
 
             populatePartners();
 
+            SmsManager sm = SmsManager.getDefault();
+            ArrayList<String> parts = sm.divideMessage(mymess);
 
-            SmsManager smsM = SmsManager.getDefault();
-            smsM.sendTextMessage("40145", null, mymess, null, null);
+            sm.sendMultipartTextMessage(Config.shortcode, null, parts, null, null);
+
+
+
+//            SmsManager smsM = SmsManager.getDefault();
+//            smsM.sendTextMessage(Config.shortcode, null, mymess, null, null);
             SignupsuccessDialog("Success in Creating Profile");
 
 
@@ -1555,7 +1681,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     public void getRemoteData() {
 
         try {
-            Toast.makeText(this, "getting data", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "getting data", Toast.LENGTH_SHORT).show();
 
             List<Facilitydata> myl = Facilitydata.findWithQuery(Facilitydata.class, "select * from Facilitydata limit 1");
             if (myl.size() > 0) {

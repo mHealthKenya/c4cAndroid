@@ -16,6 +16,7 @@ import java.util.Calendar;
 import mhealth.c4c.FragmentRead;
 import mhealth.c4c.FragmentUnRead;
 import mhealth.c4c.Tables.Messages;
+import mhealth.c4c.config.Config;
 
 /**
  * Created by root on 11/6/17.
@@ -68,7 +69,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
 
             }
             try {
-                if(getAdd.contentEquals("40145")){
+                if(getAdd.contentEquals(Config.shortcode)){
 
 
                     //new code here

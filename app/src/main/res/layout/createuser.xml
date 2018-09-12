@@ -32,7 +32,7 @@
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:text="Partner Organisations"/>
+                android:text="Affiliation"/>
             <LinearLayout
 
                 android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
         <EditText
             android:layout_width="match_parent"
             android:id="@+id/partorg"
-            android:hint="Select your partner organisation"
+            android:hint="Select your Affiliation"
             android:focusable="false"
 
             android:layout_height="wrap_content" />
@@ -135,7 +135,7 @@
 
             <Spinner
                 android:layout_width="match_parent"
-                android:id="@+id/spinner"
+                android:id="@+id/spinnergender"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
@@ -352,6 +352,60 @@
                 android:layout_height="wrap_content" />
 
             </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:weightSum="3"
+            android:layout_height="wrap_content">
+
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:id="@+id/exposureselect"
+                android:drawableRight="@drawable/down_arrow"
+                android:hint="Have you had any exposures this year?"
+                android:focusable="false"
+                android:layout_height="wrap_content" />
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <EditText
+                android:layout_width="match_parent"
+                android:id="@+id/howmanyexposures"
+                android:hint="How many exposures?"
+                android:visibility="gone"
+                android:inputType="number"
+                android:layout_height="wrap_content" />
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <EditText
+                android:layout_width="match_parent"
+                android:id="@+id/pepinitiateselect"
+                android:hint="Was PEP initiated for the last exposure?"
+                android:focusable="false"
+                android:drawableRight="@drawable/down_arrow"
+                android:visibility="gone"
+                android:layout_height="wrap_content" />
+            </android.support.design.widget.TextInputLayout>
+
+
 
         </LinearLayout>
 

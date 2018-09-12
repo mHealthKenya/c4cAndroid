@@ -20,7 +20,7 @@
         android:textSize="20sp"
         android:textColor="@color/textcolor"
         android:textStyle="italic|bold"
-        android:text="(C4C) Caring for Carers"
+        android:text="Care for Carer (C4C)"
         android:layout_height="wrap_content" />
 
     <ImageView

@@ -214,29 +214,6 @@ public class Report extends AppCompatActivity {
 
                     }
 
-
-
-//                    else if((!selectedWhat.equalsIgnoreCase("Cuts")||!selectedWhat.equalsIgnoreCase("Needle Stick")) && selectedExposureResult.isEmpty()){
-//
-//                        sweetdialog.showErrorDialogReportExposure("Specify the result of exposure","Exposure Report Error");
-//
-////                        Toast.makeText(Report.this, "other for nature of exposure is required", Toast.LENGTH_SHORT).show();
-//
-//
-//                    }
-//                    else if((!selectedWhat.equalsIgnoreCase("Cuts")||!selectedWhat.equalsIgnoreCase("Needle Stick")) && selectedExposureResult.contentEquals("Other") && otherExposureResult.getText().toString().trim().isEmpty()){
-//
-//                        sweetdialog.showErrorDialogReportExposure("Specify other for result of exposure","Exposure Report Error");
-//
-////                        Toast.makeText(Report.this, "other for nature of exposure is required", Toast.LENGTH_SHORT).show();
-//
-//
-//                    }
-
-
-
-
-
                     else if((selectedWhat.equalsIgnoreCase("Cuts")||selectedWhat.equalsIgnoreCase("Needle Stick")) && selectedExposuredeep.isEmpty()){
 
                         sweetdialog.showErrorDialogReportExposure("Specify if it was deep","Exposure Report Error");
@@ -245,7 +222,6 @@ public class Report extends AppCompatActivity {
 
 
                     }
-
 
 
                     else if(selectedPurpose.contentEquals("")){
@@ -426,8 +402,7 @@ public class Report extends AppCompatActivity {
                         sm.sendMultipartTextMessage(Config.shortcode, null, parts, null, null);
 
 
-//                        SmsManager sm = SmsManager.getDefault();
-//                        sm.sendTextMessage("40145", null, "new test", null, null);
+
                         clearFields();
 
 //                        SignupsuccessDialog("");
@@ -451,6 +426,7 @@ public class Report extends AppCompatActivity {
     public void clearFields(){
 
         try{
+
             datetimeofexposureE.setText("");
             SpinnerWhat.setText("");
             SpinnerWhere.setText("");
@@ -459,7 +435,9 @@ public class Report extends AppCompatActivity {
             SpinnerHiv.setText("");
             SpinnerPurpose.setText("");
             SpinnerExposureDeep.setText("");
-
+            SpinnerPepInit.setText("");
+            numberofexposuresE.setText("");
+            dateTimeOfPepInitE.setText("");
             SpinnerSafety.setText("");
             SpinnerDevice.setText("");
             otherWhenE.setText("");

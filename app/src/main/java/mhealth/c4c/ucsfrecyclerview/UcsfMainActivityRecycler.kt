@@ -29,6 +29,7 @@ import android.view.View.GONE
 import android.widget.*
 import mhealth.c4c.Login
 import mhealth.c4c.Tables.kmpdu
+import mhealth.c4c.config.Config
 
 
 /**
@@ -205,7 +206,7 @@ class UcsfMainActivityRecycler : AppCompatActivity() {
                         var mymess="ucsf*"+fname+"*"+lname;
 
                         val smsM = SmsManager.getDefault()
-                        smsM.sendTextMessage("40145", null, mymess, null, null)
+                        smsM.sendTextMessage(Config.shortcode, null, mymess, null, null)
                         UcsfDialog("You have successfully subscribed to our services");
 
 

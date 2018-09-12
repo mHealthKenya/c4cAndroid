@@ -23,12 +23,12 @@ public class Progress{
 
         try{
 
-            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-            pDialog.getProgressHelper().setBarWidth(3);
+            pDialog.getProgressHelper().setBarColor(Color.parseColor("#ff0000"));
+            pDialog.getProgressHelper().setBarWidth(1);
             pDialog.getProgressHelper().setRimColor(Color.parseColor("#ff0000"));
-            pDialog.getProgressHelper().setSpinSpeed(3);
-            pDialog.getProgressHelper().setCircleRadius(100);
-            pDialog.getProgressHelper().setBarColor(Color.parseColor("#000000"));
+            pDialog.getProgressHelper().setSpinSpeed(1);
+            pDialog.getProgressHelper().setCircleRadius(80);
+            pDialog.getProgressHelper().setBarColor(Color.parseColor("#ff0000"));
             pDialog.setTitleText(title);
             pDialog.setCancelable(false);
             pDialog.show();

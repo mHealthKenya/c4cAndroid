@@ -52,7 +52,7 @@ public class GetRemoteData {
                         @Override
                         public void onResponse(String response) {
 
-                            pr.dissmissProgress();
+
 
 
                             JSONObject j = null;
@@ -62,11 +62,14 @@ public class GetRemoteData {
 
                                 getMyFacilityData(id_result);
 
+
+
                             } catch (JSONException e) {
                                 e.printStackTrace();
 //                                Toast.makeText(getActivity(), "error getting results "+e, Toast.LENGTH_SHORT).show();
 
                             }
+                            pr.dissmissProgress();
                         }
                     },
                     new Response.ErrorListener() {
