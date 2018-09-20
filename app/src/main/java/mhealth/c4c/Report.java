@@ -1140,6 +1140,22 @@ public class Report extends AppCompatActivity {
                         SpinnerExposureResult.setText("");
 
                     }
+
+                    else if(selectedWhat.equalsIgnoreCase("Bite")){
+                        boolean isNeedleStick;
+
+                        isNeedleStick=false;
+
+                        llHidden.setVisibility(View.GONE);
+                        setHiddenSpinnerAdapters(isNeedleStick);
+                        setSpinnerDeviceListener();
+                        setSpinnerSafetyListener();
+                        setSpinnerDeepListener();
+                        SpinnerExposureResult.setVisibility(View.GONE);
+//                        otherExposureResult.setText("");
+                        SpinnerExposureResult.setText("");
+
+                    }
                     else{
                         SpinnerExposureResult.setVisibility(View.VISIBLE);
                         setSpinnerExposureResultAdapter();

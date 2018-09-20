@@ -79,7 +79,7 @@ public class CustomAdapter extends BaseAdapter {
                 }
                 else if(position==1){
 
-                    Uri uri = Uri.parse("https://www.youtube.com/user/nascopkenya1");
+                    Uri uri = Uri.parse("http://www.nascop.or.ke/?page_id=2431");
 //
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     context.startActivity(intent);

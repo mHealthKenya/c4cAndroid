@@ -29,6 +29,7 @@ import com.facebook.stetho.Stetho;
 import java.util.ArrayList;
 import java.util.List;
 
+import mhealth.c4c.Tables.Broadcastsmsrights;
 import mhealth.c4c.Tables.Partners;
 import mhealth.c4c.Tables.kmpdu;
 import mhealth.c4c.dialogs.Dialogs;
@@ -326,6 +327,10 @@ public class Login extends AppCompatActivity {
 
                     pr.DissmissProgress();
                     if(hasPermissions()){
+
+                        Broadcastsmsrights.deleteAll(Broadcastsmsrights.class);
+                        Broadcastsmsrights bsr=new Broadcastsmsrights("no");
+                        bsr.save();
 
                         if(dob.trim().isEmpty()){
 

@@ -259,155 +259,59 @@
         <!--mflcode here-->
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_marginTop="20sp"
-            android:layout_marginBottom="20sp"
-            android:orientation="vertical"
-            android:weightSum="2"
-            android:layout_height="wrap_content">
 
 
-            <TextView
-            android:layout_width="match_parent"
-            android:textStyle="bold"
-            android:layout_height="wrap_content"
-            android:text="Vaccinated?:"
-            android:fontFamily="serif"
-            android:layout_weight="1"
-            android:id="@+id/vaccinatedlabel"
-            android:textColor="#000"
-            />
-
-            <Spinner
-                android:layout_width="match_parent"
-                android:id="@+id/spinner3"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:visibility="gone"
-            android:id="@+id/doses"
-            android:layout_height="wrap_content">
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            <EditText
-                android:layout_width="match_parent"
-                android:id="@+id/dose1"
-                android:focusable="false"
-                android:hint="When did you have your first dose?"
-                android:layout_height="wrap_content" />
-            </android.support.design.widget.TextInputLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:id="@+id/seconddoselabel"
-                android:text="Did you have second dose ?"
-                android:layout_height="wrap_content" />
-
-            <LinearLayout
-
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:id="@+id/seconddosecheck"
-                android:weightSum="2"
-                android:layout_width="match_parent">
-
-                <RadioGroup
-                    android:id="@+id/radiogrpseconddose"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-
-                    <RadioButton
-                        android:id="@+id/radioyes"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Yes"
-                        />
-
-                    <RadioButton
-                        android:id="@+id/radiono"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="No" />
-
-                </RadioGroup>
-            </LinearLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            <EditText
-                android:layout_width="match_parent"
-                android:id="@+id/dose2"
-                android:visibility="gone"
-                android:focusable="false"
-                android:hint="when did you have your second dose?"
-                android:layout_height="wrap_content" />
-
-            </android.support.design.widget.TextInputLayout>
-
-        </LinearLayout>
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:orientation="vertical"-->
+            <!--android:weightSum="3"-->
+            <!--android:layout_height="wrap_content">-->
 
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:weightSum="3"
-            android:layout_height="wrap_content">
+            <!--<android.support.design.widget.TextInputLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content">-->
+
+            <!--<EditText-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:id="@+id/exposureselect"-->
+                <!--android:drawableRight="@drawable/down_arrow"-->
+                <!--android:hint="Have you had any exposures this year?"-->
+                <!--android:focusable="false"-->
+                <!--android:layout_height="wrap_content" />-->
+            <!--</android.support.design.widget.TextInputLayout>-->
+
+
+            <!--<android.support.design.widget.TextInputLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content">-->
+            <!--<EditText-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:id="@+id/howmanyexposures"-->
+                <!--android:hint="How many exposures?"-->
+                <!--android:visibility="gone"-->
+                <!--android:inputType="number"-->
+                <!--android:layout_height="wrap_content" />-->
+            <!--</android.support.design.widget.TextInputLayout>-->
+
+
+            <!--<android.support.design.widget.TextInputLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content">-->
+            <!--<EditText-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:id="@+id/pepinitiateselect"-->
+                <!--android:hint="Was PEP initiated for the last exposure?"-->
+                <!--android:focusable="false"-->
+                <!--android:drawableRight="@drawable/down_arrow"-->
+                <!--android:visibility="gone"-->
+                <!--android:layout_height="wrap_content" />-->
+            <!--</android.support.design.widget.TextInputLayout>-->
 
 
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            <EditText
-                android:layout_width="match_parent"
-                android:id="@+id/exposureselect"
-                android:drawableRight="@drawable/down_arrow"
-                android:hint="Have you had any exposures this year?"
-                android:focusable="false"
-                android:layout_height="wrap_content" />
-            </android.support.design.widget.TextInputLayout>
-
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            <EditText
-                android:layout_width="match_parent"
-                android:id="@+id/howmanyexposures"
-                android:hint="How many exposures?"
-                android:visibility="gone"
-                android:inputType="number"
-                android:layout_height="wrap_content" />
-            </android.support.design.widget.TextInputLayout>
-
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            <EditText
-                android:layout_width="match_parent"
-                android:id="@+id/pepinitiateselect"
-                android:hint="Was PEP initiated for the last exposure?"
-                android:focusable="false"
-                android:drawableRight="@drawable/down_arrow"
-                android:visibility="gone"
-                android:layout_height="wrap_content" />
-            </android.support.design.widget.TextInputLayout>
-
-
-
-        </LinearLayout>
+        <!--</LinearLayout>-->
 
 
 

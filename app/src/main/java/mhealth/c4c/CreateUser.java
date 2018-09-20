@@ -60,15 +60,15 @@ import mhealth.c4c.encryption.Base64Encoder;
 
 public class CreateUser extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    EditText idnoE, ageE, motherE, dunumber, dose1E, dose2E, facilitySpinnerEdt,exposureselectE,howmanyexposureE,pepinitiateselectE;
+    EditText idnoE, ageE, motherE, dunumber,facilitySpinnerEdt;
     SpinnerDialog spinnerDialog;
     CheckBox mchkb;
     String otherValue;
     TextView specialisel, cadrel;
-    LinearLayout doselayout;
+
     String selectedspecialisation;
 
-    RadioGroup radio2dosegrp;
+
     RadioButton radiobtnseconddose;
     Dialogs sweetdialog;
     GetRemoteData grd;
@@ -107,14 +107,14 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     int selectedYear;
     Spinner myspinner;
     Spinner myspinner2;
-    Spinner myspinner3;
+
 
 
     String selected_item = "";
     String myselectedgender = "";
     String selected_item2 = "";
     String myselected2 = "";
-    String myselected3 = "";
+
 
     StringBuilder partners;
 
@@ -131,108 +131,30 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
         initialise();
 
 
-        addListenerToExposureSelect();
+
 
 
         CheckToperiodListener();
 
         populateSpinner();
         populateSpinner2();
-        populateSpinner3();
+
 
         myspinner.setOnItemSelectedListener(this);
         myspinner2.setOnItemSelectedListener(this);
-        myspinner3.setOnItemSelectedListener(this);
+
 
 
         setPartnerClickListener();
         setSpecialisationClickListener();
-        dose1InputListener();
-        dose2InputListener();
+
+
         Stetho.initializeWithDefaults(this);
 
 
     }
 
 
-    public void addListenerToPepinitSelect(){
-
-        try{
-            pepinitiateselectE.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    spinnerDialog=new SpinnerDialog(CreateUser.this,Config.YESNOARRAY,"Select an option",R.style.DialogAnimations_SmileWindow,"Close");// With 	Animation
-
-
-                    spinnerDialog.bindOnSpinerListener(new OnSpinerItemClick() {
-                        @Override
-                        public void onClick(String item, int position) {
-//                            Toast.makeText(CreateUser.this, item + "  " + position+"", Toast.LENGTH_SHORT).show();
-//                            selectedFacility = item;
-                            pepinitiateselectE.setText(item);
-                        }
-                    });
-
-                    spinnerDialog.showSpinerDialog();
-
-                }
-            });
-
-
-        }
-        catch(Exception e){
-
-
-        }
-    }
-
-
-    public void addListenerToExposureSelect(){
-
-        try{
-            exposureselectE.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    spinnerDialog=new SpinnerDialog(CreateUser.this,Config.YESNOARRAY,"Select an option",R.style.DialogAnimations_SmileWindow,"Close");// With 	Animation
-
-
-                    spinnerDialog.bindOnSpinerListener(new OnSpinerItemClick() {
-                        @Override
-                        public void onClick(String item, int position) {
-//                            Toast.makeText(CreateUser.this, item + "  " + position+"", Toast.LENGTH_SHORT).show();
-//                            selectedFacility = item;
-
-                            if(item.equalsIgnoreCase("Yes")){
-
-                                howmanyexposureE.setVisibility(View.VISIBLE);
-                                pepinitiateselectE.setVisibility(View.VISIBLE);
-                                addListenerToPepinitSelect();
-                            }
-                            else{
-
-                                howmanyexposureE.setVisibility(View.GONE);
-                                pepinitiateselectE.setVisibility(View.GONE);
-                                howmanyexposureE.setHint("");
-                                pepinitiateselectE.setHint("");
-                            }
-                            exposureselectE.setText(item);
-                        }
-                    });
-
-                    spinnerDialog.showSpinerDialog();
-
-                }
-            });
-
-
-        }
-        catch(Exception e){
-
-
-        }
-    }
 
 
     public void addListenerToFacilitySpinnerEdt(List<Facilitydata> myl){
@@ -516,108 +438,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     }
 
 
-    public void dose1InputListener() {
-        try {
 
-            dose1E.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-
-                    try {
-
-
-                        if (!dcalc.checkDateDifferenceWithCurrentDate(s.toString())) {
-
-
-                        } else {
-
-                            dose1E.setText("");
-                            sweetdialog.showErrorDialogRegistration("specify a date less or equal to today", "Registration Error");
-//                        Toast.makeText(CreateUser.this, "specify a date less or equal to today", Toast.LENGTH_SHORT).show();
-                        }
-
-
-                    } catch (Exception e) {
-
-                        Toast.makeText(CreateUser.this, "crash " + e, Toast.LENGTH_SHORT).show();
-
-
-                    }
-
-
-                }
-            });
-        } catch (Exception e) {
-
-
-        }
-    }
-
-    public void dose2InputListener() {
-        try {
-
-            dose2E.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-
-                    try {
-
-                        long dateDiff = dcalc.calculateDateDifference(dose1E.getText().toString(), s.toString());
-                        if (!dcalc.checkDateDifferenceWithCurrentDate(s.toString())) {
-
-
-                            if (dateDiff < 28) {
-
-//                            dose2E.setText("");
-                                sweetdialog.showErrorDialogRegistration("second dose should be 28 days after first dose, try again", "Vaccination Date Error");
-
-
-                            } else {
-
-
-                            }
-
-                        } else {
-
-                            dose2E.setText("");
-                            sweetdialog.showErrorDialogRegistration("specify a date less or equal to today", "Registration Error");
-//                        Toast.makeText(CreateUser.this, "specify a date less or equal to today", Toast.LENGTH_SHORT).show();
-                        }
-
-                    } catch (Exception e) {
-
-                        Toast.makeText(CreateUser.this, "crash " + e, Toast.LENGTH_SHORT).show();
-
-                    }
-
-
-                }
-            });
-        } catch (Exception e) {
-
-
-        }
-    }
 
     public void setPartnerClickListener() {
 
@@ -701,95 +522,8 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     }
 
 
-    public void Dose1DateListener() {
-
-        try {
-
-            dose1E.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // calender class's instance and get current date , month and year from calender
-                    final Calendar c = Calendar.getInstance();
-                    int mYear = c.get(Calendar.YEAR); // current year
-                    int mMonth = c.get(Calendar.MONTH); // current month
-                    int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
-                    // date picker partnerdialog
-                    datePickerDialog = new DatePickerDialog(CreateUser.this,
-                            new DatePickerDialog.OnDateSetListener() {
-
-                                @Override
-                                public void onDateSet(DatePicker view, int year,
-                                                      int monthOfYear, int dayOfMonth) {
-
-                                    String dom = String.format("%02d", dayOfMonth);
-                                    String moy = String.format("%02d", (monthOfYear + 1));
-
-                                    // set day of month , month and year value in the edit text
-                                    dose1E.setText(dom + "/"
-                                            + moy + "/" + year);
 
 
-                                }
-                            }, mYear, mMonth, mDay);
-                    datePickerDialog.show();
-                }
-            });
-        } catch (Exception e) {
-
-
-        }
-    }
-
-
-    public void Dose2DateListener() {
-
-        try {
-
-            dose2E.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // calender class's instance and get current date , month and year from calender
-                    final Calendar c = Calendar.getInstance();
-                    int mYear = c.get(Calendar.YEAR); // current year
-                    int mMonth = c.get(Calendar.MONTH); // current month
-                    int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
-
-                    // date picker partnerdialog
-                    datePickerDialog = new DatePickerDialog(CreateUser.this,
-                            new DatePickerDialog.OnDateSetListener() {
-
-                                @Override
-                                public void onDateSet(DatePicker view, int year,
-                                                      int monthOfYear, int dayOfMonth) {
-                                    // set day of month , month and year value in the edit text
-
-
-                                    String dom = String.format("%02d", dayOfMonth);
-                                    String moy = String.format("%02d", (monthOfYear + 1));
-                                    dose2E.setText(dom + "/"
-                                            + moy + "/" + year);
-
-                                    String startDate = dose1E.getText().toString();
-                                    String endDate = dose2E.getText().toString();
-
-//                                    long mydiff=calculateDateDifference(startDate,endDate);
-//                                    if(mydiff<1){
-//                                        dose2E.setText("");
-//                                        Toast.makeText(CreateUser.this, "select date greater than today", Toast.LENGTH_SHORT).show();
-//
-//                                    }
-
-
-                                }
-                            }, mYear, mMonth, mDay);
-                    datePickerDialog.show();
-                }
-            });
-        } catch (Exception e) {
-
-
-        }
-    }
 
 
     public long calculateDateDifference(String date1, String date2) {
@@ -1081,9 +815,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             selectedSbcty = "";
             selectedFacility = "";
             facilitySpinnerEdt =(EditText) findViewById(R.id.facilityspinner);
-            exposureselectE=(EditText) findViewById(R.id.exposureselect);
-            howmanyexposureE=(EditText) findViewById(R.id.howmanyexposures);
-            pepinitiateselectE=(EditText) findViewById(R.id.pepinitiateselect);
+
             ctyM = (MaterialBetterSpinner) findViewById(R.id.county_txt);
 
             sbctyM = (MaterialBetterSpinner) findViewById(R.id.subcounty_txt);
@@ -1108,19 +840,12 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
             myspinner = (Spinner) findViewById(R.id.spinnergender);
             myspinner2 = (Spinner) findViewById(R.id.spinner2);
-            myspinner3 = (Spinner) findViewById(R.id.spinner3);
-
-            radio2dosegrp = (RadioGroup) findViewById(R.id.radiogrpseconddose);
-
-            doselayout = (LinearLayout) findViewById(R.id.doses);
 
 
             correctMfl = false;
 
             partners = new StringBuilder();
 
-            dose1E = (EditText) findViewById(R.id.dose1);
-            dose2E = (EditText) findViewById(R.id.dose2);
 
         } catch (Exception e) {
 
@@ -1170,25 +895,6 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             }
 
 
-        } else if (spin.getId() == R.id.spinner3) {
-
-//            selected_item2=parent.getItemAtPosition(position).toString();
-
-            myselected3 = Integer.toString(position);
-
-            if (position == 2) {
-
-                doselayout.setVisibility(View.VISIBLE);
-                Dose1DateListener();
-                secondDoseRadioGroups();
-
-            } else {
-
-                doselayout.setVisibility(View.GONE);
-            }
-
-            actOnSelected();
-
         }
 
     }
@@ -1204,41 +910,6 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 //        Toast.makeText(this, "you selected "+selected_item2+"the behind scene value is "+myselected2, Toast.LENGTH_SHORT).show();
     }
 
-    public void secondDoseRadioGroups() {
-        try {
-
-            radio2dosegrp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-                    try {
-
-
-                        switch (checkedId) {
-                            case R.id.radiono:
-                                dose2E.setVisibility(View.GONE);
-                                dose2E.setText("");
-                                break;
-                            case R.id.radioyes:
-                                dose2E.setVisibility(View.VISIBLE);
-                                Dose2DateListener();
-                                break;
-                        }
-
-                    } catch (Exception e) {
-
-
-                    }
-
-
-                }
-            });
-
-        } catch (Exception e) {
-
-
-        }
-    }
 
     public void populateSpinner() {
 
@@ -1271,20 +942,6 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
         }
     }
 
-    public void populateSpinner3() {
-
-        try {
-
-            SpinnerAdapter customAdapter = new SpinnerAdapter(getApplicationContext(), hepa);
-
-            myspinner3.setAdapter(customAdapter);
-
-
-        } catch (Exception e) {
-
-
-        }
-    }
 
 
     public void populatePartnerTable() {
@@ -1438,13 +1095,6 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 //                Toast.makeText(this, "Please select Cadre", Toast.LENGTH_LONG).show();
 
 
-            } else if (myselected3.contentEquals("0")) {
-
-                sweetdialog.showErrorDialogRegistration("Specify your vaccination", "Registration Error");
-
-//                Toast.makeText(this, "Specify your vaccination", Toast.LENGTH_LONG).show();
-
-
             } else {
                 List<Facilitydata> myl = Facilitydata.findWithQuery(Facilitydata.class, "select * from Facilitydata where facilityname=? limit 1", mymfl);
                 for (int d = 0; d < myl.size(); d++) {
@@ -1561,18 +1211,6 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
         pdialog.cancel();
         correctMfl = true;
 
-
-        String mdose1 = "-1";
-        String mdose2 = "-1";
-        if (!dose1E.getText().toString().trim().isEmpty()) {
-            mdose1 = dose1E.getText().toString().trim();
-
-        }
-        if (!dose2E.getText().toString().trim().isEmpty()) {
-            mdose2 = dose2E.getText().toString().trim();
-
-        }
-
         if (correctMfl) {
 
             RegistrationTable rt = RegistrationTable.findById(RegistrationTable.class, 1);
@@ -1581,7 +1219,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             rt.idnumber = myidno;
             rt.age = myage;
             rt.mflcode = mymfl;
-            rt.myhepa = myselected3;
+            rt.myhepa = "-1";
             rt.save();
 //
 //                                    RegistrationTable rt=new RegistrationTable("","",myselectedgender,myselected2,myidno,myage,mymfl,myselected3,"","","","");
@@ -1599,35 +1237,22 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             }
 
             String mymess = "";
-            String haveyouHadAnyExposures="-1";
-            String numberOfExposures="-1";
-            String wasPepInitiatedS="-1";
 
-            if(exposureselectE.getText().toString().trim().equalsIgnoreCase("yes")){
-
-                numberOfExposures=howmanyexposureE.getText().toString();
-                wasPepInitiatedS=pepinitiateselectE.getText().toString();
-                haveyouHadAnyExposures="yes";
-
-            }
-            else{
-                haveyouHadAnyExposures="yes";
-            }
 
 
             if (kmpduChecked) {
 
 
-                mymess = "Reg*" + Base64Encoder.encryptString(myidno + "*" + myage + "*" + myselectedgender + "*" + "-1" + "*" + "-1" + "*" + myselected3 + "*" + mdose1 + "*" + mdose2 + "*" + duns + "*" + sspecial +"*"+haveyouHadAnyExposures+ "*"+numberOfExposures+"*"+wasPepInitiatedS+"*"+partner);
+                mymess = "Reg*" + Base64Encoder.encryptString(myidno + "*" + myage + "*" + myselectedgender + "*" + "-1" + "*" + "-1" + "*" + duns + "*" + sspecial +"*"+partner);
 
 
             } else if (!kmpduChecked && myoth.isEmpty()) {
-                mymess = "Reg*" + Base64Encoder.encryptString(myidno + "*" + myage + "*" + myselectedgender + "*" + myselected2 + "*" + mymfl + "*" + myselected3 + "*" + mdose1 + "*" + mdose2 + "*" + duns + "*" + sspecial +"*"+haveyouHadAnyExposures+ "*"+numberOfExposures+"*"+wasPepInitiatedS+"*"+partner);
+                mymess = "Reg*" + Base64Encoder.encryptString(myidno + "*" + myage + "*" + myselectedgender + "*" + myselected2 + "*" + mymfl + "*" + duns + "*" + sspecial +"*"+partner);
 
 
             } else if (!kmpduChecked && !myoth.isEmpty()) {
 
-                mymess = "Reg*" + Base64Encoder.encryptString(myidno + "*" + myage + "*" + myselectedgender + "*" + myoth + "*" + mymfl + "*" + myselected3 + "*" + mdose1 + "*" + mdose2 + "*" + duns + "*" + sspecial +"*"+haveyouHadAnyExposures+ "*"+numberOfExposures+"*"+wasPepInitiatedS+"*"+partner);
+                mymess = "Reg*" + Base64Encoder.encryptString(myidno + "*" + myage + "*" + myselectedgender + "*" + myoth + "*" + mymfl + "*" + duns + "*" + sspecial +"*"+partner);
 
             }
 

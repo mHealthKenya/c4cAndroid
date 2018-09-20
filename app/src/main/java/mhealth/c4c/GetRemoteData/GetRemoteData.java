@@ -31,6 +31,7 @@ public class GetRemoteData {
     private JSONArray id_result;
 
     public GetRemoteData(Context ctx) {
+
         this.ctx = ctx;
         pr=new Progress(ctx);
 
@@ -41,7 +42,7 @@ public class GetRemoteData {
     public void getFacilityData(){
 //        Toast.makeText(ctx, "i am called", Toast.LENGTH_SHORT).show();
 
-        pr.showProgress("loading..");
+        pr.showProgress("loading, Please be patient this might take a while...");
 
         try{
 

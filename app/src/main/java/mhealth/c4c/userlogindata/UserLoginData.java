@@ -365,7 +365,7 @@ public class UserLoginData extends AppCompatActivity implements AdapterView.OnIt
 
     public boolean isTextValid(String mytext) {
         boolean isCorrect = false;
-        String pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{6,}";
+        String pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$!?%^&+=])(?=\\S+$).{6,}";
         if (mytext.matches(pattern)) {
             isCorrect = true;
         } else {

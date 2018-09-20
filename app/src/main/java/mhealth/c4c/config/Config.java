@@ -21,21 +21,21 @@ public class Config {
     public static final String KEY_COUNTY_NAME = "county_name";
     public static final String KEY_SUBCOUNTY_NAME = "subcounty_name";
 
-    public static final String[] SPINNERLISTWHERE = {"Medical Ward", "Surgical Ward", "Theater", "Maternity", "Dental Clinic", "OP/MCH", "laundry", "Laboratory","Other"};
-    public static final String[] SPINNERLISTWHAT = {"Needle Stick", "Cuts", "Splash on mucosa", "Non-intact Skin", "Bite", "Other"};
+    public static final String[] SPINNERLISTWHERE = {"Medical Ward", "Surgical Ward", "Theater", "Maternity", "Dental Clinic", "OP/MCH", "Laundry", "Laboratory","Other"};
+    public static final String[] SPINNERLISTWHAT = {"Needle Stick", "Cuts", "Splash on Mucosa", "Non-intact Skin", "Bite", "Other"};
     public static final String[] SPINNERLISTDEVICE = {
-            "Syringe/needle IM/SC injection",
-            "Syring/needle blood drawing",
-            "phlebotomy needle/ vacuum set",
-            "IV catheter/canula",
-            "Neddle on IV line",
-            "Unused needle",
-            "lancet",
-            "Suture needle",
+            "Syringe/Needle IM/SC Injection",
+            "Syring/Needle Blood Drawing",
+            "Phlebotomy Needle/ Vacuum set",
+            "IV Catheter/Canula",
+            "Needle on IV Line",
+            "Unused Needle",
+            "Lancet",
+            "Suture Needle",
             "Scalpel",
-            "Capillary tube",
-            "Glass slide",
-            "Pippete tip",
+            "Capillary Tube",
+            "Glass Slide",
+            "Pippete Tip",
             "Other"
     };
 
@@ -44,7 +44,7 @@ public class Config {
     public static final String[] SPINNERLISTAUTODISABLE = {"Yes", "No", "Not Known"};
 
     public static final String[] SPINNERLISTDEEP = {"Superficial", "Deep"};
-    public static final String[] SPINNERLISTDEEPALGORITHM = {"Little or no bleeding", "Deep stick/cut, profuse bleeding"};
+    public static final String[] SPINNERLISTDEEPALGORITHM = {"Little or no Bleeding", "Deep Stick/Cut, Profuse Bleeding"};
 
 
     public static final String[] SPINNERLISTPURPOSE = {
@@ -64,7 +64,7 @@ public class Config {
             "Disassembling device",
             "Recapping",
             "Cleaning after procedure",
-            "Device left on table, floor etc.",
+            "Device left on Table, Floor etc.",
             "Device placed in appropriate trash bin",
             "Device protruded from trash container",
             "During disposal",
@@ -72,14 +72,14 @@ public class Config {
     };
 
     public static final String[] SPINNERLISTWHENALGORITHM = {
-            "during use",
-            "after use",
-            "between steps of a procedure",
-            "after use",
-            "after use",
-            "after disposal",
-            "after disposal",
-            "during disposal",
+            "During use",
+            "After use",
+            "Between steps of a procedure",
+            "After use",
+            "After use",
+            "After disposal",
+            "After disposal",
+            "During disposal",
             "Other"
     };
 
@@ -91,7 +91,7 @@ public class Config {
 
 //
     public static final String[] SPINNERLISTEXPOSURERESULT = {
-            "patient contact","leaking specimen container","faulty apparatus","contaminated surfaces","Other"};
+            "Patient Contact","Leaking Specimen Container","Faulty Apparatus","Contaminated Surfaces","Other"};
 
     public static final String[] SPINNERLISTHBVSTATUS = {"HBV+", "HBV-", "Unknown"};
 

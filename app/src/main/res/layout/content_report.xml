@@ -21,6 +21,20 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     >
 
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="#61616161">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/hours"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:focusable="false"
+            android:hint="Date and time of exposure"
+            android:textColor="@color/textcolorblack" />
+    </android.support.design.widget.TextInputLayout>
 
     <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
         android:id="@+id/exposure"
@@ -303,20 +317,7 @@
             android:textColor="@color/textcolorblack" />
     </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColorHint="#61616161">
 
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/hours"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:focusable="false"
-            android:hint="Date and time of exposure"
-            android:textColor="@color/textcolorblack" />
-    </android.support.design.widget.TextInputLayout>
 
     <Button android:id="@+id/btn_submit"
         android:layout_width="fill_parent"
