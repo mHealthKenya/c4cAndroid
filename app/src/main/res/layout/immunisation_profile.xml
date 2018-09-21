@@ -41,7 +41,6 @@
             <!--hepatitis b layout questions-->
 
 
-
             <LinearLayout
 
                 android:layout_width="match_parent"
@@ -95,7 +94,7 @@
                     android:layout_width="match_parent"
                     android:id="@+id/hapatitisdoselayout"
                     android:orientation="vertical"
-
+                    android:visibility="gone"
                     android:layout_height="wrap_content">
 
                     <TextView
@@ -110,11 +109,7 @@
                         android:focusable="false"
                         android:layout_height="wrap_content" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:orientation="vertical"
 
-                        android:layout_height="wrap_content">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -144,9 +139,13 @@
 
                         </RadioGroup>
 
+
                         <LinearLayout
+
                             android:layout_width="match_parent"
                             android:orientation="vertical"
+                            android:id="@+id/llhepaseconddose"
+                            android:visibility="gone"
                             android:layout_height="wrap_content">
 
 
@@ -168,7 +167,7 @@
 
 
 
-                    </LinearLayout>
+
 
 
 

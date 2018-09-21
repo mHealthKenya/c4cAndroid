@@ -4,6 +4,7 @@ import android.content.Context;
 
 import java.util.List;
 
+import mhealth.c4c.systemstatetables.Hepatitis;
 import mhealth.c4c.systemstatetables.Influenza;
 import mhealth.c4c.systemstatetables.Measles;
 import mhealth.c4c.systemstatetables.Meningoco;
@@ -28,6 +29,7 @@ public class UpdateStatusTable {
     List<Tdap> tdapList=Tdap.findWithQuery(Tdap.class,"select * from Tdap");
     List<Varicella> variList=Varicella.findWithQuery(Varicella.class,"select * from Varicella");
 
+    List<Hepatitis> hepaList=Hepatitis.findWithQuery(Hepatitis.class,"select * from Hepatitis");
 
     public void updateInfluenza(){
 
@@ -304,6 +306,116 @@ public class UpdateStatusTable {
 
         }
     }
+
+
+
+
+
+    public void updateHepatits(){
+
+        try{
+            String dosedate1="";
+            String dosedate2="";
+
+            if(hepaList.size()>0){
+                for(int x=0;x<hepaList.size();x++){
+
+                    dosedate1=hepaList.get(x).firstdosedate;
+                    dosedate2=hepaList.get(x).seconddosedate;
+
+                }
+            }
+            else{
+
+                dosedate1="";
+                dosedate2="";
+
+            }
+
+            if(dosedate1!=null && dosedate1.trim().length()>5 && dosedate2!=null && dosedate2.trim().length()>5) {
+
+                List<Status> myl=Status.findWithQuery(Status.class,"select * from Status where name=?","hepatitis");
+
+
+                if(myl.size()>0){
+
+                    Status.executeQuery("update Status set category=? where name=?","vaccinated","hepatitis");
+
+                }
+                else{
+
+                    Status st=new Status("hepatitis","vaccinated");
+                    st.save();
+
+                }
+            }
+
+
+            else if(!(dosedate1!=null && dosedate1.trim().length()>5 )&& dosedate2!=null && dosedate2.trim().length()>5) {
+
+                List<Status> myl=Status.findWithQuery(Status.class,"select * from Status where name=?","hepatitis");
+
+
+                if(myl.size()>0){
+
+                    Status.executeQuery("update Status set category=? where name=?","pending vaccination","hepatitis");
+
+                }
+                else{
+
+                    Status st=new Status("hepatitis","pending vaccination");
+                    st.save();
+
+                }
+            }
+
+
+            else if(dosedate1!=null && dosedate1.trim().length()>5 && !(dosedate2!=null && dosedate2.trim().length()>5)) {
+
+                List<Status> myl=Status.findWithQuery(Status.class,"select * from Status where name=?","hepatitis");
+
+
+                if(myl.size()>0){
+
+                    Status.executeQuery("update Status set category=? where name=?","pending vaccination","hepatitis");
+
+                }
+                else{
+
+                    Status st=new Status("hepatitis","pending vaccination");
+                    st.save();
+
+                }
+            }
+
+
+            else{
+
+                List<Status> myl=Status.findWithQuery(Status.class,"select * from Status where name=?","hepatitis");
+
+
+                if(myl.size()>0){
+
+                    Status.executeQuery("update Status set category=? where name=?","not vaccinated","hepatitis");
+
+                }
+                else{
+
+                    Status st=new Status("hepatitis","not vaccinated");
+                    st.save();
+
+                }
+
+            }
+
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+
 
     public void updateTdap(){
 

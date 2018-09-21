@@ -39,6 +39,7 @@ import mhealth.c4c.completionPercentage.Completion;
 import mhealth.c4c.dateCalculator.DateCalculator;
 import mhealth.c4c.dialogs.Dialogs;
 import mhealth.c4c.getImmunisationsaveddata.getAllImmunisationData;
+import mhealth.c4c.systemstatetables.Hepatitis;
 import mhealth.c4c.systemstatetables.Influenza;
 import mhealth.c4c.systemstatetables.Measles;
 import mhealth.c4c.systemstatetables.Meningoco;
@@ -50,10 +51,10 @@ import mhealth.c4c.systemstatetables.Varicella;
  */
 
 public class ImmunisationProfile extends AppCompatActivity {
-    RadioGroup grpinfluenza,grpvaricella,grptdap,grpmeasles,grpvaricellaqn1,grpinfluenzaqn,grpmeningoco,grptrimester,grptdapbooster;
-    RadioButton radiobntinfluenza,radiobtnvaricella,radiobtntdap,radiobtnmeasles,radiobtnvaricellaqn1,radiobtninfluenzaqn,radiobtnmeningoco,radiobtntrimester,radiobtntdapbooster;
-    LinearLayout llinfluenza,llvaricella,lltdap,llmeasles,llpreg, llvaricellaqn1L, llvaricellaqn2L,llinfluenzaqnL,llmeningoco,parentLayout,lltrimester,lltdapbooster,lltdapboosterdate;
-    EditText measlesdose1E,measlesdose2E,influenzadoseE,varicelladose1E,varicelladose2E,tdapdoseE,meningocodoseE,meningocodose2E,tdapdoseboosterdateE;
+    RadioGroup grpinfluenza,grpvaricella,grptdap,grpmeasles,grpvaricellaqn1,grpinfluenzaqn,grpmeningoco,grptrimester,grptdapbooster,grphepatitis,grphepatitissecondose;
+    RadioButton radiobntinfluenza,radiobtnvaricella,radiobtntdap,radiobtnmeasles,radiobtnvaricellaqn1,radiobtninfluenzaqn,radiobtnmeningoco,radiobtntrimester,radiobtntdapbooster,radiobtnhepaqn1,radiobtnhepaseconddose;
+    LinearLayout llinfluenza,llvaricella,lltdap,llmeasles,llpreg, llvaricellaqn1L, llvaricellaqn2L,llinfluenzaqnL,llmeningoco,parentLayout,lltrimester,lltdapbooster,lltdapboosterdate,llhepadoselayout1,llhepadoseseconddose;
+    EditText measlesdose1E,measlesdose2E,influenzadoseE,varicelladose1E,varicelladose2E,tdapdoseE,meningocodoseE,meningocodose2E,tdapdoseboosterdateE,hepatitisdose1E,hepatitisdose2E;
     TextView measles2label;
     DatePickerDialog datePickerDialog;
     getAllImmunisationData getAD;
@@ -83,6 +84,7 @@ public class ImmunisationProfile extends AppCompatActivity {
         setGenderInfluenza();
 
         getCheckedRadioInfluenza();
+        getCheckedRadioHepatitis();
         getCheckedRadioVaricella();
         getCheckedRadioTdap();
         getCheckedRadioMeasles();
@@ -91,6 +93,8 @@ public class ImmunisationProfile extends AppCompatActivity {
         getCheckedRadioTrimester();
 
         InfluenzaDateListener();
+        hepatitisDose1DateListener();
+        hepatitisDose2DateListener();
         measlesDose1DateListener();
         measlesDose2DateListener();
         varicellaDose1DateListener();
@@ -109,6 +113,7 @@ public class ImmunisationProfile extends AppCompatActivity {
         getTdapData();
         getMeaslesData();
         getMeningocoData();
+        getHepatitisData();
 //        disableAllElements();
 
 
@@ -434,6 +439,53 @@ public class ImmunisationProfile extends AppCompatActivity {
 
 
 
+
+    public void getHepatitisData(){
+        try{
+
+
+            List<Hepatitis> myl= Hepatitis.findWithQuery(Hepatitis.class,"select * from Hepatitis");
+            if(myl.size()>0){
+
+                for(int x=0;x<myl.size();x++){
+
+                    String firstdoseDate=myl.get(x).firstdosedate;
+                    String seconddoseDate=myl.get(x).seconddosedate;
+
+
+                    if(myl.get(x).getImmunisediddose1()!=null){
+
+                        int mselectedimmunisedId=Integer.parseInt(myl.get(x).getImmunisediddose1());
+
+                        RadioButton rbimmunised = (RadioButton) findViewById(mselectedimmunisedId);
+                        rbimmunised.setChecked(true);
+
+                    }
+                    else{
+                        grphepatitis.clearCheck();
+
+                    }
+
+                    hepatitisdose1E.setText(firstdoseDate);
+                    hepatitisdose2E.setText(seconddoseDate);
+
+
+
+
+
+                }
+            }
+        }
+        catch(Exception e){
+            Toast.makeText(this, "error getting hepatitis "+e, Toast.LENGTH_SHORT).show();
+
+
+        }
+    }
+
+
+
+
     public void getMeningocoData(){
         try{
 
@@ -739,6 +791,54 @@ public class ImmunisationProfile extends AppCompatActivity {
             else{
 
                 lltrimester.setVisibility(View.GONE);
+
+
+            }
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+
+
+    public void displayHepatitisDoseLinearlayout(boolean show){
+
+        try{
+
+            if(show){
+
+                llhepadoselayout1.setVisibility(View.VISIBLE);
+
+            }
+            else{
+
+                llhepadoselayout1.setVisibility(View.GONE);
+
+
+            }
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+
+
+    public void displayHepatitisDoseLinearlayout2(boolean show){
+
+        try{
+
+            if(show){
+
+                llhepadoseseconddose.setVisibility(View.VISIBLE);
+
+            }
+            else{
+
+                llhepadoseseconddose.setVisibility(View.GONE);
 
 
             }
@@ -1204,6 +1304,7 @@ public class ImmunisationProfile extends AppCompatActivity {
             ut.updateInfluenza();
             ut.updateMeasles();
             ut.updateMeningoco();
+            ut.updateHepatits();
             ut.updateTdap();
             ut.updateVaricella();
         }
@@ -1219,6 +1320,7 @@ public class ImmunisationProfile extends AppCompatActivity {
 
 
             List<Influenza> mylinfluenza=Influenza.findWithQuery(Influenza.class,"select * from Influenza");
+            List<Hepatitis> mylhepatits=Hepatitis.findWithQuery(Hepatitis.class,"select * from Hepatitis");
             List<Varicella> mylivaricella=Varicella.findWithQuery(Varicella.class,"select * from Varicella");
             List<Tdap> myltdap=Tdap.findWithQuery(Tdap.class,"select * from Tdap");
             List<Measles> mylmeasles=Measles.findWithQuery(Measles.class,"select * from Measles");
@@ -1263,6 +1365,75 @@ public class ImmunisationProfile extends AppCompatActivity {
 
             }
             //end set influenza data
+
+
+
+            //set hepatitis data
+            if(mylhepatits.size()>0){
+
+
+
+                Hepatitis infv = Hepatitis.findById(Hepatitis.class, 1);
+                if(hepatitisdose1E!=null){
+
+                    infv.setFirstdosedate(hepatitisdose1E.getText().toString());
+
+                }
+                else{
+
+                    infv.setFirstdosedate("");
+                }
+
+                if(hepatitisdose2E!=null){
+
+                    infv.setSeconddosedate(hepatitisdose2E.getText().toString());
+
+                }
+                else{
+
+                    infv.setSeconddosedate("");
+                }
+
+                infv.save();
+
+                saveAllStatusVaccine();
+
+            }
+
+            else{
+
+                Hepatitis chi=new Hepatitis();
+
+                if(hepatitisdose1E!=null){
+
+
+                    chi.setFirstdosedate(hepatitisdose1E.getText().toString());
+                }
+                else{
+
+                    chi.setFirstdosedate("");
+                }
+
+                if(hepatitisdose2E!=null){
+
+
+                    chi.setSeconddosedate(hepatitisdose2E.getText().toString());
+                }
+                else{
+
+                    chi.setSeconddosedate("");
+                }
+
+                chi.save();
+                saveAllStatusVaccine();
+
+            }
+            //end set hepatitis data
+
+
+
+
+
 
             //set varicella data
             if(mylivaricella.size()>0){
@@ -1526,12 +1697,16 @@ public class ImmunisationProfile extends AppCompatActivity {
             pendingIntent = PendingIntent.getBroadcast(ImmunisationProfile.this, 0, alarmIntent, 0);
 
             grpinfluenza =(RadioGroup) findViewById(R.id.radiogrpinfluenza);
+            grphepatitis =(RadioGroup) findViewById(R.id.radiogrphepatitis);
+            grphepatitissecondose =(RadioGroup) findViewById(R.id.radiogrphepatitisseconddose);
             grptrimester =(RadioGroup) findViewById(R.id.radiogrptrimester);
             grptdapbooster =(RadioGroup) findViewById(R.id.radiogrptdapbooster);
             grpinfluenzaqn =(RadioGroup) findViewById(R.id.radiogrpinfluenzaqn);
             grpmeningoco =(RadioGroup) findViewById(R.id.radiogrpmeningocoqn);
 
             llinfluenza=(LinearLayout) findViewById(R.id.influenzadoselayout);
+            llhepadoselayout1=(LinearLayout) findViewById(R.id.hapatitisdoselayout);
+            llhepadoseseconddose=(LinearLayout) findViewById(R.id.llhepaseconddose);
             llinfluenzaqnL=(LinearLayout) findViewById(R.id.llinfluenzaqn);
             llmeningoco=(LinearLayout) findViewById(R.id.meningocodoselayout);
             llpreg=(LinearLayout) findViewById(R.id.llpregnant);
@@ -1571,6 +1746,8 @@ public class ImmunisationProfile extends AppCompatActivity {
 
 
             measlesdose1E=(EditText) findViewById(R.id.measlesdose1);
+            hepatitisdose1E=(EditText) findViewById(R.id.hepatitisdose1);
+            hepatitisdose2E=(EditText) findViewById(R.id.hepatitisdose2);
             measlesdose2E=(EditText) findViewById(R.id.measlesdose2);
             influenzadoseE=(EditText) findViewById(R.id.influenzadose);
             varicelladose1E=(EditText) findViewById(R.id.variccelladose1);
@@ -1769,6 +1946,239 @@ public class ImmunisationProfile extends AppCompatActivity {
 
 
         }
+    }
+
+
+
+    public void getCheckedRadioHepatitis(){
+
+        try{
+
+
+            grphepatitis.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    radiobtnhepaqn1 = (RadioButton) group.findViewById(checkedId);
+                    if (null != radiobtnhepaqn1 && checkedId > -1) {
+
+                        String selectedOption=radiobtnhepaqn1.getText().toString();
+                        if(selectedOption.equalsIgnoreCase("Yes")){
+//                            llinfluenza.setVisibility(View.GONE);
+//                            influenzadoseE.setText("");
+//                            influenzapregnantS="yes";
+                            displayHepatitisDoseLinearlayout(true);
+                            getCheckedRadioHepatitisDose2();
+
+//                            Checkedinfluenza.deleteAll(Checkedinfluenza.class);
+//                            Checkedinfluenza chi=new Checkedinfluenza(Integer.toString(checkedId));
+//                            chi.save();
+
+                            List<Hepatitis> myl=Hepatitis.findWithQuery(Hepatitis.class,"select * from Hepatitis");
+                            if(myl.size()>0){
+
+                                Hepatitis inf = Hepatitis.findById(Hepatitis.class, 1);
+
+                                inf.setImmunisedvaluedose1("Yes");
+                                inf.setImmunisediddose1(Integer.toString(checkedId));
+                                inf.save();
+
+                            }
+                            else{
+
+                                Hepatitis inf=new Hepatitis();
+                                inf.setImmunisedvaluedose1("Yes");
+                                inf.setImmunisediddose1(Integer.toString(checkedId));
+                                inf.save();
+
+                            }
+
+                        }
+                        else if(selectedOption.equalsIgnoreCase("partially")){
+//                            llinfluenza.setVisibility(View.GONE);
+//                            influenzadoseE.setText("");
+//                            influenzapregnantS="yes";
+                            displayHepatitisDoseLinearlayout(true);
+                            getCheckedRadioHepatitisDose2();
+
+//                            Checkedinfluenza.deleteAll(Checkedinfluenza.class);
+//                            Checkedinfluenza chi=new Checkedinfluenza(Integer.toString(checkedId));
+//                            chi.save();
+
+                            List<Hepatitis> myl=Hepatitis.findWithQuery(Hepatitis.class,"select * from Hepatitis");
+                            if(myl.size()>0){
+
+                                Hepatitis inf = Hepatitis.findById(Hepatitis.class, 1);
+
+                                inf.setImmunisedvaluedose1("Partially");
+                                inf.setImmunisediddose1(Integer.toString(checkedId));
+                                inf.save();
+
+                            }
+                            else{
+
+                                Hepatitis inf=new Hepatitis();
+                                inf.setImmunisedvaluedose1("Partially");
+                                inf.setImmunisediddose1(Integer.toString(checkedId));
+                                inf.save();
+
+                            }
+
+                        }
+                        else{
+                            displayHepatitisDoseLinearlayout(false);
+//                            displayTrimesterLinearlayout(false);
+////                            llinfluenza.setVisibility(View.VISIBLE);
+//                            influenzapregnantS="no";
+
+
+                            List<Hepatitis> myl=Hepatitis.findWithQuery(Hepatitis.class,"select * from Hepatitis");
+                            if(myl.size()>0){
+
+                                Hepatitis inf = Hepatitis.findById(Hepatitis.class, 1);
+
+                                inf.setImmunisedvaluedose1("No");
+                                inf.setImmunisediddose1(Integer.toString(checkedId));
+                                inf.save();
+
+                            }
+                            else{
+
+                                Hepatitis inf=new Hepatitis();
+                                inf.setImmunisedvaluedose1("No");
+                                inf.setImmunisediddose1(Integer.toString(checkedId));
+                                inf.save();
+
+                            }
+
+//                            Checkedinfluenza.deleteAll(Checkedinfluenza.class);
+//                            Checkedinfluenza chi=new Checkedinfluenza(Integer.toString(checkedId));
+//                            chi.save();
+
+
+                        }
+                    }
+                }
+            });
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+
+
+    public void getCheckedRadioHepatitisDose2(){
+
+        try{
+
+
+            grphepatitissecondose.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    radiobtnhepaseconddose = (RadioButton) group.findViewById(checkedId);
+                    if (null != radiobtnhepaseconddose && checkedId > -1) {
+
+                        String selectedOption=radiobtnhepaseconddose.getText().toString();
+                        if(selectedOption.equalsIgnoreCase("Yes")){
+//                            llinfluenza.setVisibility(View.GONE);
+//                            influenzadoseE.setText("");
+//                            influenzapregnantS="yes";
+                            displayHepatitisDoseLinearlayout2(true);
+
+//                            Checkedinfluenza.deleteAll(Checkedinfluenza.class);
+//                            Checkedinfluenza chi=new Checkedinfluenza(Integer.toString(checkedId));
+//                            chi.save();
+
+                            List<Hepatitis> myl=Hepatitis.findWithQuery(Hepatitis.class,"select * from Hepatitis");
+                            if(myl.size()>0){
+
+                                Hepatitis inf = Hepatitis.findById(Hepatitis.class, 1);
+
+                                inf.setImmunisedvaluedose2("Yes");
+                                inf.setImmunisediddose2(Integer.toString(checkedId));
+                                inf.save();
+
+                            }
+                            else{
+
+                                Hepatitis inf=new Hepatitis();
+                                inf.setImmunisedvaluedose2("Yes");
+                                inf.setImmunisediddose2(Integer.toString(checkedId));
+                                inf.save();
+
+                            }
+
+                        }
+
+                        else{
+                            displayHepatitisDoseLinearlayout2(false);
+//                            displayTrimesterLinearlayout(false);
+////                            llinfluenza.setVisibility(View.VISIBLE);
+//                            influenzapregnantS="no";
+
+
+                            List<Hepatitis> myl=Hepatitis.findWithQuery(Hepatitis.class,"select * from Hepatitis");
+                            if(myl.size()>0){
+
+                                Hepatitis inf = Hepatitis.findById(Hepatitis.class, 1);
+
+                                inf.setImmunisedvaluedose2("No");
+                                inf.setImmunisediddose2(Integer.toString(checkedId));
+                                inf.save();
+
+                            }
+                            else{
+
+                                Hepatitis inf=new Hepatitis();
+                                inf.setImmunisedvaluedose2("No");
+                                inf.setImmunisediddose2(Integer.toString(checkedId));
+                                inf.save();
+
+                            }
+
+//                            Checkedinfluenza.deleteAll(Checkedinfluenza.class);
+//                            Checkedinfluenza chi=new Checkedinfluenza(Integer.toString(checkedId));
+//                            chi.save();
+
+
+                        }
+                    }
+                }
+            });
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+
+
+    public void hepatitisDose1DateListener(){
+        try{
+
+            DateListener(hepatitisdose1E);
+
+        }
+        catch(Exception e){
+
+            Toast.makeText(this, "error displaying hepatitis dose datepicker", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    public void hepatitisDose2DateListener(){
+        try{
+
+            DateListener(hepatitisdose2E);
+
+        }
+        catch(Exception e){
+
+            Toast.makeText(this, "error displaying hepatitis dose datepicker", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 
@@ -2297,6 +2707,7 @@ public class ImmunisationProfile extends AppCompatActivity {
         }
 
     }
+
 
     public void meningocoSecondDoseDateListener(){
         try{
