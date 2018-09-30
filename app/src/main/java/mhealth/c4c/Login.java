@@ -29,6 +29,7 @@ import com.facebook.stetho.Stetho;
 import java.util.ArrayList;
 import java.util.List;
 
+import mhealth.c4c.LoadMessages.LoadMessages;
 import mhealth.c4c.Tables.Broadcastsmsrights;
 import mhealth.c4c.Tables.Partners;
 import mhealth.c4c.Tables.kmpdu;
@@ -51,6 +52,7 @@ public class Login extends AppCompatActivity {
     ProgressOld pr = new ProgressOld();
     List<RegistrationTable> user_list = new ArrayList<>();
     boolean kmpduChecked = false;
+    LoadMessages loadmessages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,57 +62,83 @@ public class Login extends AppCompatActivity {
         Stetho.initializeWithDefaults(this);
 
         LoadRegistration();
-        sweetdialog = new Dialogs(Login.this);
 
-        input_email = (EditText) findViewById(R.id.input_email);
-        input_password = (EditText) findViewById(R.id.input_password);
-        btnSignin = (Button) findViewById(R.id.btnSignin);
-        //link_signup = (TextView) findViewById(R.id.link_signup);
-        link_forgot_password = (TextView) findViewById(R.id.forgot_password);
+        initialise();
 
-
-        btnSignin.setOnClickListener(new View.OnClickListener() {
-
-
-            @Override
-            public void onClick(View v) {
-                loginCheck();
-
-            }
-        });
-
-
-        link_forgot_password.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // Start the Register activity
-                Intent intent = new Intent(getApplicationContext(), ForgotPassword.class);
-                startActivityForResult(intent, REQUEST_SIGNUP);
-                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-            }
-        });
+        btnSigninListener();
+        forgotPasswordListener();
         populateUsername();
         getPassedValues();
         getPartners();
 
-        //get phone
-
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            List<SubscriptionInfo> subscription = SubscriptionManager.from(getApplicationContext()).getActiveSubscriptionInfoList();
-//            for (int i = 0; i < subscription.size(); i++) {
-//                SubscriptionInfo info = subscription.get(i);
-//
-//                Log.d(TAG, "number " + info.getNumber());
-//                Log.d(TAG, "network name : " + info.getCarrierName());
-//                Log.d(TAG, "country iso " + info.getCountryIso());
-//            }
-//        }
-
-        //get phone
-//        Toast.makeText(this, "phone is " + getPhone(), Toast.LENGTH_SHORT).show();
     }
 
+
+    public void btnSigninListener(){
+
+        try{
+
+
+            btnSignin.setOnClickListener(new View.OnClickListener() {
+
+
+                @Override
+                public void onClick(View v) {
+                    loginCheck();
+
+                }
+            });
+
+
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+    public void forgotPasswordListener(){
+
+        try{
+
+            link_forgot_password.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    // Start the Register activity
+                    Intent intent = new Intent(getApplicationContext(), ForgotPassword.class);
+                    startActivityForResult(intent, REQUEST_SIGNUP);
+                    overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                }
+            });
+
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+    public void initialise(){
+
+        try{
+
+            loadmessages=new LoadMessages(Login.this);
+            sweetdialog = new Dialogs(Login.this);
+
+            input_email = (EditText) findViewById(R.id.input_email);
+            input_password = (EditText) findViewById(R.id.input_password);
+            btnSignin = (Button) findViewById(R.id.btnSignin);
+            //link_signup = (TextView) findViewById(R.id.link_signup);
+            link_forgot_password = (TextView) findViewById(R.id.forgot_password);
+
+
+        }
+        catch (Exception e){
+
+
+        }
+    }
 
     @SuppressLint("MissingPermission")
     private String getPhone() {
@@ -119,54 +147,6 @@ public class Login extends AppCompatActivity {
         requestPerms();
         return phoneMgr.getSubscriberId();
     }
-
-
-
-
-
-
-
-
-    private String getMyPhoneNO() {
-        TelephonyManager tMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            requestPerms();
-            return "";
-        }
-        requestPerms();
-        String mPhoneNumber = tMgr.getLine1Number();
-        return mPhoneNumber;
-    }
-
-//    public void requestPerms(){
-//
-//        try{
-//
-//            int permissionCheck = ContextCompat.checkSelfPermission(Login.this, android.Manifest.permission.SEND_SMS);
-//
-//            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-//                ActivityCompat.requestPermissions(
-//                        Login.this,
-//                        new String[]{android.Manifest.permission.SEND_SMS},
-//                        1235);
-//            } else {
-//
-//            }
-//        }
-//        catch(Exception e){
-//            Toast.makeText(this, "error in granting permissions "+e, Toast.LENGTH_SHORT).show();
-//
-//
-//        }
-//    }
-
 
     public void getPassedValues(){
 
@@ -329,8 +309,9 @@ public class Login extends AppCompatActivity {
                     if(hasPermissions()){
 
                         Broadcastsmsrights.deleteAll(Broadcastsmsrights.class);
-                        Broadcastsmsrights bsr=new Broadcastsmsrights("no");
-                        bsr.save();
+
+                        loadmessages.loadInboxMessages();
+
 
                         if(dob.trim().isEmpty()){
 
@@ -345,22 +326,6 @@ public class Login extends AppCompatActivity {
 //                            myint.putExtra("kmpduChecked","true");
                             startActivity(myint);
                         }
-
-//                        if(kmpduChecked){
-//
-//                            Intent myint = new Intent(getApplicationContext(), CreateUser.class);
-////                            myint.putExtra("kmpduChecked","true");
-//                            startActivity(myint);
-//
-//
-//                        }
-//                        else{
-//
-//                            Intent myint = new Intent(getApplicationContext(), CreateUser.class);
-//                            myint.putExtra("kmpduChecked","false");
-//                            startActivity(myint);
-//
-//                        }
 
 
                     }
