@@ -52,6 +52,7 @@ public class Report extends AppCompatActivity {
         initialise();
         setHoursListener();
 
+        setDateTimeOfPepInitListener();
         setSpinnerAdapters();
         setSpinnerWhereListener();
         setSpinnerPepInitListener();
@@ -196,6 +197,23 @@ public class Report extends AppCompatActivity {
 
                     }
 
+                     else if((selectedWhat.equalsIgnoreCase("Splash on Mucosa")||selectedWhat.equalsIgnoreCase("Non-intact Skin")) && selectedExposureResult.isEmpty()){
+
+                        sweetdialog.showErrorDialogReportExposure("Exposure result is required","Exposure Report Error");
+
+//                        Toast.makeText(Report.this, "other for nature of exposure is required", Toast.LENGTH_SHORT).show();
+
+
+                    }
+
+                    else if((selectedWhat.equalsIgnoreCase("Splash on Mucosa")||selectedWhat.equalsIgnoreCase("Non-intact Skin")) && selectedExposureResult.contentEquals("Other")&& otherExposureResult.getText().toString().trim().isEmpty()){
+
+                        sweetdialog.showErrorDialogReportExposure("Exposure result other is required","Exposure Report Error");
+
+//                        Toast.makeText(Report.this, "other for nature of exposure is required", Toast.LENGTH_SHORT).show();
+
+
+                    }
 
                     else if((selectedWhat.equalsIgnoreCase("Needle Stick")) && selectedSafety.isEmpty()){
 
@@ -224,12 +242,12 @@ public class Report extends AppCompatActivity {
                     }
 
 
-                    else if(selectedPurpose.contentEquals("")){
+                    else if((selectedWhat.equalsIgnoreCase("Cuts")||selectedWhat.equalsIgnoreCase("Needle Stick"))&&selectedPurpose.contentEquals("")){
 
                         sweetdialog.showErrorDialogReportExposure("The purpose is required","Exposure Report Error");
 //                        Toast.makeText(Report.this, "the nature of exposure is required", Toast.LENGTH_SHORT).show();
                     }
-                    else if(selectedPurpose.equalsIgnoreCase("Other")&& otherPurposeE.getText().toString().isEmpty()){
+                    else if((selectedWhat.equalsIgnoreCase("Cuts")||selectedWhat.equalsIgnoreCase("Needle Stick")) && selectedPurpose.equalsIgnoreCase("Other")&& otherPurposeE.getText().toString().isEmpty()){
 
 
                         sweetdialog.showErrorDialogReportExposure("other of the purpose is required","Exposure Report Error");
@@ -240,12 +258,12 @@ public class Report extends AppCompatActivity {
                     }
 
 
-                    else if(selectedWhen.contentEquals("")){
+                    else if((selectedWhat.equalsIgnoreCase("Cuts")||selectedWhat.equalsIgnoreCase("Needle Stick"))&&selectedWhen.contentEquals("")){
 
-                        sweetdialog.showErrorDialogReportExposure("The when is required","Exposure Report Error");
+                        sweetdialog.showErrorDialogReportExposure("how the injury occured is required","Exposure Report Error");
 //                        Toast.makeText(Report.this, "the nature of exposure is required", Toast.LENGTH_SHORT).show();
                     }
-                    else if(selectedWhen.equalsIgnoreCase("Other")&& otherWhenE.getText().toString().isEmpty()){
+                    else if((selectedWhat.equalsIgnoreCase("Cuts")||selectedWhat.equalsIgnoreCase("Needle Stick"))&&selectedWhen.equalsIgnoreCase("Other")&& otherWhenE.getText().toString().isEmpty()){
 
 
                         sweetdialog.showErrorDialogReportExposure("other of when is required","Exposure Report Error");
@@ -281,7 +299,7 @@ public class Report extends AppCompatActivity {
 //                        Toast.makeText(Report.this, "the nature of exposure is required", Toast.LENGTH_SHORT).show();
                     }
 
-                    else if(selectedPepinitS.equalsIgnoreCase("Yes")&& dateTimeOfPepInitE.getText().toString().trim().isEmpty()){
+                    else if(dateTimeOfPepInitE.getText().toString().trim().isEmpty()){
 
                         sweetdialog.showErrorDialogReportExposure("date of pep initiation is required","Exposure Report Error");
 //                        Toast.makeText(Report.this, "the nature of exposure is required", Toast.LENGTH_SHORT).show();
@@ -290,7 +308,7 @@ public class Report extends AppCompatActivity {
 
                     else if(datetimeofexposureS.contentEquals("")){
 
-                        sweetdialog.showErrorDialogReportExposure("Hours after exposure is required","Exposure Report Error");
+                        sweetdialog.showErrorDialogReportExposure("Date of exposure is required","Exposure Report Error");
 
 //                        Toast.makeText(Report.this, "Hours after exposure is required", Toast.LENGTH_SHORT).show();
                     }
@@ -374,6 +392,7 @@ public class Report extends AppCompatActivity {
                             what=otherWhatS;
                         }
                         else{
+
                             what=selectedWhat;
                         }
                         System.out.println("***************************************************");
@@ -407,7 +426,7 @@ public class Report extends AppCompatActivity {
 
 //                        SignupsuccessDialog("");
 
-                        sweetdialog.showSuccessDialogReportExposure("SUCCESS SUBMITTING EXPOSURE REPORT","Success");
+                        sweetdialog.showSuccessDialogReportExposure("Successfully submitted","");
 
 
                     }
@@ -627,15 +646,15 @@ public class Report extends AppCompatActivity {
                     selectedPepinitS=SpinnerPepInit.getText().toString();
                     if(selectedPepinitS.equalsIgnoreCase("yes")){
 
-                        dateTimeOfPepInitE.setVisibility(View.VISIBLE);
-                        setDateTimeOfPepInitListener();
+//                        dateTimeOfPepInitE.setVisibility(View.VISIBLE);
+
 
 
                     }
                     else{
-                        dateTimeOfPepInitE.setVisibility(View.GONE);
-                        dateTimeOfPepInitE.setHint("");
-                        dateTimeOfPepInitE.setText("");
+//                        dateTimeOfPepInitE.setVisibility(View.GONE);
+//                        dateTimeOfPepInitE.setHint("");
+//                        dateTimeOfPepInitE.setText("");
 
 
                     }
@@ -1251,7 +1270,9 @@ public class Report extends AppCompatActivity {
 
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
+            getSupportActionBar().setTitle("Report Exposure");
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 
         }

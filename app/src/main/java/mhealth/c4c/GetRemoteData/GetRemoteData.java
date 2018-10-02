@@ -80,7 +80,7 @@ public class GetRemoteData {
                            pr.dissmissProgress();
 
 
-                            Toast.makeText(ctx, "error occured "+error, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ctx, "Check your internet Connection!!!", Toast.LENGTH_SHORT).show();
                             System.out.println("*******error*** "+error);
                         }
                     })

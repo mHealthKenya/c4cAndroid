@@ -22,9 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,6 +44,7 @@ import mhealth.c4c.GetRemoteData.GetRemoteData;
 import mhealth.c4c.Registrationtable.Regpartners;
 import mhealth.c4c.Tables.Facilitydata;
 import mhealth.c4c.Tables.Partners;
+import mhealth.c4c.Tables.Profiletable;
 import mhealth.c4c.Tables.UserTable;
 import mhealth.c4c.Tables.kmpdu;
 import mhealth.c4c.config.Config;
@@ -1238,19 +1237,30 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
             String mymess = "";
 
+            Profiletable.deleteAll(Profiletable.class);
+
 
 
             if (kmpduChecked) {
+
+                Profiletable pt=new Profiletable("n/a");
+                pt.save();
 
 
                 mymess = "Reg*" + Base64Encoder.encryptString(myidno + "*" + myage + "*" + myselectedgender + "*" + "-1" + "*" + "-1" + "*" + duns + "*" + sspecial +"*"+partner);
 
 
             } else if (!kmpduChecked && myoth.isEmpty()) {
+
+                Profiletable pt=new Profiletable(mymfl);
+                pt.save();
                 mymess = "Reg*" + Base64Encoder.encryptString(myidno + "*" + myage + "*" + myselectedgender + "*" + myselected2 + "*" + mymfl + "*" + duns + "*" + sspecial +"*"+partner);
 
 
             } else if (!kmpduChecked && !myoth.isEmpty()) {
+
+                Profiletable pt=new Profiletable(mymfl);
+                pt.save();
 
                 mymess = "Reg*" + Base64Encoder.encryptString(myidno + "*" + myage + "*" + myselectedgender + "*" + myoth + "*" + mymfl + "*" + duns + "*" + sspecial +"*"+partner);
 

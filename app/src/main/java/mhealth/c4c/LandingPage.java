@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import mhealth.c4c.Myprofile.Myprofile;
 import mhealth.c4c.Tables.Messages;
 import mhealth.c4c.Tables.kmpdu;
 
@@ -39,6 +40,7 @@ public class LandingPage extends AppCompatActivity
     RecyclerView.Adapter adapter;
     private int count = 0;
     boolean kmpduChecked;
+    Myprofile myprofile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +51,11 @@ public class LandingPage extends AppCompatActivity
 
         getPassedValues();
 
-        recyclerView =
-                (RecyclerView) findViewById(R.id.recycler_view);
+        initialise();
 
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new LandingPageAdapter(this,kmpduChecked);
-        recyclerView.setAdapter(adapter);
+
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -66,6 +65,26 @@ public class LandingPage extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    public void initialise(){
+
+        try{
+
+            myprofile=new Myprofile(LandingPage.this);
+            recyclerView =
+                    (RecyclerView) findViewById(R.id.recycler_view);
+
+            layoutManager = new LinearLayoutManager(this);
+            recyclerView.setLayoutManager(layoutManager);
+
+            adapter = new LandingPageAdapter(this,kmpduChecked);
+            recyclerView.setAdapter(adapter);
+        }
+        catch(Exception e){
+
+
+        }
     }
 
     public void getPassedValues(){
@@ -199,28 +218,19 @@ public class LandingPage extends AppCompatActivity
 
 
             Intent i = new Intent(getApplicationContext(), ForgotPassword.class);
-            // Closing all the Activities
-//            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
             startActivity(i);
             finish();
         }
-//        else if (id == R.id.nav_gallery) {
-//
-//        } else if (id == R.id.nav_slideshow) {
-//
-//        } else if (id == R.id.nav_manage) {
-//
-//        } else if (id == R.id.nav_share) {
-//
-//        } else if (id == R.id.nav_logout) {
-//
-////            Intent b = new Intent(LandingPage.this, Login.class);
-////            startActivity(b);
-//
-//        }
+
+        else if (id == R.id.nav_profile) {
+
+            myprofile.displayProfile();
+
+
+
+        }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

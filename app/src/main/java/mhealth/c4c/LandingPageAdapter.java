@@ -161,7 +161,6 @@ public class LandingPageAdapter extends RecyclerView.Adapter<LandingPageAdapter.
     private String[] titles3nobroadcast= {
             "REPORT EXPOSURE",
             "CHECK IN",
-            "BROADCAST SMS",
             "IMMUNISATION PROFILE",
             "INFORMATION CENTER",
             "ANNUAL CHECK UP & VACCINATION SCHEDULE"

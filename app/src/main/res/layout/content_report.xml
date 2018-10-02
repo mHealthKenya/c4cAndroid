@@ -21,6 +21,14 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     >
 
+    <TextView
+        android:layout_width="match_parent"
+        android:text="CURRENT EXPOSURE DETAILS"
+        android:layout_gravity="center"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_height="wrap_content" />
+
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,6 +43,8 @@
             android:hint="Date and time of exposure"
             android:textColor="@color/textcolorblack" />
     </android.support.design.widget.TextInputLayout>
+
+
 
     <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
         android:id="@+id/exposure"
@@ -230,6 +240,20 @@
     </LinearLayout>
 
 
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="#61616161">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/datetimeofpepinitiation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:focusable="false"
+            android:hint="Date and time of initiation of the current PEP"
+            android:textColor="@color/textcolorblack" />
+    </android.support.design.widget.TextInputLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -269,6 +293,18 @@
 
     <!--new code here-->
 
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_marginTop="20sp"
+        android:layout_marginBottom="20sp"
+        android:text="PAST EXPOSURE DETAILS"
+        android:layout_gravity="center"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_height="wrap_content" />
+
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -279,9 +315,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
-            android:hint="How many exposures has the HCW had for the last one year"
+            android:hint="how many exposures have you had in the last one year?"
             android:textColor="@color/textcolorblack" />
     </android.support.design.widget.TextInputLayout>
+
 
 
     <LinearLayout
@@ -301,21 +338,10 @@
 
     </LinearLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColorHint="#61616161">
 
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/datetimeofpepinitiation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:visibility="gone"
-            android:focusable="false"
-            android:hint="Date and time of initiation of the current PEP"
-            android:textColor="@color/textcolorblack" />
-    </android.support.design.widget.TextInputLayout>
+
+
+
 
 
 

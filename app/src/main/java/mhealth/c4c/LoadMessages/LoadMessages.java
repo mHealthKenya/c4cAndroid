@@ -61,7 +61,7 @@ public class LoadMessages {
 
                     count++;
 
-                    if(str.equalsIgnoreCase("CHKRIGHTS")){
+                    if(str.contains("CHKRIGHTS")){
 
                         String[] decryptedPiece=str.split("\\*");
                         String messToDec=decryptedPiece[1];
@@ -71,7 +71,7 @@ public class LoadMessages {
 
                         String hasRights=decryptedmess;
 
-                        List<Broadcastsmsrights> myl=Broadcastsmsrights.findWithQuery(Broadcastsmsrights.class,"select * from Broadcastsmsrights");
+                        List<Broadcastsmsrights> myl=Broadcastsmsrights.findWithQuery(Broadcastsmsrights.class,"select * from Broadcastsmsrights limit 1");
                             if(myl.size()>0){
 
                             }
