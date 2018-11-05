@@ -360,7 +360,7 @@ public class Report extends AppCompatActivity {
                         }
                         else{
 
-                            exposureresult=selectedExposureResult;
+                            exposureresult=SpinnerExposureResult.getText().toString();
                         }
 
                         if(selectedPurpose.equalsIgnoreCase("Other")){
