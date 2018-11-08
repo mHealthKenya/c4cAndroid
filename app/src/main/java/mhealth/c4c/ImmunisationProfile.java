@@ -31,7 +31,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import mhealth.c4c.AlarmReceiver.AlarmReceiver;
-import mhealth.c4c.Registrationtable.Regdetails;
 import mhealth.c4c.Tables.ProfileCompletion;
 import mhealth.c4c.checkupstatustable.Status;
 import mhealth.c4c.checkupstatustable.UpdateStatusTable;
@@ -2825,7 +2824,7 @@ public class ImmunisationProfile extends AppCompatActivity {
         boolean isFemale=false;
         try{
 
-            List<RegistrationTable> myl=RegistrationTable.findWithQuery(RegistrationTable.class,"select * from Registration_table limit 1");
+            List<Registrationdatatable> myl= Registrationdatatable.findWithQuery(Registrationdatatable.class,"select * from Registrationdatatable limit 1");
             for(int x=0;x<myl.size();x++){
                 if(myl.get(x).gender.equalsIgnoreCase("2")){
                     isFemale=true;

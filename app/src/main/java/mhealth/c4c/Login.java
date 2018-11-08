@@ -14,7 +14,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
@@ -29,7 +28,10 @@ import com.facebook.stetho.Stetho;
 import java.util.ArrayList;
 import java.util.List;
 
+import mhealth.c4c.AccessServer.AccessServer;
+import mhealth.c4c.Checkinternet.CheckInternet;
 import mhealth.c4c.LoadMessages.LoadMessages;
+import mhealth.c4c.RequestPermissions.RequestPerms;
 import mhealth.c4c.Tables.Broadcastsmsrights;
 import mhealth.c4c.Tables.Partners;
 import mhealth.c4c.Tables.kmpdu;
@@ -44,13 +46,16 @@ public class Login extends AppCompatActivity {
     private Button btnSignin;
     private TextView link_forgot_password;
     Dialogs sweetdialog;
+    AccessServer accessServer;
+    CheckInternet chkInternet;
+    RequestPerms requestPerms;
 
     private static final int PERMS_REQUEST_CODE = 123;
 
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
     ProgressOld pr = new ProgressOld();
-    List<RegistrationTable> user_list = new ArrayList<>();
+    List<Registrationdatatable> user_list = new ArrayList<>();
     boolean kmpduChecked = false;
     LoadMessages loadmessages;
 
@@ -122,7 +127,9 @@ public class Login extends AppCompatActivity {
     public void initialise(){
 
         try{
-
+            requestPerms=new RequestPerms(Login.this,this);
+            chkInternet=new CheckInternet(Login.this);
+            accessServer=new AccessServer(Login.this);
             loadmessages=new LoadMessages(Login.this);
             sweetdialog = new Dialogs(Login.this);
 
@@ -221,7 +228,7 @@ public class Login extends AppCompatActivity {
 
         try{
 
-            List<RegistrationTable> myl=RegistrationTable.findWithQuery(RegistrationTable.class,"select * from Registration_table limit 1",null);
+            List<Registrationdatatable> myl= Registrationdatatable.findWithQuery(Registrationdatatable.class,"select * from Registrationdatatable limit 1",null);
             for(int y=0;y<myl.size();y++){
 
                 String un=myl.get(y).getUsername();
@@ -241,7 +248,7 @@ public class Login extends AppCompatActivity {
     public void LoadRegistration(){
 
         try{
-            List<RegistrationTable> myl=RegistrationTable.findWithQuery(RegistrationTable.class,"select * from Registration_table");
+            List<Registrationdatatable> myl= Registrationdatatable.findWithQuery(Registrationdatatable.class,"select * from Registrationdatatable");
             if(myl.size()==0){
 
 
@@ -295,53 +302,13 @@ public class Login extends AppCompatActivity {
 
             else {
 
-                user_list = RegistrationTable.find(RegistrationTable.class,"username=? and password=?",myun,mypass);
-                if (!user_list.isEmpty()) {
-                    String dob="";
+                if(chkInternet.isInternetAvailable()){
+                    locallyLoginUser(myun,mypass);
 
-                    List<RegistrationTable> chkDOB=RegistrationTable.findWithQuery(RegistrationTable.class,"select * from Registration_table");
-                    for(int myx=0;myx<chkDOB.size();myx++){
+                }
+                else{
 
-                       dob=chkDOB.get(myx).getAge();
-                    }
-
-                    pr.DissmissProgress();
-                    if(hasPermissions()){
-
-                        Broadcastsmsrights.deleteAll(Broadcastsmsrights.class);
-
-                        loadmessages.loadInboxMessages();
-
-
-                        if(dob.trim().isEmpty()){
-
-                            Intent myint = new Intent(getApplicationContext(), CreateUser.class);
-//                            myint.putExtra("kmpduChecked","true");
-                            startActivity(myint);
-
-                        }
-                        else{
-
-                            Intent myint = new Intent(getApplicationContext(), LandingPage.class);
-//                            myint.putExtra("kmpduChecked","true");
-                            startActivity(myint);
-                        }
-
-
-                    }
-                    else{
-
-                        requestPerms();
-                    }
-
-
-                } else {
-                    pr.DissmissProgress();
-
-                    sweetdialog.showErrorDialogLogin("Incorrect username, password combination","Login Error");
-
-//                    LogindisplayDialog("Kindly create an account to access c4c");
-
+                    locallyLoginUser(myun,mypass);
                 }
 
             }
@@ -357,6 +324,61 @@ public class Login extends AppCompatActivity {
     }
 
 
+    public void locallyLoginUser(String myun,String mypass){
+
+        try{
+
+
+            user_list = Registrationdatatable.find(Registrationdatatable.class,"username=? and password=?",myun,mypass);
+            if (!user_list.isEmpty()) {
+                String dob="";
+
+                List<Registrationdatatable> chkDOB= Registrationdatatable.findWithQuery(Registrationdatatable.class,"select * from Registrationdatatable");
+                for(int myx=0;myx<chkDOB.size();myx++){
+
+                    dob=chkDOB.get(myx).getAge();
+                }
+
+                pr.DissmissProgress();
+
+                Broadcastsmsrights.deleteAll(Broadcastsmsrights.class);
+
+                loadmessages.loadInboxMessages();
+
+
+                if(dob.trim().isEmpty()){
+
+                    Intent myint = new Intent(getApplicationContext(), CreateUser.class);
+//                            myint.putExtra("kmpduChecked","true");
+                    startActivity(myint);
+
+                }
+                else{
+
+                    Intent myint = new Intent(getApplicationContext(), LandingPage.class);
+//                            myint.putExtra("kmpduChecked","true");
+                    startActivity(myint);
+                }
+
+
+
+
+
+            } else {
+                pr.DissmissProgress();
+
+                sweetdialog.showErrorDialogLogin("Incorrect username, password combination","Login Error");
+
+//                    LogindisplayDialog("Kindly create an account to access c4c");
+
+            }
+
+        }
+        catch(Exception e){
+
+
+        }
+    }
 
 
     public void LogindisplayDialog(String message){

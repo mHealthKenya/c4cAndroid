@@ -86,6 +86,24 @@
                 android:layout_height="wrap_content"
 
                 android:singleLine="true"
+                android:hint="Enter your phone number"
+                android:id="@+id/phone"
+                android:inputType="phone" />
+        </android.support.design.widget.TextInputLayout>
+
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+
+                android:singleLine="true"
                 android:hint="Username"
                 android:id="@+id/sumuname"
                 android:inputType="text" />

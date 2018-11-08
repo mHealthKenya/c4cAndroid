@@ -1,16 +1,10 @@
 package mhealth.c4c.userlogindata;
 
-import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -21,14 +15,15 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.util.List;
 import java.util.regex.Pattern;
 
+import mhealth.c4c.AccessServer.AccessServer;
+import mhealth.c4c.Checkinternet.CheckInternet;
 import mhealth.c4c.Login;
 import mhealth.c4c.R;
-import mhealth.c4c.RegistrationTable;
+import mhealth.c4c.Registrationdatatable;
+import mhealth.c4c.RequestPermissions.RequestPerms;
 import mhealth.c4c.SpinnerAdapter;
-import mhealth.c4c.Tables.kmpdu;
 import mhealth.c4c.config.Config;
 import mhealth.c4c.dialogs.Dialogs;
 import mhealth.c4c.encryption.Base64Encoder;
@@ -40,9 +35,10 @@ import mhealth.c4c.encryption.Base64Encoder;
 
 public class UserLoginData extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    EditText nameE, lnameE, munameE, mpassE, mcpassE, mhint;
+    EditText nameE, lnameE, munameE, mpassE, mcpassE, mhint,phoneE;
 
     Dialogs sweetdialog;
+    AccessServer acessServer;
 
 
     public final Pattern textPattern = Pattern.compile("^([a-zA-Z+]+[0-9+]+)$");
@@ -53,15 +49,18 @@ public class UserLoginData extends AppCompatActivity implements AdapterView.OnIt
 
     String myselected4 = "";
     String selectedQn = "";
+    RequestPerms requestPerms;
+    CheckInternet chkInternet;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_login_data);
-        requestPerms();
+
 
         initialise();
+        requestPerms();
         setToolBar();
 
         populateSpinner4();
@@ -90,11 +89,13 @@ public class UserLoginData extends AppCompatActivity implements AdapterView.OnIt
     public void initialise() {
 
         try {
-
+            chkInternet=new CheckInternet(UserLoginData.this);
+            requestPerms=new RequestPerms(UserLoginData.this,this);
             sweetdialog = new Dialogs(UserLoginData.this);
+            acessServer=new AccessServer(UserLoginData.this);
 
             nameE = (EditText) findViewById(R.id.suname);
-
+            phoneE = (EditText) findViewById(R.id.phone);
             mhint = (EditText) findViewById(R.id.suhint);
             lnameE = (EditText) findViewById(R.id.sulname);
 
@@ -172,6 +173,7 @@ public class UserLoginData extends AppCompatActivity implements AdapterView.OnIt
 
             String myname = nameE.getText().toString();
             String mylname = lnameE.getText().toString();
+            String myphone = phoneE.getText().toString();
             String myuname = munameE.getText().toString();
             String mympass = mpassE.getText().toString();
             String mymcpass = mcpassE.getText().toString();
@@ -186,7 +188,12 @@ public class UserLoginData extends AppCompatActivity implements AdapterView.OnIt
                 lnameE.setError("Last Name is Required");
                 Toast.makeText(this, "Last Name is Required", Toast.LENGTH_SHORT).show();
 
-            } else if (myuname.trim().isEmpty()) {
+            } else if (myphone.trim().isEmpty()) {
+                phoneE.setError("Phone number is Required");
+                Toast.makeText(this, "Phone number is Required", Toast.LENGTH_SHORT).show();
+
+            }
+            else if (myuname.trim().isEmpty()) {
                 lnameE.setError("User Name is Required");
                 Toast.makeText(this, "User Name is Required", Toast.LENGTH_SHORT).show();
 
@@ -220,7 +227,34 @@ public class UserLoginData extends AppCompatActivity implements AdapterView.OnIt
 
             } else {
 
-                SignupUser(myname, mylname, myuname, mympass, myhint);
+                if(chkInternet.isInternetAvailable()){
+
+                    acessServer.signupUser(myname,mylname,myuname,myphone,mympass,myselected4,myhint,selectedQn);
+
+                }
+                else{
+
+                    SignupUser(myname, mylname, myuname, mympass, myhint);
+
+                }
+
+                //save data locally
+//                Registrationdatatable.deleteAll(Registrationdatatable.class);
+//                Registrationdatatable rt = new Registrationdatatable(myname, mylname, "", "", "", "", "", "", myuname, mympass, selectedQn, myhint);
+//                rt.save();
+//
+//
+//                String mymess = "";
+//
+//                mymess = myname + "*" + mylname + "*" + myuname + "*" + mympass + "*" + myselected4 + "*" + myhint;
+//                String encrypted = Base64Encoder.encryptString(mymess);
+//
+//
+//                SmsManager smsM = SmsManager.getDefault();
+//                smsM.sendTextMessage(Config.shortcode, null, "SU*" + encrypted, null, null);
+//                SignupsuccessDialog("Success in Registration");
+
+                //save data locally
 
 
             }
@@ -285,8 +319,8 @@ public class UserLoginData extends AppCompatActivity implements AdapterView.OnIt
         pdialog.cancel();
 
 
-        RegistrationTable.deleteAll(RegistrationTable.class);
-        RegistrationTable rt = new RegistrationTable(myname, mylname, "", "", "", "", "", "", myuname, mympass, selectedQn, mhnt);
+        Registrationdatatable.deleteAll(Registrationdatatable.class);
+        Registrationdatatable rt = new Registrationdatatable(myname, mylname, "", "", "", "", "", "", myuname, mympass, selectedQn, mhnt);
         rt.save();
 
 
@@ -327,16 +361,7 @@ public class UserLoginData extends AppCompatActivity implements AdapterView.OnIt
 
         try {
 
-            int permissionCheck = ContextCompat.checkSelfPermission(UserLoginData.this, Manifest.permission.SEND_SMS);
-
-            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(
-                        UserLoginData.this,
-                        new String[]{Manifest.permission.SEND_SMS},
-                        1235);
-            } else {
-
-            }
+           requestPerms.requestPerms();
         } catch (Exception e) {
             Toast.makeText(this, "error in granting permissions " + e, Toast.LENGTH_SHORT).show();
 

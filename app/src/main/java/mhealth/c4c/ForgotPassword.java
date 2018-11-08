@@ -11,8 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -73,7 +71,7 @@ public class ForgotPassword extends AppCompatActivity {
 
         try{
 
-            List<RegistrationTable> myl=RegistrationTable.findWithQuery(RegistrationTable.class,"select * from Registration_table limit 1",null);
+            List<Registrationdatatable> myl= Registrationdatatable.findWithQuery(Registrationdatatable.class,"select * from Registrationdatatable limit 1",null);
             for(int y=0;y<myl.size();y++){
 
                 String secQ=myl.get(y).getSecurityqn();
@@ -129,13 +127,13 @@ public class ForgotPassword extends AppCompatActivity {
             else{
 
 
-                List<RegistrationTable> myl=RegistrationTable.findWithQuery(RegistrationTable.class,"select * from Registration_table limit 1",null);
+                List<Registrationdatatable> myl= Registrationdatatable.findWithQuery(Registrationdatatable.class,"select * from Registrationdatatable limit 1",null);
                 for(int y=0;y<myl.size();y++){
 
                     String existingAns=myl.get(y).getSecurityans();
                     if(secans.contentEquals(existingAns)){
 
-                        RegistrationTable rt = RegistrationTable.findById(RegistrationTable.class, 1);
+                        Registrationdatatable rt = Registrationdatatable.findById(Registrationdatatable.class, 1);
                         rt.password = newp;
                         rt.save();
 

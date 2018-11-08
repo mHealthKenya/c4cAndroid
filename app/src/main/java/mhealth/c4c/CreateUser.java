@@ -40,8 +40,11 @@ import java.util.regex.Pattern;
 
 import in.galaxyofandroid.spinerdialog.OnSpinerItemClick;
 import in.galaxyofandroid.spinerdialog.SpinnerDialog;
+import mhealth.c4c.AccessServer.AccessServer;
+import mhealth.c4c.Checkinternet.CheckInternet;
 import mhealth.c4c.GetRemoteData.GetRemoteData;
 import mhealth.c4c.Registrationtable.Regpartners;
+import mhealth.c4c.RequestPermissions.RequestPerms;
 import mhealth.c4c.Tables.Facilitydata;
 import mhealth.c4c.Tables.Partners;
 import mhealth.c4c.Tables.Profiletable;
@@ -119,16 +122,19 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
     boolean kmpduChecked;
     DateCalculator dcalc;
+    AccessServer accessServer;
+    CheckInternet chkInternet;
+    RequestPerms requestPerms;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.createuser);
-        requestPerms();
+
 
         initialise();
-
+        requestPerms();
 
 
 
@@ -810,6 +816,10 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
         try {
 
+            requestPerms=new RequestPerms(CreateUser.this,this);
+            chkInternet=new CheckInternet(CreateUser.this);
+            accessServer=new AccessServer(CreateUser.this);
+
             selectedCty = "";
             selectedSbcty = "";
             selectedFacility = "";
@@ -1212,7 +1222,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
         if (correctMfl) {
 
-            RegistrationTable rt = RegistrationTable.findById(RegistrationTable.class, 1);
+            Registrationdatatable rt = Registrationdatatable.findById(Registrationdatatable.class, 1);
             rt.gender = myselectedgender;
             rt.cadre = myselected2;
             rt.idnumber = myidno;
@@ -1221,7 +1231,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             rt.myhepa = "-1";
             rt.save();
 //
-//                                    RegistrationTable rt=new RegistrationTable("","",myselectedgender,myselected2,myidno,myage,mymfl,myselected3,"","","","");
+//                                    Registrationdatatable rt=new Registrationdatatable("","",myselectedgender,myselected2,myidno,myage,mymfl,myselected3,"","","","");
 //                                    rt.save();
             String myoth = "";
 
@@ -1235,50 +1245,104 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
             }
 
-            String mymess = "";
-
-            Profiletable.deleteAll(Profiletable.class);
+            if(chkInternet.isInternetAvailable()){
 
 
 
-            if (kmpduChecked) {
-
-                Profiletable pt=new Profiletable("n/a");
-                pt.save();
+                //********************create profile submit starts here***************************************
 
 
-                mymess = "Reg*" + Base64Encoder.encryptString(myidno + "*" + myage + "*" + myselectedgender + "*" + "-1" + "*" + "-1" + "*" + duns + "*" + sspecial +"*"+partner);
+
+                Profiletable.deleteAll(Profiletable.class);
 
 
-            } else if (!kmpduChecked && myoth.isEmpty()) {
 
-                Profiletable pt=new Profiletable(mymfl);
-                pt.save();
-                mymess = "Reg*" + Base64Encoder.encryptString(myidno + "*" + myage + "*" + myselectedgender + "*" + myselected2 + "*" + mymfl + "*" + duns + "*" + sspecial +"*"+partner);
+                if (kmpduChecked) {
+
+                    Profiletable pt=new Profiletable("n/a");
+                    pt.save();
+
+                } else if (!kmpduChecked && myoth.isEmpty()) {
+
+                    Profiletable pt=new Profiletable(mymfl);
+                    pt.save();
+                    accessServer.createProfile(partner.toString(),sspecial,myselectedgender,myselected2,myidno,myage,mymfl,"0713559850",kmpduChecked);
 
 
-            } else if (!kmpduChecked && !myoth.isEmpty()) {
+                } else if (!kmpduChecked && !myoth.isEmpty()) {
 
-                Profiletable pt=new Profiletable(mymfl);
-                pt.save();
+                    Profiletable pt=new Profiletable(mymfl);
+                    pt.save();
 
-                mymess = "Reg*" + Base64Encoder.encryptString(myidno + "*" + myage + "*" + myselectedgender + "*" + myoth + "*" + mymfl + "*" + duns + "*" + sspecial +"*"+partner);
+                    accessServer.createProfile(partner.toString(),sspecial,myselectedgender,myoth,myidno,myage,mymfl,"0713559850",kmpduChecked);
+
+                }
+
+
+                populatePartners();
+
+//                SignupsuccessDialog("Success in Creating Profile");
+
+//********************create profile submit ends here***************************************
+
 
             }
 
+            else{
 
-            populatePartners();
 
-            SmsManager sm = SmsManager.getDefault();
-            ArrayList<String> parts = sm.divideMessage(mymess);
+//********************create profile submit starts here***************************************
 
-            sm.sendMultipartTextMessage(Config.shortcode, null, parts, null, null);
+                String mymess = "";
+
+                Profiletable.deleteAll(Profiletable.class);
+
+
+
+                if (kmpduChecked) {
+
+                    Profiletable pt=new Profiletable("n/a");
+                    pt.save();
+
+
+                    mymess = "Reg*" + Base64Encoder.encryptString(myidno + "*" + myage + "*" + myselectedgender + "*" + "-1" + "*" + "-1" + "*" + duns + "*" + sspecial +"*"+partner);
+
+
+                } else if (!kmpduChecked && myoth.isEmpty()) {
+
+                    Profiletable pt=new Profiletable(mymfl);
+                    pt.save();
+                    mymess = "Reg*" + Base64Encoder.encryptString(myidno + "*" + myage + "*" + myselectedgender + "*" + myselected2 + "*" + mymfl + "*" + duns + "*" + sspecial +"*"+partner);
+
+
+                } else if (!kmpduChecked && !myoth.isEmpty()) {
+
+                    Profiletable pt=new Profiletable(mymfl);
+                    pt.save();
+
+                    mymess = "Reg*" + Base64Encoder.encryptString(myidno + "*" + myage + "*" + myselectedgender + "*" + myoth + "*" + mymfl + "*" + duns + "*" + sspecial +"*"+partner);
+
+                }
+
+
+                populatePartners();
+
+                SmsManager sm = SmsManager.getDefault();
+                ArrayList<String> parts = sm.divideMessage(mymess);
+
+                sm.sendMultipartTextMessage(Config.shortcode, null, parts, null, null);
 
 
 
 //            SmsManager smsM = SmsManager.getDefault();
 //            smsM.sendTextMessage(Config.shortcode, null, mymess, null, null);
-            SignupsuccessDialog("Success in Creating Profile");
+                SignupsuccessDialog("Success in Creating Profile");
+
+//********************create profile submit ends here***************************************
+
+
+            }
+
 
 
         } else {
@@ -1336,17 +1400,8 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     public void requestPerms() {
 
         try {
+            requestPerms.requestPerms();
 
-            int permissionCheck = ContextCompat.checkSelfPermission(CreateUser.this, Manifest.permission.SEND_SMS);
-
-            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(
-                        CreateUser.this,
-                        new String[]{Manifest.permission.SEND_SMS},
-                        1235);
-            } else {
-
-            }
         } catch (Exception e) {
             Toast.makeText(this, "error in granting permissions " + e, Toast.LENGTH_SHORT).show();
 

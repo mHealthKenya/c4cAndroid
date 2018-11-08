@@ -7,6 +7,9 @@ public class Config {
 
     public static final String shortcode="40149";
 
+    public static final String SIGNUP_URL = "http://197.248.10.20/c4c-test-BE/index.php/core/AppReg";
+    public static final String CREATPROFILE_URL = "http://197.248.10.20/c4c-test-BE/index.php/core/CreateProf ";
+
     public static final String CHECKFACILITY_URL = "http://197.248.10.20/C4CANDROID/checkfacility.php";
     public static final String GETCOUNTIES_URL = "http://197.248.10.20/C4CANDROID/get_counties.php";
     public static final String GETSUBCOUNTY_URL = "http://197.248.10.20/C4CANDROID/get_sub_counties.php";
@@ -106,6 +109,23 @@ public class Config {
 
 
 
+    public static final String KEY_SIGNUP_FNAME = "fname";
+    public static final String KEY_SIGNUP_LNAME = "lname";
+    public static final String KEY_SIGNUP_UNAME = "uname";
+    public static final String KEY_SIGNUP_PWD = "pwd";
+    public static final String KEY_SIGNUP_SECQN = "secqn";
+    public static final String KEY_SIGNUP_ANS = "ans";
+    public static final String KEY_SIGNUP_PHONE = "phone_no";
+
+
+    public static final String KEY_CREATEPROFILE_PARTNER = "partner";
+    public static final String KEY_CREATEPROFILE_SPECS = "specs";
+    public static final String KEY_CREATEPROFILE_GENDER = "gender";
+    public static final String KEY_CREATEPROFILE_CDR = "cdr";
+    public static final String KEY_CREATEPROFILE_IDNO = "idno";
+    public static final String KEY_CREATEPROFILE_DOB = "dob";
+    public static final String KEY_CREATEPROFILE_MFLNO = "mflno";
+    public static final String KEY_CREATEPROFILE_PHONENO = "phone_no";
 
 
 

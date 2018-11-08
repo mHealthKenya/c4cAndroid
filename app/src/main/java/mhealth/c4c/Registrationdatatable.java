@@ -6,13 +6,13 @@ import com.orm.SugarRecord;
  * Created by ADMIN on 5/16/2017.
  */
 
-public class RegistrationTable extends SugarRecord {
+public class Registrationdatatable extends SugarRecord {
     String name,lname,idnumber,age,mflcode,myhepa,username,password,gender,cadre,securityqn,securityans;
 
-    public RegistrationTable(){
+    public Registrationdatatable(){
 
     }
-    public RegistrationTable(String nm,String lname,String gender,String cadre,String idnum,String age,String code,String hepa,String uname,String pass,String securityQn,String securityAns){
+    public Registrationdatatable(String nm, String lname, String gender, String cadre, String idnum, String age, String code, String hepa, String uname, String pass, String securityQn, String securityAns){
 
         this.name=nm;
         this.lname=lname;
