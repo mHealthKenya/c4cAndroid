@@ -9,6 +9,7 @@ public class Config {
 
     public static final String SIGNUP_URL = "http://197.248.10.20/c4c-test-BE/index.php/core/AppReg";
     public static final String CREATPROFILE_URL = "http://197.248.10.20/c4c-test-BE/index.php/core/CreateProf ";
+    public static final String REPORTEXPOSURE_URL = "http://197.248.10.20/c4c-test-BE/index.php/core/RptExp ";
 
     public static final String CHECKFACILITY_URL = "http://197.248.10.20/C4CANDROID/checkfacility.php";
     public static final String GETCOUNTIES_URL = "http://197.248.10.20/C4CANDROID/get_counties.php";
@@ -127,6 +128,23 @@ public class Config {
     public static final String KEY_CREATEPROFILE_MFLNO = "mflno";
     public static final String KEY_CREATEPROFILE_PHONENO = "phone_no";
 
+
+
+
+    public static final String KEY_REPORTEXPOSURE_ELOC = "eloc";
+    public static final String KEY_REPORTEXPOSURE_ETYPE = "etype";
+    public static final String KEY_REPORTEXPOSURE_PURP = "purp";
+    public static final String KEY_REPORTEXPOSURE_WHENITHAPND = "whenithapnd";
+    public static final String KEY_REPORTEXPOSURE_HIVSTATUS = "HivStatus";
+    public static final String KEY_REPORTEXPOSURE_EXPNO = "expno";
+    public static final String KEY_REPORTEXPOSURE_PEPINIT = "pepinit";
+    public static final String KEY_REPORTEXPOSURE_DATEEXPD = "dateexpd";
+    public static final String KEY_REPORTEXPOSURE_DEVICE = "device";
+    public static final String KEY_REPORTEXPOSURE_DEVICESAFETY = "deviceSafety";
+    public static final String KEY_REPORTEXPOSURE_DEEP = "deep";
+    public static final String KEY_REPORTEXPOSURE_DATEPEP = "datepep";
+    public static final String KEY_REPORTEXPOSURE_EXPRESULT = "expresult";
+    public static final String KEY_REPORTEXPOSURE_PHONENO = "phone_no";
 
 
 }

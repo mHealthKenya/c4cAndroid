@@ -321,6 +321,68 @@ public class AccessServer {
 
 
 
+    public void reportExposure(final String eloc , final String etype, final String purp,final String whenithapnd,final String HivStatus,final String expno,final String pepinit,final String dateexpd,final String device,final String deviceSafety,final String deep,final String datepep,final String expresult,final String phone_no) {
+
+        pr.showProgress("reporting exposure....");
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Config.REPORTEXPOSURE_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        pr.dissmissProgress();
+                        Toast.makeText(ctx, "response "+response, Toast.LENGTH_SHORT).show();
+                        System.out.println("*************response exposure****************");
+                        System.out.println(response);
+//                        CreatprofilesuccessDialog("success creating profile",device);
+
+
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(ctx, "error "+error, Toast.LENGTH_SHORT).show();
+                        pr.dissmissProgress();
+                        System.out.println("*************response exposure****************");
+                        System.out.println(error);
+
+
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+
+
+                params.put(Config.KEY_REPORTEXPOSURE_DATEEXPD, dateexpd);
+                params.put(Config.KEY_REPORTEXPOSURE_DATEPEP, datepep);
+                params.put(Config.KEY_REPORTEXPOSURE_DEEP, deep);
+                params.put(Config.KEY_REPORTEXPOSURE_DEVICE, device);
+                params.put(Config.KEY_REPORTEXPOSURE_DEVICESAFETY, deviceSafety);
+                params.put(Config.KEY_REPORTEXPOSURE_ELOC, eloc);
+                params.put(Config.KEY_REPORTEXPOSURE_ETYPE, etype);
+                params.put(Config.KEY_REPORTEXPOSURE_EXPNO, expno);
+                params.put(Config.KEY_REPORTEXPOSURE_EXPRESULT, expresult);
+                params.put(Config.KEY_REPORTEXPOSURE_HIVSTATUS, HivStatus);
+                params.put(Config.KEY_REPORTEXPOSURE_PEPINIT, pepinit);
+                params.put(Config.KEY_REPORTEXPOSURE_PURP, purp);
+                params.put(Config.KEY_REPORTEXPOSURE_WHENITHAPND, whenithapnd);
+                params.put(Config.KEY_REPORTEXPOSURE_PHONENO, phone_no);
+
+
+
+                return params;
+            }
+
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(ctx);
+        requestQueue.add(stringRequest);
+
+    }
+
 
 
     public void createProfile(final String partner , final String specs, final String gender,final String cdr,final String idno,final String dob,final String mflno,final String phone,final boolean kmpduchecked) {

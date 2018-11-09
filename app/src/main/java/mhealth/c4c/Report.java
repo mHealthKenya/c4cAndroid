@@ -24,6 +24,8 @@ import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import java.util.ArrayList;
 
+import mhealth.c4c.AccessServer.AccessServer;
+import mhealth.c4c.Checkinternet.CheckInternet;
 import mhealth.c4c.DateTimePicker.DateTimePicker;
 import mhealth.c4c.config.Config;
 import mhealth.c4c.dialogs.Dialogs;
@@ -43,6 +45,8 @@ public class Report extends AppCompatActivity {
     String selectedWhere,selectedWhat,otherWhere,otherWhat,selecteddevice,otherdevice,selectedSafety,othersafety,selectedautodisable,otherautodisable,selectedExposuredeep,selectedPurpose,otherpurpose,selectedWhen,otherwhen,selectedHivstatus,selectedHbvstatus,selectedPepinitS,selectedExposureResult,otherExposureResultS,datetimeofexposureS,datetimeofpepinitS,numberOfExposuresS;
 
     LinearLayout llHidden,llhiddensafetydesign;
+    CheckInternet chkInternet;
+    AccessServer accessServer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -412,17 +416,30 @@ public class Report extends AppCompatActivity {
 
 
                         }
-                        String Message="Rep*"+ Base64Encoder.encryptString(where+"*"+what+"*"+purpose+"*"+when+"*"+HivStatus+"*"+HbvStatus+"*"+numberofexposures+"*"+pepinit+"*"+dateofexposure+"*"+device+"*"+deviceSafety+"*"+deep+"*"+dateofpepinit+"*"+exposureresult);
+
+                        if(chkInternet.isInternetAvailable()){
+
+                            accessServer.reportExposure(where,what,purpose,when,HivStatus,numberofexposures,pepinit,dateofexposure,device,deviceSafety,deep,dateofpepinit,exposureresult,"0713559850");
+                            clearFields();
+
+                        }
+                        else{
+
+                            String Message="Rep*"+ Base64Encoder.encryptString(where+"*"+what+"*"+purpose+"*"+when+"*"+HivStatus+"*"+HbvStatus+"*"+numberofexposures+"*"+pepinit+"*"+dateofexposure+"*"+device+"*"+deviceSafety+"*"+deep+"*"+dateofpepinit+"*"+exposureresult);
 //                        String Message = "Rep*"+where+"*"+nature+"*"+myhour;
 
-                        SmsManager sm = SmsManager.getDefault();
-                        ArrayList<String> parts = sm.divideMessage(Message);
+                            SmsManager sm = SmsManager.getDefault();
+                            ArrayList<String> parts = sm.divideMessage(Message);
 
-                        sm.sendMultipartTextMessage(Config.shortcode, null, parts, null, null);
+                            sm.sendMultipartTextMessage(Config.shortcode, null, parts, null, null);
+
+                            clearFields();
+
+
+                        }
 
 
 
-                        clearFields();
 
 //                        SignupsuccessDialog("");
 
@@ -477,6 +494,8 @@ public class Report extends AppCompatActivity {
     public void initialise(){
 
         try{
+            chkInternet=new CheckInternet(Report.this);
+            accessServer=new AccessServer(Report.this);
             dateTimeOfPepInitE=(EditText) findViewById(R.id.datetimeofpepinitiation);
             numberofexposuresE=(EditText) findViewById(R.id.numberOfExposures);
             dtp=new DateTimePicker(Report.this);
