@@ -203,8 +203,8 @@ public class UserLoginData extends AppCompatActivity implements AdapterView.OnIt
 
             } else if (!(isTextValid(mympass))) {
 
-                mpassE.setError("Password should have numbers and letters and atleast a minimum of 6 characters");
-                Toast.makeText(this, "Password should have numbers and letters and atleast a minimum of 6 characters", Toast.LENGTH_SHORT).show();
+                mpassE.setError("Password should have uppercase,lowercase letters,numbers and atleast a minimum of 6 characters");
+                Toast.makeText(this, "Password should have uppercase,lowercase letters,numbers and atleast a minimum of 6 characters", Toast.LENGTH_SHORT).show();
             } else if (mymcpass.trim().isEmpty()) {
                 mcpassE.setError("Confirm Password is Required");
                 Toast.makeText(this, "Confirm Password is Required", Toast.LENGTH_SHORT).show();
@@ -390,7 +390,7 @@ public class UserLoginData extends AppCompatActivity implements AdapterView.OnIt
 
     public boolean isTextValid(String mytext) {
         boolean isCorrect = false;
-        String pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$!?%^&+=])(?=\\S+$).{6,}";
+        String pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{6,}";
         if (mytext.matches(pattern)) {
             isCorrect = true;
         } else {

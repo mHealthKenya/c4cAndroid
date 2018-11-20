@@ -99,6 +99,9 @@ public class AccessServer {
                         }
                         else{
 
+                            sweetdialog.showErrorDialogLogin(" "+response,"Error signing up");
+
+
                         }
 
 
@@ -205,6 +208,45 @@ public class AccessServer {
 
 
 
+    public void SignupErrorDialog(String message) {
+
+        try {
+
+            AlertDialog.Builder adb = new AlertDialog.Builder(ctx);
+            adb.setTitle("SIGNUP Error");
+            adb.setIcon(R.mipmap.success);
+            adb.setMessage(message.toUpperCase());
+            adb.setCancelable(false);
+
+//            adb.setPositiveButton("LOGIN", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//
+//                    Intent myint = new Intent(ctx, Login.class);
+//
+//                    ctx.startActivity(myint);
+//
+//
+//                }
+//            });
+            adb.setNegativeButton("EXIT APP", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+
+
+                }
+            });
+
+
+            AlertDialog mydialog = adb.create();
+            mydialog.show();
+        } catch (Exception e) {
+
+
+        }
+
+    }
 
 
 
