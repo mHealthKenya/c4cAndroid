@@ -112,7 +112,7 @@ public class AccessServer {
                     public void onErrorResponse(VolleyError error) {
                         pr.dissmissProgress();
 
-//                        mydialog.showErrorDialogAccessServer("Getting Token Error", "check internet connection");
+                        sweetdialog.showErrorDialogLogin("Error occured "+error.getMessage(), "Error");
 
                     }
                 }) {

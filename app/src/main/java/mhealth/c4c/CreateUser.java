@@ -45,6 +45,7 @@ import mhealth.c4c.Checkinternet.CheckInternet;
 import mhealth.c4c.GetRemoteData.GetRemoteData;
 import mhealth.c4c.Registrationtable.Regpartners;
 import mhealth.c4c.RequestPermissions.RequestPerms;
+import mhealth.c4c.Tables.Edittable;
 import mhealth.c4c.Tables.Facilitydata;
 import mhealth.c4c.Tables.Partners;
 import mhealth.c4c.Tables.Profiletable;
@@ -62,7 +63,7 @@ import mhealth.c4c.encryption.Base64Encoder;
 
 public class CreateUser extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    EditText idnoE, ageE, motherE, dunumber,facilitySpinnerEdt;
+    EditText idnoE, ageE, motherE, dunumber,facilitySpinnerEdt,phoneE;
     SpinnerDialog spinnerDialog;
     CheckBox mchkb;
     String otherValue;
@@ -94,7 +95,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
     String passedkmpdu;
 
-    boolean correctMfl;
+
 
 
     public static final String KEY_MFLCODE = "facility_code";
@@ -824,6 +825,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             selectedSbcty = "";
             selectedFacility = "";
             facilitySpinnerEdt =(EditText) findViewById(R.id.facilityspinner);
+            phoneE=(EditText) findViewById(R.id.phonenum);
 
             ctyM = (MaterialBetterSpinner) findViewById(R.id.county_txt);
 
@@ -851,7 +853,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             myspinner2 = (Spinner) findViewById(R.id.spinner2);
 
 
-            correctMfl = false;
+
 
             partners = new StringBuilder();
 
@@ -988,22 +990,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
             partners = new StringBuilder("");
 
-            Iterator<String> it = itemsSelected.iterator();
 
-//            while(it.hasNext()){
-//
-//                partners.append(it.next());
-//
-////                partners.append("5");
-//
-//                if(it.hasNext()){
-//                    partners.append("*");
-//                }
-//
-//
-//
-//
-//            }
             if (itemsSelected.size() == 1) {
                 String val = Integer.toString((Integer.parseInt(itemsSelected.get(0).toString())) + 1);
                 partners.append(val);
@@ -1032,52 +1019,35 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             String mdose1 = "-1";
             String mdose2 = "-1";
 
-            if (kmpduChecked) {
-                mymfl = "13528";
-            } else {
 
-                mymfl = selectedFacility;
-            }
 
             int curyear = Calendar.getInstance().get(Calendar.YEAR);
 //            idnoE.setVisibility(View.VISIBLE);
 //            nameE.setVisibility(View.VISIBLE);
 //            motherE.setVisibility(View.VISIBLE);
 //            lnameE.setVisibility(View.VISIBLE);
-            if (kmpduChecked) {
-                duns = dunumber.getText().toString();
-                if (duns.isEmpty()) {
 
-                    dunumber.setError("Doctors union number is required");
-                }
-//                if(selectedspecialisation.contentEquals("0")){
-//                    Toast.makeText(this, "select specialisation", Toast.LENGTH_SHORT).show();
-//                }
-
-
-                myidno = "-1";
-
-            } else {
-
-                selectedspecialisation = "-1";
-
-                duns = "-1";
-
+            if (phoneE.getText().toString().trim().isEmpty()) {
+                phoneE.setError("Phone number is Required");
 
             }
 
-
-            if (!kmpduChecked && myidno.trim().isEmpty()) {
+            else if (!kmpduChecked && myidno.trim().isEmpty()) {
                 idnoE.setError("ID NUMBER is Required");
 
-            } else if (!kmpduChecked && myidno.length() < 4) {
+            }
+            else if(dunumber.isShown()&& dunumber.getText().toString().trim().isEmpty()){
+                dunumber.setError("Doctors union number is required");
+
+            }
+            else if (!kmpduChecked && myidno.length() < 4) {
 
                 idnoE.setError("ID NUMBER should contain more than 3 values");
 
             } else if (myage.isEmpty()) {
                 ageE.setError("Age is Required");
 
-            } else if (mymfl.trim().isEmpty()) {
+            } else if (!kmpduChecked && selectedFacility.trim().isEmpty()) {
                 Toast.makeText(this, "MFL Number is Required", Toast.LENGTH_SHORT).show();
 
             } else if (partners.toString().isEmpty()) {
@@ -1104,14 +1074,63 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 //                Toast.makeText(this, "Please select Cadre", Toast.LENGTH_LONG).show();
 
 
-            } else {
-                List<Facilitydata> myl = Facilitydata.findWithQuery(Facilitydata.class, "select * from Facilitydata where facilityname=? limit 1", mymfl);
-                for (int d = 0; d < myl.size(); d++) {
+            }
+            else if (specialisationE.isShown()&& specialisationE.getText().toString().trim().isEmpty()) {
 
-                    String newmflcode = myl.get(d).getMflcode();
-                    checkFacilityCode(myidno, myage, newmflcode, partners, duns, selectedspecialisation);
+                sweetdialog.showErrorDialogRegistration("Please select specialisation", "Registration Error");
+
+//                Toast.makeText(this, "Please select Cadre", Toast.LENGTH_LONG).show();
+
+
+            }
+
+            else {
+
+
+                //new code here
+
+                if (kmpduChecked) {
+
+
+                    selectedspecialisation=specialisationE.getText().toString();
+
+
+                    duns = dunumber.getText().toString();
+                    mymfl = "13528";
+                    myidno = "-1";
+
+                    checkFacilityCode(myidno, myage, mymfl, partners, duns, selectedspecialisation);
+
+
+
+                } else {
+
+                    if(specialisationE.isShown()){
+                        selectedspecialisation=specialisationE.getText().toString();
+                    }
+                    else{
+                        selectedspecialisation="-1";
+                    }
+
+
+                    mymfl = selectedFacility;
+                    duns = "-1";
+
+
+                    List<Facilitydata> myl = Facilitydata.findWithQuery(Facilitydata.class, "select * from Facilitydata where facilityname=? limit 1", mymfl);
+                    for (int d = 0; d < myl.size(); d++) {
+
+                        String newmflcode = myl.get(d).getMflcode();
+                        checkFacilityCode(myidno, myage, newmflcode, partners, duns, selectedspecialisation);
+
+                    }
 
                 }
+
+
+
+                //new code here
+
 
 
             }
@@ -1205,22 +1224,8 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
         final ProgressDialog pdialog = mydialog("loading...", "Creating Profile");
 
-//        Toast.makeText(this, "checking facility", Toast.LENGTH_SHORT).show();
-
-
-        final String mymflcode[] = {""};
-        if (kmpduChecked) {
-            mymflcode[0] = "13528";
-
-        } else {
-            mymflcode[0] = mymfl;
-
-        }
-
         pdialog.cancel();
-        correctMfl = true;
 
-        if (correctMfl) {
 
             Registrationdatatable rt = Registrationdatatable.findById(Registrationdatatable.class, 1);
             rt.gender = myselectedgender;
@@ -1235,15 +1240,12 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 //                                    rt.save();
             String myoth = "";
 
-            try {
-
-                myoth = motherE.getText().toString();
 
 
-            } catch (Exception e) {
+            myoth = motherE.getText().toString();
 
 
-            }
+
 
             if(chkInternet.isInternetAvailable()){
 
@@ -1262,24 +1264,43 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                     Profiletable pt=new Profiletable("n/a");
                     pt.save();
 
-                } else if (!kmpduChecked && myoth.isEmpty()) {
+                    //save user details for further editing
+                    Edittable.deleteAll(Edittable.class);
+                    Edittable et=new Edittable(mymfl,phoneE.getText().toString(),myidno);
+                    et.save();
+
+                    accessServer.createProfile(partner.toString(),sspecial,myselectedgender,myselected2,myidno,myage,mymfl,phoneE.getText().toString(),kmpduChecked);
+
+
+                } else if (!motherE.isShown()) {
 
                     Profiletable pt=new Profiletable(mymfl);
                     pt.save();
-                    accessServer.createProfile(partner.toString(),sspecial,myselectedgender,myselected2,myidno,myage,mymfl,"0713559850",kmpduChecked);
+
+                    //save user details for further editing
+                    Edittable.deleteAll(Edittable.class);
+                    Edittable et=new Edittable(mymfl,phoneE.getText().toString(),myidno);
+                    et.save();
+
+                    accessServer.createProfile(partner.toString(),sspecial,myselectedgender,myselected2,myidno,myage,mymfl,phoneE.getText().toString(),kmpduChecked);
 
 
-                } else if (!kmpduChecked && !myoth.isEmpty()) {
-
+                } else if (motherE.isShown()) {
+                    myoth=motherE.getText().toString();
                     Profiletable pt=new Profiletable(mymfl);
                     pt.save();
 
-                    accessServer.createProfile(partner.toString(),sspecial,myselectedgender,myoth,myidno,myage,mymfl,"0713559850",kmpduChecked);
+                    //save user details for further editing
+                    Edittable.deleteAll(Edittable.class);
+                    Edittable et=new Edittable(mymfl,phoneE.getText().toString(),myidno);
+                    et.save();
+
+                    accessServer.createProfile(partner.toString(),sspecial,myselectedgender,myoth,myidno,myage,mymfl,phoneE.getText().toString(),kmpduChecked);
 
                 }
 
 
-                populatePartners();
+//                populatePartners();
 
 //                SignupsuccessDialog("Success in Creating Profile");
 
@@ -1304,28 +1325,45 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                     Profiletable pt=new Profiletable("n/a");
                     pt.save();
 
+                    //save user details for further editing
+                    Edittable.deleteAll(Edittable.class);
+                    Edittable et=new Edittable(mymfl,phoneE.getText().toString(),myidno);
+                    et.save();
+
 
                     mymess = "Reg*" + Base64Encoder.encryptString(myidno + "*" + myage + "*" + myselectedgender + "*" + "-1" + "*" + "-1" + "*" + duns + "*" + sspecial +"*"+partner);
 
 
-                } else if (!kmpduChecked && myoth.isEmpty()) {
+                } else if (!motherE.isShown()) {
 
                     Profiletable pt=new Profiletable(mymfl);
                     pt.save();
+
+                    //save user details for further editing
+                    Edittable.deleteAll(Edittable.class);
+                    Edittable et=new Edittable(mymfl,phoneE.getText().toString(),myidno);
+                    et.save();
+
                     mymess = "Reg*" + Base64Encoder.encryptString(myidno + "*" + myage + "*" + myselectedgender + "*" + myselected2 + "*" + mymfl + "*" + duns + "*" + sspecial +"*"+partner);
 
 
-                } else if (!kmpduChecked && !myoth.isEmpty()) {
+                } else if (motherE.isShown()) {
 
+                    myoth=motherE.getText().toString();
                     Profiletable pt=new Profiletable(mymfl);
                     pt.save();
+
+                    //save user details for further editing
+                    Edittable.deleteAll(Edittable.class);
+                    Edittable et=new Edittable(mymfl,phoneE.getText().toString(),myidno);
+                    et.save();
 
                     mymess = "Reg*" + Base64Encoder.encryptString(myidno + "*" + myage + "*" + myselectedgender + "*" + myoth + "*" + mymfl + "*" + duns + "*" + sspecial +"*"+partner);
 
                 }
 
 
-                populatePartners();
+//                populatePartners();
 
                 SmsManager sm = SmsManager.getDefault();
                 ArrayList<String> parts = sm.divideMessage(mymess);
@@ -1345,13 +1383,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
 
 
-        } else {
-//                    SignupdisplayDialog("WRONG MFLCODE, TRY AGAIN");
 
-            sweetdialog.showErrorDialogRegistration("error occured, try again", "Registration Error");
-
-
-        }
 //        pr.progressing(getApplicationContext(),"getting facility","loading....");
 
 
