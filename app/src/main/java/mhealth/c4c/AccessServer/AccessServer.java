@@ -90,16 +90,20 @@ public class AccessServer {
                     public void onResponse(String response) {
 //                        Toast.makeText(ctx, "message "+response, Toast.LENGTH_SHORT).show();
                         pr.dissmissProgress();
-                        if(response.contentEquals("Welldone")){
-                            saveSignupDetailsLocally(firstname,lastname,username,password,security,answer,"");
+                        if(response.contains("Oops")){
 
-                            SignupsuccessDialog("Success signing up");
+                            sweetdialog.showErrorDialogLogin(" "+response,"Error signing up");
+
 
 
                         }
                         else{
 
-                            sweetdialog.showErrorDialogLogin(" "+response,"Error signing up");
+
+                            SignupsuccessDialog("Success signing up "+response);
+                            saveSignupDetailsLocally(firstname,lastname,username,password,security,answer,"");
+
+
 
 
                         }

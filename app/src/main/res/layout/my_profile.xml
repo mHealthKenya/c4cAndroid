@@ -24,7 +24,7 @@
             android:layout_height="wrap_content" />
 
 
-
+    <!--start mfl code edit-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -70,6 +70,105 @@
 
         </LinearLayout>
 
+        <!--end mfl code edit-->
+
+
+        <!--start phonenumber edit-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="10sp"
+            android:weightSum="2"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:text="Existing Phone number"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:text="Existing phone number"
+                android:id="@+id/existingphone"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_marginTop="10sp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:text="New phone number"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:hint="New phone number"
+                android:layout_weight="1"
+                android:id="@+id/newphone"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+
+        <!--end phonenumber edit-->
+
+        <!--start idnumber edit-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="10sp"
+            android:weightSum="2"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:text="Existing Id number"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:text="Existing Id number"
+                android:id="@+id/existingid"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_marginTop="10sp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:text="New Id number"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:hint="New Id number"
+                android:layout_weight="1"
+                android:id="@+id/newid"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <!--end idnumber edit-->
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="vertical"

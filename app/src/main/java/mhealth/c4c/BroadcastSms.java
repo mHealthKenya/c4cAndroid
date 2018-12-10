@@ -10,18 +10,24 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.SmsManager;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
+import java.util.List;
 
+import mhealth.c4c.Tables.Edittable;
 import mhealth.c4c.config.Config;
+import mhealth.c4c.encryption.Base64Encoder;
 
 /**
  * Created by kennedy on 9/13/17.
@@ -230,9 +236,8 @@ public class BroadcastSms extends AppCompatActivity implements AdapterView.OnIte
                 }
 
                 String bmes="BM*"+txt+"*"+mydte+"*cdre*"+theCadres+"cdre*"+myname;
-                SmsManager smsM=SmsManager.getDefault();
-                smsM.sendTextMessage(Config.shortcode,null,bmes,null,null);
-                SignupsuccessDialog("Success in sending broadcast message");
+                displayDialogue(bmes);
+
 
 
             }
@@ -390,5 +395,66 @@ public class BroadcastSms extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+
+
+
+
+    public void displayDialogue(final String bmes){
+        try{
+
+            // get prompts.xml view
+            LayoutInflater li = LayoutInflater.from(BroadcastSms.this);
+            final View promptsView = li.inflate(R.layout.my_profile, null);
+
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                    BroadcastSms.this);
+
+
+
+            alertDialogBuilder.setCancelable(false);
+            alertDialogBuilder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Toast.makeText(BroadcastSms.this, "broadcast not sent", Toast.LENGTH_SHORT).show();
+
+                }
+            });
+
+            alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                    SmsManager smsM=SmsManager.getDefault();
+                    smsM.sendTextMessage(Config.shortcode,null,bmes,null,null);
+                    SignupsuccessDialog("Success in sending broadcast message");
+
+                }
+            });
+
+            // set prompts.xml to alertdialog builder
+            alertDialogBuilder.setView(promptsView);
+            // create alert dialog
+            final AlertDialog alertDialog = alertDialogBuilder.create();
+
+            final EditText mymfl = (EditText) promptsView
+                    .findViewById(R.id.brdmfl);
+
+
+            List<Edittable> myle=Edittable.findWithQuery(Edittable.class,"select * from Edittable limit 1");
+            for(int x=0;x<myle.size();x++){
+
+                String themfl=myle.get(x).getMfl();
+                mymfl.setText(themfl);
+            }
+
+
+            alertDialog.show();
+        }
+        catch(Exception e){
+
+
+        }
     }
 }

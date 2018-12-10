@@ -25,6 +25,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.facebook.stetho.Stetho;
+
 import java.util.List;
 
 import mhealth.c4c.Myprofile.Myprofile;
@@ -52,6 +54,7 @@ public class LandingPage extends AppCompatActivity
         getPassedValues();
 
         initialise();
+        Stetho.initializeWithDefaults(this);
 
 
 

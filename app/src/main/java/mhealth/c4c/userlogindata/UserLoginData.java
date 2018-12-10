@@ -225,9 +225,7 @@ public class UserLoginData extends AppCompatActivity implements AdapterView.OnIt
                 mhint.setError("Answer is required");
                 Toast.makeText(this, "Answer is required", Toast.LENGTH_SHORT).show();
 
-            } else {
-
-                if(chkInternet.isInternetAvailable()){
+            } else if(chkInternet.isInternetAvailable()){
 
                     acessServer.signupUser(myname,mylname,myuname,myphone,mympass,myselected4,myhint,selectedQn);
 
@@ -238,26 +236,10 @@ public class UserLoginData extends AppCompatActivity implements AdapterView.OnIt
 
                 }
 
-                //save data locally
-//                Registrationdatatable.deleteAll(Registrationdatatable.class);
-//                Registrationdatatable rt = new Registrationdatatable(myname, mylname, "", "", "", "", "", "", myuname, mympass, selectedQn, myhint);
-//                rt.save();
-//
-//
-//                String mymess = "";
-//
-//                mymess = myname + "*" + mylname + "*" + myuname + "*" + mympass + "*" + myselected4 + "*" + myhint;
-//                String encrypted = Base64Encoder.encryptString(mymess);
-//
-//
-//                SmsManager smsM = SmsManager.getDefault();
-//                smsM.sendTextMessage(Config.shortcode, null, "SU*" + encrypted, null, null);
-//                SignupsuccessDialog("Success in Registration");
-
-                //save data locally
 
 
-            }
+
+
 
         } catch (Exception e) {
 
