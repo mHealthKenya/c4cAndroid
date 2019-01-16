@@ -17,6 +17,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import mhealth.c4c.SSLTrustCertificate.SSLTrust;
+
 /**
  * Created by DELL on 12/11/2015.
  */
@@ -47,7 +49,7 @@ public class Registration extends AppCompatActivity implements AdapterView.OnIte
         initialise();
 
 
-
+        SSLTrust.nuke();
         populateSpinner();
         populateSpinner2();
 

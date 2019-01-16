@@ -31,6 +31,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import mhealth.c4c.AlarmReceiver.AlarmReceiver;
+import mhealth.c4c.SSLTrustCertificate.SSLTrust;
 import mhealth.c4c.Tables.ProfileCompletion;
 import mhealth.c4c.checkupstatustable.Status;
 import mhealth.c4c.checkupstatustable.UpdateStatusTable;
@@ -78,6 +79,8 @@ public class ImmunisationProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.immunisation_profile);
         initialise();
+
+        SSLTrust.nuke();
         setToolBar();
 
         setGenderInfluenza();

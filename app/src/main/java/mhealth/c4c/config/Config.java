@@ -5,16 +5,32 @@ import java.util.Arrays;
 
 public class Config {
 
-    public static final String shortcode="40149";
+    //******TEST SHORTCODE****************
+//    public static final String shortcode="40149";
 
-    public static final String SIGNUP_URL = "http://197.248.10.20/c4c-test-BE/index.php/core/AppReg";
-    public static final String CREATPROFILE_URL = "http://197.248.10.20/c4c-test-BE/index.php/core/CreateProf ";
-    public static final String REPORTEXPOSURE_URL = "http://197.248.10.20/c4c-test-BE/index.php/core/RptExp ";
+    //******LIVE SHORTCODE****************
+    public static final String shortcode="40145";
 
-    public static final String CHECKFACILITY_URL = "http://197.248.10.20/C4CANDROID/checkfacility.php";
-    public static final String GETCOUNTIES_URL = "http://197.248.10.20/C4CANDROID/get_counties.php";
-    public static final String GETSUBCOUNTY_URL = "http://197.248.10.20/C4CANDROID/get_sub_counties.php";
-    public static final String GETFACILITY_URL = "http://197.248.10.20/c4c_backend/index.php/core/get_facility_info";
+    //*************TEST DB CONNECTION URL***********************
+
+//    public static final String SIGNUP_URL = "https://c4c-test.mhealthkenya.co.ke/Core/AppReg";
+//    public static final String CREATPROFILE_URL = "https://c4c-test.mhealthkenya.co.ke/Core/CreateProf";
+//    public static final String REPORTEXPOSURE_URL = "https://c4c-test.mhealthkenya.co.ke/Core/RptExp ";
+//
+//    public static final String GETFACILITY_URL = "https://c4c-test.mhealthkenya.co.ke/Core/get_facility_info";
+
+    //*************TEST DB CONNECTION URL***********************
+
+
+
+//*************LIVE DB CONNECTION URL***********************
+    public static final String SIGNUP_URL = "https://c4c.mhealthkenya.co.ke/Core/AppReg";
+    public static final String CREATPROFILE_URL = "https://c4c.mhealthkenya.co.ke/Core/CreateProf";
+    public static final String REPORTEXPOSURE_URL = "https://c4c.mhealthkenya.co.ke/Core/RptExp";
+
+    public static final String GETFACILITY_URL = "https://c4c.mhealthkenya.co.ke/Core/get_facility_info";
+//*************LIVE DB CONNECTION URL***********************
+
 
     public static final String JSON_ARRAYRESULTS = "result";
 

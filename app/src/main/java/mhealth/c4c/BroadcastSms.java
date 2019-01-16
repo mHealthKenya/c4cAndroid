@@ -25,6 +25,7 @@ import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
+import mhealth.c4c.SSLTrustCertificate.SSLTrust;
 import mhealth.c4c.Tables.Edittable;
 import mhealth.c4c.config.Config;
 import mhealth.c4c.encryption.Base64Encoder;
@@ -51,6 +52,10 @@ public class BroadcastSms extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.broadcast_sms);
         setToolBar();
         initialise();
+
+        SSLTrust.nuke();
+
+
         CheckDateListener();
         populateCadres();
         setSpecialisationClickListener();

@@ -24,6 +24,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import mhealth.c4c.SSLTrustCertificate.SSLTrust;
+
 
 public class Register extends AppCompatActivity {
     private Context mContext;
@@ -44,6 +46,8 @@ public class Register extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        SSLTrust.nuke();
 
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,

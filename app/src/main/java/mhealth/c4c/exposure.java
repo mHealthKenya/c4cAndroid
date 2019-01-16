@@ -17,6 +17,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import mhealth.c4c.SSLTrustCertificate.SSLTrust;
 import mhealth.c4c.config.Config;
 
 /**
@@ -44,6 +45,8 @@ public class exposure extends AppCompatActivity implements AdapterView.OnItemSel
         setContentView(R.layout.exposre);
 
         initialise();
+
+        SSLTrust.nuke();
         populateSpinner1();
         populateSpinner2();
 

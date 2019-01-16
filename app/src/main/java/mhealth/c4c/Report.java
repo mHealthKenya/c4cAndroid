@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import mhealth.c4c.AccessServer.AccessServer;
 import mhealth.c4c.Checkinternet.CheckInternet;
 import mhealth.c4c.DateTimePicker.DateTimePicker;
+import mhealth.c4c.SSLTrustCertificate.SSLTrust;
 import mhealth.c4c.config.Config;
 import mhealth.c4c.dialogs.Dialogs;
 import mhealth.c4c.encryption.Base64Encoder;
@@ -54,6 +55,9 @@ public class Report extends AppCompatActivity {
 
         setToolbar();
         initialise();
+
+        SSLTrust.nuke();
+
         setHoursListener();
 
         setDateTimeOfPepInitListener();

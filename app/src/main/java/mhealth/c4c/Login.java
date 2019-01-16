@@ -32,6 +32,7 @@ import mhealth.c4c.AccessServer.AccessServer;
 import mhealth.c4c.Checkinternet.CheckInternet;
 import mhealth.c4c.LoadMessages.LoadMessages;
 import mhealth.c4c.RequestPermissions.RequestPerms;
+import mhealth.c4c.SSLTrustCertificate.SSLTrust;
 import mhealth.c4c.Tables.Broadcastsmsrights;
 import mhealth.c4c.Tables.Partners;
 import mhealth.c4c.Tables.kmpdu;
@@ -69,6 +70,8 @@ public class Login extends AppCompatActivity {
         LoadRegistration();
 
         initialise();
+
+        SSLTrust.nuke();
 
         btnSigninListener();
         forgotPasswordListener();

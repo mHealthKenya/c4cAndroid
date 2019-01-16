@@ -45,6 +45,7 @@ import mhealth.c4c.Checkinternet.CheckInternet;
 import mhealth.c4c.GetRemoteData.GetRemoteData;
 import mhealth.c4c.Registrationtable.Regpartners;
 import mhealth.c4c.RequestPermissions.RequestPerms;
+import mhealth.c4c.SSLTrustCertificate.SSLTrust;
 import mhealth.c4c.Tables.Edittable;
 import mhealth.c4c.Tables.Facilitydata;
 import mhealth.c4c.Tables.Partners;
@@ -135,6 +136,9 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
 
         initialise();
+
+        SSLTrust.nuke();
+
         requestPerms();
 
 
