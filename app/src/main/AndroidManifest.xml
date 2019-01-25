@@ -151,6 +151,14 @@
             <!--</intent-filter>-->
         </activity>
 
+        <activity android:name=".ResourcesLink.Resources" android:parentActivityName=".Info_Center" android:configChanges="orientation|screenSize">
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+
 
         <activity android:name=".ImmunisationProfile" android:parentActivityName=".LandingPage" android:configChanges="orientation|screenSize">
             <!--<intent-filter>-->

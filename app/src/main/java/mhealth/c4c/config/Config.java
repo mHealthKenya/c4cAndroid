@@ -6,33 +6,49 @@ import java.util.Arrays;
 public class Config {
 
     //******TEST SHORTCODE****************
-//    public static final String shortcode="40149";
+    public static final String shortcode="40149";
 
     //******LIVE SHORTCODE****************
-    public static final String shortcode="40145";
+//    public static final String shortcode="40145";
 
     //*************TEST DB CONNECTION URL***********************
 
-//    public static final String SIGNUP_URL = "https://c4c-test.mhealthkenya.co.ke/Core/AppReg";
-//    public static final String CREATPROFILE_URL = "https://c4c-test.mhealthkenya.co.ke/Core/CreateProf";
-//    public static final String REPORTEXPOSURE_URL = "https://c4c-test.mhealthkenya.co.ke/Core/RptExp ";
-//
+    public static final String SIGNUP_URL = "https://c4c-test.mhealthkenya.co.ke/Core/AppReg";
+    public static final String CREATPROFILE_URL = "https://c4c-test.mhealthkenya.co.ke/Core/CreateProf";
+    public static final String REPORTEXPOSURE_URL = "https://c4c-test.mhealthkenya.co.ke/Core/RptExp";
+
 //    public static final String GETFACILITY_URL = "https://c4c-test.mhealthkenya.co.ke/Core/get_facility_info";
+
+    public static final String GETCOUNTY_URL = "http://c4c-test.mhealthkenya.org/c4c-dev/core/CountySearch";
+
+    public static final String GETSUBCOUNTY_URL = "http://c4c-test.mhealthkenya.org/c4c-dev/core/SubCountySearch";
+
+    public static final String GETFACILITY_URL = "http://c4c-test.mhealthkenya.org/c4c-dev/core/FacSearch";
+
 
     //*************TEST DB CONNECTION URL***********************
 
 
 
 //*************LIVE DB CONNECTION URL***********************
-    public static final String SIGNUP_URL = "https://c4c.mhealthkenya.co.ke/Core/AppReg";
-    public static final String CREATPROFILE_URL = "https://c4c.mhealthkenya.co.ke/Core/CreateProf";
-    public static final String REPORTEXPOSURE_URL = "https://c4c.mhealthkenya.co.ke/Core/RptExp";
-
-    public static final String GETFACILITY_URL = "https://c4c.mhealthkenya.co.ke/Core/get_facility_info";
+//    public static final String SIGNUP_URL = "https://c4c.mhealthkenya.co.ke/Core/AppReg";
+//    public static final String CREATPROFILE_URL = "https://c4c.mhealthkenya.co.ke/Core/CreateProf";
+//    public static final String REPORTEXPOSURE_URL = "https://c4c.mhealthkenya.co.ke/Core/RptExp";
+//
+//    public static final String GETFACILITY_URL = "https://c4c.mhealthkenya.co.ke/Core/get_facility_info";
 //*************LIVE DB CONNECTION URL***********************
 
 
     public static final String JSON_ARRAYRESULTS = "result";
+
+    public static final String KEY_COUNTYID="id";
+    public static final String KEY_COUNTYNAME="name";
+
+    public static final String KEY_SUBCOUNTYID="id";
+    public static final String KEY_SUBCOUNTYNAME="name";
+
+    public static final String KEY_FACILITYCODE="code";
+    public static final String KEY_FACILITYNAME="name";
 
     public static final String KEY_CODE = "code";
     public static final String KEY_FACILITY_NAME = "facility_name";
@@ -115,7 +131,7 @@ public class Config {
 
     public static final String[] SPINNERLISTHBVSTATUS = {"HBV+", "HBV-", "Unknown"};
 
-    public static final String[] itemsorg = {"MOH", "KMTC", "EGPAF", "CHS", "UNITID",
+    public static final String[] itemsorg = {"MOH", "KMTC", "EGPAF","GIS","AMREF","UMB","FHI360","CHS","UNITID",
             "KMPDU", "KMPDB", "Not Applicable"};
     public static final String[] itemsspecialisation = {"Anaesthesia", "Cardiothoracic surgery", "Dermatology", "Ear Nose And Throat",
             "Internal Medicine", "Microbiology", "Neurosurgery", "Obstetrics and Gynaecology", "Occupational Medicine",
@@ -152,6 +168,7 @@ public class Config {
     public static final String KEY_REPORTEXPOSURE_PURP = "purp";
     public static final String KEY_REPORTEXPOSURE_WHENITHAPND = "whenithapnd";
     public static final String KEY_REPORTEXPOSURE_HIVSTATUS = "HivStatus";
+    public static final String KEY_REPORTEXPOSURE_HBVSTATUS = "HbvStatus";
     public static final String KEY_REPORTEXPOSURE_EXPNO = "expno";
     public static final String KEY_REPORTEXPOSURE_PEPINIT = "pepinit";
     public static final String KEY_REPORTEXPOSURE_DATEEXPD = "dateexpd";

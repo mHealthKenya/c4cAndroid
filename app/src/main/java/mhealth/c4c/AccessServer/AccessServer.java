@@ -31,6 +31,7 @@ import mhealth.c4c.Login;
 import mhealth.c4c.ProgressOld;
 import mhealth.c4c.R;
 import mhealth.c4c.Registrationdatatable;
+import mhealth.c4c.Report;
 import mhealth.c4c.Tables.Broadcastsmsrights;
 import mhealth.c4c.Tables.kmpdu;
 import mhealth.c4c.config.Config;
@@ -367,7 +368,7 @@ public class AccessServer {
 
 
 
-    public void reportExposure(final String eloc , final String etype, final String purp,final String whenithapnd,final String HivStatus,final String expno,final String pepinit,final String dateexpd,final String device,final String deviceSafety,final String deep,final String datepep,final String expresult,final String phone_no) {
+    public void reportExposure(final String eloc , final String etype, final String purp,final String whenithapnd,final String HivStatus,final String hbvstatus,final String expno,final String pepinit,final String dateexpd,final String device,final String deviceSafety,final String deep,final String datepep,final String expresult,final String phone_no) {
 
         pr.showProgress("reporting exposure....");
 
@@ -377,9 +378,18 @@ public class AccessServer {
                     public void onResponse(String response) {
 
                         pr.dissmissProgress();
-                        Toast.makeText(ctx, "response "+response, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(ctx, "response "+response, Toast.LENGTH_SHORT).show();
                         System.out.println("*************response exposure****************");
                         System.out.println(response);
+
+                        Intent i = new Intent(ctx, LandingPage.class);
+                        // Closing all the Activities
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                        ctx.startActivity(i);
+                        ((Report)ctx).finish();
 //                        CreatprofilesuccessDialog("success creating profile",device);
 
 
@@ -389,10 +399,33 @@ public class AccessServer {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ctx, "error "+error, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(ctx, "error "+error, Toast.LENGTH_SHORT).show();
                         pr.dissmissProgress();
                         System.out.println("*************response exposure****************");
                         System.out.println(error);
+
+                        //send sms to the server
+
+                        String Message="Rep*"+ Base64Encoder.encryptString(eloc+"*"+etype+"*"+purp+"*"+whenithapnd+"*"+HivStatus+"*"+hbvstatus+"*"+expno+"*"+pepinit+"*"+dateexpd+"*"+device+"*"+deviceSafety+"*"+deep+"*"+datepep+"*"+expresult);
+//                        String Message = "Rep*"+where+"*"+nature+"*"+myhour;
+
+                        SmsManager sm = SmsManager.getDefault();
+                        ArrayList<String> parts = sm.divideMessage(Message);
+
+                        sm.sendMultipartTextMessage(Config.shortcode, null, parts, null, null);
+
+                        Intent i = new Intent(ctx, LandingPage.class);
+                        // Closing all the Activities
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                        ctx.startActivity(i);
+                        ((Report)ctx).finish();
+
+
+                        //send sms to the server
+
 
 
                     }
@@ -412,6 +445,7 @@ public class AccessServer {
                 params.put(Config.KEY_REPORTEXPOSURE_EXPNO, expno);
                 params.put(Config.KEY_REPORTEXPOSURE_EXPRESULT, expresult);
                 params.put(Config.KEY_REPORTEXPOSURE_HIVSTATUS, HivStatus);
+                params.put(Config.KEY_REPORTEXPOSURE_HBVSTATUS, hbvstatus);
                 params.put(Config.KEY_REPORTEXPOSURE_PEPINIT, pepinit);
                 params.put(Config.KEY_REPORTEXPOSURE_PURP, purp);
                 params.put(Config.KEY_REPORTEXPOSURE_WHENITHAPND, whenithapnd);
@@ -441,7 +475,7 @@ public class AccessServer {
                     public void onResponse(String response) {
 
                         pr.dissmissProgress();
-                        Toast.makeText(ctx, "response "+response, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(ctx, "response "+response, Toast.LENGTH_SHORT).show();
                         CreatprofilesuccessDialog("success creating profile",kmpduchecked);
 
 
@@ -451,7 +485,7 @@ public class AccessServer {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ctx, "error "+error, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ctx, "Check your internet and try again", Toast.LENGTH_SHORT).show();
                         pr.dissmissProgress();
 
 

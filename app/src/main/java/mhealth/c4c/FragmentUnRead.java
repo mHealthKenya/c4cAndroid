@@ -237,7 +237,7 @@ public class FragmentUnRead extends Fragment {
                                     ms.getId();
                                     ms.setRead("read");
                                     ms.setDateRead(mytime);
-//                    Toast.makeText(getActivity(), "id: "+ms.getId(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getActivity(), "id: "+ms.getCode(), Toast.LENGTH_SHORT).show();
                                     ms.save();
                                 }
 

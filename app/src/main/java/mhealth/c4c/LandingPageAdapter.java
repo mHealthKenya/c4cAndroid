@@ -136,16 +136,16 @@ public class LandingPageAdapter extends RecyclerView.Adapter<LandingPageAdapter.
 
     private String[] titles2 = {
             "REPORT EXPOSURE",
-            "ANNUAL CHECK UP & VACCINATION SCHEDULE",
-            "BROADCAST SMS",
             "IMMUNISATION PROFILE",
+            "BROADCAST SMS",
+            "ANNUAL CHECK UP & VACCINATION SCHEDULE",
             "INFORMATION CENTER"
             };
 
     private String[] titles2nobroadcast = {
             "REPORT EXPOSURE",
-            "ANNUAL CHECK UP & VACCINATION SCHEDULE",
             "IMMUNISATION PROFILE",
+            "ANNUAL CHECK UP & VACCINATION SCHEDULE",
             "INFORMATION CENTER"
     };
 
@@ -393,7 +393,7 @@ public class LandingPageAdapter extends RecyclerView.Adapter<LandingPageAdapter.
                     });
                 }
 
-                else if(i==1) {
+                else if(i==3) {
                     viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -424,7 +424,7 @@ public class LandingPageAdapter extends RecyclerView.Adapter<LandingPageAdapter.
                     });
                 }
 
-                else if(i==3) {
+                else if(i==1) {
                     viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

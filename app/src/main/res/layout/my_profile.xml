@@ -24,7 +24,7 @@
             android:layout_height="wrap_content" />
 
 
-    <!--start mfl code edit-->
+    <!--start mfl id edit-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content">
             <TextView
                 android:layout_width="match_parent"
-                android:text="Existing mfl code"
+                android:text="Existing mfl id"
                 android:textStyle="bold"
                 android:layout_weight="1"
                 android:layout_height="wrap_content" />
@@ -42,7 +42,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_weight="1"
-                android:text="Existing mfl code"
+                android:text="Existing mfl id"
                 android:id="@+id/existingmfl"
                 android:layout_height="wrap_content" />
 
@@ -56,21 +56,21 @@
             android:layout_height="wrap_content">
             <TextView
                 android:layout_width="match_parent"
-                android:text="New mfl code"
+                android:text="New mfl id"
                 android:textStyle="bold"
                 android:layout_weight="1"
                 android:layout_height="wrap_content" />
 
             <EditText
                 android:layout_width="match_parent"
-                android:hint="New mfl code"
+                android:hint="New mfl id"
                 android:layout_weight="1"
                 android:id="@+id/newmfl"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
 
-        <!--end mfl code edit-->
+        <!--end mfl id edit-->
 
 
         <!--start phonenumber edit-->

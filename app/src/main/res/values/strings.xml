@@ -54,7 +54,7 @@
     <string name="Full_name">Enter your full name</string>
     <string name="ID_no">Enter your ID number</string>
     <string name="DOB">Date of Birth</string>
-    <string name="MFL">Hospital MFL code</string>
+    <string name="MFL">Hospital MFL id</string>
     <string name="Gender">Gender</string>
     <string name="Male">Male</string>
     <string name="Female">Female</string>

@@ -12,7 +12,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import mhealth.c4c.CardViewActivity;
+import mhealth.c4c.Info_Center;
 import mhealth.c4c.R;
+import mhealth.c4c.ResourcesLink.Resources;
 import mhealth.c4c.faqrecyclerview.FaqMainActivityRecycler;
 import mhealth.c4c.ucsfrecyclerview.UcsfMainActivityRecycler;
 
@@ -104,6 +106,20 @@ public class CustomAdapter extends BaseAdapter {
 //                    Toast.makeText(context, "ucsf clicked", Toast.LENGTH_SHORT).show();
 
                     Intent myint=new Intent(context, UcsfMainActivityRecycler.class);
+                    context.startActivity(myint);
+
+
+                }
+
+                else if(position==4){
+
+//                    Uri uri = Uri.parse("http://www.nascop.or.ke"); // missing 'http://' will cause crashed
+//                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+//                    context.startActivity(intent);
+
+//                    Toast.makeText(context, "ucsf clicked", Toast.LENGTH_SHORT).show();
+
+                    Intent myint=new Intent(context, Resources.class);
                     context.startActivity(myint);
 
 

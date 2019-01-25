@@ -224,7 +224,7 @@
                 android:layout_height="wrap_content" />
         </android.support.design.widget.TextInputLayout>
 
-        <!--mflcode here-->
+        <!--mflid here-->
 
         <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
             android:id="@+id/county_txt"
@@ -269,7 +269,7 @@
             android:layout_height="wrap_content" />
 
 
-        <!--mflcode here-->
+        <!--mflid here-->
 
 
 

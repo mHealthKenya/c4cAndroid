@@ -27,15 +27,26 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.facebook.stetho.Stetho;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import in.galaxyofandroid.spinerdialog.OnSpinerItemClick;
@@ -56,6 +67,13 @@ import mhealth.c4c.config.Config;
 import mhealth.c4c.dateCalculator.DateCalculator;
 import mhealth.c4c.dialogs.Dialogs;
 import mhealth.c4c.encryption.Base64Encoder;
+import mhealth.c4c.models.CountyModel;
+import mhealth.c4c.models.FacilityModel;
+import mhealth.c4c.models.SubCountyModel;
+import mhealth.c4c.progress.Progress;
+
+import static com.android.volley.Request.Method.GET;
+import static com.android.volley.Request.Method.POST;
 
 /**
  * Created by KENWEEZY on 2016-10-31.
@@ -71,6 +89,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     TextView specialisel, cadrel;
 
     String selectedspecialisation;
+    Progress pr;
 
 
     RadioButton radiobtnseconddose;
@@ -94,6 +113,10 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     final ArrayList itemsSelected = new ArrayList();
     final ArrayList itemsSelectedSpecialisation = new ArrayList();
 
+    private ArrayList<CountyModel> countyList;
+    private ArrayList<SubCountyModel> subcountyList;
+    private ArrayList<FacilityModel> facilityList;
+    private JSONArray id_county_result,id_subcounty_result,id_facility_result;
     String passedkmpdu;
 
 
@@ -141,6 +164,12 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
         requestPerms();
 
+        countyList.clear();
+        getCounties();
+
+
+        setSpinnerCountyListener();
+        setSpinnerSubCountyListener();
 
 
 
@@ -167,15 +196,21 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
 
 
-    public void addListenerToFacilitySpinnerEdt(List<Facilitydata> myl){
+    public void addListenerToFacilitySpinnerEdt(){
 
         try{
 
 
+
+
+            System.out.println("***************facility lists***************");
+            System.out.println(facilityList);
+
+
            final ArrayList<String> y = new ArrayList<>();
 
-            for (int x = 0; x < myl.size(); x++) {
-                String faciityname = myl.get(x).getFacilityname();
+            for (int x = 0; x < facilityList.size(); x++) {
+                String faciityname = facilityList.get(x).getName();
                 y.add(faciityname);
 
             }
@@ -199,6 +234,44 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
                     spinnerDialog.showSpinerDialog();
 
+//
+//                    ArrayList<String> items=new ArrayList<>();
+//                    items.add("Mumbai");
+//                    items.add("Delhi");
+//                    items.add("Bengaluru");
+//                    items.add("Hyderabad");
+//                    items.add("Ahmedabad");
+//                    items.add("Chennai");
+//                    items.add("Kolkata");
+//                    items.add("Surat");
+//                    items.add("Pune");
+//                    items.add("Jaipur");
+//                    items.add("Lucknow");
+//                    items.add("Kanpur");
+//
+//                    final ArrayList<String> y = new ArrayList<>();
+//
+//                    for (int x = 0; x < facilityList.size(); x++) {
+//                        String faciityname = facilityList.get(x).getName();
+//                        y.add(faciityname);
+//
+//                    }
+//
+//
+//                    //            spinnerDialog=new SpinnerDialog(CreateUser.this,items,"Select or Search City","Close Button Text");// With No Animation
+//                    spinnerDialog=new SpinnerDialog(CreateUser.this,y,"Select or Search City",R.style.DialogAnimations_SmileWindow,"Close Button Text");// With 	Animation
+//
+//
+//                    spinnerDialog.bindOnSpinerListener(new OnSpinerItemClick() {
+//                        @Override
+//                        public void onClick(String item, int position) {
+//                            Toast.makeText(CreateUser.this, item + "  " + position+"", Toast.LENGTH_SHORT).show();
+////                    selectedItems.setText(item + " Position: " + position);
+//                        }
+//                    });
+//
+//                    spinnerDialog.showSpinerDialog();
+
                 }
             });
         }
@@ -218,17 +291,20 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     @Override
     protected void onResume() {
         super.onResume();
-        setFacilitySpinnerData();
+//        setFacilitySpinnerData();
+//        getCounties();
     }
 
     public void setFacilitySpinnerData() {
 
         try {
 
-            getRemoteData();
+//            getRemoteData();
 
-            setCountyAdapter();
-            setSpinnerCountyListener();
+//            getCounties();
+//
+//            setCountyAdapter();
+//            setSpinnerCountyListener();
 
             setSpinnerAdapters();
         } catch (Exception e) {
@@ -243,7 +319,9 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
         super.onUserInteraction();
 //        just to make sure there is always data shown on our county list
         setCountyAdapter();
-        setSpinnerCountyListener();
+        setSub1CountyAdapter();
+//        setFac1Adapter();
+//        setSpinnerCountyListener();
         setSpinnerAdapters();
     }
 
@@ -254,6 +332,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
         try {
             ctyM.setAdapter(arrayAdapterCounty);
+            sbctyM.setAdapter(arrayAdapterSubCounty);
 
 
         } catch (Exception e) {
@@ -282,16 +361,30 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                 public void afterTextChanged(Editable s) {
 
                     selectedCty = ctyM.getText().toString();
+
+//                    Toast.makeText(CreateUser.this, ""+selectedCty, Toast.LENGTH_SHORT).show();
+
                     sbctyM.setVisibility(View.VISIBLE);
-                    List<Facilitydata> myl = Facilitydata.findWithQuery(Facilitydata.class, "select * from Facilitydata where countyname=? group by subcountyname", selectedCty);
-                    setSubCountyAdapter(myl);
+                    sbctyM.setText("");
+
+//                    List<Facilitydata> myl = Facilitydata.findWithQuery(Facilitydata.class, "select * from Facilitydata where countyname=? group by subcountyname", selectedCty);
+
+                    sbctyM.setVisibility(View.VISIBLE);
+                    subcountyList.clear();
+                    getSubCounties(selectedCty);
+
+//                    setSubCountyAdapter(subcountyList);
+
+                    //                    subcountyList.clear();
+//                    getSubCounties(selectedCty);
+//
+//                    setSubCountyAdapter(subcountyList);
 //                    for(int x=0;x<myl.size();x++){
 //                        String countyId=myl.get(x).getCountyid();
 //                        setSubCountyAdapter(countyId);
 //                    }
 
-                    sbctyM.setAdapter(arrayAdapterSubCounty);
-                    setSpinnerSubCountyListener();
+
 
                 }
             });
@@ -323,11 +416,13 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                 public void afterTextChanged(Editable s) {
 
                     selectedSbcty = sbctyM.getText().toString();
+//                    Toast.makeText(CreateUser.this, ""+selectedSbcty, Toast.LENGTH_SHORT).show();
 
 
 
-                    List<Facilitydata> myl = Facilitydata.findWithQuery(Facilitydata.class, "select * from Facilitydata where subcountyname=? group by facilityname", selectedSbcty);
-                    setFacilityAdapter(myl);
+
+//                    List<Facilitydata> myl = Facilitydata.findWithQuery(Facilitydata.class, "select * from Facilitydata where subcountyname=? group by facilityname", selectedSbcty);
+//                    setFacilityAdapter(myl);
 //                    for(int x=0;x<myl.size();x++){
 //                        String countyId=myl.get(x).getCountyid();
 //                        setSubCountyAdapter(countyId);
@@ -337,8 +432,23 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
 
                     facilitySpinnerEdt.setVisibility(View.VISIBLE);
+                    facilitySpinnerEdt.setText("");
 
-                    addListenerToFacilitySpinnerEdt(myl);
+
+                    facilityList.clear();
+                    getFacilities(selectedSbcty);
+
+//                    setFacilityAdapter();
+
+//                    for(int x=0;x<myl.size();x++){
+//                        String countyId=myl.get(x).getCountyid();
+//                        setSubCountyAdapter(countyId);
+//                    }
+
+
+
+
+
 
 
                 }
@@ -351,26 +461,66 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     }
 
 
-    public void setSubCountyAdapter(List<Facilitydata> myl) {
+
+    public void setsbCountyAdapter() {
 
         try {
 
-            ArrayList<String> y = new ArrayList<>();
 
-            for (int x = 0; x < myl.size(); x++) {
-                String sbctyname = myl.get(x).getSubcountyname();
-                y.add(sbctyname);
+            ArrayList<String> x = new ArrayList<>();
+            x.clear();
 
+            for(int x1=0;x1<countyList.size();x1++){
+                x.add(countyList.get(x1).getName());
             }
 
+//            List<Facilitydata> myl = Facilitydata.findWithQuery(Facilitydata.class, "select * from Facilitydata group by countyname");
+//            System.out.println("************getting countyies**************");
+//            if (myl.size() > 0) {
+//
+//                for (int y = 0; y < myl.size(); y++) {
+//                    x.add(myl.get(y).getCountyname());
+//                    System.out.println(myl.get(y).getCountyname());
+//
+//                }
+//
+//
+//            }
 
-            arrayAdapterSubCounty = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_list_item_checked, y);
+
+            arrayAdapterCounty = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_list_item_checked, x);
         } catch (Exception e) {
 
 
         }
     }
+
+//
+//    public void setSubCountyAdapter(ArrayList<SubCountyModel> sbctyList) {
+//
+//        try {
+//
+//            ArrayList<String> y = new ArrayList<>();
+//
+//            for (int x = 0; x < sbctyList.size(); x++) {
+//                String sbctyname = sbctyList.get(x).getName();
+//                y.add(sbctyname);
+//
+//            }
+//
+//
+//            arrayAdapterSubCounty = new ArrayAdapter<String>(this,
+//                    android.R.layout.simple_list_item_checked, y);
+//
+//
+//            sbctyM.setAdapter(arrayAdapterSubCounty);
+//            setSpinnerSubCountyListener();
+//        } catch (Exception e) {
+//
+//
+//        }
+//    }
 
 
     public void setSearchSpinnerAdapter(ArrayList<String> y) {
@@ -391,14 +541,14 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
 
 
-    public void setFacilityAdapter(List<Facilitydata> myl) {
+    public void setFacilityAdapter() {
 
         try {
 
             ArrayList<String> y = new ArrayList<>();
 
-            for (int x = 0; x < myl.size(); x++) {
-                String faciityname = myl.get(x).getFacilityname();
+            for (int x = 0; x < facilityList.size(); x++) {
+                String faciityname = facilityList.get(x).getName();
                 y.add(faciityname);
 
             }
@@ -420,23 +570,90 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     //set county spinner logic here
 
 
+
+    public void setFac1Adapter() {
+
+        try {
+
+
+            ArrayList<String> y = new ArrayList<>();
+
+            for (int x = 0; x < facilityList.size(); x++) {
+                String faciityname = facilityList.get(x).getName();
+                y.add(faciityname);
+
+            }
+
+
+            arrayAdapterFacility = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_list_item_checked, y);
+            arrayAdapterFacility.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        } catch (Exception e) {
+
+
+        }
+    }
+
+    public void setSub1CountyAdapter() {
+
+        try {
+
+
+            ArrayList<String> x = new ArrayList<>();
+            x.clear();
+
+            for(int x1=0;x1<subcountyList.size();x1++){
+                x.add(subcountyList.get(x1).getName());
+            }
+
+//            List<Facilitydata> myl = Facilitydata.findWithQuery(Facilitydata.class, "select * from Facilitydata group by countyname");
+//            System.out.println("************getting countyies**************");
+//            if (myl.size() > 0) {
+//
+//                for (int y = 0; y < myl.size(); y++) {
+//                    x.add(myl.get(y).getCountyname());
+//                    System.out.println(myl.get(y).getCountyname());
+//
+//                }
+//
+//
+//            }
+
+
+            arrayAdapterSubCounty = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_list_item_checked, x);
+        } catch (Exception e) {
+
+
+        }
+    }
+
+
     public void setCountyAdapter() {
 
         try {
+
+
             ArrayList<String> x = new ArrayList<>();
+            x.clear();
 
-            List<Facilitydata> myl = Facilitydata.findWithQuery(Facilitydata.class, "select * from Facilitydata group by countyname");
-            System.out.println("************getting countyies**************");
-            if (myl.size() > 0) {
-
-                for (int y = 0; y < myl.size(); y++) {
-                    x.add(myl.get(y).getCountyname());
-                    System.out.println(myl.get(y).getCountyname());
-
-                }
-
-
+            for(int x1=0;x1<countyList.size();x1++){
+                x.add(countyList.get(x1).getName());
             }
+
+//            List<Facilitydata> myl = Facilitydata.findWithQuery(Facilitydata.class, "select * from Facilitydata group by countyname");
+//            System.out.println("************getting countyies**************");
+//            if (myl.size() > 0) {
+//
+//                for (int y = 0; y < myl.size(); y++) {
+//                    x.add(myl.get(y).getCountyname());
+//                    System.out.println(myl.get(y).getCountyname());
+//
+//                }
+//
+//
+//            }
 
 
             arrayAdapterCounty = new ArrayAdapter<String>(this,
@@ -575,10 +792,10 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
         try {
 
 
-            final boolean selected[] = new boolean[]{false, false, false, false, false, false, false, false};
+            final boolean selected[] = new boolean[]{false, false, false, false, false, false, false, false,false,false,false,false};
 
             android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
-            builder.setTitle("Select Your Partner Organisation : ");
+            builder.setTitle("Select Your Affiliation:");
             builder.setMultiChoiceItems(Config.itemsorg, selected,
                     new DialogInterface.OnMultiChoiceClickListener() {
                         @Override
@@ -601,24 +818,24 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
                                 }
 
-                                if (selected[6]) {//check for Not Applicable
+                                if (selected[11]) {//check for Not Applicable
 
                                     for (int x = 0; x < selected.length; x++) {
 
                                         itemsSelected.remove(Integer.valueOf(x));
                                         selected[x] = false;
                                         ((android.app.AlertDialog) dialog).getListView().setItemChecked(x, false);
-                                        if (x == 6) {
-                                            selected[6] = true;
-                                            itemsSelected.add(6);
+                                        if (x == 11) {
+                                            selected[11] = true;
+                                            itemsSelected.add(11);
 
-                                            ((android.app.AlertDialog) dialog).getListView().setItemChecked(6, true);
+                                            ((android.app.AlertDialog) dialog).getListView().setItemChecked(10, true);
 //                                            continue;
                                         }
                                     }
 
 
-                                } else if (selected[5]) {
+                                } else if (selected[9]) {
 
 
                                     kmpduChecked = true;
@@ -637,7 +854,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                                     cadrel.setVisibility(View.GONE);
 
 
-                                } else if (!selected[5]) {//if kmpdu is not checked
+                                } else if (!selected[9]) {//if kmpdu is not checked
                                     kmpduChecked = false;
                                     dunumber.setVisibility(View.GONE);
 
@@ -662,7 +879,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                                 itemsSelected.remove(Integer.valueOf(selectedItemId));
                                 selected[selectedItemId] = false;
 
-                                if (selectedItemId == 5) { //check for kmpdu if unchecked
+                                if (selectedItemId == 9) { //check for kmpdu if unchecked
 
 
                                     kmpduChecked = false;
@@ -820,6 +1037,11 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     public void initialise() {
 
         try {
+
+            pr=new Progress(CreateUser.this);
+            countyList=new ArrayList<>();
+            facilityList=new ArrayList<>();
+            subcountyList=new ArrayList<>();
 
             requestPerms=new RequestPerms(CreateUser.this,this);
             chkInternet=new CheckInternet(CreateUser.this);
@@ -1120,14 +1342,17 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                     mymfl = selectedFacility;
                     duns = "-1";
 
+                    checkFacilityCode(myidno, myage, mymfl, partners, duns, selectedspecialisation);
 
-                    List<Facilitydata> myl = Facilitydata.findWithQuery(Facilitydata.class, "select * from Facilitydata where facilityname=? limit 1", mymfl);
-                    for (int d = 0; d < myl.size(); d++) {
 
-                        String newmflcode = myl.get(d).getMflcode();
-                        checkFacilityCode(myidno, myage, newmflcode, partners, duns, selectedspecialisation);
 
-                    }
+//                    List<Facilitydata> myl = Facilitydata.findWithQuery(Facilitydata.class, "select * from Facilitydata where facilityname=? limit 1", mymfl);
+//                    for (int d = 0; d < myl.size(); d++) {
+//
+//                        String newmflcode = myl.get(d).getMflcode();
+//                        checkFacilityCode(myidno, myage, newmflcode, partners, duns, selectedspecialisation);
+//
+//                    }
 
                 }
 
@@ -1490,4 +1715,325 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     public boolean isTextValid(String textToCheck) {
         return textPattern.matcher(textToCheck).matches();
     }
+
+
+
+
+
+
+    //***********************************function to get data from server*************************/
+
+
+    public void getCounties(){
+
+
+        try{
+
+            pr.showProgress("getting counties....");
+
+
+            StringRequest stringRequest = new StringRequest(GET,Config.GETCOUNTY_URL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+//                            pd.dismissDialog();
+
+                            pr.dissmissProgress();
+
+                            JSONObject j = null;
+                            try {
+                                j = new JSONObject(response);
+                                id_county_result = j.getJSONArray(Config.JSON_ARRAYRESULTS);
+
+                                getMyCounties(id_county_result);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+//                                Toast.makeText(getActivity(), "error getting results "+e, Toast.LENGTH_SHORT).show();
+
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+
+//                            pd.dismissDialog();
+                            pr.dissmissProgress();
+
+                            Toast.makeText(getApplicationContext(), "Check your internet connection and try again", Toast.LENGTH_SHORT).show();
+
+//                            Toast.makeText(getApplicationContext(), "error occured "+error, Toast.LENGTH_SHORT).show();
+
+                        }
+                    })
+
+            {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<String, String>();
+
+//                    params.put(Config.KEY_BORROWINGSPOSTEMAIL, sessionEmail);
+
+                    return params;
+                }
+
+            };
+            RequestQueue requestQueue = Volley.newRequestQueue(CreateUser.this);
+            requestQueue.add(stringRequest);
+
+
+        }
+        catch(Exception e){
+
+//            Toast.makeText(CreateUser.this, "error getting BORROWINGS "+e, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+
+
+    private void getMyCounties(JSONArray j){
+
+        for(int i=0;i<j.length();i++){
+            try {
+                JSONObject json = j.getJSONObject(i);
+
+
+                String cid=json.getString(Config.KEY_COUNTYID);
+                String cname=json.getString(Config.KEY_COUNTYNAME);
+
+                System.out.println("********"+cname+"*******");
+
+                CountyModel bm= new CountyModel(cid,cname);
+
+                countyList.add(bm);
+
+
+
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+//                Toast.makeText(CreateUser.this, "an error getting counties "+ e, Toast.LENGTH_SHORT).show();
+            }
+        }
+
+
+    }
+
+
+
+
+
+    public void getSubCounties(final String ctyid){
+
+
+        try{
+
+            pr.showProgress("getting subcounties....");
+
+            StringRequest stringRequest = new StringRequest(POST,Config.GETSUBCOUNTY_URL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+//                            pd.dismissDialog();
+
+                            pr.dissmissProgress();
+                            System.out.println("**************responsess************");
+                            System.out.println(response);
+//                            Toast.makeText(CreateUser.this, ""+response, Toast.LENGTH_SHORT).show();
+
+                            JSONObject j = null;
+                            try {
+                                j = new JSONObject(response);
+                                id_subcounty_result = j.getJSONArray(Config.JSON_ARRAYRESULTS);
+
+                                getMySubCounties(id_subcounty_result);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+//                                Toast.makeText(getActivity(), "error getting results "+e, Toast.LENGTH_SHORT).show();
+
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+
+//                            pd.dismissDialog();
+                            pr.dissmissProgress();
+
+                            Toast.makeText(getApplicationContext(), "Check your internet connection and try again", Toast.LENGTH_SHORT).show();
+
+//                            Toast.makeText(getApplicationContext(), "error occured "+error, Toast.LENGTH_SHORT).show();
+
+                        }
+                    })
+
+            {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<String, String>();
+
+                    params.put("cntyID", ctyid);
+
+                    return params;
+                }
+
+            };
+            RequestQueue requestQueue = Volley.newRequestQueue(CreateUser.this);
+            requestQueue.add(stringRequest);
+
+
+        }
+        catch(Exception e){
+
+//            Toast.makeText(CreateUser.this, "error getting subcounties "+e, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+
+
+    private void getMySubCounties(JSONArray j){
+
+        for(int i=0;i<j.length();i++){
+            try {
+                JSONObject json = j.getJSONObject(i);
+
+
+                String scid=json.getString(Config.KEY_SUBCOUNTYID);
+                String scname=json.getString(Config.KEY_SUBCOUNTYNAME);
+                System.out.println("name:"+scname);
+                System.out.println("id: "+scid);
+
+                SubCountyModel bm= new SubCountyModel(scid,scname);
+
+                subcountyList.add(bm);
+
+
+
+
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+//                Toast.makeText(CreateUser.this, "an error getting subcounties "+ e, Toast.LENGTH_SHORT).show();
+            }
+        }
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    public void getFacilities(final String sbctyid){
+
+
+        try{
+
+            pr.showProgress("getting facilities...");
+
+            StringRequest stringRequest = new StringRequest(POST,Config.GETFACILITY_URL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+//                            pd.dismissDialog();
+
+                            System.out.println("**************facilities*********************");
+                            System.out.println(response);
+
+                            pr.dissmissProgress();
+
+                            JSONObject j = null;
+                            try {
+                                j = new JSONObject(response);
+                                id_facility_result = j.getJSONArray(Config.JSON_ARRAYRESULTS);
+
+                                getMyFacilities(id_facility_result);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+//                                Toast.makeText(getActivity(), "error getting results "+e, Toast.LENGTH_SHORT).show();
+
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+
+//                            pd.dismissDialog();
+                            pr.dissmissProgress();
+
+                            Toast.makeText(getApplicationContext(), "Check your internet connection and try again", Toast.LENGTH_SHORT).show();
+
+                        }
+                    })
+
+            {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<String, String>();
+
+                    params.put("mfl", sbctyid);
+
+                    return params;
+                }
+
+            };
+            RequestQueue requestQueue = Volley.newRequestQueue(CreateUser.this);
+            requestQueue.add(stringRequest);
+
+
+        }
+        catch(Exception e){
+
+//            Toast.makeText(CreateUser.this, "error getting Facilities "+e, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+
+
+    private void getMyFacilities(JSONArray j){
+
+        for(int i=0;i<j.length();i++){
+            try {
+                JSONObject json = j.getJSONObject(i);
+
+
+                String fcode=json.getString(Config.KEY_FACILITYCODE);
+                String fname=json.getString(Config.KEY_FACILITYNAME);
+
+                FacilityModel bm= new FacilityModel(fcode,fname);
+
+                facilityList.add(bm);
+
+
+
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+//                Toast.makeText(CreateUser.this, "an error getting facilities "+ e, Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        addListenerToFacilitySpinnerEdt();
+
+
+    }
+
+    //***********************************function to get data from server*************************/
 }

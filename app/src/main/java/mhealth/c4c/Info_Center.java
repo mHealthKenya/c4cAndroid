@@ -35,8 +35,8 @@ public class Info_Center extends AppCompatActivity {
 
         itemImage = (ImageView) findViewById(R.id.arrow);
         listView = (ListView) findViewById(R.id.list);
-        String[] values = new String[]{"FAQ", "ART GUIDELINES", "NASCOP WEBSITE","NASCOP HIV Services M&E tools training course"};
-        int [] prgmImages={R.drawable.arrow,R.drawable.arrow,R.drawable.arrow,R.drawable.arrow};
+        String[] values = new String[]{"FAQ", "ART GUIDELINES", "NASCOP WEBSITE","NASCOP HIV Services M&E tools training course","RESOURCES LINKS"};
+        int [] prgmImages={R.drawable.arrow,R.drawable.arrow,R.drawable.arrow,R.drawable.arrow,R.drawable.arrow};
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 R.layout.info_center_row, R.id.label, values);

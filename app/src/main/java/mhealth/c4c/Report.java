@@ -6,6 +6,7 @@ package mhealth.c4c;
 
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -37,7 +38,7 @@ public class Report extends AppCompatActivity {
 
     private ArrayAdapter<String> arrayAdapterWhere,arrayAdapterWhat,arrayAdapterDevice,arrayAdapterSafety,arrayAdapterAuto,arrayAdapterDeep,arrayAdapterPurpose,arrayAdapterHiv,arrayAdapterHbv,arrayAdapterWhen,arrayAdapterPepInit,arrayAdapterExposureResult;
 
-    private EditText datetimeofexposureE,otherWhereE,otherWhatE,otherDeviceE,otherSafetyE,otherAutoE,otherPurposeE,otherWhenE,dateTimeOfPepInitE,otherExposureResult,numberofexposuresE;
+    private EditText datetimeofexposureE,otherWhereE,otherWhatE,otherDeviceE,otherSafetyE,otherAutoE,otherPurposeE,otherWhenE,dateTimeOfPepInitE,otherExposureResult,numberofexposuresE,phonereportE;
     Dialogs sweetdialog;
     DateTimePicker dtp;
 
@@ -422,8 +423,17 @@ public class Report extends AppCompatActivity {
                         }
 
                         if(chkInternet.isInternetAvailable()){
+                            String myphone="";
+                            if(phonereportE.getText().toString().isEmpty()){
 
-                            accessServer.reportExposure(where,what,purpose,when,HivStatus,numberofexposures,pepinit,dateofexposure,device,deviceSafety,deep,dateofpepinit,exposureresult,"0713559850");
+                                myphone="-1";
+
+                            }
+                            else{
+                                myphone=phonereportE.getText().toString();
+                            }
+
+                            accessServer.reportExposure(where,what,purpose,when,HivStatus,HbvStatus,numberofexposures,pepinit,dateofexposure,device,deviceSafety,deep,dateofpepinit,exposureresult,myphone);
                             clearFields();
 
                         }
@@ -436,8 +446,19 @@ public class Report extends AppCompatActivity {
                             ArrayList<String> parts = sm.divideMessage(Message);
 
                             sm.sendMultipartTextMessage(Config.shortcode, null, parts, null, null);
+                            Toast.makeText(Report.this, "Successfully submitted", Toast.LENGTH_SHORT).show();
+//                            sweetdialog.showSuccessDialogReportExposure("Successfully submitted","");
 
                             clearFields();
+
+                            Intent i = new Intent(getApplicationContext(), LandingPage.class);
+                            // Closing all the Activities
+                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                            startActivity(i);
+                            finish();
 
 
                         }
@@ -447,7 +468,6 @@ public class Report extends AppCompatActivity {
 
 //                        SignupsuccessDialog("");
 
-                        sweetdialog.showSuccessDialogReportExposure("Successfully submitted","");
 
 
                     }
@@ -498,6 +518,7 @@ public class Report extends AppCompatActivity {
     public void initialise(){
 
         try{
+            phonereportE=(EditText) findViewById(R.id.phonereport);
             chkInternet=new CheckInternet(Report.this);
             accessServer=new AccessServer(Report.this);
             dateTimeOfPepInitE=(EditText) findViewById(R.id.datetimeofpepinitiation);

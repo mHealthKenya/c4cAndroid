@@ -388,7 +388,7 @@ public class BroadcastSms extends AppCompatActivity implements AdapterView.OnIte
         // On selecting a spinner item
         Spinner spin=(Spinner) parent;
 
-//        if(spin.getId()==R.id.cadrespinner){
+//        if(spin.getCode()==R.id.cadrespinner){
 //
 //            selectedCadre=position;
 //            System.out.println("selected cadre is "+selectedCadre);
