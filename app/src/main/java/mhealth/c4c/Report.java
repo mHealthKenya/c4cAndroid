@@ -24,11 +24,14 @@ import android.widget.Toast;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import mhealth.c4c.AccessServer.AccessServer;
 import mhealth.c4c.Checkinternet.CheckInternet;
 import mhealth.c4c.DateTimePicker.DateTimePicker;
 import mhealth.c4c.SSLTrustCertificate.SSLTrust;
+import mhealth.c4c.Tables.Userphonenumber;
 import mhealth.c4c.config.Config;
 import mhealth.c4c.dialogs.Dialogs;
 import mhealth.c4c.encryption.Base64Encoder;
@@ -38,7 +41,7 @@ public class Report extends AppCompatActivity {
 
     private ArrayAdapter<String> arrayAdapterWhere,arrayAdapterWhat,arrayAdapterDevice,arrayAdapterSafety,arrayAdapterAuto,arrayAdapterDeep,arrayAdapterPurpose,arrayAdapterHiv,arrayAdapterHbv,arrayAdapterWhen,arrayAdapterPepInit,arrayAdapterExposureResult;
 
-    private EditText datetimeofexposureE,otherWhereE,otherWhatE,otherDeviceE,otherSafetyE,otherAutoE,otherPurposeE,otherWhenE,dateTimeOfPepInitE,otherExposureResult,numberofexposuresE,phonereportE;
+    private EditText datetimeofexposureE,otherWhereE,otherWhatE,otherDeviceE,otherSafetyE,otherAutoE,otherPurposeE,otherWhenE,dateTimeOfPepInitE,otherExposureResult,numberofexposuresE;
     Dialogs sweetdialog;
     DateTimePicker dtp;
 
@@ -46,7 +49,7 @@ public class Report extends AppCompatActivity {
     MaterialBetterSpinner SpinnerWhat,SpinnerWhere,SpinnerDevice,SpinnerSafety,SpinnerExposureDeep,SpinnerPurpose,SpinnerWhen,SpinnerHiv,SpinnerHbv,SpinnerPepInit,SpinnerExposureResult;
     String selectedWhere,selectedWhat,otherWhere,otherWhat,selecteddevice,otherdevice,selectedSafety,othersafety,selectedautodisable,otherautodisable,selectedExposuredeep,selectedPurpose,otherpurpose,selectedWhen,otherwhen,selectedHivstatus,selectedHbvstatus,selectedPepinitS,selectedExposureResult,otherExposureResultS,datetimeofexposureS,datetimeofpepinitS,numberOfExposuresS;
 
-    LinearLayout llHidden,llhiddensafetydesign;
+    LinearLayout llHidden,llhiddensafetydesign,llpepinitiated;
     CheckInternet chkInternet;
     AccessServer accessServer;
     @Override
@@ -64,7 +67,14 @@ public class Report extends AppCompatActivity {
         setDateTimeOfPepInitListener();
         setSpinnerAdapters();
         setSpinnerWhereListener();
-        setSpinnerPepInitListener();
+
+//        if(llpepinitiated.isShown()){
+
+
+            setSpinnerPepInitListener();
+
+//        }
+
         setSpinnerWhatListener();
 
         setSpinnerPurposeListener();
@@ -73,12 +83,62 @@ public class Report extends AppCompatActivity {
         setSpinnerHbvstatusListener();
 
         submit();
+        setNumberOfExposuresListener();
 
 
 
 
 
 
+    }
+
+
+    private void setNumberOfExposuresListener(){
+
+        try{
+            numberofexposuresE.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    try{
+
+
+                        int val=Integer.parseInt(s.toString());
+                        if(val==0){
+
+                            llpepinitiated.setVisibility(View.GONE);
+
+                        }
+                        else{
+
+                            llpepinitiated.setVisibility(View.VISIBLE);
+                        }
+
+                    }
+                    catch(Exception e){
+
+                        llpepinitiated.setVisibility(View.GONE);
+                    }
+
+
+
+                }
+            });
+
+        }
+        catch(Exception e){
+
+
+        }
     }
 
 
@@ -131,6 +191,16 @@ public class Report extends AppCompatActivity {
 
                     datetimeofexposureS= datetimeofexposureE.getText().toString();
                     numberOfExposuresS=numberofexposuresE.getText().toString();
+
+
+                    String myphone="";
+
+                    List<Userphonenumber> myp=Userphonenumber.findWithQuery(Userphonenumber.class,"select * from Userphonenumber limit 1");
+                    for(int tp=0;tp<myp.size();tp++){
+
+                        String phne=myp.get(tp).getPhone();
+                        myphone="+254"+phne.substring(1);
+                    }
 
 
 
@@ -302,7 +372,7 @@ public class Report extends AppCompatActivity {
 //                        Toast.makeText(Report.this, "the nature of exposure is required", Toast.LENGTH_SHORT).show();
                     }
 
-                    else if(selectedPepinitS.trim().isEmpty()){
+                    else if(!numberofexposuresE.getText().toString().contentEquals("0") && selectedPepinitS.trim().isEmpty()){
 
                         sweetdialog.showErrorDialogReportExposure("Was pep initiated is required","Exposure Report Error");
 //                        Toast.makeText(Report.this, "the nature of exposure is required", Toast.LENGTH_SHORT).show();
@@ -325,12 +395,27 @@ public class Report extends AppCompatActivity {
 
 
 
-                        HbvStatus=selectedHbvstatus;
-                        HivStatus=selectedHivstatus;
-                        deviceSafety=selectedSafety;
+                        HbvStatus=Integer.toString(Arrays.asList(Config.SPINNERLISTHBVSTATUS).indexOf(selectedHbvstatus)+1);
+                        HivStatus=Integer.toString(Arrays.asList(Config.SPINNERLISTHIVSTATUS).indexOf(selectedHivstatus)+1);
+                        deviceSafety=Integer.toString(Arrays.asList(Config.SPINNERLISTSAFETY).indexOf(selectedSafety)+1);
                         deviceAuto=selectedautodisable;
-                        deep=selectedExposuredeep;
-                        pepinit=selectedPepinitS;
+                        deep=Integer.toString(Arrays.asList(Config.SPINNERLISTDEEP).indexOf(selectedExposuredeep)+1);
+                        pepinit=Integer.toString(Arrays.asList(Config.SPINNERLISTPEPINIT).indexOf(selectedPepinitS)+1);
+
+
+
+
+
+                        //logic for getting ids for values selected
+
+
+
+
+
+
+
+
+                        //logic for getting ids for values selected
 
 
                         if(pepinit.trim().equalsIgnoreCase("Yes")){
@@ -340,11 +425,14 @@ public class Report extends AppCompatActivity {
 
 
                         if(selectedWhere.equalsIgnoreCase("Other")){
+
                             otherWhereS=otherWhereE.getText().toString();
+
                             where=otherWhereS;
                         }
                         else{
-                            where=selectedWhere;
+                            String whereV=Integer.toString(Arrays.asList(Config.SPINNERLISTWHERE).indexOf(selectedWhere)+1);
+                            where=whereV;
                         }
 
                         if(selecteddevice.equalsIgnoreCase("Other")){
@@ -352,7 +440,9 @@ public class Report extends AppCompatActivity {
                             device=otherDeviceS;
                         }
                         else{
-                            device=selecteddevice;
+
+                            String deviceV= Integer.toString(Arrays.asList(Config.SPINNERLISTDEVICE).indexOf(selecteddevice)+1);
+                            device=deviceV;
                         }
 
                         if(selectedPepinitS.equalsIgnoreCase("Yes")){
@@ -369,7 +459,10 @@ public class Report extends AppCompatActivity {
                         }
                         else{
 
-                            exposureresult=SpinnerExposureResult.getText().toString();
+                            String exposureresultV= Integer.toString(Arrays.asList(Config.SPINNERLISTEXPOSURERESULT).indexOf(SpinnerExposureResult.getText().toString())+1);
+
+
+                            exposureresult=exposureresultV;
                         }
 
                         if(selectedPurpose.equalsIgnoreCase("Other")){
@@ -377,7 +470,10 @@ public class Report extends AppCompatActivity {
                             purpose=otherPurposeS;
                         }
                         else{
-                            purpose=selectedPurpose;
+
+                            String purposeV= Integer.toString(Arrays.asList(Config.SPINNERLISTPURPOSE).indexOf(selectedPurpose)+1);
+
+                            purpose=purposeV;
                         }
 
                         if(selectedSafety.equalsIgnoreCase("Other")){
@@ -393,7 +489,10 @@ public class Report extends AppCompatActivity {
                             when=otherWhenS;
                         }
                         else{
-                            when=selectedWhen;
+
+                            String whenV= Integer.toString(Arrays.asList(Config.SPINNERLISTWHEN).indexOf(selectedWhen)+1);
+
+                            when=whenV;
                         }
 
                         if(selectedWhat.equalsIgnoreCase("Other")){
@@ -402,7 +501,9 @@ public class Report extends AppCompatActivity {
                         }
                         else{
 
-                            what=selectedWhat;
+                            String whatV= Integer.toString(Arrays.asList(Config.SPINNERLISTWHAT).indexOf(selectedWhat)+1);
+
+                            what=whatV;
                         }
                         System.out.println("***************************************************");
                         System.out.println("where is:"+selectedWhere+"\n"+"what is: "+selectedWhat+"\n"+"where other: "+otherWhereS+"\n"+"what other: "+otherWhatS);
@@ -423,21 +524,16 @@ public class Report extends AppCompatActivity {
                         }
 
                         if(chkInternet.isInternetAvailable()){
-                            String myphone="";
-                            if(phonereportE.getText().toString().isEmpty()){
 
-                                myphone="-1";
-
-                            }
-                            else{
-                                myphone=phonereportE.getText().toString();
-                            }
 
                             accessServer.reportExposure(where,what,purpose,when,HivStatus,HbvStatus,numberofexposures,pepinit,dateofexposure,device,deviceSafety,deep,dateofpepinit,exposureresult,myphone);
                             clearFields();
 
                         }
                         else{
+
+
+                            String Message1="Rep*"+ where+"*"+what+"*"+purpose+"*"+when+"*"+HivStatus+"*"+HbvStatus+"*"+numberofexposures+"*"+pepinit+"*"+dateofexposure+"*"+device+"*"+deviceSafety+"*"+deep+"*"+dateofpepinit+"*"+exposureresult;
 
                             String Message="Rep*"+ Base64Encoder.encryptString(where+"*"+what+"*"+purpose+"*"+when+"*"+HivStatus+"*"+HbvStatus+"*"+numberofexposures+"*"+pepinit+"*"+dateofexposure+"*"+device+"*"+deviceSafety+"*"+deep+"*"+dateofpepinit+"*"+exposureresult);
 //                        String Message = "Rep*"+where+"*"+nature+"*"+myhour;
@@ -518,7 +614,7 @@ public class Report extends AppCompatActivity {
     public void initialise(){
 
         try{
-            phonereportE=(EditText) findViewById(R.id.phonereport);
+
             chkInternet=new CheckInternet(Report.this);
             accessServer=new AccessServer(Report.this);
             dateTimeOfPepInitE=(EditText) findViewById(R.id.datetimeofpepinitiation);
@@ -527,6 +623,8 @@ public class Report extends AppCompatActivity {
             sweetdialog=new Dialogs(Report.this);
             llHidden=(LinearLayout) findViewById(R.id.llhidden);
             llhiddensafetydesign=(LinearLayout) findViewById(R.id.llsafetydesigned);
+
+            llpepinitiated=(LinearLayout) findViewById(R.id.llwaspepinitiated);
 
             datetimeofexposureE = (EditText) findViewById(R.id.hours);
             btn_submit = (Button) findViewById(R.id.btn_submit);

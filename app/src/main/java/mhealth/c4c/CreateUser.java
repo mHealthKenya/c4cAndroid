@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -27,6 +28,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -61,7 +63,9 @@ import mhealth.c4c.Tables.Edittable;
 import mhealth.c4c.Tables.Facilitydata;
 import mhealth.c4c.Tables.Partners;
 import mhealth.c4c.Tables.Profiletable;
+import mhealth.c4c.Tables.Signupform.Signup;
 import mhealth.c4c.Tables.UserTable;
+import mhealth.c4c.Tables.Userphonenumber;
 import mhealth.c4c.Tables.kmpdu;
 import mhealth.c4c.config.Config;
 import mhealth.c4c.dateCalculator.DateCalculator;
@@ -71,6 +75,7 @@ import mhealth.c4c.models.CountyModel;
 import mhealth.c4c.models.FacilityModel;
 import mhealth.c4c.models.SubCountyModel;
 import mhealth.c4c.progress.Progress;
+import mhealth.c4c.userlogindata.UserLoginData;
 
 import static com.android.volley.Request.Method.GET;
 import static com.android.volley.Request.Method.POST;
@@ -82,7 +87,7 @@ import static com.android.volley.Request.Method.POST;
 
 public class CreateUser extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    EditText idnoE, ageE, motherE, dunumber,facilitySpinnerEdt,phoneE;
+    EditText idnoE, ageE, motherE, dunumber,facilitySpinnerEdt;
     SpinnerDialog spinnerDialog;
     CheckBox mchkb;
     String otherValue;
@@ -194,6 +199,20 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     }
 
 
+
+    public void Previous(View v){
+
+        try{
+
+//            Toast.makeText(this, "going to previous", Toast.LENGTH_SHORT).show();
+            Intent myintt=new Intent(getApplicationContext(), UserLoginData.class);
+            startActivity(myintt);
+        }
+        catch(Exception e){
+
+
+        }
+    }
 
 
     public void addListenerToFacilitySpinnerEdt(){
@@ -792,7 +811,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
         try {
 
 
-            final boolean selected[] = new boolean[]{false, false, false, false, false, false, false, false,false,false,false,false};
+            final boolean selected[] = new boolean[]{false,false, false, false, false, false, false, false,false,false,false,false};
 
             android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
             builder.setTitle("Select Your Affiliation:");
@@ -829,77 +848,80 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                                             selected[11] = true;
                                             itemsSelected.add(11);
 
-                                            ((android.app.AlertDialog) dialog).getListView().setItemChecked(10, true);
+                                            ((android.app.AlertDialog) dialog).getListView().setItemChecked(11, true);
 //                                            continue;
                                         }
                                     }
 
 
-                                } else if (selected[9]) {
-
-
-                                    kmpduChecked = true;
-                                    dunumber.setVisibility(View.VISIBLE);
-                                    specialisationE.setVisibility(View.VISIBLE);
-
-                                    specialisel.setVisibility(View.VISIBLE);
-                                    idnoE.setVisibility(View.GONE);
-
-
-                                    ctyM.setVisibility(View.GONE);
-                                    sbctyM.setVisibility(View.GONE);
-
-
-                                    myspinner2.setVisibility(View.GONE);
-                                    cadrel.setVisibility(View.GONE);
-
-
-                                } else if (!selected[9]) {//if kmpdu is not checked
-                                    kmpduChecked = false;
-                                    dunumber.setVisibility(View.GONE);
-
-                                    specialisationE.setVisibility(View.GONE);
-                                    specialisel.setVisibility(View.GONE);
-
-                                    idnoE.setVisibility(View.VISIBLE);
-
-
-                                    ctyM.setVisibility(View.VISIBLE);
-                                    sbctyM.setVisibility(View.VISIBLE);
-
-                                    myspinner2.setVisibility(View.VISIBLE);
-                                    cadrel.setVisibility(View.VISIBLE);
-//                        motherE.setVisibility(View.GONE);
-
-
                                 }
+//                                else if (selected[10]) {
+//
+//
+//                                    kmpduChecked = true;
+//                                    dunumber.setVisibility(View.VISIBLE);
+//                                    specialisationE.setVisibility(View.VISIBLE);
+//
+//                                    specialisel.setVisibility(View.VISIBLE);
+//                                    idnoE.setVisibility(View.GONE);
+//
+//
+//                                    ctyM.setVisibility(View.GONE);
+//                                    sbctyM.setVisibility(View.GONE);
+//
+//
+//                                    myspinner2.setVisibility(View.GONE);
+//                                    cadrel.setVisibility(View.GONE);
+//
+//
+//                                }
+
+//                                else if (!selected[10]) {//if kmpdu is not checked
+//                                    kmpduChecked = false;
+//                                    dunumber.setVisibility(View.GONE);
+//
+//                                    specialisationE.setVisibility(View.GONE);
+//                                    specialisel.setVisibility(View.GONE);
+//
+//                                    idnoE.setVisibility(View.VISIBLE);
+//
+//
+//                                    ctyM.setVisibility(View.VISIBLE);
+//                                    sbctyM.setVisibility(View.VISIBLE);
+//
+//                                    myspinner2.setVisibility(View.VISIBLE);
+//                                    cadrel.setVisibility(View.VISIBLE);
+////                        motherE.setVisibility(View.GONE);
+//
+//
+//                                }
 
 
                             } else if (itemsSelected.contains(selectedItemId)) {
                                 itemsSelected.remove(Integer.valueOf(selectedItemId));
                                 selected[selectedItemId] = false;
 
-                                if (selectedItemId == 9) { //check for kmpdu if unchecked
-
-
-                                    kmpduChecked = false;
-                                    dunumber.setVisibility(View.GONE);
-
-                                    specialisel.setVisibility(View.GONE);
-                                    specialisationE.setVisibility(View.GONE);
-                                    idnoE.setVisibility(View.VISIBLE);
-
-
-                                    ctyM.setVisibility(View.VISIBLE);
-                                    sbctyM.setVisibility(View.VISIBLE);
-
-
-                                    myspinner2.setVisibility(View.VISIBLE);
-                                    cadrel.setVisibility(View.VISIBLE);
-//                        motherE.setVisibility(View.GONE);
-
-
-                                }
+//                                if (selectedItemId == 10) { //check for kmpdu if unchecked
+//
+//
+//                                    kmpduChecked = false;
+//                                    dunumber.setVisibility(View.GONE);
+//
+//                                    specialisel.setVisibility(View.GONE);
+//                                    specialisationE.setVisibility(View.GONE);
+//                                    idnoE.setVisibility(View.VISIBLE);
+//
+//
+//                                    ctyM.setVisibility(View.VISIBLE);
+//                                    sbctyM.setVisibility(View.VISIBLE);
+//
+//
+//                                    myspinner2.setVisibility(View.VISIBLE);
+//                                    cadrel.setVisibility(View.VISIBLE);
+////                        motherE.setVisibility(View.GONE);
+//
+//
+//                                }
                             }
 
                         }
@@ -1051,7 +1073,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             selectedSbcty = "";
             selectedFacility = "";
             facilitySpinnerEdt =(EditText) findViewById(R.id.facilityspinner);
-            phoneE=(EditText) findViewById(R.id.phonenum);
+
 
             ctyM = (MaterialBetterSpinner) findViewById(R.id.county_txt);
 
@@ -1101,7 +1123,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
 //            selected_item=parent.getItemAtPosition(position).toString();
             myselectedgender = Integer.toString(position);
-//            Toast.makeText(this, "selected "+myselectedgender, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "selected "+myselectedgender, Toast.LENGTH_SHORT).show();
             actOnSelected();
 
         }
@@ -1226,7 +1248,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                 for (int x = 0; x < itemsSelected.size(); x++) {
                     String val = Integer.toString((Integer.parseInt(itemsSelected.get(x).toString())) + 1);
 
-                    partners.append(val + "*");
+                    partners.append(val + "+");
 
                 }
             }
@@ -1253,12 +1275,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 //            motherE.setVisibility(View.VISIBLE);
 //            lnameE.setVisibility(View.VISIBLE);
 
-            if (phoneE.getText().toString().trim().isEmpty()) {
-                phoneE.setError("Phone number is Required");
-
-            }
-
-            else if (!kmpduChecked && myidno.trim().isEmpty()) {
+           if (!kmpduChecked && myidno.trim().isEmpty()) {
                 idnoE.setError("ID NUMBER is Required");
 
             }
@@ -1468,147 +1485,182 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 //                                    Registrationdatatable rt=new Registrationdatatable("","",myselectedgender,myselected2,myidno,myage,mymfl,myselected3,"","","","");
 //                                    rt.save();
             String myoth = "";
+            String phoneS="";
+            String newPhoneS="";
+            String mfname="";
+            String mlname="";
+
+
 
 
 
             myoth = motherE.getText().toString();
 
+        List<Signup> myn=Signup.findWithQuery(Signup.class,"select * from Signup limit 1");
+        for(int p=0;p<myn.size();p++){
+
+            phoneS=myn.get(p).getPhone();
+            newPhoneS="+254"+phoneS.substring(1);
 
 
 
-            if(chkInternet.isInternetAvailable()){
-
-
-
-                //********************create profile submit starts here***************************************
-
-
-
-                Profiletable.deleteAll(Profiletable.class);
-
-
-
-                if (kmpduChecked) {
-
-                    Profiletable pt=new Profiletable("n/a");
-                    pt.save();
-
-                    //save user details for further editing
-                    Edittable.deleteAll(Edittable.class);
-                    Edittable et=new Edittable(mymfl,phoneE.getText().toString(),myidno);
-                    et.save();
-
-                    accessServer.createProfile(partner.toString(),sspecial,myselectedgender,myselected2,myidno,myage,mymfl,phoneE.getText().toString(),kmpduChecked);
-
-
-                } else if (!motherE.isShown()) {
+        }
 
                     Profiletable pt=new Profiletable(mymfl);
                     pt.save();
 
                     //save user details for further editing
                     Edittable.deleteAll(Edittable.class);
-                    Edittable et=new Edittable(mymfl,phoneE.getText().toString(),myidno);
+                    Edittable et=new Edittable(mymfl,phoneS,myidno);
                     et.save();
 
-                    accessServer.createProfile(partner.toString(),sspecial,myselectedgender,myselected2,myidno,myage,mymfl,phoneE.getText().toString(),kmpduChecked);
 
 
-                } else if (motherE.isShown()) {
-                    myoth=motherE.getText().toString();
-                    Profiletable pt=new Profiletable(mymfl);
-                    pt.save();
-
-                    //save user details for further editing
-                    Edittable.deleteAll(Edittable.class);
-                    Edittable et=new Edittable(mymfl,phoneE.getText().toString(),myidno);
-                    et.save();
-
-                    accessServer.createProfile(partner.toString(),sspecial,myselectedgender,myoth,myidno,myage,mymfl,phoneE.getText().toString(),kmpduChecked);
-
-                }
+                    accessServer.createProfile(partner.toString(),sspecial,myselectedgender,myselected2,myidno,myage,mymfl,newPhoneS);
 
 
-//                populatePartners();
 
+
+
+//
+//        if(chkInternet.isInternetAvailable()){
+//
+//
+//
+//                //********************create profile submit starts here***************************************
+//
+//
+//
+//                Profiletable.deleteAll(Profiletable.class);
+//
+//
+//
+//                if (kmpduChecked) {
+//
+//                    Profiletable pt=new Profiletable("n/a");
+//                    pt.save();
+//
+//                    //save user details for further editing
+//                    Edittable.deleteAll(Edittable.class);
+//                    Edittable et=new Edittable(mymfl,phoneS,myidno);
+//                    et.save();
+//
+//
+//
+//                    accessServer.createProfile(partner.toString(),sspecial,myselectedgender,myselected2,myidno,myage,mymfl,newPhoneS,kmpduChecked);
+//
+//
+//                } else if (!motherE.isShown()) {
+//
+//                    Profiletable pt=new Profiletable(mymfl);
+//                    pt.save();
+//
+//
+//
+//                    //save user details for further editing
+//                    Edittable.deleteAll(Edittable.class);
+//
+//                    Edittable et=new Edittable(mymfl,phoneS,myidno);
+//                    et.save();
+//
+//                    accessServer.createProfile(partner.toString(),sspecial,myselectedgender,myselected2,myidno,myage,mymfl,newPhoneS,kmpduChecked);
+//
+//
+//                } else if (motherE.isShown()) {
+//                    myoth=motherE.getText().toString();
+//                    Profiletable pt=new Profiletable(mymfl);
+//                    pt.save();
+//
+//                    //save user details for further editing
+//                    Edittable.deleteAll(Edittable.class);
+//                    Edittable et=new Edittable(mymfl,phoneS,myidno);
+//                    et.save();
+//
+//                    accessServer.createProfile(partner.toString(),sspecial,myselectedgender,myoth,myidno,myage,mymfl,newPhoneS,kmpduChecked);
+//
+//                }
+//
+//
+////                populatePartners();
+//
+////                SignupsuccessDialog("Success in Creating Profile");
+//
+////********************create profile submit ends here***************************************
+//
+//
+//            }
+
+//            else{
+//
+//
+////********************create profile submit starts here***************************************
+//
+//                String mymess = "";
+//
+//                Profiletable.deleteAll(Profiletable.class);
+//
+//
+//
+//                if (kmpduChecked) {
+//
+//                    Profiletable pt=new Profiletable("n/a");
+//                    pt.save();
+//
+//                    //save user details for further editing
+//                    Edittable.deleteAll(Edittable.class);
+//                    Edittable et=new Edittable(mymfl,phoneS,myidno);
+//                    et.save();
+//
+//
+//                    mymess = "Reg*" + Base64Encoder.encryptString(myidno + "*" + myage + "*" + myselectedgender + "*" + "-1" + "*" + "-1" + "*" + duns + "*" + sspecial +"*"+partner);
+//
+//
+//                } else if (!motherE.isShown()) {
+//
+//                    Profiletable pt=new Profiletable(mymfl);
+//                    pt.save();
+//
+//                    //save user details for further editing
+//                    Edittable.deleteAll(Edittable.class);
+//                    Edittable et=new Edittable(mymfl,phoneS,myidno);
+//                    et.save();
+//
+//                    mymess = "Reg*" + Base64Encoder.encryptString(myidno + "*" + myage + "*" + myselectedgender + "*" + myselected2 + "*" + mymfl + "*" + duns + "*" + sspecial +"*"+partner);
+//
+//
+//                } else if (motherE.isShown()) {
+//
+//                    myoth=motherE.getText().toString();
+//                    Profiletable pt=new Profiletable(mymfl);
+//                    pt.save();
+//
+//                    //save user details for further editing
+//                    Edittable.deleteAll(Edittable.class);
+//                    Edittable et=new Edittable(mymfl,phoneS,myidno);
+//                    et.save();
+//
+//                    mymess = "Reg*" + Base64Encoder.encryptString(myidno + "*" + myage + "*" + myselectedgender + "*" + myoth + "*" + mymfl + "*" + duns + "*" + sspecial +"*"+partner);
+//
+//                }
+//
+//
+////                populatePartners();
+//
+//                SmsManager sm = SmsManager.getDefault();
+//                ArrayList<String> parts = sm.divideMessage(mymess);
+//
+//                sm.sendMultipartTextMessage(Config.shortcode, null, parts, null, null);
+//
+//
+//
+////            SmsManager smsM = SmsManager.getDefault();
+////            smsM.sendTextMessage(Config.shortcode, null, mymess, null, null);
 //                SignupsuccessDialog("Success in Creating Profile");
-
-//********************create profile submit ends here***************************************
-
-
-            }
-
-            else{
-
-
-//********************create profile submit starts here***************************************
-
-                String mymess = "";
-
-                Profiletable.deleteAll(Profiletable.class);
-
-
-
-                if (kmpduChecked) {
-
-                    Profiletable pt=new Profiletable("n/a");
-                    pt.save();
-
-                    //save user details for further editing
-                    Edittable.deleteAll(Edittable.class);
-                    Edittable et=new Edittable(mymfl,phoneE.getText().toString(),myidno);
-                    et.save();
-
-
-                    mymess = "Reg*" + Base64Encoder.encryptString(myidno + "*" + myage + "*" + myselectedgender + "*" + "-1" + "*" + "-1" + "*" + duns + "*" + sspecial +"*"+partner);
-
-
-                } else if (!motherE.isShown()) {
-
-                    Profiletable pt=new Profiletable(mymfl);
-                    pt.save();
-
-                    //save user details for further editing
-                    Edittable.deleteAll(Edittable.class);
-                    Edittable et=new Edittable(mymfl,phoneE.getText().toString(),myidno);
-                    et.save();
-
-                    mymess = "Reg*" + Base64Encoder.encryptString(myidno + "*" + myage + "*" + myselectedgender + "*" + myselected2 + "*" + mymfl + "*" + duns + "*" + sspecial +"*"+partner);
-
-
-                } else if (motherE.isShown()) {
-
-                    myoth=motherE.getText().toString();
-                    Profiletable pt=new Profiletable(mymfl);
-                    pt.save();
-
-                    //save user details for further editing
-                    Edittable.deleteAll(Edittable.class);
-                    Edittable et=new Edittable(mymfl,phoneE.getText().toString(),myidno);
-                    et.save();
-
-                    mymess = "Reg*" + Base64Encoder.encryptString(myidno + "*" + myage + "*" + myselectedgender + "*" + myoth + "*" + mymfl + "*" + duns + "*" + sspecial +"*"+partner);
-
-                }
-
-
-//                populatePartners();
-
-                SmsManager sm = SmsManager.getDefault();
-                ArrayList<String> parts = sm.divideMessage(mymess);
-
-                sm.sendMultipartTextMessage(Config.shortcode, null, parts, null, null);
-
-
-
-//            SmsManager smsM = SmsManager.getDefault();
-//            smsM.sendTextMessage(Config.shortcode, null, mymess, null, null);
-                SignupsuccessDialog("Success in Creating Profile");
-
-//********************create profile submit ends here***************************************
-
-
-            }
+//
+////********************create profile submit ends here***************************************
+//
+//
+//            }
 
 
 
@@ -1865,6 +1917,8 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 //                            pd.dismissDialog();
                             pr.dissmissProgress();
 
+                            Log.e("Response", error.toString());
+
                             Toast.makeText(getApplicationContext(), "Check your internet connection and try again", Toast.LENGTH_SHORT).show();
 
 //                            Toast.makeText(getApplicationContext(), "error occured "+error, Toast.LENGTH_SHORT).show();
@@ -1881,6 +1935,14 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
                     return params;
                 }
+
+//                @Override
+//                public Map<String, String> getHeaders() throws AuthFailureError {
+//                    Map<String, String> params = new HashMap<String, String>();
+//                    params.put("Content-Type", "text/html; charset=utf-8");
+//                    return params;
+//                }
+
 
             };
             RequestQueue requestQueue = Volley.newRequestQueue(CreateUser.this);

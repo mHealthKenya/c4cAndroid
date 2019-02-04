@@ -21,12 +21,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     >
 
-    <EditText
-        android:layout_width="match_parent"
-        android:id="@+id/phonereport"
-        android:inputType="phone"
-        android:hint="Phone Number"
-        android:layout_height="wrap_content" />
+
 
     <TextView
         android:layout_width="match_parent"

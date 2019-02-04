@@ -14,14 +14,17 @@ public class Config {
     //*************TEST DB CONNECTION URL***********************
 
     public static final String SIGNUP_URL = "https://c4c-test.mhealthkenya.co.ke/Core/AppReg";
-    public static final String CREATPROFILE_URL = "https://c4c-test.mhealthkenya.co.ke/Core/CreateProf";
+    public static final String CREATPROFILE_URL = "https://c4c-test.mhealthkenya.co.ke/Core/SignUp";
     public static final String REPORTEXPOSURE_URL = "https://c4c-test.mhealthkenya.co.ke/Core/RptExp";
 
 //    public static final String GETFACILITY_URL = "https://c4c-test.mhealthkenya.co.ke/Core/get_facility_info";
 
     public static final String GETCOUNTY_URL = "http://c4c-test.mhealthkenya.org/c4c-dev/core/CountySearch";
 
-    public static final String GETSUBCOUNTY_URL = "http://c4c-test.mhealthkenya.org/c4c-dev/core/SubCountySearch";
+//    public static final String GETSUBCOUNTY_URL = "http://c4c-test.mhealthkenya.org/c4c-dev/core/SubCountySearch";\
+    public static final String GETSUBCOUNTY_URL = "https://api.mhealthkenya.co.ke/api/get_sub_county";
+
+    public static final String VERIFYNUMBER_URL = "https://c4c-test.mhealthkenya.co.ke/Core/chkMobile";
 
     public static final String GETFACILITY_URL = "http://c4c-test.mhealthkenya.org/c4c-dev/core/FacSearch";
 
@@ -34,7 +37,7 @@ public class Config {
 //    public static final String SIGNUP_URL = "https://c4c.mhealthkenya.co.ke/Core/AppReg";
 //    public static final String CREATPROFILE_URL = "https://c4c.mhealthkenya.co.ke/Core/CreateProf";
 //    public static final String REPORTEXPOSURE_URL = "https://c4c.mhealthkenya.co.ke/Core/RptExp";
-//
+
 //    public static final String GETFACILITY_URL = "https://c4c.mhealthkenya.co.ke/Core/get_facility_info";
 //*************LIVE DB CONNECTION URL***********************
 
@@ -131,8 +134,8 @@ public class Config {
 
     public static final String[] SPINNERLISTHBVSTATUS = {"HBV+", "HBV-", "Unknown"};
 
-    public static final String[] itemsorg = {"MOH", "KMTC", "EGPAF","GIS","AMREF","UMB","FHI360","CHS","UNITID",
-            "KMPDU", "KMPDB", "Not Applicable"};
+    public static final String[] itemsorg = {"MOH","KNH", "KMTC", "EGPAF","GIS","AMREF","UMB","FHI360","CHS","UNITID",
+            "KMPDB", "Not Applicable"};
     public static final String[] itemsspecialisation = {"Anaesthesia", "Cardiothoracic surgery", "Dermatology", "Ear Nose And Throat",
             "Internal Medicine", "Microbiology", "Neurosurgery", "Obstetrics and Gynaecology", "Occupational Medicine",
             "Ophthalmology", "Orthopaedic Surgery", "Paediatrics and Child Health", "Palliative Medicine",

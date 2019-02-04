@@ -33,6 +33,7 @@ import mhealth.c4c.R;
 import mhealth.c4c.Registrationdatatable;
 import mhealth.c4c.Report;
 import mhealth.c4c.Tables.Broadcastsmsrights;
+import mhealth.c4c.Tables.Signupform.Signup;
 import mhealth.c4c.Tables.kmpdu;
 import mhealth.c4c.config.Config;
 import mhealth.c4c.dialogs.Dialogs;
@@ -465,7 +466,7 @@ public class AccessServer {
 
 
 
-    public void createProfile(final String partner , final String specs, final String gender,final String cdr,final String idno,final String dob,final String mflno,final String phone,final boolean kmpduchecked) {
+    public void createProfile(final String partner , final String specs, final String gender,final String cdr,final String idno,final String dob,final String mflno,final String phone) {
 
         pr.showProgress("creating profile.....");
 
@@ -474,9 +475,11 @@ public class AccessServer {
                     @Override
                     public void onResponse(String response) {
 
+                        Toast.makeText(ctx, ""+phone, Toast.LENGTH_SHORT).show();
+
                         pr.dissmissProgress();
-//                        Toast.makeText(ctx, "response "+response, Toast.LENGTH_SHORT).show();
-                        CreatprofilesuccessDialog("success creating profile",kmpduchecked);
+                        Toast.makeText(ctx, "response "+response, Toast.LENGTH_SHORT).show();
+                        CreatprofilesuccessDialog("success creating profile "+response+" phone "+phone);
 
 
 
@@ -496,19 +499,27 @@ public class AccessServer {
                 Map<String, String> params = new HashMap<String, String>();
 
 
-                params.put(Config.KEY_CREATEPROFILE_PARTNER, partner);
-                params.put(Config.KEY_CREATEPROFILE_CDR, cdr);
-                params.put(Config.KEY_CREATEPROFILE_DOB, dob);
-                params.put(Config.KEY_CREATEPROFILE_GENDER, gender);
-                params.put(Config.KEY_CREATEPROFILE_IDNO, idno);
-                params.put(Config.KEY_CREATEPROFILE_MFLNO, mflno);
-                params.put(Config.KEY_CREATEPROFILE_PHONENO, phone);
-                params.put(Config.KEY_CREATEPROFILE_SPECS, specs);
+                List<Signup> mym=Signup.findWithQuery(Signup.class,"select * from Signup limit 1");
+                for(int x=0;x<mym.size();x++){
+
+                    params.put("fname", mym.get(x).getFname());
+                    params.put("lname", mym.get(x).getLname());
+                    params.put("phone_no", phone);
+                    params.put("partner", partner);
+                    params.put("gender", gender);
+                    params.put("cdr", cdr);
+                    params.put("idno", idno);
+                    params.put("dob", dob);
+                    params.put("mflno", mflno);
+
+                }
+
 
 
 
                 return params;
             }
+
 
         };
 
@@ -519,7 +530,7 @@ public class AccessServer {
 
 
 
-    public void CreatprofilesuccessDialog(String message, final boolean kmpduChecked) {
+    public void CreatprofilesuccessDialog(String message) {
 
         try {
 
@@ -534,25 +545,15 @@ public class AccessServer {
                 public void onClick(DialogInterface dialog, int which) {
 
 
-                    if (kmpduChecked) {
-                        kmpdu km = new kmpdu("true");
-                        km.save();
-
-                        Intent myint = new Intent(ctx, LandingPage.class);
-
-                        ctx.startActivity(myint);
-
-                    } else {
-
                         kmpdu mykm = new kmpdu("false");
                         mykm.save();
 
-                        Intent myint = new Intent(ctx, LandingPage.class);
+                    Intent myint = new Intent(ctx, Login.class);
 
-                        ctx.startActivity(myint);
+                    ctx.startActivity(myint);
 
 
-                    }
+
 
 
                 }

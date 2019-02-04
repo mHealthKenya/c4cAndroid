@@ -35,7 +35,7 @@
 
 
         <meta-data android:name="DATABASE" android:value="mydb.db" />
-        <meta-data android:name="VERSION" android:value="7" />
+        <meta-data android:name="VERSION" android:value="10" />
         <meta-data android:name="QUERY_LOG" android:value="true" />
         <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="mhealth.c4c" />
 
@@ -43,7 +43,7 @@
             android:label="Create Profile"
             android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme"
-            android:parentActivityName=".Login">
+            android:parentActivityName=".userlogindata.UserLoginData">
 
             <!--<intent-filter>-->
                 <!--<action android:name="android.intent.action.MAIN" />-->

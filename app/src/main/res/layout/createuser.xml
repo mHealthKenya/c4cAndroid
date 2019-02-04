@@ -53,18 +53,7 @@
 
             android:layout_height="wrap_content" />
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
-        <EditText
-            android:layout_width="match_parent"
-            android:id="@+id/phonenum"
-            android:inputType="number"
-            android:maxLength="10"
-            android:hint="Enter Phone number"
-            android:layout_height="wrap_content" />
-        </android.support.design.widget.TextInputLayout>
 
 
         <LinearLayout
@@ -327,17 +316,41 @@
         <!--</LinearLayout>-->
 
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_height="wrap_content">
 
-        <Button
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="22dp"
-            android:background="@color/colorPrimary"
-            android:text="Create Profile"
-            android:onClick="CreatingUser"
-            android:textAllCaps="false"
-            android:textColor="#fff"
-            android:textSize="18sp" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="22dp"
+                android:layout_weight="1"
+                android:background="@color/colorPrimary"
+                android:text="Previous"
+                android:onClick="Previous"
+                android:textAllCaps="false"
+                android:textColor="#fff"
+                android:textSize="18sp" />
+
+            <Button
+                android:layout_weight="1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="22dp"
+                android:background="@color/colorPrimary"
+                android:text="Create Profile"
+                android:onClick="CreatingUser"
+                android:textAllCaps="false"
+                android:textColor="#fff"
+                android:textSize="18sp" />
+
+
+        </LinearLayout>
+
+
 
 
 

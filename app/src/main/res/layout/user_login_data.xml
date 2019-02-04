@@ -39,6 +39,39 @@
 
 
 
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="10"
+                android:singleLine="true"
+                android:hint="Enter your phone number"
+                android:id="@+id/phone"
+                android:inputType="phone" />
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:text="Verify"
+            android:id="@+id/verifyButton"
+            android:layout_height="wrap_content" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:id="@+id/loginfieldsll"
+            android:layout_height="wrap_content">
+
+
+
+
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -75,21 +108,6 @@
 
 
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-
-
-            <EditText
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-
-                android:singleLine="true"
-                android:hint="Enter your phone number"
-                android:id="@+id/phone"
-                android:inputType="phone" />
-        </android.support.design.widget.TextInputLayout>
 
 
 
@@ -189,16 +207,31 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="22dp"
+            android:id="@+id/btnnext"
             android:background="@color/colorPrimary"
-            android:text="SIGNUP"
-            android:onClick="Signup"
+            android:text="NEXT"
+            android:onClick="Next"
             android:textAllCaps="false"
             android:textColor="#fff"
             android:textSize="18sp" />
 
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="22dp"
+                android:visibility="gone"
+                android:id="@+id/createaccountbtn"
+                android:background="@color/colorPrimary"
+                android:text="CREATE ACCOUNT"
+                android:onClick="CreateAccount"
+                android:textAllCaps="false"
+                android:textColor="#fff"
+                android:textSize="18sp" />
 
 
 
+
+    </LinearLayout>
     </LinearLayout>
 
 </ScrollView>
