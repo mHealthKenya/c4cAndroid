@@ -27,6 +27,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.stetho.Stetho;
+
 import java.util.Calendar;
 import java.util.List;
 
@@ -128,6 +130,8 @@ public class ImmunisationProfile extends AppCompatActivity {
 //        getStatusTableDataInfluenza();
 //        getStatusTableDataMeasles();
 //        getStatusTableDataMeningoco();
+
+        Stetho.initializeWithDefaults(this);
 
 
     }

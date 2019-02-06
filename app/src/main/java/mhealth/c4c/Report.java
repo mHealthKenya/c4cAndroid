@@ -33,6 +33,7 @@ import mhealth.c4c.DateTimePicker.DateTimePicker;
 import mhealth.c4c.SSLTrustCertificate.SSLTrust;
 import mhealth.c4c.Tables.Userphonenumber;
 import mhealth.c4c.config.Config;
+import mhealth.c4c.dateCalculator.DateCalculator;
 import mhealth.c4c.dialogs.Dialogs;
 import mhealth.c4c.encryption.Base64Encoder;
 
@@ -52,6 +53,7 @@ public class Report extends AppCompatActivity {
     LinearLayout llHidden,llhiddensafetydesign,llpepinitiated;
     CheckInternet chkInternet;
     AccessServer accessServer;
+    DateCalculator dcalc;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -383,6 +385,11 @@ public class Report extends AppCompatActivity {
                         sweetdialog.showErrorDialogReportExposure("date of pep initiation is required","Exposure Report Error");
 //                        Toast.makeText(Report.this, "the nature of exposure is required", Toast.LENGTH_SHORT).show();
                     }
+                    else if(dcalc.checkDateDifferenceWithCurrentDate(dateTimeOfPepInitE.getText().toString())){
+
+                        sweetdialog.showErrorDialogReportExposure("date of PEP should be earlier or equal to today","Exposure Report Error");
+
+                    }
 
 
                     else if(datetimeofexposureS.contentEquals("")){
@@ -391,6 +398,13 @@ public class Report extends AppCompatActivity {
 
 //                        Toast.makeText(Report.this, "Hours after exposure is required", Toast.LENGTH_SHORT).show();
                     }
+
+                    else if(dcalc.checkDateDifferenceWithCurrentDate(datetimeofexposureS)){
+
+                        sweetdialog.showErrorDialogReportExposure("date of exposure should be earlier or equal to today","Exposure Report Error");
+
+                    }
+
                     else{
 
 
@@ -615,6 +629,7 @@ public class Report extends AppCompatActivity {
 
         try{
 
+            dcalc=new DateCalculator();
             chkInternet=new CheckInternet(Report.this);
             accessServer=new AccessServer(Report.this);
             dateTimeOfPepInitE=(EditText) findViewById(R.id.datetimeofpepinitiation);

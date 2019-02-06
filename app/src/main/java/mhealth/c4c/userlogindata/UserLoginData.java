@@ -222,6 +222,10 @@ public class UserLoginData extends AppCompatActivity implements AdapterView.OnIt
 
                             Toast.makeText(UserLoginData.this, "Phone number is required", Toast.LENGTH_SHORT).show();
                         }
+                        else if(phoneE.getText().toString().trim().length()!=10){
+
+                            Toast.makeText(UserLoginData.this, "provide a valid phone number", Toast.LENGTH_SHORT).show();
+                        }
                         else{
 
                             VerifyNumberFromServer(phoneE.getText().toString());
@@ -856,7 +860,7 @@ public class UserLoginData extends AppCompatActivity implements AdapterView.OnIt
 //                            }
 
 
-                            Toast.makeText(UserLoginData.this, ""+response, Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(UserLoginData.this, ""+response, Toast.LENGTH_SHORT).show();
 
                         }
                     },
@@ -929,11 +933,32 @@ public class UserLoginData extends AppCompatActivity implements AdapterView.OnIt
                 String dob=json.getString("DOB");
                 String mfl=json.getString("facility_id");
 
-                Toast.makeText(this, ""+nationalid, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, ""+nationalid, Toast.LENGTH_SHORT).show();
+                String partnerName="n/a";
+                String cadreName="n/a";
+                String genderName="n/a";
+//                if(partnerid!=null){
 
-                String partnerName=Config.itemsorg[Integer.parseInt(partnerid)-1];
-                String cadreName=cadres[Integer.parseInt(cadreid)-1];
-                String genderName=genders[Integer.parseInt(genderid)-1];
+                String[] partnerArr=partnerid.split("\\+");
+                partnerName=Config.itemsorg[Integer.parseInt(partnerArr[0])-1];
+
+//                }
+//                if(cadreid!=null){
+
+                cadreName=cadres[Integer.parseInt(cadreid)-1];
+
+//                }
+
+//                if(genderid!=null){
+
+                genderName=genders[Integer.parseInt(genderid)-1];
+
+
+//                }
+
+
+
+
 
                 Userserverdetails.deleteAll(Userserverdetails.class);
 
@@ -944,6 +969,9 @@ public class UserLoginData extends AppCompatActivity implements AdapterView.OnIt
             } catch (JSONException e) {
                 e.printStackTrace();
 //                Toast.makeText(CreateUser.this, "an error getting counties "+ e, Toast.LENGTH_SHORT).show();
+            }
+            catch(ArrayIndexOutOfBoundsException e){
+//                Toast.makeText(this, "cadre information in db", Toast.LENGTH_SHORT).show();
             }
         }
 

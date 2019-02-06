@@ -487,7 +487,7 @@ public class LandingPageAdapter extends RecyclerView.Adapter<LandingPageAdapter.
 
                             mContext = v.getContext();
 
-                            Intent myint=new Intent(mContext, VaccinationTabs.class);
+                            Intent myint=new Intent(mContext, ImmunisationProfile.class);
                             mContext.startActivity(myint);
 
                         }
@@ -502,7 +502,7 @@ public class LandingPageAdapter extends RecyclerView.Adapter<LandingPageAdapter.
 
                             //Intent intent = new Intent(mContext, Report.class);
                             //mContext.startActivity(intent);
-                            Intent myint=new Intent(mContext,ImmunisationProfile.class);
+                            Intent myint=new Intent(mContext,VaccinationTabs.class);
                             mContext.startActivity(myint);
 
                         }
