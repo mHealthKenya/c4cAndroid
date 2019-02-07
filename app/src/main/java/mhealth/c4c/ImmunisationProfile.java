@@ -38,9 +38,11 @@ import mhealth.c4c.Tables.ProfileCompletion;
 import mhealth.c4c.checkupstatustable.Status;
 import mhealth.c4c.checkupstatustable.UpdateStatusTable;
 import mhealth.c4c.completionPercentage.Completion;
+import mhealth.c4c.config.Config;
 import mhealth.c4c.dateCalculator.DateCalculator;
 import mhealth.c4c.dialogs.Dialogs;
 import mhealth.c4c.getImmunisationsaveddata.getAllImmunisationData;
+import mhealth.c4c.sendMessages.SendMessage;
 import mhealth.c4c.systemstatetables.Hepatitis;
 import mhealth.c4c.systemstatetables.Influenza;
 import mhealth.c4c.systemstatetables.Measles;
@@ -1674,6 +1676,7 @@ public class ImmunisationProfile extends AppCompatActivity {
 
             getAD=new getAllImmunisationData(ImmunisationProfile.this);
             getAD.displayAllData();
+//            SendMessage.sendMessage("IMMUNE*test", Config.shortcode);
 
             sweetdialog.showSuccessDialogImmunisation("SUCCESS UPDATING IMMUNISATION PROFILE","success");
 

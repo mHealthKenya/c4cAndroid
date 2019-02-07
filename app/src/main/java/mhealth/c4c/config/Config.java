@@ -21,8 +21,8 @@ public class Config {
 
     public static final String GETCOUNTY_URL = "http://c4c-test.mhealthkenya.org/c4c-dev/core/CountySearch";
 
-//    public static final String GETSUBCOUNTY_URL = "http://c4c-test.mhealthkenya.org/c4c-dev/core/SubCountySearch";\
-    public static final String GETSUBCOUNTY_URL = "https://api.mhealthkenya.co.ke/api/get_sub_county";
+    public static final String GETSUBCOUNTY_URL = "http://c4c-test.mhealthkenya.org/c4c-dev/core/SubCountySearch";
+//    public static final String GETSUBCOUNTY_URL = "https://api.mhealthkenya.co.ke/api/get_sub_county";
 
     public static final String VERIFYNUMBER_URL = "https://c4c-test.mhealthkenya.co.ke/Core/chkMobile";
 

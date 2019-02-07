@@ -380,6 +380,7 @@ public class AccessServer {
 
                         pr.dissmissProgress();
 //                        Toast.makeText(ctx, "response "+response, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ctx, "sent "+phone_no, Toast.LENGTH_SHORT).show();
                         System.out.println("*************response exposure****************");
                         System.out.println(response);
 

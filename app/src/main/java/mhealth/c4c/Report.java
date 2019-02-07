@@ -204,6 +204,7 @@ public class Report extends AppCompatActivity {
                         myphone="+254"+phne.substring(1);
                     }
 
+                    Toast.makeText(Report.this, ""+myphone, Toast.LENGTH_SHORT).show();
 
 
                     String where="";

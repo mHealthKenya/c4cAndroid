@@ -213,6 +213,153 @@
                 android:layout_height="wrap_content" />
         </android.support.design.widget.TextInputLayout>
 
+
+        <!--*******************start hbv question***********************************************-->
+
+        <!--hepatitis b layout questions-->
+
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:id="@+id/hepatitislayout"
+            android:layout_marginTop="20sp"
+            android:layout_marginBottom="20sp"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:text="HEPATITIS B"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:textStyle="bold"
+                android:layout_height="wrap_content" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:text="Have you been vaccinated against Hepatitis B?"
+                android:layout_height="wrap_content" />
+
+            <RadioGroup
+                android:id="@+id/radiogrphepatitis"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+
+
+                <RadioButton
+                    android:id="@+id/curadiobtnhepayes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Yes" />
+
+                <RadioButton
+                    android:id="@+id/radiobtnhepapartially"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Partially" />
+
+                <RadioButton
+                    android:id="@+id/radiobtnhepano"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No" />
+
+            </RadioGroup>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:id="@+id/hapatitisdoselayout"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:text="Date of first dose"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:id="@+id/hepatitisdose1"
+                    android:hint="Date of First dose"
+                    android:focusable="false"
+                    android:layout_height="wrap_content" />
+
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:text="Did you Have the second dose?"
+                    android:layout_height="wrap_content" />
+
+
+                <RadioGroup
+                    android:id="@+id/radiogrphepatitisseconddose"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+
+
+                    <RadioButton
+                        android:id="@+id/radiobtnhepayesseconddose"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Yes" />
+
+
+                    <RadioButton
+                        android:id="@+id/radiobtnhepanoseconddose"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No" />
+
+                </RadioGroup>
+
+
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:id="@+id/llhepaseconddose"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content">
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:text="Date of second dose"
+                        android:id="@+id/hepatitissecondoselabel"
+                        android:layout_height="wrap_content" />
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:id="@+id/hepatitisdose2"
+                        android:hint="Date of second dose"
+                        android:focusable="false"
+                        android:layout_height="wrap_content" />
+
+
+                </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <!--*****************************end hbv question*******************************************-->
         <!--mflid here-->
 
         <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner

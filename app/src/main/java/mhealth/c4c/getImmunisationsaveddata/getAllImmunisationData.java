@@ -1,6 +1,7 @@
 package mhealth.c4c.getImmunisationsaveddata;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -140,8 +141,7 @@ public class getAllImmunisationData {
             }
 
 
-
-
+//            Toast.makeText(ctx, "sending "+message, Toast.LENGTH_SHORT).show();
 
             SendMessage.sendMessage("IMMUNE*"+message, Config.shortcode);
 
@@ -149,6 +149,9 @@ public class getAllImmunisationData {
         }
         catch(Exception e){
 
+            Toast.makeText(ctx, "exception sending "+e, Toast.LENGTH_SHORT).show();
+            System.out.println("***********sending error************");
+            System.out.println(e);
 
         }
     }
@@ -157,18 +160,18 @@ public class getAllImmunisationData {
 
         String myval="-1";
 
-        if(value.trim().isEmpty()){
+        if(value==null||value.isEmpty()){
             myval="-1";
 
         }
-        else if(value.trim().equalsIgnoreCase("No")){
+        else if(value.equalsIgnoreCase("No")){
             myval="2";
         }
-        else if(value.trim().equalsIgnoreCase("Yes")){
+        else if(value.equalsIgnoreCase("Yes")){
 
             myval="1";
         }
-        else if(value.trim().equalsIgnoreCase("Partially")){
+        else if(value.equalsIgnoreCase("Partially")){
             myval="3";
         }
 
@@ -180,7 +183,7 @@ public class getAllImmunisationData {
     private String returnDateValue(String date){
         String dateVal="-1";
 
-        if(date.trim().isEmpty()){
+        if(date==null||date.isEmpty()){
             dateVal="-1";
         }
         else{
