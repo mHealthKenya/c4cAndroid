@@ -19,14 +19,14 @@ public class Config {
 
 //    public static final String GETFACILITY_URL = "https://c4c-test.mhealthkenya.co.ke/Core/get_facility_info";
 
-    public static final String GETCOUNTY_URL = "http://c4c-test.mhealthkenya.org/c4c-dev/core/CountySearch";
+    public static final String GETCOUNTY_URL = "https://c4c.mhealthkenya.co.ke/core/CountySearch";
 
-    public static final String GETSUBCOUNTY_URL = "http://c4c-test.mhealthkenya.org/c4c-dev/core/SubCountySearch";
+    public static final String GETSUBCOUNTY_URL = "https://c4c.mhealthkenya.co.ke/core/SubCountySearch";
 //    public static final String GETSUBCOUNTY_URL = "https://api.mhealthkenya.co.ke/api/get_sub_county";
 
     public static final String VERIFYNUMBER_URL = "https://c4c-test.mhealthkenya.co.ke/Core/chkMobile";
 
-    public static final String GETFACILITY_URL = "http://c4c-test.mhealthkenya.org/c4c-dev/core/FacSearch";
+    public static final String GETFACILITY_URL = "https://c4c.mhealthkenya.co.ke/core/FacSearch";
 
 
     //*************TEST DB CONNECTION URL***********************

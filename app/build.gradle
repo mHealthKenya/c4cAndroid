@@ -10,8 +10,8 @@ android {
         applicationId "mhealth.login"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 37
-        versionName "2.3"
+        versionCode 38
+        versionName "2.4"
         javaCompileOptions {
             annotationProcessorOptions {
                 includeCompileClasspath false

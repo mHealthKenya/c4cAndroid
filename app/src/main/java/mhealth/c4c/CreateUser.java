@@ -43,6 +43,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -167,7 +168,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     boolean kmpduChecked;
     DateCalculator dcalc;
     AccessServer accessServer;
-    CheckInternet chkInternet;
+//    CheckInternet chkInternet;
     RequestPerms requestPerms;
 
 
@@ -1098,7 +1099,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             subcountyList=new ArrayList<>();
 
             requestPerms=new RequestPerms(CreateUser.this,this);
-            chkInternet=new CheckInternet(CreateUser.this);
+//            chkInternet=new CheckInternet(CreateUser.this);
             accessServer=new AccessServer(CreateUser.this);
 
             selectedCty = "";
@@ -1738,6 +1739,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
 
             } else {
+
                 grd.getFacilityData();
 
             }
@@ -1803,7 +1805,9 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
     //check if the provided password matches the regular expression
     public boolean isTextValid(String textToCheck) {
+
         return textPattern.matcher(textToCheck).matches();
+
     }
 
 
@@ -1827,8 +1831,11 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                         @Override
                         public void onResponse(String response) {
 //                            pd.dismissDialog();
-
+//                            Toast.makeText(CreateUser.this, ""+response, Toast.LENGTH_SHORT).show();
                             pr.dissmissProgress();
+
+                            System.out.println("****county reponse****");
+                            System.out.println(response);
 
                             JSONObject j = null;
                             try {
@@ -1923,7 +1930,10 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
             pr.showProgress("getting subcounties....");
 
-            StringRequest stringRequest = new StringRequest(POST,Config.GETSUBCOUNTY_URL,
+            String encodedString= URLEncoder.encode(ctyid, "UTF-8").replaceAll("\\+", "%20");
+
+
+            StringRequest stringRequest = new StringRequest(GET,Config.GETSUBCOUNTY_URL+"/"+encodedString,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -1971,7 +1981,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                 protected Map<String, String> getParams() {
                     Map<String, String> params = new HashMap<String, String>();
 
-                    params.put("cntyID", ctyid);
+//                    params.put("cntyID", ctyid);
 
                     return params;
                 }
@@ -2046,7 +2056,9 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
             pr.showProgress("getting facilities...");
 
-            StringRequest stringRequest = new StringRequest(POST,Config.GETFACILITY_URL,
+            String encodedString= URLEncoder.encode(sbctyid, "UTF-8").replaceAll("\\+", "%20");
+
+            StringRequest stringRequest = new StringRequest(GET,Config.GETFACILITY_URL+"/"+encodedString,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -2088,7 +2100,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                 protected Map<String, String> getParams() {
                     Map<String, String> params = new HashMap<String, String>();
 
-                    params.put("mfl", sbctyid);
+//                    params.put("mfl", sbctyid);
 
                     return params;
                 }

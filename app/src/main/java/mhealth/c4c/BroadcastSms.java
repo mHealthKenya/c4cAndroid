@@ -29,6 +29,7 @@ import mhealth.c4c.SSLTrustCertificate.SSLTrust;
 import mhealth.c4c.Tables.Edittable;
 import mhealth.c4c.config.Config;
 import mhealth.c4c.encryption.Base64Encoder;
+import mhealth.c4c.sendMessages.SendMessage;
 
 /**
  * Created by kennedy on 9/13/17.
@@ -63,14 +64,15 @@ public class BroadcastSms extends AppCompatActivity implements AdapterView.OnIte
     }
 
 
-    public void clearFields(){
+    private void clearFields(){
 
         try{
 
             msg.setText("");
             dte.setText("");
             name.setText("");
-            populateCadres();
+            cdreselect.setText("");
+//            populateCadres();
         }
         catch(Exception e){
 
@@ -193,12 +195,12 @@ public class BroadcastSms extends AppCompatActivity implements AdapterView.OnIte
 
         try{
 
-            String txt,mydte,mycdre,myname;
+            String txt,mydte,myname;
 
 
             txt=msg.getText().toString().trim();
             mydte=dte.getText().toString().trim();
-            mycdre=Integer.toString(selectedCadre);
+//            mycdre=Integer.toString(selectedCadre);
             myname=name.getText().toString().trim();
 
             if(txt.isEmpty()){
@@ -233,15 +235,18 @@ public class BroadcastSms extends AppCompatActivity implements AdapterView.OnIte
                     for (int x = 0; x < itemsSelectedSpecialisation.size(); x++) {
                         String val=Integer.toString((Integer.parseInt(itemsSelectedSpecialisation.get(x).toString()))+1);
 
-                        theCadres.append(val+"*");
+                        theCadres.append(val+"+");
 
                     }
 
 
                 }
 
-                String bmes="BM*"+txt+"*"+mydte+"*cdre*"+theCadres+"cdre*"+myname;
-                displayDialogue(bmes);
+                String bmes="BM*"+Base64Encoder.encryptString(txt+"*"+mydte+"*"+theCadres+"*"+myname);
+                SendMessage.sendMessage(bmes,Config.shortcode);
+
+                SignupsuccessDialog("Success in sending broadcast message");
+//                displayDialogue(bmes);
 
 
 
@@ -250,8 +255,11 @@ public class BroadcastSms extends AppCompatActivity implements AdapterView.OnIte
         catch(Exception e){
 
 
+            Toast.makeText(this, "error occured "+e, Toast.LENGTH_SHORT).show();
         }
     }
+
+
 
 
 

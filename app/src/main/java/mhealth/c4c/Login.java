@@ -36,7 +36,9 @@ import mhealth.c4c.SSLTrustCertificate.SSLTrust;
 import mhealth.c4c.Tables.Broadcastsmsrights;
 import mhealth.c4c.Tables.Partners;
 import mhealth.c4c.Tables.kmpdu;
+import mhealth.c4c.config.Config;
 import mhealth.c4c.dialogs.Dialogs;
+import mhealth.c4c.sendMessages.SendMessage;
 import mhealth.c4c.userlogindata.UserLoginData;
 
 
@@ -357,6 +359,8 @@ public class Login extends AppCompatActivity {
 
                 }
                 else{
+
+
 
                     Intent myint = new Intent(getApplicationContext(), LandingPage.class);
 //                            myint.putExtra("kmpduChecked","true");

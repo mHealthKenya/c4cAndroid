@@ -50,6 +50,7 @@ import mhealth.c4c.dialogs.Dialogs;
 import mhealth.c4c.encryption.Base64Encoder;
 import mhealth.c4c.models.CountyModel;
 import mhealth.c4c.progress.Progress;
+import mhealth.c4c.sendMessages.SendMessage;
 
 import static com.android.volley.Request.Method.POST;
 
@@ -488,6 +489,9 @@ public class UserLoginData extends AppCompatActivity implements AdapterView.OnIt
                 Edittable et=new Edittable(code,myphone,idnum);
                 et.save();
 
+                //SEND MESSAGE TO CHECK BROADCAST RIGHTS
+                SendMessage.sendMessage("CHKRIGHT", Config.shortcode);
+
                 Toast.makeText(this, "creating account", Toast.LENGTH_SHORT).show();
 
 
@@ -821,12 +825,13 @@ public class UserLoginData extends AppCompatActivity implements AdapterView.OnIt
                                 btnnxt.setVisibility(View.VISIBLE);
                                 createacctbtn.setVisibility(View.GONE);
                                 verifyBtn.setVisibility(View.GONE);
+                                phoneE.setFocusable(false);
 
                             }
                             else{
 
 
-
+                                phoneE.setFocusable(false);
                                 isUserAvailable=true;
                                 uloginLL.setVisibility(View.VISIBLE);
                                 btnnxt.setVisibility(View.GONE);
