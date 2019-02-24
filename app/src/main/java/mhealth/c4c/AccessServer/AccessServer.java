@@ -476,11 +476,11 @@ public class AccessServer {
                     @Override
                     public void onResponse(String response) {
 
-                        Toast.makeText(ctx, ""+phone, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(ctx, ""+phone, Toast.LENGTH_SHORT).show();
 
                         pr.dissmissProgress();
-                        Toast.makeText(ctx, "response "+response, Toast.LENGTH_SHORT).show();
-                        CreatprofilesuccessDialog("success creating profile "+response+" phone "+phone);
+//                        Toast.makeText(ctx, "response "+response, Toast.LENGTH_SHORT).show();
+                        CreatprofilesuccessDialog("success creating profile, "+response);
 
 
 

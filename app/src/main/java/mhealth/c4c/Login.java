@@ -267,6 +267,26 @@ public class Login extends AppCompatActivity {
                 finish();
 
             }
+            else if((myl.size()>0)){
+
+                for(int x=0;x<myl.size();x++){
+
+                  String mfl=myl.get(x).mflcode;
+                  if(mfl.isEmpty() || mfl.contentEquals("")||mfl==null){
+
+                      Intent i=new Intent(getApplicationContext(),UserLoginData.class);
+                      i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                      i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                      i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                      startActivity(i);
+                      finish();
+                  }
+
+                }
+
+            }
+
             else{
 
 
@@ -341,7 +361,7 @@ public class Login extends AppCompatActivity {
                 List<Registrationdatatable> chkDOB= Registrationdatatable.findWithQuery(Registrationdatatable.class,"select * from Registrationdatatable");
                 for(int myx=0;myx<chkDOB.size();myx++){
 
-                    dob=chkDOB.get(myx).getAge();
+                    dob=chkDOB.get(myx).getMflcode();
                 }
 
                 pr.DissmissProgress();

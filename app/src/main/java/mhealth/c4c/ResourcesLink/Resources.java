@@ -51,9 +51,9 @@ public class Resources extends AppCompatActivity {
             String link4="https://www.nascop.or.ke/?p=1058";
             String link5="http://www.health.go.ke/wp-content/uploads/2015/09/OCCUPATIONAL%20HEALTH%20AND%20SAFETY%20POLICY%20GUIDELINES%20FOR%20THE%20HEALTH%20SECTOR%20IN%20KENYA.pdf";
             String link6="http://extwprlegs1.fao.org/docs/pdf/ken171510.pdf";
-            String link7="https://www.google.com";
-            String link8="https://www.google.com";
-            String link9="https://www.google.com";
+            String link7="https://c4c-test.mhealthkenya.co.ke/assets/IPC/national.pdf";
+            String link8="https://c4c-test.mhealthkenya.co.ke/assets/IPC/national.pdf";
+            String link9="https://c4c-test.mhealthkenya.co.ke/assets/IPC/national.pdf";
 
 
             setLinkToText(lk1.getText().toString(),lk1.getText().toString().length(),lk1,link1);

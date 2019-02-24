@@ -101,7 +101,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     String selectedspecialisation;
     Progress pr;
 
-//   ****** hepatitis b variables
+    //   ****** hepatitis b variables
     RadioGroup grphepatitis,grphepatitissecondose;
     RadioButton radiobtnhepaqn1,radiobtnhepaseconddose;
     LinearLayout llhepadoselayout1,llhepadoseseconddose;
@@ -168,7 +168,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     boolean kmpduChecked;
     DateCalculator dcalc;
     AccessServer accessServer;
-//    CheckInternet chkInternet;
+    //    CheckInternet chkInternet;
     RequestPerms requestPerms;
 
 
@@ -246,7 +246,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             System.out.println(facilityList);
 
 
-           final ArrayList<String> y = new ArrayList<>();
+            final ArrayList<String> y = new ArrayList<>();
 
             for (int x = 0; x < facilityList.size(); x++) {
                 String faciityname = facilityList.get(x).getName();
@@ -1156,7 +1156,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
 //            selected_item=parent.getItemAtPosition(position).toString();
             myselectedgender = Integer.toString(position);
-            Toast.makeText(this, "selected "+myselectedgender, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "selected "+myselectedgender, Toast.LENGTH_SHORT).show();
             actOnSelected();
 
         }
@@ -1266,7 +1266,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
         try {
 
-           //***save hpbdata**
+            //***save hpbdata**
             updateHPBData();
 
             populatePartnerTable();
@@ -1310,7 +1310,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 //            motherE.setVisibility(View.VISIBLE);
 //            lnameE.setVisibility(View.VISIBLE);
 
-           if (!kmpduChecked && myidno.trim().isEmpty()) {
+            if (!kmpduChecked && myidno.trim().isEmpty()) {
                 idnoE.setError("ID NUMBER is Required");
 
             }
@@ -1508,28 +1508,29 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
         pdialog.cancel();
 
 
-            Registrationdatatable rt = Registrationdatatable.findById(Registrationdatatable.class, 1);
-            rt.gender = myselectedgender;
-            rt.cadre = myselected2;
-            rt.idnumber = myidno;
-            rt.age = myage;
-            rt.mflcode = mymfl;
-            rt.myhepa = "-1";
-            rt.save();
+//        Registrationdatatable rt = Registrationdatatable.findById(Registrationdatatable.class, 1);
+        Registrationdatatable.executeQuery("update Registrationdatatable set gender=?,cadre=?,idnumber=?,age=?,mflcode=?,myhepa=?",myselectedgender,myselected2,myidno,myage,mymfl,"-1");
+//        rt.gender = myselectedgender;
+//        rt.cadre = myselected2;
+//        rt.idnumber = myidno;
+//        rt.age = myage;
+//        rt.mflcode = mymfl;
+//        rt.myhepa = "-1";
+//        rt.save();
 //
 //                                    Registrationdatatable rt=new Registrationdatatable("","",myselectedgender,myselected2,myidno,myage,mymfl,myselected3,"","","","");
 //                                    rt.save();
-            String myoth = "";
-            String phoneS="";
-            String newPhoneS="";
-            String mfname="";
-            String mlname="";
+        String myoth = "";
+        String phoneS="";
+        String newPhoneS="";
+        String mfname="";
+        String mlname="";
 
 
 
 
 
-            myoth = motherE.getText().toString();
+        myoth = motherE.getText().toString();
 
         List<Signup> myn=Signup.findWithQuery(Signup.class,"select * from Signup limit 1");
         for(int p=0;p<myn.size();p++){
@@ -1545,17 +1546,17 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
         }
 
-                    Profiletable pt=new Profiletable(mymfl);
-                    pt.save();
+        Profiletable pt=new Profiletable(mymfl);
+        pt.save();
 
-                    //save user details for further editing
-                    Edittable.deleteAll(Edittable.class);
-                    Edittable et=new Edittable(mymfl,phoneS,myidno);
-                    et.save();
+        //save user details for further editing
+        Edittable.deleteAll(Edittable.class);
+        Edittable et=new Edittable(mymfl,phoneS,myidno);
+        et.save();
 
 
 
-                    accessServer.createProfile(partner.toString(),sspecial,myselectedgender,myselected2,myidno,myage,mymfl,newPhoneS);
+        accessServer.createProfile(partner.toString(),sspecial,myselectedgender,myselected2,myidno,myage,mymfl,newPhoneS);
 
 
 
