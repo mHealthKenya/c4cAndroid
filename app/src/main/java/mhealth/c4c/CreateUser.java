@@ -1530,7 +1530,14 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
 
 
-        myoth = motherE.getText().toString();
+        if(motherE.isShown()){
+            myoth = motherE.getText().toString();
+
+        }
+        else{
+            myoth = "-1";
+        }
+
 
         List<Signup> myn=Signup.findWithQuery(Signup.class,"select * from Signup limit 1");
         for(int p=0;p<myn.size();p++){
@@ -1556,7 +1563,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
 
 
-        accessServer.createProfile(partner.toString(),sspecial,myselectedgender,myselected2,myidno,myage,mymfl,newPhoneS);
+        accessServer.createProfile(partner.toString(),sspecial,myselectedgender,myselected2,myidno,myage,mymfl,newPhoneS,myoth);
 
 
 
@@ -2190,6 +2197,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                                 inf.setImmunisedvaluedose1("Yes");
                                 inf.setImmunisediddose1("2131296553");
                                 inf.save();
+//                                Hepatitis.executeQuery("update Hepatitis set immunisedvaluedose1=? and immunisediddose1=?","Yes","2131296553");
 
                             }
                             else{
@@ -2198,6 +2206,9 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                                 inf.setImmunisedvaluedose1("Yes");
                                 inf.setImmunisediddose1("2131296553");
                                 inf.save();
+
+//                                Hepatitis.executeQuery("update Hepatitis set immunisedvaluedose1=? and immunisediddose1=?","Yes","2131296553");
+
 
                             }
 
@@ -2221,6 +2232,9 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                                 inf.setImmunisedvaluedose1("Partially");
                                 inf.setImmunisediddose1("2131296552");
                                 inf.save();
+
+//                                Hepatitis.executeQuery("update Hepatitis set immunisedvaluedose1=? and immunisediddose1=?","Partially","2131296552");
+
 
                             }
                             else{

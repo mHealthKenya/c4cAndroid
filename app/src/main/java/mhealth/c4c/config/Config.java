@@ -6,10 +6,10 @@ import java.util.Arrays;
 public class Config {
 
     //******TEST SHORTCODE****************
-    public static final String shortcode="40149";
+//    public static final String shortcode="40149";
 
     //******LIVE SHORTCODE****************
-//    public static final String shortcode="40145";
+    public static final String shortcode="40145";
 
     //*************TEST DB CONNECTION URL***********************
 
@@ -24,7 +24,7 @@ public class Config {
     public static final String GETSUBCOUNTY_URL = "https://c4c.mhealthkenya.co.ke/core/SubCountySearch";
 //    public static final String GETSUBCOUNTY_URL = "https://api.mhealthkenya.co.ke/api/get_sub_county";
 
-    public static final String VERIFYNUMBER_URL = "https://c4c-test.mhealthkenya.co.ke/Core/chkMobile";
+    public static final String VERIFYNUMBER_URL = "https://c4c.mhealthkenya.co.ke/Core/chkMobile";
 
     public static final String GETFACILITY_URL = "https://c4c.mhealthkenya.co.ke/core/FacSearch";
 

@@ -39,6 +39,7 @@ import mhealth.c4c.config.Config;
 import mhealth.c4c.dialogs.Dialogs;
 import mhealth.c4c.encryption.Base64Encoder;
 import mhealth.c4c.progress.Progress;
+import mhealth.c4c.systemstatetables.Hepatitis;
 
 public class AccessServer {
 
@@ -58,7 +59,12 @@ public class AccessServer {
     public AccessServer(Context ctx) {
         try {
 
+
+
             initialise(ctx);
+
+
+
         } catch (Exception e) {
 
         }
@@ -467,7 +473,7 @@ public class AccessServer {
 
 
 
-    public void createProfile(final String partner , final String specs, final String gender,final String cdr,final String idno,final String dob,final String mflno,final String phone) {
+    public void createProfile(final String partner , final String specs, final String gender, final String cdr, final String idno, final String dob, final String mflno, final String phone, final String othercadre) {
 
         pr.showProgress("creating profile.....");
 
@@ -489,7 +495,8 @@ public class AccessServer {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ctx, "Check your internet and try again", Toast.LENGTH_SHORT).show();
+
+                        Toast.makeText(ctx, "Check your internet and try again "+error, Toast.LENGTH_SHORT).show();
                         pr.dissmissProgress();
 
 
@@ -502,16 +509,45 @@ public class AccessServer {
 
                 List<Signup> mym=Signup.findWithQuery(Signup.class,"select * from Signup limit 1");
                 for(int x=0;x<mym.size();x++){
+                    String hbv1="-1";
+                    String hbv2="-1";
+                    String dose1="-1";
+                    String dose2="-1";
 
+                    List<Hepatitis> hep=Hepatitis.findWithQuery(Hepatitis.class,"select * from Hepatitis limit 1");
+                    for(int h=0;h<hep.size();h++){
+                        if(!(hep.get(h).getImmunisedvaluedose1()==null)){
+
+                            hbv1=hep.get(h).getImmunisedvaluedose1();
+                        }
+                        if(!(hep.get(h).getImmunisedvaluedose2()==null)){
+
+                            hbv2=hep.get(h).getImmunisedvaluedose2();
+                        }
+                        if(!(hep.get(h).getFirstdosedate()==null)){
+
+                            dose1=hep.get(h).getFirstdosedate();
+                        }
+                        if(!(hep.get(h).getSeconddosedate()==null)){
+
+                            dose2=hep.get(h).getSeconddosedate();
+                        }
+
+                    }
                     params.put("fname", mym.get(x).getFname());
                     params.put("lname", mym.get(x).getLname());
                     params.put("phone_no", phone);
                     params.put("partner", partner);
                     params.put("gender", gender);
                     params.put("cdr", cdr);
+                    params.put("other_cadre", othercadre);
                     params.put("idno", idno);
                     params.put("dob", dob);
                     params.put("mflno", mflno);
+                    params.put("hbv1", hbv1);
+                    params.put("dose1", dose1);
+                    params.put("hbv2", hbv2);
+                    params.put("dose2", dose2);
 
                 }
 
