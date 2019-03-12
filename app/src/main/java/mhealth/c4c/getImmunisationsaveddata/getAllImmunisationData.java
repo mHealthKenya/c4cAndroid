@@ -21,9 +21,11 @@ import mhealth.c4c.systemstatetables.Varicella;
 public class getAllImmunisationData {
 
     Context ctx;
+    SendMessage sm;
 
     public getAllImmunisationData(Context ctx) {
         this.ctx = ctx;
+        sm=new SendMessage(ctx);
     }
 
     public void displayAllData(){
@@ -143,7 +145,8 @@ public class getAllImmunisationData {
 
 //            Toast.makeText(ctx, "sending "+message, Toast.LENGTH_SHORT).show();
 
-            SendMessage.sendMessage("IMMUNE*"+message, Config.shortcode);
+//            SendMessage.sendMessage("IMMUNE*"+message, Config.shortcode);
+            sm.sendMessageApi("IMMUNE*"+message, Config.shortcode);
 
 
         }

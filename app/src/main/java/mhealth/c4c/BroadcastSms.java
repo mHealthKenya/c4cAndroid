@@ -47,6 +47,7 @@ public class BroadcastSms extends AppCompatActivity implements AdapterView.OnIte
     String[] itemsspecialisation={"Student","Doctor","Nurse","Clinical officer","Laboratory technologist","Cleaner","Waste Handlers","Vct Counsellor"};
 
     DatePickerDialog datePickerDialog;
+    SendMessage sm;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -243,7 +244,8 @@ public class BroadcastSms extends AppCompatActivity implements AdapterView.OnIte
                 }
 
                 String bmes="BM*"+Base64Encoder.encryptString(txt+"*"+mydte+"*"+theCadres+"*"+myname);
-                SendMessage.sendMessage(bmes,Config.shortcode);
+//                SendMessage.sendMessage(bmes,Config.shortcode);
+                sm.sendMessageApi(bmes,Config.shortcode);
 
                 SignupsuccessDialog("Success in sending broadcast message");
 //                displayDialogue(bmes);
@@ -303,6 +305,7 @@ public class BroadcastSms extends AppCompatActivity implements AdapterView.OnIte
     public void initialise(){
 
         try{
+            sm=new SendMessage(BroadcastSms.this);
             msg=(EditText) findViewById(R.id.bmessage);
             dte=(EditText) findViewById(R.id.bdate);
             name=(EditText) findViewById(R.id.bname);

@@ -366,9 +366,9 @@ public class Login extends AppCompatActivity {
 
                 pr.DissmissProgress();
 
-                Broadcastsmsrights.deleteAll(Broadcastsmsrights.class);
+//                Broadcastsmsrights.deleteAll(Broadcastsmsrights.class);
 
-                loadmessages.loadInboxMessages();
+//                loadmessages.loadInboxMessages();
 
 
                 if(dob.trim().isEmpty()){

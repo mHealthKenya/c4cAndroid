@@ -19,6 +19,7 @@ import java.util.List;
 
 import mhealth.c4c.SSLTrustCertificate.SSLTrust;
 import mhealth.c4c.config.Config;
+import mhealth.c4c.sendMessages.SendMessage;
 
 /**
  * Created by DELL on 12/11/2015.
@@ -33,6 +34,7 @@ public class exposure extends AppCompatActivity implements AdapterView.OnItemSel
     String myselected2="";
     EditText txtEhourE;
     Button btnSSubmit;
+    SendMessage sm;
 
     String[] where={"Where did the exposure occur?","Medical Ward","Surgical Ward","Theatre","Maternity","Dental Clinic","OP/MCH","Laundry","Laboratory","Other"};
     String[] what={"What was the type of exposure?","Needle Stick","Cut","Splash on mucosa","Non-intact skin","Bite","Other"};
@@ -60,7 +62,7 @@ public class exposure extends AppCompatActivity implements AdapterView.OnItemSel
     public void initialise(){
 
         try{
-
+            sm=new SendMessage(exposure.this);
             mySpinner1=(Spinner)findViewById(R.id.spinner1);
             mySpinner2=(Spinner)findViewById(R.id.spinner2);
             txtEhourE=(EditText) findViewById(R.id.txtEHour);
@@ -97,8 +99,10 @@ public class exposure extends AppCompatActivity implements AdapterView.OnItemSel
 
                 String Message = "Rep*"+myselected+"*"+myselected2+"*"+hr;
 
-                SmsManager sm = SmsManager.getDefault();
-                sm.sendTextMessage(Config.shortcode, null, Message, null, null);
+                sm.sendMessageApi(Message,Config.shortcode);
+
+//                SmsManager sm = SmsManager.getDefault();
+//                sm.sendTextMessage(Config.shortcode, null, Message, null, null);
                 clearFields();
                 SignupsuccessDialog("");
 

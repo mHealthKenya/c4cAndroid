@@ -36,6 +36,7 @@ import mhealth.c4c.config.Config;
 import mhealth.c4c.dateCalculator.DateCalculator;
 import mhealth.c4c.dialogs.Dialogs;
 import mhealth.c4c.encryption.Base64Encoder;
+import mhealth.c4c.sendMessages.SendMessage;
 
 
 public class Report extends AppCompatActivity {
@@ -45,6 +46,7 @@ public class Report extends AppCompatActivity {
     private EditText datetimeofexposureE,otherWhereE,otherWhatE,otherDeviceE,otherSafetyE,otherAutoE,otherPurposeE,otherWhenE,dateTimeOfPepInitE,otherExposureResult,numberofexposuresE;
     Dialogs sweetdialog;
     DateTimePicker dtp;
+    SendMessage sm;
 
     private Button btn_submit;
     MaterialBetterSpinner SpinnerWhat,SpinnerWhere,SpinnerDevice,SpinnerSafety,SpinnerExposureDeep,SpinnerPurpose,SpinnerWhen,SpinnerHiv,SpinnerHbv,SpinnerPepInit,SpinnerExposureResult;
@@ -552,11 +554,11 @@ public class Report extends AppCompatActivity {
 
                             String Message="Rep*"+ Base64Encoder.encryptString(where+"*"+what+"*"+purpose+"*"+when+"*"+HivStatus+"*"+HbvStatus+"*"+numberofexposures+"*"+pepinit+"*"+dateofexposure+"*"+device+"*"+deviceSafety+"*"+deep+"*"+dateofpepinit+"*"+exposureresult);
 //                        String Message = "Rep*"+where+"*"+nature+"*"+myhour;
-
-                            SmsManager sm = SmsManager.getDefault();
-                            ArrayList<String> parts = sm.divideMessage(Message);
-
-                            sm.sendMultipartTextMessage(Config.shortcode, null, parts, null, null);
+                            sm.sendMessageApi(Message,Config.shortcode);
+//                            SmsManager sm = SmsManager.getDefault();
+//                            ArrayList<String> parts = sm.divideMessage(Message);
+//
+//                            sm.sendMultipartTextMessage(Config.shortcode, null, parts, null, null);
                             Toast.makeText(Report.this, "Successfully submitted", Toast.LENGTH_SHORT).show();
 //                            sweetdialog.showSuccessDialogReportExposure("Successfully submitted","");
 
@@ -630,6 +632,7 @@ public class Report extends AppCompatActivity {
 
         try{
 
+            sm=new SendMessage(Report.this);
             dcalc=new DateCalculator();
             chkInternet=new CheckInternet(Report.this);
             accessServer=new AccessServer(Report.this);

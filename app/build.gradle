@@ -7,11 +7,12 @@ android {
     buildToolsVersion '27.0.3'
 
     defaultConfig {
+
         applicationId "mhealth.login"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 40
-        versionName "2.6"
+        versionCode 46
+        versionName "3.2"
         javaCompileOptions {
             annotationProcessorOptions {
                 includeCompileClasspath false
@@ -59,6 +60,16 @@ dependencies {
 
     implementation 'com.github.MdFarhanRaja:SearchableSpinner:1.9'
     implementation 'com.github.d-max:spots-dialog:0.7@aar'
+
+
+//    start sms retriever api implementation
+
+    implementation 'com.google.android.gms:play-services-base:16.0.1'
+    implementation 'com.google.android.gms:play-services-identity:16.0.0'
+    implementation 'com.google.android.gms:play-services-auth:16.0.1'
+    implementation 'com.google.android.gms:play-services-auth-api-phone:16.0.0'
+
+//    end sms retriever api implementation
 
 }
 repositories {

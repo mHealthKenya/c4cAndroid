@@ -5,24 +5,17 @@
 
 
     <!-- To auto-complete the email text field in the mpepver form with the user's emails -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-permission android:name="android.permission.SEND_SMS" />
-    <uses-permission android:name="android.permission.READ_SMS" />
+    <!--<uses-permission android:name="android.permission.GET_ACCOUNTS" />-->
+    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
+    <!--<uses-permission android:name="android.permission.READ_PROFILE" />-->
+    <!--<uses-permission android:name="android.permission.READ_CONTACTS" />-->
+    <!--<uses-permission android:name="android.permission.SEND_SMS" />-->
+    <!--<uses-permission android:name="android.permission.READ_SMS" />-->
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_SMS" />
-    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <!--<uses-permission android:name="android.permission.RECEIVE_SMS" />-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 
-
-    <permission android:name="mhealth.c4c.permission.Send_SMS"
-        android:label="@string/Send_SMS"
-        android:description="@string/Send_SMS_desc"
-        android:permissionGroup="android.permission-group.SEND_SMS"
-        android:protectionLevel="dangerous" />
 
     <application
         android:allowBackup="true"
@@ -56,8 +49,27 @@
                 android:value=".Login" />
         </activity>
 
+    <!--start sms retriever details here-->
 
+        <service android:name=".Smsretrieverapi.BackgroundService" />
 
+        <activity android:name=".Smsretrieverapi.TestClass">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN"/>-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+            <!--</intent-filter>-->
+        </activity>
+
+        <receiver
+            android:name=".Smsretrieverapi.SmsReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.gms.auth.api.phone.SMS_RETRIEVED"/>
+            </intent-filter>
+        </receiver>
+<!--end sms retriever details here-->
         <activity android:name=".vaccinationstab.VaccinationTabs"
             android:label="Annual checkup &amp; Vaccination schedule"
             android:configChanges="orientation|screenSize"

@@ -133,9 +133,9 @@ public class LandingPage extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
 
-        MenuItem menuItem = menu.findItem(R.id.messages);
-        setCounter();
-        menuItem.setIcon(buildCounterDrawable(count, R.drawable.envelope));
+//        MenuItem menuItem = menu.findItem(R.id.messages);
+//        setCounter();
+//        menuItem.setIcon(buildCounterDrawable(count, R.drawable.envelope));
         return true;
     }
 
@@ -162,11 +162,11 @@ public class LandingPage extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.messages) {
-            Intent myint=new Intent(getApplicationContext(),MessagesTabs.class);
-            startActivity(myint);
-            return true;
-        }
+//        if (id == R.id.messages) {
+//            Intent myint=new Intent(getApplicationContext(),MessagesTabs.class);
+//            startActivity(myint);
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }

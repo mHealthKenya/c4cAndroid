@@ -518,11 +518,13 @@ public class AccessServer {
                     for(int h=0;h<hep.size();h++){
                         if(!(hep.get(h).getImmunisedvaluedose1()==null)){
 
-                            hbv1=hep.get(h).getImmunisedvaluedose1();
+                            hbv1=getHbvId(hep.get(h).getImmunisedvaluedose1());
+
+
                         }
                         if(!(hep.get(h).getImmunisedvaluedose2()==null)){
 
-                            hbv2=hep.get(h).getImmunisedvaluedose2();
+                            hbv2=getHbvId(hep.get(h).getImmunisedvaluedose2());
                         }
                         if(!(hep.get(h).getFirstdosedate()==null)){
 
@@ -531,6 +533,7 @@ public class AccessServer {
                         if(!(hep.get(h).getSeconddosedate()==null)){
 
                             dose2=hep.get(h).getSeconddosedate();
+
                         }
 
                     }
@@ -566,6 +569,26 @@ public class AccessServer {
     }
 
 
+    private String getHbvId(String hbv){
+        String newId="-1";
+
+        if(hbv.equalsIgnoreCase("Yes")){
+            newId="1";
+
+        }
+        else if(hbv.equalsIgnoreCase("Partially")){
+            newId="2";
+
+        }
+        else if(hbv.equalsIgnoreCase("No")){
+
+            newId="3";
+
+        }
+
+        return newId;
+
+    }
 
     public void CreatprofilesuccessDialog(String message) {
 
