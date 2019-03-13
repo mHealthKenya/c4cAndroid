@@ -6,17 +6,17 @@ import java.util.Arrays;
 public class Config {
 
     //******TEST SHORTCODE****************
-    public static final String shortcode="40149";
+//    public static final String shortcode="40149";
 
     //******LIVE SHORTCODE****************
-//    public static final String shortcode="40145";
+    public static final String shortcode="40145";
 
     //*************TEST DB CONNECTION URL***********************
 
 //    public static final String SIGNUP_URL = "https://c4c-test.mhealthkenya.co.ke/Core/AppReg";
 //    public static final String CREATPROFILE_URL = "https://c4c-test.mhealthkenya.co.ke/Core/SignUp";
 //    public static final String REPORTEXPOSURE_URL = "https://c4c-test.mhealthkenya.co.ke/Core/RptExp";
-      public static final String VERIFYNUMBER_URL = "https://c4c-test.mhealthkenya.co.ke/Core/chkMobile";
+//      public static final String VERIFYNUMBER_URL = "https://c4c-test.mhealthkenya.co.ke/Core/chkMobile";
 
 //    public static final String GETFACILITY_URL = "https://c4c-test.mhealthkenya.co.ke/Core/get_facility_info";
 
@@ -25,7 +25,7 @@ public class Config {
     public static final String GETSUBCOUNTY_URL = "https://c4c.mhealthkenya.co.ke/core/SubCountySearch";
 //    public static final String GETSUBCOUNTY_URL = "https://api.mhealthkenya.co.ke/api/get_sub_county";
 
-//    public static final String VERIFYNUMBER_URL = "https://c4c.mhealthkenya.co.ke/Core/chkMobile";
+    public static final String VERIFYNUMBER_URL = "https://c4c.mhealthkenya.co.ke/Core/chkMobile";
 
     public static final String GETFACILITY_URL = "https://c4c.mhealthkenya.co.ke/core/FacSearch";
 
@@ -38,6 +38,7 @@ public class Config {
     public static final String SIGNUP_URL = "https://c4c.mhealthkenya.co.ke/Core/AppReg";
     public static final String CREATPROFILE_URL = "https://c4c.mhealthkenya.co.ke/Core/SignUp";
     public static final String REPORTEXPOSURE_URL = "https://c4c.mhealthkenya.co.ke/Core/RptExp";
+    public static final String BROADCAST_URL = "https://c4c.mhealthkenya.co.ke/Core/bSMS";
 
 //    public static final String GETFACILITY_URL = "https://c4c.mhealthkenya.co.ke/Core/get_facility_info";
 //*************LIVE DB CONNECTION URL***********************

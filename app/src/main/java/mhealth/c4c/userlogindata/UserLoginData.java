@@ -66,6 +66,7 @@ import mhealth.c4c.Tables.Edittable;
 import mhealth.c4c.Tables.Profiletable;
 import mhealth.c4c.Tables.Signupform.Signup;
 import mhealth.c4c.Tables.Signupform.Userserverdetails;
+import mhealth.c4c.Tables.Userphonenumber;
 import mhealth.c4c.config.Config;
 import mhealth.c4c.dialogs.Dialogs;
 import mhealth.c4c.encryption.Base64Encoder;
@@ -518,6 +519,11 @@ public class UserLoginData extends AppCompatActivity implements AdapterView.OnIt
 
                 Intent myintt=new Intent(getApplicationContext(), Login.class);
                 startActivity(myintt);
+
+
+                Userphonenumber.deleteAll(Userphonenumber.class);
+                Userphonenumber pn=new Userphonenumber(myphone);
+                pn.save();
 
                 String newPhoneS="+254"+myphone.substring(1);
 

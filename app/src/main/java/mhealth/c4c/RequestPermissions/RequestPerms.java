@@ -20,14 +20,12 @@ public class RequestPerms {
 
         try{
 
-//            int permissionCheck = ContextCompat.checkSelfPermission(ctx, Manifest.permission.SEND_SMS);
 
-//            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
                     activity,
-                    new String[]{Manifest.permission.SEND_SMS,Manifest.permission.READ_SMS,Manifest.permission.RECEIVE_SMS,Manifest.permission.INTERNET,Manifest.permission.READ_PHONE_STATE,Manifest.permission.ACCESS_NETWORK_STATE},
+                    new String[]{Manifest.permission.INTERNET,Manifest.permission.ACCESS_NETWORK_STATE},
                     1235);
-//            }
+
         }
         catch(Exception e){
             Toast.makeText(ctx, "error in granting permissions "+e, Toast.LENGTH_SHORT).show();

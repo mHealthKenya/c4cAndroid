@@ -25,8 +25,11 @@ import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
+import mhealth.c4c.AccessServer.AccessServer;
+import mhealth.c4c.Checkinternet.CheckInternet;
 import mhealth.c4c.SSLTrustCertificate.SSLTrust;
 import mhealth.c4c.Tables.Edittable;
+import mhealth.c4c.Tables.Userphonenumber;
 import mhealth.c4c.config.Config;
 import mhealth.c4c.encryption.Base64Encoder;
 import mhealth.c4c.sendMessages.SendMessage;
@@ -48,6 +51,9 @@ public class BroadcastSms extends AppCompatActivity implements AdapterView.OnIte
 
     DatePickerDialog datePickerDialog;
     SendMessage sm;
+
+    CheckInternet chkInternet;
+    AccessServer accessServer;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -243,9 +249,26 @@ public class BroadcastSms extends AppCompatActivity implements AdapterView.OnIte
 
                 }
 
-                String bmes="BM*"+Base64Encoder.encryptString(txt+"*"+mydte+"*"+theCadres+"*"+myname);
+                if(chkInternet.isInternetAvailable()){
+
+                    String myphone="";
+
+                    List<Userphonenumber> myp=Userphonenumber.findWithQuery(Userphonenumber.class,"select * from Userphonenumber limit 1");
+                    for(int tp=0;tp<myp.size();tp++){
+
+                        String phne=myp.get(tp).getPhone();
+                        myphone="+254"+phne.substring(1);
+                    }
+
+                    accessServer.broadcastSms(txt,mydte,theCadres.toString(),myname,myphone);
+                }
+                else{
+
+                    String bmes="BM*"+Base64Encoder.encryptString(txt+"*"+mydte+"*"+theCadres+"*"+myname);
 //                SendMessage.sendMessage(bmes,Config.shortcode);
-                sm.sendMessageApi(bmes,Config.shortcode);
+                    sm.sendMessageApi(bmes,Config.shortcode);
+                }
+
 
                 SignupsuccessDialog("Success in sending broadcast message");
 //                displayDialogue(bmes);
@@ -305,6 +328,10 @@ public class BroadcastSms extends AppCompatActivity implements AdapterView.OnIte
     public void initialise(){
 
         try{
+
+            chkInternet=new CheckInternet(BroadcastSms.this);
+            accessServer=new AccessServer(BroadcastSms.this);
+
             sm=new SendMessage(BroadcastSms.this);
             msg=(EditText) findViewById(R.id.bmessage);
             dte=(EditText) findViewById(R.id.bdate);

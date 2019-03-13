@@ -39,6 +39,7 @@ import mhealth.c4c.config.Config;
 import mhealth.c4c.dialogs.Dialogs;
 import mhealth.c4c.encryption.Base64Encoder;
 import mhealth.c4c.progress.Progress;
+import mhealth.c4c.sendMessages.SendMessage;
 import mhealth.c4c.systemstatetables.Hepatitis;
 
 public class AccessServer {
@@ -54,6 +55,7 @@ public class AccessServer {
     private JSONArray id_result;
     LoadMessages loadmessages;
     Dialogs sweetdialog;
+    SendMessage sm;
 
 
     public AccessServer(Context ctx) {
@@ -76,6 +78,7 @@ public class AccessServer {
 
         try {
             this.ctx = ctx;
+            sm=new SendMessage(ctx);
             pr = new Progress(ctx);
             mydialog = new Dialog(ctx);
             loadmessages=new LoadMessages(ctx);
@@ -374,6 +377,78 @@ public class AccessServer {
 
 
 
+    public void broadcastSms(final String message , final String date, final String cadre,final String title,final String phone_no) {
+
+        pr.showProgress("reporting exposure....");
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Config.BROADCAST_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        pr.dissmissProgress();
+//                        Toast.makeText(ctx, "sent "+response, Toast.LENGTH_SHORT).show();
+                        System.out.println("*************response exposure****************");
+                        System.out.println(response);
+
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+//                        Toast.makeText(ctx, "error "+error, Toast.LENGTH_SHORT).show();
+                        pr.dissmissProgress();
+                        System.out.println("*************response exposure****************");
+                        System.out.println(error);
+                        Toast.makeText(ctx, ""+error, Toast.LENGTH_SHORT).show();
+
+                        //send sms to the server
+
+                        String bmes="BM*"+Base64Encoder.encryptString(message+"*"+date+"*"+cadre+"*"+title);
+//                SendMessage.sendMessage(bmes,Config.shortcode);
+                        sm.sendMessageApi(bmes,Config.shortcode);
+
+
+//                        Intent i = new Intent(ctx, LandingPage.class);
+//                        // Closing all the Activities
+//                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//
+//                        ctx.startActivity(i);
+//                        ((Report)ctx).finish();
+
+
+                        //send sms to the server
+
+
+
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+
+
+                params.put("text", message);
+                params.put("sendDate", date);
+                params.put("cdr", cadre);
+                params.put("bname", title);
+                params.put("phone", phone_no);
+
+
+
+                return params;
+            }
+
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(ctx);
+        requestQueue.add(stringRequest);
+
+    }
+
 
     public void reportExposure(final String eloc , final String etype, final String purp,final String whenithapnd,final String HivStatus,final String hbvstatus,final String expno,final String pepinit,final String dateexpd,final String device,final String deviceSafety,final String deep,final String datepep,final String expresult,final String phone_no) {
 
@@ -386,7 +461,7 @@ public class AccessServer {
 
                         pr.dissmissProgress();
 //                        Toast.makeText(ctx, "response "+response, Toast.LENGTH_SHORT).show();
-                        Toast.makeText(ctx, "sent "+phone_no, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ctx, "sent "+response, Toast.LENGTH_SHORT).show();
                         System.out.println("*************response exposure****************");
                         System.out.println(response);
 
@@ -411,25 +486,15 @@ public class AccessServer {
                         pr.dissmissProgress();
                         System.out.println("*************response exposure****************");
                         System.out.println(error);
+                        Toast.makeText(ctx, ""+error, Toast.LENGTH_SHORT).show();
 
                         //send sms to the server
 
                         String Message="Rep*"+ Base64Encoder.encryptString(eloc+"*"+etype+"*"+purp+"*"+whenithapnd+"*"+HivStatus+"*"+hbvstatus+"*"+expno+"*"+pepinit+"*"+dateexpd+"*"+device+"*"+deviceSafety+"*"+deep+"*"+datepep+"*"+expresult);
 //                        String Message = "Rep*"+where+"*"+nature+"*"+myhour;
 
-                        SmsManager sm = SmsManager.getDefault();
-                        ArrayList<String> parts = sm.divideMessage(Message);
+                        sm.sendMessageApi(Message,Config.shortcode);
 
-                        sm.sendMultipartTextMessage(Config.shortcode, null, parts, null, null);
-
-                        Intent i = new Intent(ctx, LandingPage.class);
-                        // Closing all the Activities
-                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-                        ctx.startActivity(i);
-                        ((Report)ctx).finish();
 
 
                         //send sms to the server

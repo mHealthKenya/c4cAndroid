@@ -1,19 +1,14 @@
 package mhealth.c4c;
 
-import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.telephony.SmsManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -30,7 +25,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -57,7 +51,6 @@ import java.util.regex.Pattern;
 import in.galaxyofandroid.spinerdialog.OnSpinerItemClick;
 import in.galaxyofandroid.spinerdialog.SpinnerDialog;
 import mhealth.c4c.AccessServer.AccessServer;
-import mhealth.c4c.Checkinternet.CheckInternet;
 import mhealth.c4c.GetRemoteData.GetRemoteData;
 import mhealth.c4c.Registrationtable.Regpartners;
 import mhealth.c4c.RequestPermissions.RequestPerms;
@@ -74,7 +67,6 @@ import mhealth.c4c.checkupstatustable.UpdateStatusTable;
 import mhealth.c4c.config.Config;
 import mhealth.c4c.dateCalculator.DateCalculator;
 import mhealth.c4c.dialogs.Dialogs;
-import mhealth.c4c.encryption.Base64Encoder;
 import mhealth.c4c.models.CountyModel;
 import mhealth.c4c.models.FacilityModel;
 import mhealth.c4c.models.SubCountyModel;
@@ -83,7 +75,6 @@ import mhealth.c4c.systemstatetables.Hepatitis;
 import mhealth.c4c.userlogindata.UserLoginData;
 
 import static com.android.volley.Request.Method.GET;
-import static com.android.volley.Request.Method.POST;
 
 /**
  * Created by KENWEEZY on 2016-10-31.
@@ -273,43 +264,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
                     spinnerDialog.showSpinerDialog();
 
-//
-//                    ArrayList<String> items=new ArrayList<>();
-//                    items.add("Mumbai");
-//                    items.add("Delhi");
-//                    items.add("Bengaluru");
-//                    items.add("Hyderabad");
-//                    items.add("Ahmedabad");
-//                    items.add("Chennai");
-//                    items.add("Kolkata");
-//                    items.add("Surat");
-//                    items.add("Pune");
-//                    items.add("Jaipur");
-//                    items.add("Lucknow");
-//                    items.add("Kanpur");
-//
-//                    final ArrayList<String> y = new ArrayList<>();
-//
-//                    for (int x = 0; x < facilityList.size(); x++) {
-//                        String faciityname = facilityList.get(x).getName();
-//                        y.add(faciityname);
-//
-//                    }
-//
-//
-//                    //            spinnerDialog=new SpinnerDialog(CreateUser.this,items,"Select or Search City","Close Button Text");// With No Animation
-//                    spinnerDialog=new SpinnerDialog(CreateUser.this,y,"Select or Search City",R.style.DialogAnimations_SmileWindow,"Close Button Text");// With 	Animation
-//
-//
-//                    spinnerDialog.bindOnSpinerListener(new OnSpinerItemClick() {
-//                        @Override
-//                        public void onClick(String item, int position) {
-//                            Toast.makeText(CreateUser.this, item + "  " + position+"", Toast.LENGTH_SHORT).show();
-////                    selectedItems.setText(item + " Position: " + position);
-//                        }
-//                    });
-//
-//                    spinnerDialog.showSpinerDialog();
+
 
                 }
             });
