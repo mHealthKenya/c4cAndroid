@@ -22,7 +22,7 @@
 
 
         <meta-data android:name="DATABASE" android:value="mydb.db" />
-        <meta-data android:name="VERSION" android:value="10" />
+        <meta-data android:name="VERSION" android:value="11" />
         <meta-data android:name="QUERY_LOG" android:value="true" />
         <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="mhealth.c4c" />
 
@@ -140,6 +140,32 @@
                 <!--<category android:name="android.intent.category.LAUNCHER" />-->
             <!--</intent-filter>-->
         </activity>
+
+        <activity android:name=".registerForOthers.RegisterForOtherUserLoginData" android:parentActivityName=".LandingPage">
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+
+
+        <activity android:name=".CreateUserForOthers" android:parentActivityName=".registerForOthers.RegisterForOtherUserLoginData">
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+
+        <activity android:name=".reportExposureForOthers.ReportForOthers" android:parentActivityName=".LandingPage">
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+
 
         <activity android:name=".faqrecyclerview.FaqMainActivityRecycler" android:parentActivityName=".Info_Center">
             <!--<intent-filter>-->

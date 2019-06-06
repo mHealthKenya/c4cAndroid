@@ -11,7 +11,10 @@ import java.util.ArrayList;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import mhealth.c4c.LandingPage;
 import mhealth.c4c.Login;
+import mhealth.c4c.Report;
 import mhealth.c4c.config.Config;
+import mhealth.c4c.registerForOthers.RegisterForOtherUserLoginData;
+import mhealth.c4c.systemstatetables.Hepatitisforothers;
 
 /**
  * Created by root on 3/16/18.
@@ -95,6 +98,132 @@ public class Dialogs {
         }
     }
 
+
+
+
+    public void showReportExposureOptions(String title, String message){
+        try{
+
+            mdialog=new SweetAlertDialog(ctx, SweetAlertDialog.NORMAL_TYPE);
+            mdialog.setTitleText(title);
+            mdialog.setContentText(message);
+            mdialog.setCancelable(false);
+            mdialog.setConfirmText("Report for others");
+            mdialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sDialog) {
+
+                            Intent i = new Intent(ctx,RegisterForOtherUserLoginData.class);
+                            // Closing all the Activities
+
+                            ctx.startActivity(i);
+
+
+
+                }
+            });
+            mdialog.setNeutralText("Report my exposure");
+            mdialog.setNeutralClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sweetAlertDialog) {
+
+                    Intent i = new Intent(ctx,Report.class);
+
+                    ctx.startActivity(i);
+
+                }
+            });
+            mdialog.setCancelText("Cancel");
+            mdialog.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sweetAlertDialog) {
+
+                    sweetAlertDialog.dismissWithAnimation();
+
+                }
+            });
+
+            mdialog.show();
+
+
+        }
+        catch(Exception e){
+
+
+            Toast.makeText(ctx, "success showing dialog", Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
+
+    public void showRegisterUserOptions(String title, String message){
+        try{
+
+            mdialog=new SweetAlertDialog(ctx, SweetAlertDialog.NORMAL_TYPE);
+            mdialog.setTitleText(title);
+            mdialog.setContentText(message);
+            mdialog.setCancelable(false);
+            mdialog.setConfirmText("Proceed to report exposure");
+            mdialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sDialog) {
+
+                    Hepatitisforothers.deleteAll(Hepatitisforothers.class);
+
+                    Intent i = new Intent(ctx,RegisterForOtherUserLoginData.class);
+                    // Closing all the Activities
+
+                    ctx.startActivity(i);
+
+
+
+
+
+
+
+                }
+            });
+            mdialog.setNeutralText("Register another client");
+            mdialog.setNeutralClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sweetAlertDialog) {
+
+                    Hepatitisforothers.deleteAll(Hepatitisforothers.class);
+
+                    Intent i = new Intent(ctx,RegisterForOtherUserLoginData.class);
+                    // Closing all the Activities
+
+                    ctx.startActivity(i);
+
+                }
+            });
+            mdialog.setCancelText("Back to landing page");
+            mdialog.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sweetAlertDialog) {
+
+                    Hepatitisforothers.deleteAll(Hepatitisforothers.class);
+
+                    Intent i = new Intent(ctx,LandingPage.class);
+                    // Closing all the Activities
+
+                    ctx.startActivity(i);
+
+                }
+            });
+
+            mdialog.show();
+
+
+        }
+        catch(Exception e){
+
+
+            Toast.makeText(ctx, "success showing dialog", Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
     public void showConfirmCheckIn(String title, String message){
         try{
 
@@ -133,6 +262,7 @@ public class Dialogs {
 
                         }
                     })
+
                     .setCancelButton("Cancel", new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sDialog) {

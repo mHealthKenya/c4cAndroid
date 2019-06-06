@@ -58,7 +58,8 @@ public class TestClass extends AppCompatActivity implements SmsReceiver.MessageR
         sendMessage();
 
 //        generateAppSignature();
-//       app id => +11AKmxGULS
+//       app id for debug => +11AKmxGULS
+//       app id for release => 2C+posZ0ovi
 
         listenForIncomingMessage();
 

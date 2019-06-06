@@ -30,6 +30,7 @@ public class LandingPageAdapter extends RecyclerView.Adapter<LandingPageAdapter.
     private Context mContext;
     private boolean checkedKmpdu;
     Dialogs sweetdiaog;
+    Dialogs mydialog;
 
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -46,6 +47,7 @@ public class LandingPageAdapter extends RecyclerView.Adapter<LandingPageAdapter.
                     (TextView)itemView.findViewById(R.id.item_title);
             itemBg =
                     (CardView)itemView.findViewById(R.id.card_view);
+
         }
     }
 
@@ -374,8 +376,11 @@ public class LandingPageAdapter extends RecyclerView.Adapter<LandingPageAdapter.
                         public void onClick(View v) {
                             mContext = v.getContext();
 
-                            Intent intent = new Intent(mContext, Report.class);
-                            mContext.startActivity(intent);
+
+                            mydialog=new Dialogs(mContext);
+                            mydialog.showReportExposureOptions("Report Exposure","Choose your action");
+//                            Intent intent = new Intent(mContext, Report.class);
+//                            mContext.startActivity(intent);
 
                         }
                     });
@@ -460,8 +465,12 @@ public class LandingPageAdapter extends RecyclerView.Adapter<LandingPageAdapter.
                         public void onClick(View v) {
                             mContext = v.getContext();
 
-                            Intent intent = new Intent(mContext, Report.class);
-                            mContext.startActivity(intent);
+
+                            mydialog=new Dialogs(mContext);
+                            mydialog.showReportExposureOptions("Report Exposure","Choose your action");
+
+//                            Intent intent = new Intent(mContext, Report.class);
+//                            mContext.startActivity(intent);
 
                         }
                     });
@@ -540,8 +549,11 @@ public class LandingPageAdapter extends RecyclerView.Adapter<LandingPageAdapter.
                         public void onClick(View v) {
                             mContext = v.getContext();
 
-                            Intent intent = new Intent(mContext, Report.class);
-                            mContext.startActivity(intent);
+                            mydialog=new Dialogs(mContext);
+                            mydialog.showReportExposureOptions("Report Exposure","Choose your action");
+
+//                            Intent intent = new Intent(mContext, Report.class);
+//                            mContext.startActivity(intent);
 
                         }
                     });
@@ -643,8 +655,11 @@ public class LandingPageAdapter extends RecyclerView.Adapter<LandingPageAdapter.
                         public void onClick(View v) {
                             mContext = v.getContext();
 
-                            Intent intent = new Intent(mContext, Report.class);
-                            mContext.startActivity(intent);
+
+                            mydialog=new Dialogs(mContext);
+                            mydialog.showReportExposureOptions("Report Exposure","Choose your action");
+//                            Intent intent = new Intent(mContext, Report.class);
+//                            mContext.startActivity(intent);
 
                         }
                     });
@@ -742,8 +757,11 @@ public class LandingPageAdapter extends RecyclerView.Adapter<LandingPageAdapter.
                         public void onClick(View v) {
                             mContext = v.getContext();
 
-                            Intent intent = new Intent(mContext, Report.class);
-                            mContext.startActivity(intent);
+                            mydialog=new Dialogs(mContext);
+                            mydialog.showReportExposureOptions("Report Exposure","Choose your action");
+
+//                            Intent intent = new Intent(mContext, Report.class);
+//                            mContext.startActivity(intent);
 
                         }
                     });
@@ -830,8 +848,12 @@ public class LandingPageAdapter extends RecyclerView.Adapter<LandingPageAdapter.
                         public void onClick(View v) {
                             mContext = v.getContext();
 
-                            Intent intent = new Intent(mContext, Report.class);
-                            mContext.startActivity(intent);
+
+                            mydialog=new Dialogs(mContext);
+                            mydialog.showReportExposureOptions("Report Exposure","Choose your action");
+
+//                            Intent intent = new Intent(mContext, Report.class);
+//                            mContext.startActivity(intent);
 
                         }
                     });

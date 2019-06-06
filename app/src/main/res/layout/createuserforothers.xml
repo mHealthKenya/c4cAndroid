@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+
+    android:layout_alignParentBottom="true"
+    >
+
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:scrollbars="vertical"
+    android:scrollbarStyle="insideInset"
+    android:fillViewport="true"
+    android:layout_alignParentTop="true"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Affiliation"/>
+            <LinearLayout
+
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_width="match_parent">
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:id="@+id/partorg"
+            android:hint="Select your Affiliation"
+            android:focusable="false"
+
+            android:layout_height="wrap_content" />
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:id="@+id/kmpdull">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+
+                <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:hint="Doctors Union Number"
+                    android:id="@+id/du"
+                    android:visibility="gone"
+                    android:inputType="text" />
+
+            </android.support.design.widget.TextInputLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:weightSum="2"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textStyle="bold"
+                    android:layout_weight="1"
+                    android:id="@+id/specialisationlabel"
+                    android:text="Specialisation:"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content" />
+
+
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:id="@+id/specialisationselect"
+                    android:hint="Select your specialisation"
+                    android:focusable="false"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content" />
+
+
+
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:weightSum="2"
+            android:layout_marginTop="20sp"
+            android:layout_marginBottom="20sp"
+            android:layout_height="wrap_content">
+
+            <TextView
+            android:layout_width="match_parent"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Gender: "
+            android:fontFamily="serif"
+            android:id="@+id/genderlabel"
+            android:textColor="#000"
+            />
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:id="@+id/spinnergender"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+
+            android:layout_marginBottom="20sp"
+            android:orientation="vertical"
+            android:weightSum="2"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+            android:layout_width="match_parent"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            android:text="Cadre:  "
+            android:layout_weight="1"
+            android:fontFamily="serif"
+            android:id="@+id/cadrelabel"
+            android:textColor="#000"
+            />
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:id="@+id/spinner2"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:hint="Specify Other"
+                android:id="@+id/myother"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+
+                android:singleLine="true"
+                android:hint="Enter your ID number"
+                android:id="@+id/idno"
+                android:inputType="number" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:layout_width="match_parent"
+                android:id="@+id/age"
+                android:hint="Date Of Birth"
+                android:focusable="false"
+                android:layout_height="wrap_content" />
+        </android.support.design.widget.TextInputLayout>
+
+
+        <!--*******************start hbv question***********************************************-->
+
+        <!--hepatitis b layout questions-->
+
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:id="@+id/hepatitislayout"
+            android:layout_marginTop="20sp"
+            android:layout_marginBottom="20sp"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:text="HEPATITIS B"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:textStyle="bold"
+                android:layout_height="wrap_content" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:text="Have you been vaccinated against Hepatitis B?"
+                android:layout_height="wrap_content" />
+
+            <RadioGroup
+                android:id="@+id/radiogrphepatitis"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+
+
+                <RadioButton
+                    android:id="@+id/curadiobtnhepayes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Yes" />
+
+                <RadioButton
+                    android:id="@+id/radiobtnhepapartially"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Partially" />
+
+                <RadioButton
+                    android:id="@+id/radiobtnhepano"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No" />
+
+            </RadioGroup>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:id="@+id/hapatitisdoselayout"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:text="Date of first dose"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:id="@+id/hepatitisdose1"
+                    android:hint="Date of First dose"
+                    android:focusable="false"
+                    android:layout_height="wrap_content" />
+
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:text="Did you Have the second dose?"
+                    android:layout_height="wrap_content" />
+
+
+                <RadioGroup
+                    android:id="@+id/radiogrphepatitisseconddose"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+
+
+                    <RadioButton
+                        android:id="@+id/radiobtnhepayesseconddose"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Yes" />
+
+
+                    <RadioButton
+                        android:id="@+id/radiobtnhepanoseconddose"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No" />
+
+                </RadioGroup>
+
+
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:id="@+id/llhepaseconddose"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content">
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:text="Date of second dose"
+                        android:id="@+id/hepatitissecondoselabel"
+                        android:layout_height="wrap_content" />
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:id="@+id/hepatitisdose2"
+                        android:hint="Date of second dose"
+                        android:focusable="false"
+                        android:layout_height="wrap_content" />
+
+
+                </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <!--*****************************end hbv question*******************************************-->
+        <!--mflid here-->
+
+        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+            android:id="@+id/county_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Select County"
+
+            app:met_floatingLabel="none"
+            app:met_textColor="@color/colorPrimaryDark"
+
+            />
+
+        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+            android:id="@+id/subcounty_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Select Sub County"
+            android:visibility="gone"
+            app:met_floatingLabel="none"
+            app:met_textColor="@color/colorPrimaryDark"
+
+            />
+
+        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+            android:id="@+id/facility_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Select Facility"
+            android:visibility="gone"
+            app:met_floatingLabel="none"
+            app:met_textColor="@color/colorPrimaryDark"
+
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:focusable="false"
+            android:id="@+id/facilityspinner"
+            android:visibility="gone"
+            android:hint="Select Facility"
+            android:drawableRight="@drawable/down_arrow"
+            android:layout_height="wrap_content" />
+
+
+        <!--mflid here-->
+
+
+
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:orientation="vertical"-->
+            <!--android:weightSum="3"-->
+            <!--android:layout_height="wrap_content">-->
+
+
+
+            <!--<android.support.design.widget.TextInputLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content">-->
+
+            <!--<EditText-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:id="@+id/exposureselect"-->
+                <!--android:drawableRight="@drawable/down_arrow"-->
+                <!--android:hint="Have you had any exposures this year?"-->
+                <!--android:focusable="false"-->
+                <!--android:layout_height="wrap_content" />-->
+            <!--</android.support.design.widget.TextInputLayout>-->
+
+
+            <!--<android.support.design.widget.TextInputLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content">-->
+            <!--<EditText-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:id="@+id/howmanyexposures"-->
+                <!--android:hint="How many exposures?"-->
+                <!--android:visibility="gone"-->
+                <!--android:inputType="number"-->
+                <!--android:layout_height="wrap_content" />-->
+            <!--</android.support.design.widget.TextInputLayout>-->
+
+
+            <!--<android.support.design.widget.TextInputLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content">-->
+            <!--<EditText-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:id="@+id/pepinitiateselect"-->
+                <!--android:hint="Was PEP initiated for the last exposure?"-->
+                <!--android:focusable="false"-->
+                <!--android:drawableRight="@drawable/down_arrow"-->
+                <!--android:visibility="gone"-->
+                <!--android:layout_height="wrap_content" />-->
+            <!--</android.support.design.widget.TextInputLayout>-->
+
+
+
+        <!--</LinearLayout>-->
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_height="wrap_content">
+
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="22dp"
+                android:layout_weight="1"
+                android:background="@color/colorPrimary"
+                android:text="Previous"
+                android:onClick="Previous"
+                android:textAllCaps="false"
+                android:textColor="#fff"
+                android:textSize="18sp" />
+
+            <Button
+                android:layout_weight="1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="22dp"
+                android:background="@color/colorPrimary"
+                android:text="Create Profile"
+                android:onClick="CreatingUser"
+                android:textAllCaps="false"
+                android:textColor="#fff"
+                android:textSize="18sp" />
+
+
+        </LinearLayout>
+
+
+
+
+
+
+    </LinearLayout>
+
+</ScrollView>
+</LinearLayout>
+

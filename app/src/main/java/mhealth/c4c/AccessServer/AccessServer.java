@@ -34,6 +34,7 @@ import mhealth.c4c.Registrationdatatable;
 import mhealth.c4c.Report;
 import mhealth.c4c.Tables.Broadcastsmsrights;
 import mhealth.c4c.Tables.Signupform.Signup;
+import mhealth.c4c.Tables.Signupform.Signupforothers;
 import mhealth.c4c.Tables.kmpdu;
 import mhealth.c4c.config.Config;
 import mhealth.c4c.dialogs.Dialogs;
@@ -41,6 +42,7 @@ import mhealth.c4c.encryption.Base64Encoder;
 import mhealth.c4c.progress.Progress;
 import mhealth.c4c.sendMessages.SendMessage;
 import mhealth.c4c.systemstatetables.Hepatitis;
+import mhealth.c4c.systemstatetables.Hepatitisforothers;
 
 public class AccessServer {
 
@@ -580,6 +582,109 @@ public class AccessServer {
                     String dose2="-1";
 
                     List<Hepatitis> hep=Hepatitis.findWithQuery(Hepatitis.class,"select * from Hepatitis limit 1");
+                    for(int h=0;h<hep.size();h++){
+                        if(!(hep.get(h).getImmunisedvaluedose1()==null)){
+
+                            hbv1=getHbvId(hep.get(h).getImmunisedvaluedose1());
+
+
+                        }
+                        if(!(hep.get(h).getImmunisedvaluedose2()==null)){
+
+                            hbv2=getHbvId(hep.get(h).getImmunisedvaluedose2());
+                        }
+                        if(!(hep.get(h).getFirstdosedate()==null)){
+
+                            dose1=hep.get(h).getFirstdosedate();
+                        }
+                        if(!(hep.get(h).getSeconddosedate()==null)){
+
+                            dose2=hep.get(h).getSeconddosedate();
+
+                        }
+
+                    }
+                    params.put("fname", mym.get(x).getFname());
+                    params.put("lname", mym.get(x).getLname());
+                    params.put("phone_no", phone);
+                    params.put("partner", partner);
+                    params.put("gender", gender);
+                    params.put("cdr", cdr);
+                    params.put("other_cadre", othercadre);
+                    params.put("idno", idno);
+                    params.put("dob", dob);
+                    params.put("mflno", mflno);
+                    params.put("hbv1", hbv1);
+                    params.put("dose1", dose1);
+                    params.put("hbv2", hbv2);
+                    params.put("dose2", dose2);
+
+                }
+
+
+
+
+                return params;
+            }
+
+
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(ctx);
+        requestQueue.add(stringRequest);
+
+    }
+
+
+
+
+
+
+    public void createProfileForOthers(final String partner , final String specs, final String gender, final String cdr, final String idno, final String dob, final String mflno, final String phone, final String othercadre) {
+
+        pr.showProgress("creating profile.....");
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Config.CREATPROFILE_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+//                        Toast.makeText(ctx, ""+phone, Toast.LENGTH_SHORT).show();
+
+                        pr.dissmissProgress();
+//                        Toast.makeText(ctx, "response "+response, Toast.LENGTH_SHORT).show();
+
+                        sweetdialog.showRegisterUserOptions("Report Exposure","Choose an option, "+response);
+
+//                        CreatprofilesuccessDialog("success creating profile, "+response);
+
+
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        Toast.makeText(ctx, "Check your internet and try again "+error, Toast.LENGTH_SHORT).show();
+                        pr.dissmissProgress();
+
+
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+
+
+                List<Signupforothers> mym=Signupforothers.findWithQuery(Signupforothers.class,"select * from Signupforothers limit 1");
+                for(int x=0;x<mym.size();x++){
+                    String hbv1="-1";
+                    String hbv2="-1";
+                    String dose1="-1";
+                    String dose2="-1";
+
+                    List<Hepatitisforothers> hep=Hepatitisforothers.findWithQuery(Hepatitisforothers.class,"select * from Hepatitisforothers limit 1");
                     for(int h=0;h<hep.size();h++){
                         if(!(hep.get(h).getImmunisedvaluedose1()==null)){
 
