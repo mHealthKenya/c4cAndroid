@@ -47,7 +47,7 @@
                 android:id="@+id/link1"
                 android:layout_marginTop="20sp"
                 android:textStyle="bold|italic"
-                android:text="An orientation guide for health workers in health care waste management: 2015:"
+                android:text="National"
                 android:layout_height="wrap_content" />
 
             <TextView
@@ -55,7 +55,7 @@
                 android:id="@+id/link2"
                 android:layout_marginTop="20sp"
                 android:textStyle="bold|italic"
-                android:text="Health care waste management strategic plan; 2015-2020"
+                android:text="Cardiovascular-guidelines"
                 android:layout_height="wrap_content" />
 
             <TextView
@@ -63,7 +63,7 @@
                 android:id="@+id/link3"
                 android:layout_marginTop="20sp"
                 android:textStyle="bold|italic"
-                android:text="Kenya ARV Guidelines 2018"
+                android:text="clinical guidelines diagnosis"
                 android:layout_height="wrap_content" />
 
             <TextView
@@ -71,7 +71,7 @@
                 android:id="@+id/link4"
                 android:layout_marginTop="20sp"
                 android:textStyle="bold|italic"
-                android:text="National infection prevention and control guidelines for health care services in Kenya: 2015"
+                android:text="Health Act No 21 of 2017"
                 android:layout_height="wrap_content" />
 
             <TextView
@@ -79,7 +79,7 @@
                 android:id="@+id/link5"
                 android:layout_marginTop="20sp"
                 android:textStyle="bold|italic"
-                android:text="Occupational health and safety policy guidelines for the health sector in Kenya: 2014"
+                android:text="Kenya strategy ncds 2015"
                 android:layout_height="wrap_content" />
 
             <TextView
@@ -87,7 +87,7 @@
                 android:id="@+id/link6"
                 android:layout_marginTop="20sp"
                 android:textStyle="bold|italic"
-                android:text="National Policy on Prevention and containment of Antimicrobial Resistance; 2017"
+                android:text="Kenya Health policy 2014"
                 android:layout_height="wrap_content" />
 
             <TextView
@@ -95,7 +95,7 @@
                 android:id="@+id/link7"
                 android:layout_marginTop="20sp"
                 android:textStyle="bold|italic"
-                android:text="National Antimicrobial Resistance Surveillance Strategy; 2018-2022; National"
+                android:text="National Cancer Screening Guidelines"
                 android:layout_height="wrap_content" />
 
             <TextView
@@ -103,7 +103,7 @@
                 android:id="@+id/link8"
                 android:layout_marginTop="20sp"
                 android:textStyle="bold|italic"
-                android:text="National infection prevention and control policy; 2015"
+                android:text="National Cancer Treatment Guidelines"
                 android:layout_height="wrap_content" />
 
             <TextView
@@ -111,7 +111,15 @@
                 android:id="@+id/link9"
                 android:layout_marginTop="20sp"
                 android:textStyle="bold|italic"
-                android:text="Kenya injection safety policy; 2018"
+                android:text="National Gudelines for healthy diets"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:id="@+id/link10"
+                android:layout_marginTop="20sp"
+                android:textStyle="bold|italic"
+                android:text="National Palliative Care"
                 android:layout_height="wrap_content" />
 
 

@@ -88,6 +88,24 @@ public class LandingPageAdapter extends RecyclerView.Adapter<LandingPageAdapter.
         }
     }
 
+    public boolean isKNHAvailable(){
+
+        try{
+            List<Partners> myl=Partners.findWithQuery(Partners.class,"select * from Partners where partnername=?","KNH");
+            if(myl.size()>0){
+                return true;
+            }
+            else{
+                return false;
+            }
+
+        }
+        catch(Exception e){
+
+            return false;
+        }
+    }
+
     public boolean isKmpdbAvailable(){
 
         try{
@@ -358,7 +376,7 @@ public class LandingPageAdapter extends RecyclerView.Adapter<LandingPageAdapter.
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
 
-        if(checkedKmpdu||isMohAvailable()||isKmpdbAvailable()){
+        if(checkedKmpdu||isMohAvailable()||isKmpdbAvailable()||isKNHAvailable()){
 
             if(canAccessBroadcast()){
 

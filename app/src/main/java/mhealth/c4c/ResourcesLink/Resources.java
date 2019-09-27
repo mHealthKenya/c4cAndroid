@@ -18,7 +18,7 @@ import mhealth.c4c.R;
 
 public class Resources extends AppCompatActivity {
 
-    TextView lk1,lk2,lk3,lk4,lk5,lk6,lk7,lk8,lk9;
+    TextView lk1,lk2,lk3,lk4,lk5,lk6,lk7,lk8,lk9,lk10;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,21 +40,22 @@ public class Resources extends AppCompatActivity {
         lk7=(TextView) findViewById(R.id.link7);
         lk8=(TextView) findViewById(R.id.link8);
         lk9=(TextView) findViewById(R.id.link9);
+        lk10=(TextView) findViewById(R.id.link10);
     }
 
     private void setLinks(){
 
         try{
-            String link1="https://healthservices.uonbi.ac.ke/sites/default/files/centraladmin/healthservices/An-Orientation-Guide-for-Health-Workers-in-Health-Care-Waste-Management.pdf";
-            String link2="http://www.health.go.ke/wp-content/uploads/2016/01/HCWM-Strategic-Plan-2015-2020-.pdf";
-            String link3="http://cquin.icap.columbia.edu/wp-content/uploads/2017/04/ICAP_CQUIN_Kenya-ARV-Guidelines-2018-Final_20thAug2018.pdf";
-            String link4="https://www.nascop.or.ke/?p=1058";
-            String link5="http://www.health.go.ke/wp-content/uploads/2015/09/OCCUPATIONAL%20HEALTH%20AND%20SAFETY%20POLICY%20GUIDELINES%20FOR%20THE%20HEALTH%20SECTOR%20IN%20KENYA.pdf";
-            String link6="http://extwprlegs1.fao.org/docs/pdf/ken171510.pdf";
-            String link7="https://c4c-test.mhealthkenya.co.ke/assets/IPC/national.pdf";
-            String link8="https://c4c-test.mhealthkenya.co.ke/assets/IPC/national.pdf";
-            String link9="https://c4c-test.mhealthkenya.co.ke/assets/IPC/national.pdf";
-
+            String link1="https://c4c.mhealthkenya.co.ke/assets/IPC/national.pdf";
+            String link2="https://c4c.mhealthkenya.co.ke/assets/IPC/Cardiovascular-guidelines-2018.pdf";
+            String link3="https://c4c.mhealthkenya.co.ke/assets/IPC/clinical guidelines diagnosis and treatment.pdf";
+            String link4="https://c4c.mhealthkenya.co.ke/assets/IPC/HealthActNo.21of2017.pdf";
+            String link5="https://c4c.mhealthkenya.co.ke/assets/IPC/kenya-strategy-ncds-2015-2020.pdf";
+            String link6="https://c4c.mhealthkenya.co.ke/assets/IPC/kenya_health_policy_2014_to_2030.pdf";
+            String link7="https://c4c.mhealthkenya.co.ke/assets/IPC/National-Cancer-Screening-Guidelines-2018.pdf";
+            String link8="https://c4c.mhealthkenya.co.ke/assets/IPC/National-Cancer-Treatment-Guidelines.pdf";
+            String link9="https://c4c.mhealthkenya.co.ke/assets/IPC/NATIONAL-GUIDELINES-FOR-HEALTHY-DIETS-AND-PHYSICAL-ACTIVITY-2017-NEW-EDIT.pdf";
+            String link10="https://c4c.mhealthkenya.co.ke/assets/IPC/National-Palliative-Care-Guidelines.pdf";
 
             setLinkToText(lk1.getText().toString(),lk1.getText().toString().length(),lk1,link1);
             setLinkToText(lk2.getText().toString(),lk2.getText().toString().length(),lk2,link2);
@@ -65,6 +66,7 @@ public class Resources extends AppCompatActivity {
             setLinkToText(lk7.getText().toString(),lk7.getText().toString().length(),lk7,link7);
             setLinkToText(lk8.getText().toString(),lk8.getText().toString().length(),lk8,link8);
             setLinkToText(lk9.getText().toString(),lk9.getText().toString().length(),lk9,link9);
+            setLinkToText(lk10.getText().toString(),lk10.getText().toString().length(),lk10,link10);
 
         }
         catch(Exception e){
