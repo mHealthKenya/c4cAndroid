@@ -93,10 +93,11 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     Progress pr;
 
     //   ****** hepatitis b variables
-    RadioGroup grphepatitis,grphepatitissecondose;
-    RadioButton radiobtnhepaqn1,radiobtnhepaseconddose;
-    LinearLayout llhepadoselayout1,llhepadoseseconddose;
-    EditText hepatitisdose1E,hepatitisdose2E;
+    RadioGroup grphepatitis,grphepatitissecondose,grphepatitisthirddose;
+    RadioButton radiobtnhepaqn1,radiobtnhepaseconddose,radiobtnhepathirddose;
+    LinearLayout llhepadoselayout1,llhepadoseseconddose,llhepadosethirddose;
+    EditText hepatitisdose1E,hepatitisdose2E,hepatitisdose3E,nextOfKinNameE,nextOfKinContactE;
+
 
     UpdateStatusTable ut;
 
@@ -107,11 +108,11 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     Dialogs sweetdialog;
     GetRemoteData grd;
 
-    MaterialBetterSpinner ctyM, sbctyM;
+    MaterialBetterSpinner ctyM, sbctyM,homeCtyM;
 
-    String selectedCty, selectedSbcty, selectedFacility;
+    String selectedCty, selectedSbcty, selectedFacility,selectedHomecty;
 
-    private ArrayAdapter<String> arrayAdapterCounty, arrayAdapterSubCounty, arrayAdapterFacility;
+    private ArrayAdapter<String> arrayAdapterCounty,arrayAdapterHomeCounty, arrayAdapterSubCounty, arrayAdapterFacility;
 
 
     public final Pattern textPattern = Pattern.compile("^([a-zA-Z+]+[0-9+]+)$");
@@ -125,6 +126,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     final ArrayList itemsSelectedSpecialisation = new ArrayList();
 
     private ArrayList<CountyModel> countyList;
+    private ArrayList<CountyModel> homecountyList;
     private ArrayList<SubCountyModel> subcountyList;
     private ArrayList<FacilityModel> facilityList;
     private JSONArray id_county_result,id_subcounty_result,id_facility_result;
@@ -136,6 +138,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     public static final String KEY_MFLCODE = "facility_code";
 
     String[] genders = {"Please Select Gender", "Male", "Female"};
+    String[] serostatusS = {"Please Select Hepatitis Sero status", "+ve", "-ve","Unknown"};
     String[] cadres = {"Please Select Cadre", "Student", "Doctor", "Nurse", "Clinical Officer", "Laboratory Technologist", "Cleaner", "Waste Handlers", "VCT Counselor", "Other"};
     String[] hepa = {"Have you been vaccinated against Hepatitis B?", "Yes", "Partially", "No"};
 
@@ -145,11 +148,13 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     int selectedYear;
     Spinner myspinner;
     Spinner myspinner2;
+    Spinner serostatusSpinner;
 
 
 
     String selected_item = "";
     String myselectedgender = "";
+    String myselectedserostatus = "";
     String selected_item2 = "";
     String myselected2 = "";
 
@@ -176,10 +181,13 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
         requestPerms();
 
         countyList.clear();
+        homecountyList.clear();
+
         getCounties();
 
 
         setSpinnerCountyListener();
+        setSpinnerHomeCountyListener();
         setSpinnerSubCountyListener();
 
 
@@ -188,10 +196,12 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
         populateSpinner();
         populateSpinner2();
+        populateSpinnerSeroStatus();
 
 
         myspinner.setOnItemSelectedListener(this);
         myspinner2.setOnItemSelectedListener(this);
+        serostatusSpinner.setOnItemSelectedListener(this);
 
 
 
@@ -200,6 +210,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
         getCheckedRadioHepatitis();
         hepatitisDose1DateListener();
+        hepatitisDose3DateListener();
         hepatitisDose2DateListener();
 
 
@@ -313,6 +324,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
         super.onUserInteraction();
 //        just to make sure there is always data shown on our county list
         setCountyAdapter();
+        setHomeCountyAdapter();
         setSub1CountyAdapter();
 //        setFac1Adapter();
 //        setSpinnerCountyListener();
@@ -326,6 +338,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
         try {
             ctyM.setAdapter(arrayAdapterCounty);
+            homeCtyM.setAdapter(arrayAdapterHomeCounty);
             sbctyM.setAdapter(arrayAdapterSubCounty);
 
 
@@ -334,6 +347,40 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
         }
     }
+
+
+
+    public void setSpinnerHomeCountyListener() {
+
+        try {
+
+
+            homeCtyM.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                    selectedHomecty = homeCtyM.getText().toString();
+
+
+                }
+            });
+
+        } catch (Exception e) {
+
+
+        }
+    }
+
 
     public void setSpinnerCountyListener() {
 
@@ -651,6 +698,41 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
 
             arrayAdapterCounty = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_list_item_checked, x);
+        } catch (Exception e) {
+
+
+        }
+    }
+
+
+    public void setHomeCountyAdapter() {
+
+        try {
+
+
+            ArrayList<String> x = new ArrayList<>();
+            x.clear();
+
+            for(int x1=0;x1<homecountyList.size();x1++){
+                x.add(homecountyList.get(x1).getName());
+            }
+
+//            List<Facilitydata> myl = Facilitydata.findWithQuery(Facilitydata.class, "select * from Facilitydata group by countyname");
+//            System.out.println("************getting countyies**************");
+//            if (myl.size() > 0) {
+//
+//                for (int y = 0; y < myl.size(); y++) {
+//                    x.add(myl.get(y).getCountyname());
+//                    System.out.println(myl.get(y).getCountyname());
+//
+//                }
+//
+//
+//            }
+
+
+            arrayAdapterHomeCounty = new ArrayAdapter<String>(this,
                     android.R.layout.simple_list_item_checked, x);
         } catch (Exception e) {
 
@@ -1040,16 +1122,20 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             ut=new UpdateStatusTable(CreateUser.this);
             grphepatitis =(RadioGroup) findViewById(R.id.radiogrphepatitis);
             grphepatitissecondose =(RadioGroup) findViewById(R.id.radiogrphepatitisseconddose);
+            grphepatitisthirddose =(RadioGroup) findViewById(R.id.radiogrphepatitisthirddose);
 
             llhepadoselayout1=(LinearLayout) findViewById(R.id.hapatitisdoselayout);
             llhepadoseseconddose=(LinearLayout) findViewById(R.id.llhepaseconddose);
+            llhepadosethirddose=(LinearLayout) findViewById(R.id.llhepathirddose);
 
             hepatitisdose1E=(EditText) findViewById(R.id.hepatitisdose1);
             hepatitisdose2E=(EditText) findViewById(R.id.hepatitisdose2);
+            hepatitisdose3E=(EditText) findViewById(R.id.hepatitisdose3);
 
             //hepatits b
             pr=new Progress(CreateUser.this);
             countyList=new ArrayList<>();
+            homecountyList=new ArrayList<>();
             facilityList=new ArrayList<>();
             subcountyList=new ArrayList<>();
 
@@ -1058,12 +1144,14 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             accessServer=new AccessServer(CreateUser.this);
 
             selectedCty = "";
+            selectedHomecty = "";
             selectedSbcty = "";
             selectedFacility = "";
             facilitySpinnerEdt =(EditText) findViewById(R.id.facilityspinner);
 
 
             ctyM = (MaterialBetterSpinner) findViewById(R.id.county_txt);
+            homeCtyM = (MaterialBetterSpinner) findViewById(R.id.home_county_txt);
 
             sbctyM = (MaterialBetterSpinner) findViewById(R.id.subcounty_txt);
 
@@ -1073,6 +1161,9 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             dcalc = new DateCalculator();
             partnerorgE = (EditText) findViewById(R.id.partorg);
             specialisationE = (EditText) findViewById(R.id.specialisationselect);
+
+            nextOfKinContactE=(EditText) findViewById(R.id.nextofkincontact);
+            nextOfKinNameE=(EditText) findViewById(R.id.nextofkinname);
 
             specialisel = (TextView) findViewById(R.id.specialisationlabel);
             cadrel = (TextView) findViewById(R.id.cadrelabel);
@@ -1086,6 +1177,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
 
             myspinner = (Spinner) findViewById(R.id.spinnergender);
+            serostatusSpinner = (Spinner) findViewById(R.id.spinnerserostatus);
             myspinner2 = (Spinner) findViewById(R.id.spinner2);
 
 
@@ -1111,6 +1203,16 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
 //            selected_item=parent.getItemAtPosition(position).toString();
             myselectedgender = Integer.toString(position);
+//            Toast.makeText(this, "selected "+myselectedgender, Toast.LENGTH_SHORT).show();
+            actOnSelected();
+
+        }
+
+        else if (spin.getId() == R.id.spinnerserostatus) {
+
+
+//            selected_item=parent.getItemAtPosition(position).toString();
+            myselectedserostatus = Integer.toString(position);
 //            Toast.makeText(this, "selected "+myselectedgender, Toast.LENGTH_SHORT).show();
             actOnSelected();
 
@@ -1166,6 +1268,23 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 
 
             myspinner.setAdapter(customAdapter);
+
+
+        } catch (Exception e) {
+
+
+        }
+    }
+
+
+    public void populateSpinnerSeroStatus() {
+
+        try {
+
+            SpinnerAdapter customAdapter = new SpinnerAdapter(getApplicationContext(), serostatusS);
+
+
+            serostatusSpinner.setAdapter(customAdapter);
 
 
         } catch (Exception e) {
@@ -1516,158 +1635,60 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
         Edittable et=new Edittable(mymfl,phoneS,myidno);
         et.save();
 
+        String hbv1=radiobtnhepaqn1.getText().toString();
+        String hbv2=radiobtnhepaseconddose.getText().toString();
+        String hbv3=radiobtnhepathirddose.getText().toString();
+//        hepatitisdose1E,hepatitisdose2E,hepatitisdose3E,nextOfKinNameE,nextOfKinContactE
 
+        String dose1="-1";
+        String dose2="-1";
+        String dose3="-1";
+        String seroStatus="-1";
+        String homeCty="-1";
+        String nokname="-1";
+        String nokcontact="-1";
 
-        accessServer.createProfile(partner.toString(),sspecial,myselectedgender,myselected2,myidno,myage,mymfl,newPhoneS,myoth);
+        if(!myselectedserostatus.trim().isEmpty()){
 
+            seroStatus=myselectedserostatus;
+        }
 
+        if(!nextOfKinNameE.getText().toString().isEmpty()){
 
+            nokname=nextOfKinNameE.getText().toString();
 
+        }
+        if(!nextOfKinContactE.getText().toString().isEmpty()){
 
-//
-//        if(chkInternet.isInternetAvailable()){
-//
-//
-//
-//                //********************create profile submit starts here***************************************
-//
-//
-//
-//                Profiletable.deleteAll(Profiletable.class);
-//
-//
-//
-//                if (kmpduChecked) {
-//
-//                    Profiletable pt=new Profiletable("n/a");
-//                    pt.save();
-//
-//                    //save user details for further editing
-//                    Edittable.deleteAll(Edittable.class);
-//                    Edittable et=new Edittable(mymfl,phoneS,myidno);
-//                    et.save();
-//
-//
-//
-//                    accessServer.createProfile(partner.toString(),sspecial,myselectedgender,myselected2,myidno,myage,mymfl,newPhoneS,kmpduChecked);
-//
-//
-//                } else if (!motherE.isShown()) {
-//
-//                    Profiletable pt=new Profiletable(mymfl);
-//                    pt.save();
-//
-//
-//
-//                    //save user details for further editing
-//                    Edittable.deleteAll(Edittable.class);
-//
-//                    Edittable et=new Edittable(mymfl,phoneS,myidno);
-//                    et.save();
-//
-//                    accessServer.createProfile(partner.toString(),sspecial,myselectedgender,myselected2,myidno,myage,mymfl,newPhoneS,kmpduChecked);
-//
-//
-//                } else if (motherE.isShown()) {
-//                    myoth=motherE.getText().toString();
-//                    Profiletable pt=new Profiletable(mymfl);
-//                    pt.save();
-//
-//                    //save user details for further editing
-//                    Edittable.deleteAll(Edittable.class);
-//                    Edittable et=new Edittable(mymfl,phoneS,myidno);
-//                    et.save();
-//
-//                    accessServer.createProfile(partner.toString(),sspecial,myselectedgender,myoth,myidno,myage,mymfl,newPhoneS,kmpduChecked);
-//
-//                }
-//
-//
-////                populatePartners();
-//
-////                SignupsuccessDialog("Success in Creating Profile");
-//
-////********************create profile submit ends here***************************************
-//
-//
-//            }
+            nokcontact=nextOfKinContactE.getText().toString();
 
-//            else{
-//
-//
-////********************create profile submit starts here***************************************
-//
-//                String mymess = "";
-//
-//                Profiletable.deleteAll(Profiletable.class);
-//
-//
-//
-//                if (kmpduChecked) {
-//
-//                    Profiletable pt=new Profiletable("n/a");
-//                    pt.save();
-//
-//                    //save user details for further editing
-//                    Edittable.deleteAll(Edittable.class);
-//                    Edittable et=new Edittable(mymfl,phoneS,myidno);
-//                    et.save();
-//
-//
-//                    mymess = "Reg*" + Base64Encoder.encryptString(myidno + "*" + myage + "*" + myselectedgender + "*" + "-1" + "*" + "-1" + "*" + duns + "*" + sspecial +"*"+partner);
-//
-//
-//                } else if (!motherE.isShown()) {
-//
-//                    Profiletable pt=new Profiletable(mymfl);
-//                    pt.save();
-//
-//                    //save user details for further editing
-//                    Edittable.deleteAll(Edittable.class);
-//                    Edittable et=new Edittable(mymfl,phoneS,myidno);
-//                    et.save();
-//
-//                    mymess = "Reg*" + Base64Encoder.encryptString(myidno + "*" + myage + "*" + myselectedgender + "*" + myselected2 + "*" + mymfl + "*" + duns + "*" + sspecial +"*"+partner);
-//
-//
-//                } else if (motherE.isShown()) {
-//
-//                    myoth=motherE.getText().toString();
-//                    Profiletable pt=new Profiletable(mymfl);
-//                    pt.save();
-//
-//                    //save user details for further editing
-//                    Edittable.deleteAll(Edittable.class);
-//                    Edittable et=new Edittable(mymfl,phoneS,myidno);
-//                    et.save();
-//
-//                    mymess = "Reg*" + Base64Encoder.encryptString(myidno + "*" + myage + "*" + myselectedgender + "*" + myoth + "*" + mymfl + "*" + duns + "*" + sspecial +"*"+partner);
-//
-//                }
-//
-//
-////                populatePartners();
-//
-//                SmsManager sm = SmsManager.getDefault();
-//                ArrayList<String> parts = sm.divideMessage(mymess);
-//
-//                sm.sendMultipartTextMessage(Config.shortcode, null, parts, null, null);
-//
-//
-//
-////            SmsManager smsM = SmsManager.getDefault();
-////            smsM.sendTextMessage(Config.shortcode, null, mymess, null, null);
-//                SignupsuccessDialog("Success in Creating Profile");
-//
-////********************create profile submit ends here***************************************
-//
-//
-//            }
+        }
+        if(hepatitisdose1E.isShown()){
+
+            dose1=hepatitisdose1E.getText().toString();
+
+        }
+
+        if(hepatitisdose2E.isShown()){
+
+            dose2=hepatitisdose2E.getText().toString();
+
+        }
+
+        if(hepatitisdose3E.isShown()){
+
+            dose3=hepatitisdose3E.getText().toString();
+
+        }
 
 
 
 
-//        pr.progressing(getApplicationContext(),"getting facility","loading....");
+
+
+
+        accessServer.createProfile(partner.toString(),sspecial,myselectedgender,myselected2,myidno,myage,mymfl,newPhoneS,myoth,dose1,dose2,dose3,seroStatus,homeCty,nokname,nokcontact,hbv1,hbv2,hbv3);
+
 
 
     }
@@ -1868,6 +1889,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
                 CountyModel bm= new CountyModel(cid,cname);
 
                 countyList.add(bm);
+                homecountyList.add(bm);
 
 
 
@@ -2139,6 +2161,7 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
 //                            influenzapregnantS="yes";
                             displayHepatitisDoseLinearlayout(true);
                             getCheckedRadioHepatitisDose2();
+                            getCheckedRadioHepatitisDose3();
 
 //                            Checkedinfluenza.deleteAll(Checkedinfluenza.class);
 //                            Checkedinfluenza chi=new Checkedinfluenza(Integer.toString(checkedId));
@@ -2332,11 +2355,111 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
     }
 
 
+    public void getCheckedRadioHepatitisDose3(){
+
+        try{
+
+
+            grphepatitisthirddose.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    radiobtnhepathirddose = (RadioButton) group.findViewById(checkedId);
+                    if (null != radiobtnhepathirddose && checkedId > -1) {
+
+                        String selectedOption=radiobtnhepathirddose.getText().toString();
+                        if(selectedOption.equalsIgnoreCase("Yes")){
+//                            llinfluenza.setVisibility(View.GONE);
+//                            influenzadoseE.setText("");
+//                            influenzapregnantS="yes";
+                            displayHepatitisDoseLinearlayout3(true);
+
+//                            Checkedinfluenza.deleteAll(Checkedinfluenza.class);
+//                            Checkedinfluenza chi=new Checkedinfluenza(Integer.toString(checkedId));
+//                            chi.save();
+
+                            List<Hepatitis> myl=Hepatitis.findWithQuery(Hepatitis.class,"select * from Hepatitis");
+                            if(myl.size()>0){
+
+                                Hepatitis inf = Hepatitis.findById(Hepatitis.class, 1);
+
+                                inf.setImmunisedvaluedose3("Yes");
+                                inf.setImmunisediddose3("2131296554");
+                                inf.save();
+
+                            }
+                            else{
+
+                                Hepatitis inf=new Hepatitis();
+                                inf.setImmunisedvaluedose3("Yes");
+                                inf.setImmunisediddose3("2131296554");
+                                inf.save();
+
+                            }
+
+                        }
+
+                        else{
+                            displayHepatitisDoseLinearlayout3(false);
+//                            displayTrimesterLinearlayout(false);
+////                            llinfluenza.setVisibility(View.VISIBLE);
+//                            influenzapregnantS="no";
+
+
+                            List<Hepatitis> myl=Hepatitis.findWithQuery(Hepatitis.class,"select * from Hepatitis");
+                            if(myl.size()>0){
+
+                                Hepatitis inf = Hepatitis.findById(Hepatitis.class, 1);
+
+                                inf.setImmunisedvaluedose3("No");
+                                inf.setImmunisediddose3("2131296551");
+                                inf.save();
+
+                            }
+                            else{
+
+                                Hepatitis inf=new Hepatitis();
+                                inf.setImmunisedvaluedose3("No");
+                                inf.setImmunisediddose3("2131296551");
+                                inf.save();
+
+                            }
+
+//                            Checkedinfluenza.deleteAll(Checkedinfluenza.class);
+//                            Checkedinfluenza chi=new Checkedinfluenza(Integer.toString(checkedId));
+//                            chi.save();
+
+
+                        }
+                    }
+                }
+            });
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+
 
     public void hepatitisDose1DateListener(){
         try{
 
             DateListener(hepatitisdose1E);
+
+        }
+        catch(Exception e){
+
+            Toast.makeText(this, "error displaying hepatitis dose datepicker", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+
+    public void hepatitisDose3DateListener(){
+        try{
+
+            DateListener(hepatitisdose3E);
 
         }
         catch(Exception e){
@@ -2445,6 +2568,30 @@ public class CreateUser extends AppCompatActivity implements AdapterView.OnItemS
             else{
 
                 llhepadoseseconddose.setVisibility(View.GONE);
+
+
+            }
+        }
+        catch(Exception e){
+
+
+        }
+    }
+
+
+
+    public void displayHepatitisDoseLinearlayout3(boolean show){
+
+        try{
+
+            if(show){
+
+                llhepadosethirddose.setVisibility(View.VISIBLE);
+
+            }
+            else{
+
+                llhepadosethirddose.setVisibility(View.GONE);
 
 
             }

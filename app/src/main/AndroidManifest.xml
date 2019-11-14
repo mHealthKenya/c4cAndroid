@@ -22,7 +22,7 @@
 
 
         <meta-data android:name="DATABASE" android:value="mydb.db" />
-        <meta-data android:name="VERSION" android:value="11" />
+        <meta-data android:name="VERSION" android:value="12" />
         <meta-data android:name="QUERY_LOG" android:value="true" />
         <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="mhealth.c4c" />
 

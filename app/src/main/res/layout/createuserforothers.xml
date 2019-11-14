@@ -347,6 +347,62 @@
 
 
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:text="Did you Have the third dose?"
+                    android:layout_height="wrap_content" />
+
+
+                <RadioGroup
+                    android:id="@+id/radiogrphepatitisthirddose"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+
+
+                    <RadioButton
+                        android:id="@+id/radiobtnhepayesthirddose"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Yes" />
+
+
+                    <RadioButton
+                        android:id="@+id/radiobtnhepanothirddose"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No" />
+
+                </RadioGroup>
+
+
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:id="@+id/llhepathirddose"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content">
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:text="Date of third dose"
+                        android:id="@+id/hepatitisthirdoselabel"
+                        android:layout_height="wrap_content" />
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:id="@+id/hepatitisdose3"
+                        android:hint="Date of third dose"
+                        android:focusable="false"
+                        android:layout_height="wrap_content" />
+
+
+                </LinearLayout>
+
+
+
+
 
 
 
@@ -357,6 +413,45 @@
 
 
         </LinearLayout>
+
+
+
+        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+            android:id="@+id/home_county_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Select Home County"
+
+            app:met_floatingLabel="none"
+            app:met_textColor="@color/colorPrimaryDark"
+
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:id="@+id/nextofkinname"
+            android:hint="Next of kin name"
+            android:focusable="false"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:id="@+id/nextofkincontact"
+            android:hint="Next of kin contact"
+            android:focusable="false"
+            android:layout_height="wrap_content" />
+
+
+        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+            android:id="@+id/hepatitis_sero_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Hepatitis Sero Status"
+
+            app:met_floatingLabel="none"
+            app:met_textColor="@color/colorPrimaryDark"
+
+            />
 
 
         <!--*****************************end hbv question*******************************************-->

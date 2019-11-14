@@ -540,7 +540,7 @@ public class AccessServer {
 
 
 
-    public void createProfile(final String partner , final String specs, final String gender, final String cdr, final String idno, final String dob, final String mflno, final String phone, final String othercadre) {
+    public void createProfile(final String partner , final String specs, final String gender, final String cdr, final String idno, final String dob, final String mflno, final String phone, final String othercadre,final String dose1,final String dose2,final String dose3,final String seroStatus,final String homeCty,final String nokname,final String nokcontact,final String hbv1,final String hbv2,final String hbv3) {
 
         pr.showProgress("creating profile.....");
 
@@ -576,34 +576,34 @@ public class AccessServer {
 
                 List<Signup> mym=Signup.findWithQuery(Signup.class,"select * from Signup limit 1");
                 for(int x=0;x<mym.size();x++){
-                    String hbv1="-1";
-                    String hbv2="-1";
-                    String dose1="-1";
-                    String dose2="-1";
-
-                    List<Hepatitis> hep=Hepatitis.findWithQuery(Hepatitis.class,"select * from Hepatitis limit 1");
-                    for(int h=0;h<hep.size();h++){
-                        if(!(hep.get(h).getImmunisedvaluedose1()==null)){
-
-                            hbv1=getHbvId(hep.get(h).getImmunisedvaluedose1());
-
-
-                        }
-                        if(!(hep.get(h).getImmunisedvaluedose2()==null)){
-
-                            hbv2=getHbvId(hep.get(h).getImmunisedvaluedose2());
-                        }
-                        if(!(hep.get(h).getFirstdosedate()==null)){
-
-                            dose1=hep.get(h).getFirstdosedate();
-                        }
-                        if(!(hep.get(h).getSeconddosedate()==null)){
-
-                            dose2=hep.get(h).getSeconddosedate();
-
-                        }
-
-                    }
+//                    String hbv1="-1";
+//                    String hbv2="-1";
+//                    String dose1="-1";
+//                    String dose2="-1";
+//
+//                    List<Hepatitis> hep=Hepatitis.findWithQuery(Hepatitis.class,"select * from Hepatitis limit 1");
+//                    for(int h=0;h<hep.size();h++){
+//                        if(!(hep.get(h).getImmunisedvaluedose1()==null)){
+//
+//                            hbv1=getHbvId(hep.get(h).getImmunisedvaluedose1());
+//
+//
+//                        }
+//                        if(!(hep.get(h).getImmunisedvaluedose2()==null)){
+//
+//                            hbv2=getHbvId(hep.get(h).getImmunisedvaluedose2());
+//                        }
+//                        if(!(hep.get(h).getFirstdosedate()==null)){
+//
+//                            dose1=hep.get(h).getFirstdosedate();
+//                        }
+//                        if(!(hep.get(h).getSeconddosedate()==null)){
+//
+//                            dose2=hep.get(h).getSeconddosedate();
+//
+//                        }
+//
+//                    }
                     params.put("fname", mym.get(x).getFname());
                     params.put("lname", mym.get(x).getLname());
                     params.put("phone_no", phone);
@@ -618,6 +618,12 @@ public class AccessServer {
                     params.put("dose1", dose1);
                     params.put("hbv2", hbv2);
                     params.put("dose2", dose2);
+                    params.put("hbv3", hbv2);
+                    params.put("dose3", dose3);
+                    params.put("homecounty", homeCty);
+                    params.put("nextofkinname", nokname);
+                    params.put("nextofkincontact", nokcontact);
+                    params.put("serostatus", seroStatus);
 
                 }
 
