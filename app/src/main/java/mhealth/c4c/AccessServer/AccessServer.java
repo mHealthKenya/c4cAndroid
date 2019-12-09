@@ -618,7 +618,7 @@ public class AccessServer {
                     params.put("dose1", dose1);
                     params.put("hbv2", hbv2);
                     params.put("dose2", dose2);
-                    params.put("hbv3", hbv2);
+                    params.put("hbv3", hbv3);
                     params.put("dose3", dose3);
                     params.put("homecounty", homeCty);
                     params.put("nextofkinname", nokname);
