@@ -3,7 +3,7 @@ package mhealth.c4c.RequestPermissions;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-import android.support.v4.app.ActivityCompat;
+import androidx.core.app.ActivityCompat;
 import android.widget.Toast;
 
 public class RequestPerms {

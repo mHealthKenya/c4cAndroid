@@ -14,8 +14,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
@@ -33,12 +33,9 @@ import mhealth.c4c.Checkinternet.CheckInternet;
 import mhealth.c4c.LoadMessages.LoadMessages;
 import mhealth.c4c.RequestPermissions.RequestPerms;
 import mhealth.c4c.SSLTrustCertificate.SSLTrust;
-import mhealth.c4c.Tables.Broadcastsmsrights;
 import mhealth.c4c.Tables.Partners;
 import mhealth.c4c.Tables.kmpdu;
-import mhealth.c4c.config.Config;
 import mhealth.c4c.dialogs.Dialogs;
-import mhealth.c4c.sendMessages.SendMessage;
 import mhealth.c4c.userlogindata.UserLoginData;
 
 

@@ -13,14 +13,14 @@
         android:scaleType="centerCrop"
         android:src="@drawable/bg_people" />
 
-    <android.support.percent.PercentRelativeLayout
+    <androidx.percentlayout.widget.PercentRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorBlackTrans"
         android:orientation="horizontal">
 
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
@@ -49,8 +49,8 @@
                     android:layout_height="match_parent"
                     android:gravity="center"></include>
             </LinearLayout>
-        </android.support.v7.widget.CardView>
-    </android.support.percent.PercentRelativeLayout>
+        </androidx.cardview.widget.CardView>
+    </androidx.percentlayout.widget.PercentRelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

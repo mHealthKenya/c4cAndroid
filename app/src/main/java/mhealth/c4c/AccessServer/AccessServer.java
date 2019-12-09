@@ -6,7 +6,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
 import android.telephony.SmsManager;
 import android.widget.Toast;
 
@@ -41,7 +41,6 @@ import mhealth.c4c.dialogs.Dialogs;
 import mhealth.c4c.encryption.Base64Encoder;
 import mhealth.c4c.progress.Progress;
 import mhealth.c4c.sendMessages.SendMessage;
-import mhealth.c4c.systemstatetables.Hepatitis;
 import mhealth.c4c.systemstatetables.Hepatitisforothers;
 
 public class AccessServer {

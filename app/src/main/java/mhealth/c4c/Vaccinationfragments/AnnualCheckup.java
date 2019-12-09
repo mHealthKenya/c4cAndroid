@@ -2,8 +2,8 @@ package mhealth.c4c.Vaccinationfragments;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -13,13 +13,9 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
-import mhealth.c4c.CreateUser;
 import mhealth.c4c.R;
 import mhealth.c4c.checkupstatustable.checkupcalendar;
 import mhealth.c4c.dateCalculator.DateCalculator;

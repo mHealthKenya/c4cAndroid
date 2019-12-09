@@ -3,9 +3,9 @@ package mhealth.c4c.ucsfrecyclerview
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.Toolbar
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.appcompat.widget.Toolbar
 import android.view.View
 import mhealth.c4c.R
 import kotlinx.android.synthetic.main.expandeable_recyclerview.*
@@ -19,7 +19,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
-import android.support.v7.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.telephony.SmsManager
 import android.telephony.TelephonyManager
 import android.text.*
